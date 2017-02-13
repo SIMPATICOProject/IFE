@@ -1,6 +1,5 @@
 // Declare here the base url which will be used for the api
-// ie: https://simpatico.morelab.deusto.es/
-var baseURL = 'http://baseurl.com';
+var baseURL = 'https://simpatico.morelab.deusto.es/';
 
 var annotatedText = [];
 var paragraphs =[];
@@ -263,7 +262,7 @@ function citizenpedia(name)
           questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\""+ baseURL + "citizenpedia/questions/show/"+Object.values(jsonResponse)[q]._id + "\">" + Object.values(jsonResponse)[q].title + "</a></li>";
 
         }
-        questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\"https://simpatico.morelab.deusto.es/citizenpedia/questions/create\">Add New Question</a></li>";
+        questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\"https://simpatico.morelab.deusto.es/citizenpedia/questions/create?tags=Benestar,"+simpaticoEservice+","+name+"\">Add New Question</a></li>";
         questionsHtml += "</ul>";
         questionsDiv.innerHTML = questionsHtml;
         document.getElementById(name).appendChild(questionsDiv);
