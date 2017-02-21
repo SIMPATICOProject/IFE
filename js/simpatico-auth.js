@@ -8,7 +8,7 @@ function handleAuthClick() {
     var aacBase = 'https://simpatico.morelab.deusto.es/aac';
     var base = window.location.href;
     var arr = base.split("/");
-    var redirect = arr[0]+'//'+arr[2]+'/interactiveFrontend/login.html';
+    var redirect = arr[0]+'//'+arr[2]+'/IFE/login.html';
     var authority = 'google';
 
 

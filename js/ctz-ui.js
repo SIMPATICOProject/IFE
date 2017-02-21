@@ -39,10 +39,8 @@ function switchcitizenpedia()
   }
 } //switchcitizenpedia()
 
-<<<<<<< HEAD
+
 // Make the call to the Citizenpedia
-=======
->>>>>>> f330222edd98dd284f47bf64cba1e3aa0f661613
 function citizenpedia(name)
 {
   var myElem = document.getElementById(name + "_questions");
@@ -53,11 +51,7 @@ function citizenpedia(name)
 
 }//citizenpedia
 
-<<<<<<< HEAD
 // Draw the questions box
-=======
-
->>>>>>> f330222edd98dd284f47bf64cba1e3aa0f661613
 function drawQuestions(name,responseQuestions)
 {
 
@@ -75,20 +69,13 @@ function drawQuestions(name,responseQuestions)
     questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\""+ baseURL + "citizenpedia/questions/show/"+Object.values(responseQuestions)[q]._id + "\">" + Object.values(responseQuestions)[q].title + "</a></li>";
 
   }
-<<<<<<< HEAD
-  questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\""+citizenpediaUrl+"?tags=Benestar,"+simpaticoEservice+","+name+"\">"+addQuestionLabel+"</a></li>";
-=======
-  questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\"https://simpatico.morelab.deusto.es/citizenpedia/questions/create?tags=Benestar,"+simpaticoEservice+","+name+"\">Add New Question</a></li>";
->>>>>>> f330222edd98dd284f47bf64cba1e3aa0f661613
+
+  questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\"https://simpatico.morelab.deusto.es/citizenpedia/questions/create?text="+document.getElementById(name).textContent+"&tags=Benestar,"+simpaticoEservice+","+name+"\">"+addQuestionLabel+"</a></li>";
   questionsHtml += "</ul>";
   questionsDiv.innerHTML = questionsHtml;
   document.getElementById(name).appendChild(questionsDiv);
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> f330222edd98dd284f47bf64cba1e3aa0f661613
 function closeCitizenpedia()
 {
   var questionDivs = document.getElementsByClassName("citizenpedia_questions");
