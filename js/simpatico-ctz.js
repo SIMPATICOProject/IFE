@@ -52,7 +52,7 @@ function citizenpedia(name)
           questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\""+ baseURL + "citizenpedia/questions/show/"+Object.values(jsonResponse)[q]._id + "\">" + Object.values(jsonResponse)[q].title + "</a></li>";
 
         }
-        questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\"https://simpatico.morelab.deusto.es/citizenpedia/questions/create?tags=Benestar,"+simpaticoEservice+","+name+"\">Add New Question</a></li>";
+        questionsHtml += "<li onclick=\"cancelClick(event);\"><a href=\"https://simpatico.morelab.deusto.es/citizenpedia/questions/create?text="+document.getElementById(name).textContent+"&tags=Benestar,"+simpaticoEservice+","+name+"\">Add New Question</a></li>";
         questionsHtml += "</ul>";
         questionsDiv.innerHTML = questionsHtml;
         document.getElementById(name).appendChild(questionsDiv);
