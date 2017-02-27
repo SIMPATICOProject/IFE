@@ -1,14 +1,22 @@
-// CITIZENPEDIA UI
+// Citizenpedia User Interface (ctz-ui.js)
+//-----------------------------------------------------------------------------
+// This JavaScript contains the functionality related to the User Interface
+// which enriches the Interactive Front-End component with the features of 
+// the Citizenpedia component.
+// - It uses the methods implemented in ctz-core.js.
+// - All this methods are related to the feature/button named 'citizenpedia' 
+//   in the buttons variable (see simpatico-ife.js code)
+// - IMPORTANT: The citizenpediaURL variable should be declared.
+//      Example: https://simpatico.morelab.deusto.es/citizenpedia
+//-----------------------------------------------------------------------------
 
-// Functions regarding the Citizenpedia functionality of IFE
+// This is the main URL of the used Citizenpedia instance 
+var citizenpediaURL = 'https://my-citizenpedia-instace.com';
 
 // Label for the "Related Questions" box
-var questionsLabel = "RELATED QUESTIONS";
+var questionsBoxTitle = "RELATED QUESTIONS";
 var addQuestionLabel = "+ Add new question";
 var questionListBackgroundColor = "#D3F2F8";
-
-// Citizenpedia API
-var citizenpediaUrl = 'https://simpatico.morelab.deusto.es/citizenpedia/questions/create';
 
 var paragraphs =[];
 var questionsHtml;
@@ -20,8 +28,8 @@ function switchcitizenpedia()
   functionColor = getFunctionColor("citizenpedia");
   functionColor = "#24BCDA"
 
-  if (document.getElementById('simplifySwitch').value == "simplifyOn") {
-      switchFunction("simplify");
+  if (document.getElementById('citizenpediaSwitch').value == "citizenpediaOn") {
+      switchFunction("citizenpedia");
   }
 
   if (paragraphs.length === 0) {
@@ -67,19 +75,19 @@ function drawQuestions(name, responseQuestions)
 
   questionsHtml = "<p " +   
                   "style=\" font-weight: bold; color: WHITE; background-color:" + functionColor + "; margin-left:0px; margin-right:0px \"" +    
-                  "id=\"questionsLabel\">" +    
-                  questionsLabel + "</p>";
+                  "id=\"ctz-ui-qb-title\">" +    
+                  questionsBoxTitle + "</p>";
 
   questionsHtml += "<ul>";
   
   for (var q = 0; q < Object.keys(responseQuestions).length; q++) {
     questionsHtml += "<li onclick=\"cancelClick(event);\">" + 
-                        "<a href=\""+ baseURL + "citizenpedia/questions/show/" + Object.values(responseQuestions)[q]._id + "\">" + Object.values(responseQuestions)[q].title + "</a>" +   
+                        "<a href=\"" + createQuestionDetailsURL(Object.values(responseQuestions)[q]._id) + "\">" + Object.values(responseQuestions)[q].title + "</a>" +
                      "</li>";
   }
 
   questionsHtml += "<li onclick=\"cancelClick(event);\">"
-  questionsHtml +=    "<a href=\ " + citizenpediaUrl + "?text="+document.getElementById(name).textContent+"&tags=Benestar,"+simpaticoEservice+","+name+"\">"+addQuestionLabel+"</a>"
+  questionsHtml +=    "<a href=\"" + createNewQuestionURL("Benestar", simpaticoEservice, name, document.getElementById(name).textContent) + "\">" + addQuestionLabel + "</a>"
   questionsHtml += "</li>";
   
   questionsHtml += "</ul>";
