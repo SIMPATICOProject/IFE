@@ -20,22 +20,39 @@ var questionListBackgroundColor = "#D3F2F8";
 
 var paragraphs =[];
 var questionsHtml;
+var isCitizenpediaEnabled = false;
 
 
-// Gets every paragraph tagged and decorate it
+// This is the main function called by the corresponding button of the toolbar
+// It enables or disables the Citizenpedia feature
 function switchcitizenpedia()
+{
+  if (!isCitizenpediaEnabled) {
+    enableCitizenpedia();
+    isCitizenpediaEnabled = true;
+  } else {
+    disableCitizenpedia();
+    isCitizenpediaEnabled = false;
+  }
+}
+
+// It gets the tagged paragraphs and enhances them with the Citizenpedia features 
+function enableCitizenpedia()
 {
   functionColor = getFunctionColor("citizenpedia");
   functionColor = "#24BCDA"
 
+  // 
   if (document.getElementById('citizenpediaSwitch').value == "citizenpediaOn") {
       switchFunction("citizenpedia");
   }
 
+  // Gets the tagged paragraphs the first time
   if (paragraphs.length === 0) {
     paragraphs = document.getElementsByClassName("simp-text-paragraph");
   }
 
+  // Add special format to the paragraphs
   var paragrapId = 1;
   for (var i = 0, len = paragraphs.length; i < len; i++) {
     paragraphs[i].setAttribute("id", "Paragraph" + paragrapId);
@@ -44,27 +61,48 @@ function switchcitizenpedia()
     paragraphs[i].style.position = 'relative';
     paragraphs[i].setAttribute("onclick", "citizenpedia('" + paragraphName + "');");
     paragraphs[i].style.borderLeft = "thick solid " + functionColor;
-    //paragraph.onclick = function(paragraphName) { checkButtons(paragraphName); };
     paragrapId++;
   }
-} //switchcitizenpedia()
+}
+
+// It removes the Citizenpedia features of the tagged paragraphs
+function disableCitizenpedia()
+{
+  // Remove Question Boxes
+  var questionDivs = document.getElementsByClassName("citizenpedia_questions");
+  if (questionDivs.length > 0) {
+    for (var i = 0; i <= questionDivs.length; i++) {
+      document.getElementById(questionDivs[i].id).parentNode.removeChild(document.getElementById(questionDivs[i].id));
+    }
+  }
+  // Reformat the paragraphs
+  for (var i = 0, len = paragraphs.length; i < len; i++) {
+    paragraphs[i].style.borderLeft = "none";
+    paragraphs[i].removeAttribute("onclick");
+  }
+}
 
 
 // Make the call to the Citizenpedia
+// - name: the id of the paragraph
 function citizenpedia(name)
 {
   var myElem = document.getElementById(name + "_questions");
 
   if (myElem === null) {
-    getQuestions(simpaticoEservice, name, drawQuestions);
+    getQuestions(simpaticoEservice, name, drawQuestionsBox);
+  } else {
+    hideQuestionsBox(name);
   }
 
 }//citizenpedia
 
 // Draw the questions box
-function drawQuestions(name, responseQuestions)
+// - name: the id of the paragraph
+// - responseQuestions: the JSON Object of the questions related to the paragraph
+function drawQuestionsBox(name, responseQuestions)
 {
-  
+
   // Create questions div
   var questionsDiv = document.createElement('div');
   questionsDiv.id = name + "_questions";
@@ -98,15 +136,12 @@ function drawQuestions(name, responseQuestions)
 
   questionsDiv.innerHTML = questionsHtml;
   document.getElementById(name).appendChild(questionsDiv);
-}
+} //drawQuestionsBox
 
-function closeCitizenpedia()
+// Hide the questions box attached to a paragraph passed as paramether
+// - name: the id of the paragraph
+function hideQuestionsBox(name)
 {
-  var questionDivs = document.getElementsByClassName("citizenpedia_questions");
-
-  if (questionDivs.length>0) {
-    for (var i = 0; i <= questionDivs.length; i++) {
-      document.getElementById(questionDivs[i].id).parentNode.removeChild(document.getElementById(questionDivs[i].id));
-    }
-  }
+  var qBoxToRemove = document.getElementById(name + "_questions");
+  qBoxToRemove.parentNode.removeChild(qBoxToRemove);
 }
