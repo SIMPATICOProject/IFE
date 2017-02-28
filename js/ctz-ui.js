@@ -38,11 +38,11 @@ function switchcitizenpedia()
 
   var paragrapId = 1;
   for (var i = 0, len = paragraphs.length; i < len; i++) {
-    paragraphs[i].setAttribute("id", "Paragraph"+paragrapId);
+    paragraphs[i].setAttribute("id", "Paragraph" + paragrapId);
     var paragraph = document.getElementById(paragraphs[i].id);
     var paragraphName = paragraphs[i].id;
-    paragraphs[i].style.position='relative';
-    paragraphs[i].setAttribute("onclick", "citizenpedia('"+paragraphName+"');");
+    paragraphs[i].style.position = 'relative';
+    paragraphs[i].setAttribute("onclick", "citizenpedia('" + paragraphName + "');");
     paragraphs[i].style.borderLeft = "thick solid " + functionColor;
     //paragraph.onclick = function(paragraphName) { checkButtons(paragraphName); };
     paragrapId++;
@@ -64,28 +64,32 @@ function citizenpedia(name)
 // Draw the questions box
 function drawQuestions(name, responseQuestions)
 {
-
+  
   // Create questions div
   var questionsDiv = document.createElement('div');
-  questionsDiv.id=name + "_questions";
+  questionsDiv.id = name + "_questions";
   questionsDiv.className = "citizenpedia_questions";
   questionsDiv.style.borderLeft = "thick solid " + functionColor;
   questionsDiv.style.borderTop = "thick solid " + functionColor;
   questionsDiv.style.backgroundColor = questionListBackgroundColor;
-
+  
+  // 1. the title is attached 
   questionsHtml = "<p " +   
                   "style=\" font-weight: bold; color: WHITE; background-color:" + functionColor + "; margin-left:0px; margin-right:0px \"" +    
                   "id=\"ctz-ui-qb-title\">" +    
                   questionsBoxTitle + "</p>";
 
+  // 2. A list containing the made questions is attached
   questionsHtml += "<ul>";
-  
-  for (var q = 0; q < Object.keys(responseQuestions).length; q++) {
+
+  // 2.a. For each question a new bulletpoint is made 
+  for (var i = 0; i < responseQuestions.length; i++) {
     questionsHtml += "<li onclick=\"cancelClick(event);\">" + 
-                        "<a href=\"" + createQuestionDetailsURL(Object.values(responseQuestions)[q]._id) + "\">" + Object.values(responseQuestions)[q].title + "</a>" +
+                        "<a href=\"" + createQuestionDetailsURL(responseQuestions[i]._id) + "\">" + responseQuestions[i].title + "</a>" +
                      "</li>";
   }
 
+  // 2.b. Finally the Add Question link is also attached 
   questionsHtml += "<li onclick=\"cancelClick(event);\">"
   questionsHtml +=    "<a href=\"" + createNewQuestionURL("Benestar", simpaticoEservice, name, document.getElementById(name).textContent) + "\">" + addQuestionLabel + "</a>"
   questionsHtml += "</li>";
