@@ -70,11 +70,10 @@ function disableCitizenpedia()
 {
   // Remove Question Boxes
   var questionDivs = document.getElementsByClassName("citizenpedia_questions");
-  if (questionDivs.length > 0) {
-    for (var i = 0; i <= questionDivs.length; i++) {
-      document.getElementById(questionDivs[i].id).parentNode.removeChild(document.getElementById(questionDivs[i].id));
-    }
+  for (var i = questionDivs.length - 1; i >= 0; i--) {
+    questionDivs[i].parentNode.removeChild(questionDivs[i]);
   }
+  
   // Reformat the paragraphs
   for (var i = 0, len = paragraphs.length; i < len; i++) {
     paragraphs[i].style.borderLeft = "none";
@@ -87,9 +86,7 @@ function disableCitizenpedia()
 // - name: the id of the paragraph
 function citizenpedia(name)
 {
-  var myElem = document.getElementById(name + "_questions");
-
-  if (myElem === null) {
+  if (document.getElementById(name + "_questions") === null) {
     getQuestions(simpaticoEservice, name, drawQuestionsBox);
   } else {
     hideQuestionsBox(name);
@@ -121,7 +118,7 @@ function drawQuestionsBox(name, responseQuestions)
   questionsHtml += "<ul>";
 
   // 2.a. For each question a new bulletpoint is made 
-  for (var i = 0; i < responseQuestions.length; i++) {
+  for (var i = 0, len = responseQuestions.length; i < len; i++) {
     questionsHtml += "<li onclick=\"cancelClick(event);\">" + 
                         "<a href=\"" + createQuestionDetailsURL(responseQuestions[i]._id) + "\">" + responseQuestions[i].title + "</a>" +
                      "</li>";
