@@ -18,6 +18,21 @@ function initFeatures() {
     authority: "google"
   });
 
+  // Init the Citizenpedia component (see ctz-ui.js)
+  // - endpoint: the main URL of the used Citizenpedia instance
+  // - clientID: the IFE Client ID registered
+  // - primaryColor: Color used to highlight the enhanced components
+  // - secondaryColor: Color used to paint the question boxes backgrounds
+  // - questionsBoxTitle: Title of the box wich shows questions
+  // - addQuestionLabel: Text exposed to show the action to create a question
+  citizenpediaUI.getInstance().init({
+    endpoint: '',
+    primaryColor: "#24BCDA",
+    secondaryColor:"#D3F2F8",
+    questionsBoxTitle: "RELATED QUESTIONS",
+    addQuestionLabel: "+ Add new question",
+  });
+
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
   // Options available:
@@ -34,6 +49,21 @@ function initFeatures() {
                   isEnabled: function() { return authManager.getInstance().isEnabled(); },
                   enable: function() { authManager.getInstance().enable(); },
                   disable: function() { authManager.getInstance().disable(); }
+                },
+
+                {
+                  id: "simp-bar-sw-citizenpedia",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/citizenpedia.png",
+                  imageSrcDisabled: "./img/citizenpedia.png",
+                  alt: "Questions and answer",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active",
+                  styleClassDisabled: "simp-bar-btn-inactive",
+
+                  isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
+                  enable: function() { citizenpediaUI.getInstance().enable(); },
+                  disable: function() { citizenpediaUI.getInstance().disable(); }
                 }
             ];
 }//initFeatures()
