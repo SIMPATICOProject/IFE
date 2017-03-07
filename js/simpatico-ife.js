@@ -1,127 +1,157 @@
-// SIMPATICO IFE
+// Simpatico main Interactive Front-End (simpatico-ife.js)
+//-----------------------------------------------------------------------------
+// This JavaScript is the main entry point to  the Interactive Front-End 
+// component of the Simpatico Project (http://www.simpatico-project.eu/)
+//
+//-----------------------------------------------------------------------------
 
+// It inits all the enabled features of IFE 
+function initFeatures() {
 
-// Declare here the base url which will be used for the api
-//eg: https://simpatico.morelab.deusto.es/
-var baseURL = 'https://test.com/';
+  // Init the Auth component (see simpatico-auth.js)
+  // - endpoint: the main URL of the used AAC instance
+  // - clientID: the IFE Client ID registered
+  // - authority: the used authentication mechanism
+  authManager.getInstance().init({
+    endpoint: '', 
+    clientID: '',
+    authority: "google"
+  });
 
-// Declare here the buttons that will be available in the Simpatico Bar
-// Options available:
-// simplify, forms, citizenpedia, login, enrich
-// Also, declare the color of the function
-var buttons = [
-                {
-                  id: "simplify",
-                  alt: "Simplify and define",
-                  color: "#0000FF"
-                },
-                // {
-                //   id: "forms",
-                //   alt: "Form simplification",
-                //   color: "#de453e"
-                // },
-                {
-                  id: "citizenpedia",
-                  alt: "Questions and answers",
-                  color: "#379e4c"
-                },
-                {
-                  id: "login",
+  // Declare here the buttons that will be available in the Simpatico Bar
+  // The first one is the login button. This is mandatory but it also can be personalised
+  // Options available:
+  buttons = [{
+                  id: "simp-bar-sw-login",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/ic_on.png",
+                  imageSrcDisabled: "./img/login.png",
                   alt: "Autheticate",
-                  color: "#0000FF"
-                },
-                {
-                  id: "enrich",
-                  alt: "Enrich",
-                  color: "#0000FF"
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-none", 
+                  styleClassDisabled: "simp-none",
+                  
+                  isEnabled: function() { return authManager.getInstance().isEnabled(); },
+                  enable: function() { authManager.getInstance().enable(); },
+                  disable: function() { authManager.getInstance().disable(); }
                 }
-              ];
+            ];
+}//initFeatures()
 
+// It creates the HTML code corresponding to the button passed as parameter
+// - button: The button object stored in buttons
+function createButtonHTML(button) {
+  return '<li class="'+ button.styleClassDisabled +'" id="' + button.id + '" '+
+                          'onclick="toggleAction(\'' + button.id + '\');">'+
+                          //'<a href="#">' +
+                          '<img alt="' + button.alt + '" ' + 
+                            'id="' + button.id + '-img" ' +
+                            'src="' + button.imageSrcDisabled + '" ' +
+                            'width="50" height="50" ' + 
+                            'alt="submit"/>' +
+                            //'</a>'+
+                          '</li>';
+}//createButtonHTMLbutton()
 
-var functionColor;
+// It creates the Node corresponding to the button passed as parameter
+// - button: The button object stored in buttons
+function createButtonNode(button) {
+  var template = document.createElement("div");
+  template.innerHTML = createButtonHTML(button);
+  return template.childNodes[0];
+}//createButtonNode(button)
 
-document.addEventListener('DOMContentLoaded', pageLoaded);
+// It creates the configured buttons and adds them to the toolbar
+// Called one time
+function enablePrivateFeatures() {
+  console.log(">>> enablePrivateFeatures()");
 
-function pageLoaded() {
-    // Add Simpatico bar
-    simpaticoBarHtml = '<div id="simpatico_bar" style="background-color:#d3d3d6; position: float; top:0; width: 100%; z-index: 999;">'+
-                        '<img src="img/logo.png" height="50" width="50" alt="Simpatico" />';
-
-    for (var i = 0; i < buttons.length; i++) {
-      simpaticoBarHtml += '<button type="submit" id="'+buttons[i].id+'Switch" value="'+ buttons[i].id+'Off" '+
-                          'style="visibility: hidden; border: 0; background: transparent" onclick="switchFunction(\''+buttons[i].id+'\');">'+
-                          '<img alt="'+buttons[i].alt+'" id="'+ buttons[i].id+'img" src="img/'+ buttons[i].id+'.png" width="50" height="50" alt="submit" />'+
-                          '</button>';
-    }
-
-    simpaticoBarHtml += '<span id="userdata"></span>';
-
-    simpaticoBarHtml += '</div>';
-
-    document.getElementById("simpatico_top").innerHTML = simpaticoBarHtml;
-    document.getElementById("simpatico_top").innerHTML += '<style>.tooltip {position: relative;display: inline-block;border-bottom: 1px dotted black;}.tooltip .tooltiptext {visibility: hidden;width: 120px;background-color: #555;color: #fff;text-align: center;border-radius: 6px;padding: 5px 0;position: absolute;z-index: 1;bottom: 125%;left: 50%;margin-left: -60px;opacity: 0;transition: opacity 1s;}.tooltip .tooltiptext::after {content: "";position: absolute;top: 100%;left: 50%;margin-left: -5px;border-width: 5px;border-style: solid;border-color: #555 transparent transparent transparent;}.tooltip:active .tooltiptext {visibility: visible;opacity: 1;}</style>';
-    document.getElementById("loginSwitch").style.float = "right";
-    document.getElementById("loginSwitch").style.visibility = "visible";
-
-    document.getElementById("userdata").style.float = "right";
-
-    initUserData();
-}
-
-
-function showButtons()
-{
-  for (var i = 0; i < buttons.length; i++) {
-    document.getElementById(buttons[i].id+'Switch').style.visibility = "visible";
+  // Update the login button status
+  var loginButton = document.getElementById(buttons[0].id);
+  loginButton.childNodes[0].src = buttons[0].imageSrcEnabled;
+  
+  // For each button (without the login one) create and add the node
+  var buttonsContainer = document.getElementById("simp-bar-container-left");
+  for (var i = 1, len = buttons.length; i < len; i++) {
+    buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
   }
-}
 
-function hideButtons()
-{
-  for (var i = 0; i < buttons.length; i++) {
-    if (buttons[i].id != "login") {
-        document.getElementById(buttons[i].id+'Switch').style.visibility = "hidden";
-    }
+  console.log("<<< enablePrivateFeatures(): " + buttonsContainer);
+}//enablePrivateFeatures(id)
 
+// It inits all the configured buttons
+// Called one time
+function disablePrivateFeatures() {
+  console.log(">>> removeButtons()");
+
+  // Update the login button status
+  var loginButton = document.getElementById(buttons[0].id);
+  loginButton.childNodes[0].src = buttons[0].imageSrcDisabled;
+
+  // For each button (without the login one) remove the node 
+  for (var i = 1, len = buttons.length; i < len; i++) {
+    currentButton = document.getElementById(buttons[i].id);
+    if (null != currentButton) currentButton.parentNode.removeChild(currentButton);
   }
-}
 
-function switchFunction(functionName)
-{
+  console.log("<<< removeButtons()");
+}//disablePrivateFeatures()
 
-  if (functionName == "login") {
-    handleAuthClick();
-  } else {
-    for (var i = 0; i < buttons.length; i++) {
-      document.getElementById(buttons[i].id+"Switch").style.borderLeft = "none";
-      if (buttons[i].id === functionName) {
-          document.getElementById(functionName+"Switch").style.borderLeft = "thick solid " + buttons[i].color[functionName];
+// It adds the Simpatico Toolbar inside the component of which id is passed 
+// as parameter
+// - containerID: the Id of the element which is going to contain the toolbar 
+function addSimpaticoBar(containerID) {
+  // Create the main div of the toolbar
+  var simpaticoBarHtml = '<div id="simp-bar">' +
+                            '<div>' +
+                              '<a href="#">' +
+                                '<img src="./img/logo.png" ' +
+                                'height="50px" ' +
+                                'alt="Simpatico">' +
+                              '</a>' +
+                            '</div>';
+
+  // Add the left side of the toolbar
+  simpaticoBarHtml += '<ul id="simp-bar-container-left"></ul>';
+
+  // Add the right side of the toolbar
+  simpaticoBarHtml += '<ul id="simp-bar-container-right">' + 
+                         '<li><span id="simp-usr-data"></span></li>' +
+                          createButtonNode(buttons[0]).outerHTML +
+                      '</ul>';
+
+  // Close the main div
+  simpaticoBarHtml += '</div>';
+
+  // Add the generated bar to the container
+  document.getElementById(containerID).innerHTML = simpaticoBarHtml;
+}//addSimpaticoBar()
+
+// switch on/off the control buttons.
+// -id: of the button which calls this function
+function toggleAction(id) {
+  console.log(">>> toggleAction(" + id + ")");
+  // For each button remove the node 
+  for (var i = 0, len = buttons.length; i < len; i++) {
+    if(buttons[i].id == id) {
+      if (buttons[i].isEnabled()) {
+        document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassDisabled);
+        document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassEnabled);
+        buttons[i].disable();
+      } else {
+        document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassEnabled);
+        document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassDisabled);
+        buttons[i].enable();
       }
-
     }
-    window["switch"+functionName]();
-
   }
+  console.log("<<< toggleAction(" + id + ")");
+}//toggleAction(id)
 
-}
-
-function getFunctionColor(functionName)
-{
-    var color;
-
-    buttons.forEach(function(b) {
-      if (b.id == functionName) { color = b.color; }
-    });
-
-    return color;
-}
-
-/////////////
-// This funtion will be placed in its own JS in a future
-function switchenrich()
-{
-
-  // No functionality at the moment
-  taeUI.init();
-  taeUI.showDialog();
-}
+// Once the document is loaded the Simpatico features are initialised and the 
+// toolbar added
+document.addEventListener('DOMContentLoaded', function () {
+  initFeatures();
+  addSimpaticoBar("simpatico_top");
+  authManager.getInstance().updateUserData();
+});
