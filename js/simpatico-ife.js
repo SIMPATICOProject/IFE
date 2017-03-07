@@ -121,7 +121,10 @@ function disablePrivateFeatures() {
   // For each button (without the login one) remove the node 
   for (var i = 1, len = buttons.length; i < len; i++) {
     currentButton = document.getElementById(buttons[i].id);
-    if (null != currentButton) currentButton.parentNode.removeChild(currentButton);
+    if (null != currentButton) {
+      buttons[i].disable();
+      currentButton.parentNode.removeChild(currentButton);
+    }
   }
 
   console.log("<<< removeButtons()");
@@ -165,12 +168,12 @@ function toggleAction(id) {
   for (var i = 0, len = buttons.length; i < len; i++) {
     if(buttons[i].id == id) {
       if (buttons[i].isEnabled()) {
-        document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassDisabled);
-        document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassEnabled);
-        buttons[i].disable();
-      } else {
         document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassEnabled);
         document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassDisabled);
+        buttons[i].disable();
+      } else {
+        document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassDisabled);
+        document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassEnabled);
         buttons[i].enable();
       }
     }
