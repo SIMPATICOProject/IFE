@@ -2,65 +2,95 @@
 // The AAC server has to be installed
 // https://github.com/SIMPATICOProject/aac
 
-// attach login flow to the sign-in button
+var authManager = (function () {
+  var instance; // Singleton Instance of the UI component
+  function Singleton () {
+    var featureEnabled = false;
+    // Component-related variables
+    var userdataElementID = 'simp-usr-data'
+    var ifeClientID = ''
+    var endpoint = ''
+    var authority = '';
 
-function handleAuthClick() {
-    var aacBase = 'https://simpatico.morelab.deusto.es/aac';
-    var base = window.location.href;
-    var arr = base.split("/");
-    var redirect = arr[0]+'//'+arr[2]+'/IFE/login.html';
-    var authority = 'google';
+    function initComponent(parameters) {
+      endpoint = parameters.endpoint;
+      ifeClientID = parameters.clientID;
+      authority = parameters.authority;
+    }
+      
 
+    // Component-related methods and behaviour
+    function handleAuthClick() {
+      if (featureEnabled) return;
+      var base = window.location.href;
+      var arr = base.split("/");
+      var url = endpoint + '/eauth/authorize/' + authority + '?' + 
+                    'response_type=token' +
+                    '&redirect_uri=' + arr[0] + '//' + arr[2] + '/IFE/login.html' + // login window URL
+                    '&client_id=' + ifeClientID; //Client id from the AAC console
 
-  var url = aacBase + '/eauth/authorize/'+authority+'?response_type=token&'
-  + 'redirect_uri='+redirect+'&client_id=5fc30d3c-ba72-411a-9ecb-7f4546a2af6a'; //Client id from the AAC console
       var win = window.open(url, 'AuthPopup', 'width=1024,height=768,resizable=true,scrollbars=true,status=true');
+
       window.addEventListener('message', function (event) {
         jQuery.ajax({
-              url: aacBase + '/basicprofile/me',
-              type: 'GET',
-              dataType: 'json',
-              success: function(data) {
-                localStorage.userData = JSON.stringify(data);
-            initUserData();
-              },
-              error: function(err) {
-                console.log(err);
-              },
-              beforeSend: function(xhr) {
-                  xhr.setRequestHeader('Authorization', 'Bearer ' + event.data.access_token);
-              }
-            });
+          url: endpoint + '/basicprofile/me',
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            localStorage.userData = JSON.stringify(data);
+            updateUserData();
+          },
+          error: function(err) {
+            console.log(err);
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + event.data.access_token);
+          }
+        });
         localStorage.aacTokenData = JSON.stringify(event.data);
-
       }, false);
+    }
 
-}
+    // attach login flow to the sign-in button
+    function handleSignoutClick(event) {
+      if (!featureEnabled) return;
+      localStorage.userData = '';
+      updateUserData();
+    }
 
-function handleSignoutClick(event) {
+    // It checks if the corresponding user is previously loged in and updates the view accordingly 
+    function updateUserData () {
+      console.log(">>> updateUserData()");
+        var data = JSON.parse(localStorage.userData || 'null');
+        if (!!data) {
+          userData = data;
+          document.getElementById(userdataElementID).innerHTML = 'Hello, ' + data.name + ' '+ data.surname;
+          document.getElementById(userdataElementID).style = "display:block";
+          enablePrivateFeatures();
+          featureEnabled = true;
+        } else {
+          document.getElementById(userdataElementID).innerHTML = "";
+          disablePrivateFeatures();
+          featureEnabled = false;
+        }
+      console.log("<<< updateUserData()");
+    }
 
-  // var logOutURL = 'https://simpatico.morelab.deusto.es/aac/logout';
-  // jQuery.get( logOutURL, function( data ) {
-  //   console.log("Logout");
-  // });
-  localStorage.userData = '';
-  initUserData();
-}
-
-function initUserData () {
-		var data = JSON.parse(localStorage.userData || 'null');
-		if (!!data) {
-			userData = data;
-      document.getElementById('userdata').innerHTML = 'Hello, ' + data.name + ' '+ data.surname;
-      document.getElementById('userdata').style = "display:block";
-      document.getElementById('loginimg').src = "img/ic_on.png";
-      document.getElementById('loginSwitch').setAttribute("onclick", "handleSignoutClick()");
-      showButtons();
-		} else {
-      document.getElementById('loginimg').src = "img/login.png";
-      document.getElementById('loginSwitch').setAttribute("onclick", "switchFunction('login');");
-      document.getElementById('userdata').innerHTML = "";
-      hideButtons();
-		}
-
-}
+    return {
+      // Public definitions
+      init: initComponent,          // Called only one time
+      enable: handleAuthClick,      // When the Component button is enabled
+      disable: handleSignoutClick,  // When the CB. is disabled or another one enabled
+      isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
+      // More component related public methods
+      updateUserData: updateUserData
+    };
+  }
+  
+  return {
+    getInstance: function() {
+      if(!instance) instance = Singleton();
+      return instance;
+    }
+  };
+})();
