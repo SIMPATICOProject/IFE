@@ -53,7 +53,7 @@ Inside the *simpatico-ife.js*, the *initFeatures()* function will contain the ca
 For each feature (including the authentication), a call to the corresponding init method should be done.
 Depending on the feature, the parameters for each call are different.
 
-####Authentication:
+####Authentication
 
 Example of an init call:
 ```JavaScript
@@ -137,7 +137,7 @@ Example of the buttons configuration:
             ];
 ```
 
-###4. Style set up
+###4. Style set upd
 To be completed....
 
 ##Development of a new feature
@@ -151,6 +151,8 @@ In order to develope a new feature, two main JavaScrip Libraries should be creat
 1. Implement the initComponent(parameters) function. To be completed...
 2. Implement the enableComponentFeatures() function. To be completed...
 3. Implement the disableComponentFeatures() function. To be completed...
+4. Implement the public functions. To be completed...
+5. Declare the public functions. To be completed...
 
 UI-template:
 ```JavaScript
