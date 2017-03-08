@@ -15,7 +15,10 @@ var citizenpediaUI = (function () {
     // Component-related variables
     var primaryColor = '';
     var secondaryColor = '';
+    var elementsToEnhanceClassName = '';
     var questionsBoxTitle = '';
+    var questionsBoxTitleClassName = '';
+    var questionsBoxClassName = '';
     var addQuestionLabel = '';
 
     // Internal usage variables
@@ -25,7 +28,9 @@ var citizenpediaUI = (function () {
     function initComponent(parameters) {
       primaryColor = parameters.primaryColor;
       secondaryColor = parameters.secondaryColor;
+      elementsToEnhanceClassName = parameters.elementsToEnhanceClassName;
       questionsBoxTitle = parameters.questionsBoxTitle;
+      questionsBoxClassName = parameters.questionsBoxClassName;
       addQuestionLabel = parameters.addQuestionLabel;
       qaeCORE.getInstance().init({
           endpoint: parameters.endpoint
@@ -38,7 +43,7 @@ var citizenpediaUI = (function () {
 
       // Gets the tagged paragraphs the first time
       if (paragraphs.length === 0) {
-        paragraphs = document.getElementsByClassName("simp-text-paragraph");
+        paragraphs = document.getElementsByClassName(elementsToEnhanceClassName);
       }
 
       // Add special format and add a couple of attributes to the paragraphs
@@ -61,9 +66,9 @@ var citizenpediaUI = (function () {
       featureEnabled = false;
 
       // Remove Question Boxes
-      var questionDivs = document.getElementsByClassName("citizenpedia_questions");
-      for (var i = questionDivs.length - 1; i >= 0; i--) {
-        questionDivs[i].parentNode.removeChild(questionDivs[i]);
+      var questionsBoxes = document.getElementsByClassName(questionsBoxClassName);
+      for (var i = questionsBoxes.length - 1; i >= 0; i--) {
+        questionsBoxes[i].parentNode.removeChild(questionsBoxes[i]);
       }
       
       // Reformat the paragraphs
@@ -76,7 +81,7 @@ var citizenpediaUI = (function () {
     // If the Component feature is enabled it calls to the Citizenpedia instance to 
     // get the questions related to the paragraph passed as parameter
     // - paragraphName: the id of the paragraph which has produced the event
-    // IMPORTANT: Here is used the golbal variable simpaticoEservice
+    // IMPORTANT: Here is used the global variable simpaticoEservice
     function paragraphEvent(paragraphName) {
       if (!featureEnabled) return;
       if (document.getElementById(paragraphName + "_questions") === null) {
@@ -89,30 +94,21 @@ var citizenpediaUI = (function () {
     // Draw the questions box
     // - paragraphName: the id of the paragraph
     // - responseQuestions: the JSON Object of the questions related to the paragraph
+    // IMPORTANT: Here is used the global variable simpaticoEservice
     function drawQuestionsBox(paragraphName, responseQuestions) {
-      // Create questions div
-      var questionsDiv = document.createElement('div');
-      questionsDiv.id = paragraphName + "_questions";
-      questionsDiv.className = "citizenpedia_questions";
-      questionsDiv.style.borderLeft = "thick solid " + primaryColor;
-      questionsDiv.style.borderTop = "thick solid " + primaryColor;
-      questionsDiv.style.backgroundColor = secondaryColor;
+
+      // Create the Questions Box div
+      var questionsBox = document.createElement('div');
+      questionsBox.id = paragraphName + "_questions";
+      questionsBox.className = questionsBoxClassName;
       
       // 1. the title is attached 
-      questionsHtml = '<p ' +   
-                      'style="font-weight: bold; ' +
-                        'color: WHITE; ' +
-                        'background-color:' + primaryColor + '; ' +
-                        'margin-left:0px; ' +
-                        'margin-right:0px"' +    
-                      'id="ctz-ui-qb-title">' +    
-                      questionsBoxTitle +
-                      '</p>';
+      var questionsHtml = '<p>' + questionsBoxTitle + '</p>';
 
-      // 2. A list containing the made questions is attached
+      // 2. a list containing the made questions is attached
       questionsHtml += '<ul>';
 
-      // 2.a. For each question a new bulletpoint is made 
+      // 2.a. for each question a new bulletpoint is made 
       for (var i = 0, len = responseQuestions.length; i < len; i++) {
         questionsHtml += '<li onclick="cancelClick(event);">' + 
                             '<a href="' + 
@@ -123,13 +119,11 @@ var citizenpediaUI = (function () {
                          '</li>';
       }
 
-console.log("NAME=" + paragraphName + "");
-
-      // 2.b. Finally the Add Question link is also attached 
+      // 2.b. finally the Add Question link is also attached 
       questionsHtml += '<li onclick="cancelClick(event);">'
       questionsHtml +=    '<a href="' + 
                                 qaeCORE.getInstance().createNewQuestionURL(
-                                  "Benestar", 
+                                  "Benestar", // TO-DO: Remove the hardcoded element
                                   simpaticoEservice,
                                   paragraphName, 
                                   document.getElementById(paragraphName).textContent) + 
@@ -139,8 +133,8 @@ console.log("NAME=" + paragraphName + "");
       
       questionsHtml += '</ul>';
 
-      questionsDiv.innerHTML = questionsHtml;
-      document.getElementById(paragraphName).appendChild(questionsDiv);
+      questionsBox.innerHTML = questionsHtml;
+      document.getElementById(paragraphName).appendChild(questionsBox);
     } //drawQuestionsBox
 
     // Hide the questions box attached to a paragraph passed as paramether
@@ -151,12 +145,12 @@ console.log("NAME=" + paragraphName + "");
     }
 
     return {
-    // Public definitions
+      // Public definitions
       init: initComponent, // Called only one time
       enable: enableComponentFeatures,  // Called when the Component button is enabled
       disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
-    // Public methods shoudl be used 
+      
       paragraphEvent: paragraphEvent
     };
   }

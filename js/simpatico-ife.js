@@ -20,15 +20,18 @@ function initFeatures() {
 
   // Init the Citizenpedia component (see ctz-ui.js)
   // - endpoint: the main URL of the used Citizenpedia instance
-  // - clientID: the IFE Client ID registered
   // - primaryColor: Color used to highlight the enhanced components
   // - secondaryColor: Color used to paint the question boxes backgrounds
-  // - questionsBoxTitle: Title of the box wich shows questions
+  // - elementsToEnhanceClassName: The CSS class used to define the enhanced elements
+  // - questionsBoxClassName: The CSS class of the box which shows questions
+  // - questionsBoxTitle: Title of the box hwich shows questions
   // - addQuestionLabel: Text exposed to show the action to create a question
   citizenpediaUI.getInstance().init({
     endpoint: '',
     primaryColor: "#24BCDA",
     secondaryColor:"#D3F2F8",
+    elementsToEnhanceClassName: "simp-text-paragraph",
+    questionsBoxClassName: "simp-ctz-ui-qb",
     questionsBoxTitle: "RELATED QUESTIONS",
     addQuestionLabel: "+ Add new question",
   });
