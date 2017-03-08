@@ -1,16 +1,256 @@
-# interactiveFrontend
+# Interactive Front-End
+The Interactive Front-End component (IFE) is the main component which dialogs with SIMPATICO users meanwhile they are interacting with a Public Administration e-service. Several features of the SIMPATICO platform could be selected and used through this component.
+Features:
+ - *Text simplification* of the paragraphs and *terms definitions*
+ - Automatic *filling of forms* and guide to navigate among the form sections
+ - Ask and *get questions* related to the enhanced e-service
+ - Get a *diagram describing* the corresponding e-service
 
-This is the first version of IFE JS Library. It's just a first version, so major changes in future versions can be expected.
+IFE is a group of JavaScript libraries that runs in a web browser and enables to apply the simpatico enhancement features over the existing electronic services.
 
-## How to use
 
-### Prerequisites
-  1.- In the HTML where you need to IFE to appear you have to insert some HTML and Javascript variables. You can find them in the "index_demo.html" file:
-    * simpaticoEservice variable definition
-    * The loading of simpatico.js itself
-    * The simpatico_top div to write Simpatico toolbar
-    * Google Oauth code in case you need Google authentication
+## Usage 
+In order to use Interactive Front-End, JS Libraries should be loaded and configured in each enhanced webpage.
+Depending of the features, different JS Libraries should be selected.
 
-  2.- You must have installed Citizenpedia in order to retrieve questions and terms
+| File | Feature | Mandatory | Component | Description |
+| :--- | :--- | :---: | :---: | :--- |
+| *simpatico-ife.js* | **Main Toolbar** | Yes | - | The main toolbar which exposes the buttons to enable/disable the features |
+|  *simpatico-auth.js* | **Authentication**  | Yes | AAC |The Authentication and Authorization Control Module client |
+| *ctz-ui.js* and *ctz-core.js* | **Questions**  | No | Citizenpedia  | The Citizenpedia Component client which exposes questions related to the e-service and enables users to ask new ones |
 
-  3.- In simpatico.js you must declare the base url where the Citizenpedia is installed so the api calls work.
+
+## Integration steps 
+In order to successfully integrate the IFE with an e-service, 3 main steps should be followed:
+
+###1. Global variables set up
+In order to identify the e-service which is going to be enhanced, two JavaScript variables should be initialized at global scope level:
+* **simpaticoEservice**: It contains the unique id of the enhanced e-service. It is used by the Citizenpedia client.
+* **simpaticoCategory**: It contains the general category of the enhanced e-service. It is used by the Citizenpedia client.
+
+Example:
+```html
+  <script type="text/javascript">
+    var simpaticoEservice = "BS607A"; //  the id corresponding to the e-service
+    var simpaticoCategory = "Wellness"; // the general category of the e-service
+  </script>
+```
+
+###2. Injection of JS Libraries
+The JavasScript Libraries which corresponds to the selected features should be injected inside the HTML code of the enhanced e-service and runned after the global variables set up. The *simpatico-ife.js* lib should be loaded after loading the rest of ones. 
+
+Example:
+```html
+  <script src="js/ctz-ui.js"></script>
+  <script src="js/ctz-core.js"></script>
+  
+  <script src="js/simpatico-auth.js"></script>
+  <script src="js/simpatico-ife.js"></script>
+```
+
+###3. Init calls and buttons parameter set ut
+Inside the *simpatico-ife.js*, the *initFeatures()* function will contain the calls to modify.  
+For each feature (including the authentication), a call to the corresponding init method should be done.
+Depending on the feature, the parameters for each call are different.
+
+####Authentication:
+
+Example of an init call:
+```JavaScript
+  authManager.getInstance().init({
+    endpoint: 'https://the-aac-instance-endpoint.com', 
+    clientID: 'A0A0A0A0-A0A0-A0A0-A0A0-A0A0A0A0A0A0',
+    authority: "google"
+  });
+```
+Parameters:
+* **endpoint**: the main URL of the used AAC instance.
+* **clientID**: the IFE Client ID registered in the AAC instance
+* **authority**: the used authentication mechanism. Only 'google' is available.
+
+####Questions:
+
+Example of an init call:
+```JavaScript
+  citizenpediaUI.getInstance().init({
+    endpoint: 'https://the-citizenpedia-instance-endpoint.com'
+    primaryColor: "#24BCDA",
+    secondaryColor:"#D3F2F8",
+    elementsToEnhanceClassName: "simp-text-paragraph",
+    questionsBoxClassName: "simp-ctz-ui-qb",
+    questionsBoxTitle: "RELATED QUESTIONS",
+    addQuestionLabel: "+ Add new question",
+  });
+```
+Parameters:
+* **endpoint**: the main URL of the used Citizenpedia instance
+* **primaryColor**: color used to highlight the enhanced components
+* **secondaryColor**: color used to paint the question boxes backgrounds
+* **elementsToEnhanceClassName**: the CSS class used to define the enhanced elements
+* **questionsBoxClassName**: the CSS class of the box which shows questions
+* **questionsBoxTitle**: title of the box hwich shows questions
+* **addQuestionLabel**: text exposed to show the action to create a question
+
+
+###4. Buttons configuration
+
+In order to personalise the look and feel of each feature button, the parameters of each one should be defined.
+* **id**: the unique element id used to get the button inside the DOM
+* **imageSrcEnabled**: the URL of the image shown when the button is enabled
+* **imageSrcDisabled**: the URL of the image shown when the button is disabled
+* **alt**: the alternative text of the button
+* **styleClassEnabled**: the CSS class applied to the button shown when it is enabled
+* **styleClassDisabled**: the CSS class applied to the button shown when it is disnabled
+
+
+Example of the buttons configuration:
+```JavaScript
+  buttons = [{
+                  id: "simp-bar-sw-login",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/ic_on.png",
+                  imageSrcDisabled: "./img/login.png",
+                  alt: "Autheticate",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-none", 
+                  styleClassDisabled: "simp-none",
+                  
+                  isEnabled: function() { return authManager.getInstance().isEnabled(); },
+                  enable: function() { authManager.getInstance().enable(); },
+                  disable: function() { authManager.getInstance().disable(); }
+                },
+
+                {
+                  id: "simp-bar-sw-citizenpedia",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/citizenpedia.png",
+                  imageSrcDisabled: "./img/citizenpedia.png",
+                  alt: "Questions and answer",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active",
+                  styleClassDisabled: "simp-bar-btn-inactive",
+
+                  isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
+                  enable: function() { citizenpediaUI.getInstance().enable(); },
+                  disable: function() { citizenpediaUI.getInstance().disable(); }
+                }
+            ];
+```
+
+###4. Style set up
+To be completed....
+
+##Development of a new feature
+
+In order to develope a new feature, two main JavaScrip Libraries should be created and implemented.
+* **newfeature-ui.js**: JavaScript which contains the functionality related to the User Interface.
+* **newfeature-core.js**: JavaScript which contains functions related to the main functionality (e.g. the server calls). It will be called by *newfeature-ui.js*
+
+###1. Implementation of newfeature-ui.js
+
+1. Implement the initComponent(parameters) function. To be completed...
+2. Implement the enableComponentFeatures() function. To be completed...
+3. Implement the disableComponentFeatures() function. To be completed...
+
+UI-template:
+```JavaScript
+var newfeatureUI = (function () {
+  var instance; // Singleton Instance
+  var featureEnabled = false; // If the feature is enabled
+  function Singleton () {
+    // Component-related variables
+    var myOwnVariable = '';
+
+    //  [STEP1] Component-related methods and behaviour
+    function initComponent(parameters) {
+      // Init the Component-related variables
+      myOwnVariable = parameters.myOwnVariable
+      // Also init the corresponding CORE component
+      newFeatureCORE.getInstance().init({
+          endpoint: parameters.endpoint
+        });
+    }
+    //  [STEP2] 
+    function enableComponentFeatures() {
+      if (featureEnabled) return;
+      featureEnabled = true;
+      // ...
+      // Code of the new feature enabling (e.g. add onClick events to elements to do stuff)
+    }
+    //  [STEP3] 
+    function disableComponentFeatures() {
+      if (!featureEnabled) return;
+      featureEnabled = false;
+      // ...
+      // Code of the new feature disabling (e.g. remove the added onClick events)
+    }
+
+    // [STEP4]
+    function doStuff(element) {
+      //...
+    }
+
+    return {
+      // Mandatory definitions
+      init: initComponent, // Called only one time
+      enable: enableComponentFeatures,  // Called when the Component button is enabled
+      disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
+      isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
+      // [STEP5] The ad-hoc functions
+      doStuff: doStuff // Special public function
+    };
+  }
+  
+  return {
+    getInstance: function() {
+      if(!instance) instance = Singleton();
+      return instance;
+    }
+  };
+})();
+```
+
+###2. Implementation of newfeature-core.js
+The var declared in this file is only used (it should not be used by another objects) in by the one declared in *newFeatureUI.js*, concretely, by newfeatureUI.
+
+Taking the *CORE-template* template as a basis, the functions used in *newFeatureUI.js* should be implemented below the comment tagged as *[STEP1]* and declared below the comment tagged as *[STEP2]*
+
+CORE-template:
+```JavaScript
+var newFeatureCORE = (function () {
+  var instance;
+  function Singleton () {
+    // Component-related variables
+    var endpointA = '';
+    var endpointB = '';
+    
+    //In inits the main used variables (e.g. The URLs used)
+    function initComponent(parameters) {
+      endpointA = parameters.endpoint + '/A';
+      endpointB = parameters.endpoint + '/B';
+    }
+    
+    // [STEP2] Implementation
+    function coreFunctionA() { // Do core stuff }
+    function coreFunctionB() { // Do core stuff }
+
+    return {
+        // [STEP1] Functions used in newFeatureUI 
+        init: initComponent,
+        coreFunctionA: coreFunctionA,
+        coreFunctionB: coreFunctionB
+      };
+  }  
+  return {
+    getInstance: function() {
+      if(!instance) instance = Singleton();
+      return instance;
+    }
+  };
+})();
+
+```
+
+
+
+
