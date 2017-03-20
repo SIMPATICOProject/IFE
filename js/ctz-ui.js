@@ -10,7 +10,7 @@
 
 var citizenpediaUI = (function () {
   var instance; // Singleton Instance of the UI component
-  var featureEnabled = false;
+  var featureEnabled = true;
   function Singleton () {
     // Component-related variables
     var primaryColor = '';

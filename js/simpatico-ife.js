@@ -13,8 +13,8 @@ function initFeatures() {
   // - clientID: the IFE Client ID registered
   // - authority: the used authentication mechanism
   authManager.getInstance().init({
-    endpoint: '', 
-    clientID: '',
+    endpoint: 'http://localhost:8080/aac', 
+    clientID: '33c10bee-136b-463c-8b9d-ad21d82182db',
     authority: "google"
   });
 
@@ -27,7 +27,7 @@ function initFeatures() {
   // - questionsBoxTitle: Title of the box hwich shows questions
   // - addQuestionLabel: Text exposed to show the action to create a question
   citizenpediaUI.getInstance().init({
-    endpoint: '',
+    endpoint: 'http://localhost:8080/IFE/index_demo.html',
     primaryColor: "#24BCDA",
     secondaryColor:"#D3F2F8",
     elementsToEnhanceClassName: "simp-text-paragraph",
@@ -35,7 +35,27 @@ function initFeatures() {
     questionsBoxTitle: "RELATED QUESTIONS",
     addQuestionLabel: "+ Add new question",
   });
+  
+  // Init the CDV component (see cdv-ui.js)
+  // - endpoint: the main URL of the used cdv instance
+  // - serviceID: the id corresponding to the e-service
+  // - serviceURL: the id corresponding to the e-service
+  // - dataFields: eservice field ids mapped with cdv
+  // - cdvColor: Color used to highlight the eservice fields enhanced with cdv 
+  // - dialogTitle: Title of the dialog box of CDV component
+  // - tabPFieldsTitle: tab label of personal data
+  cdvUI.getInstance().init({
+    endpoint: 'http://localhost:8080',
+    serviceID: '2',
+	serviceURL: 'http://localhost:8080/IFE/index_demo.html',
+	dataFields:["AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail"], 
+    cdvColor: '#008000',
+	dialogTitle: 'Citizen Data Vault',
+    tabPFieldsTitle: 'My Data'
+  });
+  
 
+ 
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
   // Options available:
@@ -67,7 +87,23 @@ function initFeatures() {
                   isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
                   enable: function() { citizenpediaUI.getInstance().enable(); },
                   disable: function() { citizenpediaUI.getInstance().disable(); }
+                },
+
+                {
+                  id: "simp-bar-sw-cdv",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/cdv.png",
+                  imageSrcDisabled: "./img/cdv.png",
+                  alt: "Citizen Data Vault",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-cdv",
+                  styleClassDisabled: "simp-bar-btn-inactive",
+
+                  isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
+                  enable: function() { cdvUI.getInstance().enable(); },
+                  disable: function() { cdvUI.getInstance().disable(); }
                 }
+				
             ];
 }//initFeatures()
 
@@ -81,6 +117,7 @@ function createButtonHTML(button) {
                             'id="' + button.id + '-img" ' +
                             'src="' + button.imageSrcDisabled + '" ' +
                             'width="50" height="50" ' + 
+			                'title="' + button.alt + '" ' +
                             'alt="submit"/>' +
                             //'</a>'+
                           '</li>';
@@ -143,7 +180,7 @@ function addSimpaticoBar(containerID) {
                               '<a href="#">' +
                                 '<img src="./img/logo.png" ' +
                                 'height="50px" ' +
-                                'alt="Simpatico">' +
+                                'alt="Simpatico ">' +
                               '</a>' +
                             '</div>';
 
@@ -171,7 +208,7 @@ function toggleAction(id) {
   for (var i = 0, len = buttons.length; i < len; i++) {
     if(buttons[i].id == id) {
       if (buttons[i].isEnabled()) {
-        document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassEnabled);
+		document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassEnabled);
         document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassDisabled);
         buttons[i].disable();
       } else {
@@ -179,7 +216,7 @@ function toggleAction(id) {
         document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassEnabled);
         buttons[i].enable();
       }
-    }
+    } 
   }
   console.log("<<< toggleAction(" + id + ")");
 }//toggleAction(id)
