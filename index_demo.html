@@ -91,7 +91,9 @@
         margin-right: 15px;
     }
 
-    /* Personalised style for inactive buttons */
+    /* Personalised style for buttons */
+
+    /* >>> QAE Button */
     .simp-bar-btn-inactive {
       background-color: transparent;
       border: 0px solid #fff;
@@ -103,15 +105,35 @@
         animation-duration: 1s;
     }
     @keyframes anim-inactive-hover {
-      from {background-color: #d3d3d6;}
+      from {background-color: transparent;}
       to {background-color: #24BCDA;}
     }
-
-    /* Personalised style for active buttons */
     .simp-bar-btn-active {
       background-color: #24BCDA;
       border: 1px solid #fff;
     }
+    /* <<< QAE Button */
+
+    /* >>> TAE Button */
+    .simp-bar-btn-inactive-tae {
+      background-color: transparent;
+      border: 0px solid #fff;
+    }
+    .simp-bar-btn-inactive-tae:hover {
+        background-color: #DE453E;
+        border: 1px solid #fff;
+        animation-name: anim-inactive-hover-tae;
+        animation-duration: 1s;
+    }
+    @keyframes anim-inactive-hover-tae {
+      from {background-color: transparent;}
+      to {background-color: #DE453E;}
+    }
+    .simp-bar-btn-active-tae {
+      background-color: #DE453E;
+      border: 1px solid #fff;
+    }
+    /* <<< TAE Button */
 
     /*****************************************************************************/
 
@@ -134,6 +156,31 @@
     }
     /* Each question in a question list */
     .simp-ctz-ui-qb li {
+      list-style-type: none;
+      padding-left: 10px !important;
+    }
+    /*****************************************************************************/
+
+
+    /********************* Text Adaptation Engine questions box Styles ***********/
+
+    /* Main question box class */
+    .simp-tae-ui-sb {
+      border-left: thick solid #DE453E !important;
+      border-top: : thick solid #DE453E !important;
+      background-color: #FAE1E0 !important;
+    }
+    /* Title of a question box */
+    .simp-tae-ui-sb p {
+    font-weight: bold;
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+      padding : 5px 5px !important;
+      color: #FAE1E0 !important;
+      background-color: #DE453E !important;
+    }
+    /* Each question in a question list */
+    .simp-tae-ui-sb li {
       list-style-type: none;
       padding-left: 10px !important;
     }
