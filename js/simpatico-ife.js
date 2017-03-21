@@ -36,6 +36,26 @@ function initFeatures() {
     addQuestionLabel: "+ Add new question",
   });
 
+  // Init the Text Adaptation Engine component (see tae-ui.js)
+  // - endpoint: the main URL of the used TAE instance
+  // - language: the language of the text to adapt by the TAE instance
+  // - primaryColor: Color used to highlight the enhanced components
+  // - secondaryColor: Color used to paint the simplification boxes backgrounds
+  // - elementsToEnhanceClassName: The CSS class used to define the enhanced elements
+  // - simplifyBoxClassName: The CSS class of the box which shows the simplifications
+  // - simplifyBoxTitle: Title of the box which shows the simplifications
+  // - wordPropertiesClassName: The CSS class of the word properties box
+  taeUI.getInstance().init({
+    endpoint: '',
+    language: '',
+    primaryColor: "#DE453E",
+    secondaryColor:"#F0ABA8",
+    elementsToEnhanceClassName: "simp-text-paragraph",
+    simplifyBoxClassName: "simp-tae-ui-sb",
+    simplifyBoxTitle: "Simplified text",
+    wordPropertiesClassName: "simp-tae-ui-word"
+  });
+
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
   // Options available:
