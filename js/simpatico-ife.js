@@ -87,6 +87,21 @@ function initFeatures() {
                   isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
                   enable: function() { citizenpediaUI.getInstance().enable(); },
                   disable: function() { citizenpediaUI.getInstance().disable(); }
+                },
+
+                {
+                  id: "simp-bar-sw-tae",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/simplify.png",
+                  imageSrcDisabled: "./img/simplify.png",
+                  alt: "Text simplification",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-tae",
+                  styleClassDisabled: "simp-bar-btn-inactive-tae",
+
+                  isEnabled: function() { return taeUI.getInstance().isEnabled(); },
+                  enable: function() { taeUI.getInstance().enable(); },
+                  disable: function() { taeUI.getInstance().disable(); }
                 }
             ];
 }//initFeatures()
