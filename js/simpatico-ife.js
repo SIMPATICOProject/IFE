@@ -77,11 +77,12 @@ function createButtonHTML(button) {
   return '<li class="'+ button.styleClassDisabled +'" id="' + button.id + '" '+
                           'onclick="toggleAction(\'' + button.id + '\');">'+
                           //'<a href="#">' +
-                          '<img alt="' + button.alt + '" ' + 
+                          '<img ' +
+                            'alt="' + button.alt + '" ' + 
+                            'title="' + button.alt + '" ' +
                             'id="' + button.id + '-img" ' +
                             'src="' + button.imageSrcDisabled + '" ' +
-                            'width="50" height="50" ' + 
-                            'alt="submit"/>' +
+                            'width="50" height="50" />' +
                             //'</a>'+
                           '</li>';
 }//createButtonHTMLbutton()
