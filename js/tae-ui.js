@@ -25,6 +25,7 @@ var taeUI = (function () {
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
+    var originalStyles = []; // Used to store the tagged paragraphs CSSstyles
     var simplifyBoxIdSuffix = '-simp-text-paragraph';
 
     // Component-related methods and behaviour
@@ -54,13 +55,16 @@ var taeUI = (function () {
       var paragrapId = 1;
       var paragraphName = '';
       for (var i = 0, len = paragraphs.length; i < len; i++) {
+        // Store original style
+        originalStyles[i] = paragraphs[i].style;
+
         paragraphName = "Paragraph" + paragrapId;
         paragraphs[i].style.position = 'relative';
-        paragraphs[i].style.borderLeft = ".75em solid " + primaryColor;
-        paragraphs[i].style.borderRadius = "1em";
+        paragraphs[i].style.borderLeft = "12px solid " + primaryColor;
+        paragraphs[i].style.borderRadius = "16px";
 
-        paragraphs[i].style.padding = '0em 0em 0em .5em';
-        paragraphs[i].style.margin = '0em 0em .5em 0em';
+        paragraphs[i].style.padding = '0px 0px 0px 8px';
+        paragraphs[i].style.margin = '0px 0px 8px 0px';
 
         paragraphs[i].setAttribute("id", paragraphName);
         paragraphs[i].setAttribute("onclick", 
@@ -80,9 +84,11 @@ var taeUI = (function () {
         questionsBoxes[i].parentNode.removeChild(questionsBoxes[i]);
       }
       
-      // Reformat the paragraphs
+      // Reformat the paragraphs with the original style
       for (var i = 0, len = paragraphs.length; i < len; i++) {
-        paragraphs[i].style.borderLeft = "none";
+        // Restore the original style
+        paragraphs[i].style = originalStyles[i];
+        // Remove the onclick event to enhance the paragraph
         paragraphs[i].removeAttribute("onclick");
       }
     }
