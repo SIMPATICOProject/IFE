@@ -57,11 +57,11 @@ var citizenpediaUI = (function () {
         // Add the enhanced paragraph style
         paragraphName = "Paragraph" + paragrapId;
         paragraphs[i].style.position = 'relative';
-        paragraphs[i].style.borderLeft = ".75em solid " + primaryColor;
-        paragraphs[i].style.borderRadius = "1em";
+        paragraphs[i].style.borderLeft = "12px solid " + primaryColor;
+        paragraphs[i].style.borderRadius = "16px";
 
-        paragraphs[i].style.padding = '0em 0em 0em .5em';
-        paragraphs[i].style.margin = '0em 0em .5em 0em';
+        paragraphs[i].style.padding = '0px 0px 0px 8px';
+        paragraphs[i].style.margin = '0px 0px 8px 0px';
 
         paragraphs[i].setAttribute("id", paragraphName);
         // Add the onclick event to enhance the paragraph
@@ -123,24 +123,25 @@ var citizenpediaUI = (function () {
 
       // 2.a. for each question a new bulletpoint is made 
       for (var i = 0, len = responseQuestions.length; i < len; i++) {
-        questionsHtml += '<li onclick="cancelClick(event);">' + 
+        questionsHtml += '<li>' + 
                             '<a href="' + 
                                 qaeCORE.getInstance().createQuestionDetailsURL(
-                                  responseQuestions[i]._id) + 
-                                '">' + responseQuestions[i].title + 
+                                  responseQuestions[i]._id) + '">' +
+                                '<b>' + responseQuestions[i].answers.length + '</b>' + 
+                                '<i>' + responseQuestions[i].title + '</i>' +
                             '</a>' +
                          '</li>';
       }
 
       // 2.b. finally the Add Question link is also attached 
-      questionsHtml += '<li onclick="cancelClick(event);">'
+      questionsHtml += '<li>'
       questionsHtml +=    '<a href="' + 
                                 qaeCORE.getInstance().createNewQuestionURL(
                                   "Benestar", // TO-DO: Remove the hardcoded element
                                   simpaticoEservice,
                                   paragraphName, 
-                                  document.getElementById(paragraphName).textContent) + 
-                                '">' + addQuestionLabel + 
+                                  document.getElementById(paragraphName).textContent) + '">' +
+                                '<b>' + addQuestionLabel + '</b>' +
                           '</a>'
       questionsHtml += '</li>';
       
