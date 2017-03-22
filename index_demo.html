@@ -162,29 +162,73 @@
     /*****************************************************************************/
 
 
-    /********************* Text Adaptation Engine questions box Styles ***********/
+    /********************* Text Adaptation Engine box Styles *********************/
 
-    /* Main question box class */
+    /* Main simplified text box class */
     .simp-tae-ui-sb {
-      border-left: thick solid #DE453E !important;
       border-top: : thick solid #DE453E !important;
       background-color: #FAE1E0 !important;
+      border-radius: 0em 1em 1em 0em;
+      margin-left: -.5em;
     }
-    /* Title of a question box */
+
+    /* Title of a simplified text box */
     .simp-tae-ui-sb p {
     font-weight: bold;
       margin-left: 0px !important;
-      margin-right: 0px !important;
-      padding : 5px 5px !important;
+      margin-right: : 0px !important;
+      color: #FAE1E0 !important;
+      background-color: #DE453E !important;
+      border-radius: 0em 1em 0em 0em;
+    }
+    /* Style of a complex word */
+    .simp-tae-ui-sb span {
+      font-style: italic;
+      padding: .05em .3em .05em .3em !important;
+      border-radius: .3em !important;
       color: #FAE1E0 !important;
       background-color: #DE453E !important;
     }
-    /* Each question in a question list */
+
+    /* The simplified text list */
+    .simp-tae-ui-sb ul {
+      padding: 5px 5px !important;
+    }
     .simp-tae-ui-sb li {
       list-style-type: none;
-      padding-left: 10px !important;
+      padding-left: .5em !important;
+    }
+
+    /* The word properties box style */
+    .simp-tae-ui-word {
+      list-style-type: none;
+      padding-left: .5em !important;
+      background-color: WHITE;
+      margin:.5em;
+      padding:.5em;
+      border: solid 1px #DE453E;
+      border-radius: 1em;
+    }
+
+    /* The definition title */
+    .simp-tae-ui-word b {
+      list-style-type: none;
+      font-style: italic;
+      padding: .05em .3em .05em .3em !important;
+      border-radius: .3em !important;
+      color: #FAE1E0 !important;
+      background-color: #DE453E !important;
+    }
+    /* The synonyms title */
+    .simp-tae-ui-word i {
+      font-style: oblique;
+      padding-right: .5em !important;
+      color: #DE453E !important;
     }
     /*****************************************************************************/
+
+
+
 
   </style>
     <!-- /////////      STYLES USED BY SIMPATICO TOOLBAR:END      ///////// -->
