@@ -18,12 +18,13 @@ Depending of the features, different JS Libraries should be selected.
 | *simpatico-ife.js* | **Main Toolbar** | Yes | - | The main toolbar which exposes the buttons to enable/disable the features |
 |  *simpatico-auth.js* | **Authentication**  | Yes | AAC |The Authentication and Authorization Control Module client |
 | *ctz-ui.js* and *ctz-core.js* | **Questions**  | No | Citizenpedia  | The Citizenpedia Component client which exposes questions related to the e-service and enables users to ask new ones |
+| *tae-ui.js* and *tae-core.js* | **Text Adaptation**  | No | TAE  | The Text Adaptation Engine Component client which exposes text simplifications and complex words definitions and synonyms to ease the e-service understanding  |
 
 
 ## Integration steps 
 In order to successfully integrate the IFE with an e-service, 3 main steps should be followed:
 
-###1. Global variables set up
+### 1. Global variables set up
 In order to identify the e-service which is going to be enhanced, two JavaScript variables should be initialized at global scope level:
 * **simpaticoEservice**: It contains the unique id of the enhanced e-service. It is used by the Citizenpedia client.
 * **simpaticoCategory**: It contains the general category of the enhanced e-service. It is used by the Citizenpedia client.
@@ -36,7 +37,7 @@ Example:
   </script>
 ```
 
-###2. Injection of JS Libraries
+### 2. Injection of JS Libraries
 The JavasScript Libraries which corresponds to the selected features should be injected inside the HTML code of the enhanced e-service and runned after the global variables set up. The *simpatico-ife.js* lib should be loaded after loading the rest of ones. 
 
 Example:
@@ -44,16 +45,19 @@ Example:
   <script src="js/ctz-ui.js"></script>
   <script src="js/ctz-core.js"></script>
   
+  <script src="js/tae-ui.js"></script>
+  <script src="js/tae-core.js"></script>
+  
   <script src="js/simpatico-auth.js"></script>
   <script src="js/simpatico-ife.js"></script>
 ```
 
-###3. Init calls and buttons parameter set ut
+### 3. Init calls and buttons parameter set ut
 Inside the *simpatico-ife.js*, the *initFeatures()* function will contain the calls to modify.  
 For each feature (including the authentication), a call to the corresponding init method should be done.
 Depending on the feature, the parameters for each call are different.
 
-####Authentication
+#### Authentication
 
 Example of an init call:
 ```JavaScript
@@ -68,7 +72,7 @@ Parameters:
 * **clientID**: the IFE Client ID registered in the AAC instance
 * **authority**: the used authentication mechanism. Only 'google' is available.
 
-####Questions:
+#### Questions:
 
 Example of an init call:
 ```JavaScript
@@ -88,11 +92,35 @@ Parameters:
 * **secondaryColor**: color used to paint the question boxes backgrounds
 * **elementsToEnhanceClassName**: the CSS class used to define the enhanced elements
 * **questionsBoxClassName**: the CSS class of the box which shows questions
-* **questionsBoxTitle**: title of the box hwich shows questions
+* **questionsBoxTitle**: title of the box which shows questions
 * **addQuestionLabel**: text exposed to show the action to create a question
 
+#### Text Adaptation Engine:
 
-###4. Buttons configuration
+Example of an init call:
+```JavaScript
+  taeUI.getInstance().init({
+    endpoint: 'https://the-tae-instance-endpoint.com',
+    language: 'it',
+    primaryColor: "#DE453E",
+    secondaryColor:"#F0ABA8",
+    elementsToEnhanceClassName: "simp-text-paragraph",
+    simplifyBoxClassName: "simp-tae-ui-sb",
+    simplifyBoxTitle: "Simplified text",
+    wordPropertiesClassName: "simp-tae-ui-word"
+  });
+```
+Parameters:
+* **endpoint**: the main URL of the used TAE instance
+* **language**: the language of the text to be adapted by the TAE instance
+* **primaryColor**: Color used to highlight the enhanced components
+* **secondaryColor**: Color used to paint the simplification boxes backgrounds
+* **elementsToEnhanceClassName**: The CSS class used to define the enhanced elements
+* **simplifyBoxClassName**: The CSS class of the box which shows the simplifications
+* **simplifyBoxTitle**: Title of the box which shows the simplifications
+* **wordPropertiesClassName**: The CSS class of the word properties box
+
+### 4. Buttons configuration
 
 In order to personalise the look and feel of each feature button, the parameters of each one should be defined.
 * **id**: the unique element id used to get the button inside the DOM
@@ -133,20 +161,34 @@ Example of the buttons configuration:
                   isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
                   enable: function() { citizenpediaUI.getInstance().enable(); },
                   disable: function() { citizenpediaUI.getInstance().disable(); }
+                },
+                {
+                  id: "simp-bar-sw-tae",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/simplify.png",
+                  imageSrcDisabled: "./img/simplify.png",
+                  alt: "Text simplification",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-tae",
+                  styleClassDisabled: "simp-bar-btn-inactive-tae",
+
+                  isEnabled: function() { return taeUI.getInstance().isEnabled(); },
+                  enable: function() { taeUI.getInstance().enable(); },
+                  disable: function() { taeUI.getInstance().disable(); }
                 }
             ];
 ```
 
-###4. Style set upd
+### 4. Style set upd
 To be completed....
 
-##Development of a new feature
+## Development of a new feature
 
 In order to develope a new feature, two main JavaScrip Libraries should be created and implemented.
 * **newfeature-ui.js**: JavaScript which contains the functionality related to the User Interface.
 * **newfeature-core.js**: JavaScript which contains functions related to the main functionality (e.g. the server calls). It will be called by *newfeature-ui.js*
 
-###1. Implementation of newfeature-ui.js
+### 1. Implementation of newfeature-ui.js
 
 1. Implement the initComponent(parameters) function. To be completed...
 2. Implement the enableComponentFeatures() function. To be completed...
