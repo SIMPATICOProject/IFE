@@ -23,6 +23,7 @@ var citizenpediaUI = (function () {
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
+    var originalStyles = []
 
     // Component-related methods and behaviour
     function initComponent(parameters) {
@@ -50,10 +51,20 @@ var citizenpediaUI = (function () {
       var paragrapId = 1;
       var paragraphName = '';
       for (var i = 0, len = paragraphs.length; i < len; i++) {
+        // Store original style
+        originalStyles[i] = paragraphs[i].style;
+
+        // Add the enhanced paragraph style
         paragraphName = "Paragraph" + paragrapId;
         paragraphs[i].style.position = 'relative';
-        paragraphs[i].style.borderLeft = "thick solid " + primaryColor;
+        paragraphs[i].style.borderLeft = ".75em solid " + primaryColor;
+        paragraphs[i].style.borderRadius = "1em";
+
+        paragraphs[i].style.padding = '0em 0em 0em .5em';
+        paragraphs[i].style.margin = '0em 0em .5em 0em';
+
         paragraphs[i].setAttribute("id", paragraphName);
+        // Add the onclick event to enhance the paragraph
         paragraphs[i].setAttribute("onclick", 
           "citizenpediaUI.getInstance()." + 
           "paragraphEvent('" + paragraphName + "');");
@@ -71,9 +82,11 @@ var citizenpediaUI = (function () {
         questionsBoxes[i].parentNode.removeChild(questionsBoxes[i]);
       }
       
-      // Reformat the paragraphs
+      // Reformat the paragraphs with the original style
       for (var i = 0, len = paragraphs.length; i < len; i++) {
-        paragraphs[i].style.borderLeft = "none";
+        // Restore the original style
+        paragraphs[i].style = originalStyles[i];
+        // Remove the onclick event to enhance the paragraph
         paragraphs[i].removeAttribute("onclick");
       }
     }
