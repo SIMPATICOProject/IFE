@@ -23,7 +23,7 @@ var citizenpediaUI = (function () {
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
-    var originalStyles = []
+    var originalStyles = []; // Used to store the tagged paragraphs CSSstyles
 
     // Component-related methods and behaviour
     function initComponent(parameters) {
