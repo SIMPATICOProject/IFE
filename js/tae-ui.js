@@ -56,8 +56,12 @@ var taeUI = (function () {
       for (var i = 0, len = paragraphs.length; i < len; i++) {
         paragraphName = "Paragraph" + paragrapId;
         paragraphs[i].style.position = 'relative';
-        paragraphs[i].style.borderLeft = "1em solid " + primaryColor;
+        paragraphs[i].style.borderLeft = ".75em solid " + primaryColor;
+        paragraphs[i].style.borderRadius = "1em";
+
         paragraphs[i].style.padding = '0em 0em 0em .5em';
+        paragraphs[i].style.margin = '0em 0em .5em 0em';
+
         paragraphs[i].setAttribute("id", paragraphName);
         paragraphs[i].setAttribute("onclick", 
           "taeUI.getInstance()." + 
