@@ -197,7 +197,7 @@ function toggleAction(id) {
   var clickedButon;
   // Disable all the buttons
   for (var i = 1, len = buttons.length; i < len; i++) {
-    if(buttons[i].id == id && !buttons[i].isEnabled()) {
+    if(buttons[i].id == id) {
       clickedButon = buttons[i];
     } else {
       buttons[i].disable();
