@@ -2,9 +2,12 @@
 <html  xmlns="http://www.w3.org/1999/xhtml" xml:lang="gl" lang="gl">
 <head>
   <!-- HI IBERIA START -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script type="text/javascript" src="./jquery-cookie-master/src/jquery.cookie.js"></script>
-  <script src="logget.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="js/da-core.js"></script>
   <!-- HI IBERIA END -->
 
   <meta name="keywords" content="Sede,Electr&oacute;nica,Xunta,Galicia"/>	<meta name="description" content="Sede Electr&oacute;nica - Xunta de Galicia"/>	<meta name="author" content="Xunta de Galicia"/>	<title>BS607A - Programa Benestar en Balnearios. - Sede Electr&oacute;nica - Xunta de Galicia</title>	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
@@ -23,8 +26,26 @@
   -->
 
   <!-- SIMPATICO BEGIN -->
-  <script src="simpatico.js"></script>
-  <script src="sf.js"></script>
+ <!-- Global variables set up -->
+  <script type="text/javascript">
+    var simpaticoEservice = "demo-eservice"; //  the id corresponding to the e-service
+    var simpaticoCategory = "Wellness"; // the general category of the e-service
+  </script>
+  <!-- Injection of JS Libraries -->
+  <script src="js/ctz-ui.js"></script>
+  <script src="js/ctz-core.js"></script>
+  <script src="js/tae-core.js"></script>
+  <script src="js/tae-ui.js"></script>
+  <script src="js/wae-core.js"></script>
+  <script src="js/wae-ui.js"></script>
+  <script src="js/sf-core.js"></script>
+
+  <script src="js/tae-core-popup.js"></script>
+  <script src="js/tae-ui-popup.js"></script>
+
+  <script src="js/simpatico-ife.js"></script>
+  <script src="js/simpatico-auth.js"></script>
+
   <!-- SIMPATICO END -->
 </head>
 
@@ -33,12 +54,6 @@
 <body class=" controls-visible public-page">
 <!-- SIMPATICO BEGIN -->
 <div id="simpatico_top"></div>
-
-
-<script async defer src="https://apis.google.com/js/api.js"
-        onload="this.onload=function(){};handleClientLoad()"
-        onreadystatechange="if (this.readyState === 'complete') this.onload()">
-</script>
 <!-- SIMPATICO END -->
 
 <!-- HI IBERIA SESSION-FEEDBACK BEGIN -->

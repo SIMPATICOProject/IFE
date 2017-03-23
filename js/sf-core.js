@@ -1,4 +1,4 @@
-const baseUrl = "https://simpatico.hi-iberia.es:4570/api";
+const baseUrl = "https://simpatico.hi-iberia.es:4570/simpatico/api";
 
 document.addEventListener('DOMContentLoaded', pageLoaded);
 
