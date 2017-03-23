@@ -8,9 +8,9 @@ var authManager = (function () {
     var featureEnabled = false;
     // Component-related variables
     var userdataElementID = 'simp-usr-data'
-    var ifeClientID = ''
-    var endpoint = ''
-    var authority = '';
+    var ifeClientID = '65b4f53f-76a7-47cf-94ce-c82db0c8dea9'
+    var endpoint = 'http://localhost:8080/aac'
+    var authority = 'google';
 
     function initComponent(parameters) {
       endpoint = parameters.endpoint;

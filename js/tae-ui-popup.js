@@ -5,7 +5,7 @@ $( function() {
 /**
  * TAE UI OPERATIONS
  */
-var taeUI = new function() {
+var taeUIPopup = new function() {
 
 	this.colors = {
 		simplify: '#000'
@@ -46,18 +46,18 @@ var taeUI = new function() {
 		this.labels.notextMessage = config.notextMessage || this.labels.notextMessage;
 		this.colors.simplify = config.simplifyColor || this.colors.simplify;
 
-		taeUI.dialog_simplify = $(
-				'<div id="dialog-simplify" title="'+taeUI.labels.dialogTitle+'">'+
+		taeUIPopup.dialog_simplify = $(
+				'<div id="dialog-simplify" title="'+taeUIPopup.labels.dialogTitle+'">'+
 				'	<div id="tabs">'+
 				'		<ul>'+
 				'			<li><a href="#tab-0">Simpatico</a></li>'+
-				'			<li><a href="#tab-synt-simp">'+taeUI.labels.tabSyntSimpTitle+'</a></li>'+
-				'			<li><a href="#tab-definizioni">'+taeUI.labels.tabDefinitionsTitle+'</a></li>'+
-				'			<li><a href="#tab-semplificazione">'+taeUI.labels.tabSimplificationTitle+'</a></li>'+
-				'			<li><a href="#tab-wikipedia">'+taeUI.labels.tabWikipediaTitle+'</a></li>'+
+				'			<li><a href="#tab-synt-simp">'+taeUIPopup.labels.tabSyntSimpTitle+'</a></li>'+
+				'			<li><a href="#tab-definizioni">'+taeUIPopup.labels.tabDefinitionsTitle+'</a></li>'+
+				'			<li><a href="#tab-semplificazione">'+taeUIPopup.labels.tabSimplificationTitle+'</a></li>'+
+				'			<li><a href="#tab-wikipedia">'+taeUIPopup.labels.tabWikipediaTitle+'</a></li>'+
 				'		</ul>'+
 				'		<div id="tab-0">'+
-				'			<p>'+taeUI.labels.entryMessage+'</p>'+
+				'			<p>'+taeUIPopup.labels.entryMessage+'</p>'+
 				'		</div>'+
 				'		<div id="tab-synt-simp">'+
 				'			<p>Loading...</p>'+
@@ -85,44 +85,44 @@ var taeUI = new function() {
 				}
 			}
 		});
-		taeUI.dialog_simplify.tabs({
+		taeUIPopup.dialog_simplify.tabs({
 			beforeActivate: function( event, ui ) {
 				var cb = setInnerText(ui.newPanel["0"].id);
 				var errCb = setError(ui.newPanel["0"].id);
 
 				if(ui.newPanel["0"].id == "tab-0") {
-					if(!!taeUI.selectedText) {
-						ui.newPanel["0"].innerHTML = '<p>'+taeUI.labels.entryMessage+'</p>';
+					if(!!taeUIPopup.selectedText) {
+						ui.newPanel["0"].innerHTML = '<p>'+taeUIPopup.labels.entryMessage+'</p>';
 					} else {
-						ui.newPanel["0"].innerHTML = '<p>'+taeUI.labels.notextMessage+'</p>';
+						ui.newPanel["0"].innerHTML = '<p>'+taeUIPopup.labels.notextMessage+'</p>';
 					}
 				} if(ui.newPanel["0"].id == "tab-synt-simp") {
-					if(!!taeUI.selectedText) {
+					if(!!taeUIPopup.selectedText) {
 						ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
-						taeEngine.getSimplifiedText(taeUI.selectedText, cb, errCb);
+						taeEngine.getSimplifiedText(taeUIPopup.selectedText, cb, errCb);
 					} else {
-						ui.newPanel["0"].innerHTML = '<p>'+taeUI.labels.notextMessage+'</p>';
+						ui.newPanel["0"].innerHTML = '<p>'+taeUIPopup.labels.notextMessage+'</p>';
 					}
 				} if(ui.newPanel["0"].id == "tab-definizioni") {
-					if(!!taeUI.selectedText) {
+					if(!!taeUIPopup.selectedText) {
 						ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
-						taeEngine.getDefinitions(taeUI.selectedText, cb, errCb);
+						taeEngine.getDefinitions(taeUIPopup.selectedText, cb, errCb);
 					} else {
-						ui.newPanel["0"].innerHTML = '<p>'+taeUI.labels.notextMessage+'</p>';
+						ui.newPanel["0"].innerHTML = '<p>'+taeUIPopup.labels.notextMessage+'</p>';
 					}
 				} if(ui.newPanel["0"].id == "tab-semplificazione") {
-					if(!!taeUI.selectedText) {
+					if(!!taeUIPopup.selectedText) {
 						ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
-						taeEngine.getExplanations(taeUI.selectedText, cb, errCb);
+						taeEngine.getExplanations(taeUIPopup.selectedText, cb, errCb);
 					} else {
-						ui.newPanel["0"].innerHTML = '<p>'+taeUI.labels.notextMessage+'</p>';
+						ui.newPanel["0"].innerHTML = '<p>'+taeUIPopup.labels.notextMessage+'</p>';
 					}
 				} else if(ui.newPanel["0"].id == "tab-wikipedia") {
-					if(!!taeUI.selectedText) {
+					if(!!taeUIPopup.selectedText) {
 						ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
-						taeEngine.wikipedia(taeUI.selectedText, cb, errCb);
+						taeEngine.wikipedia(taeUIPopup.selectedText, cb, errCb);
 					} else {
-						ui.newPanel["0"].innerHTML = '<p>'+taeUI.labels.notextMessage+'</p>';
+						ui.newPanel["0"].innerHTML = '<p>'+taeUIPopup.labels.notextMessage+'</p>';
 					}
 				}
 			},
@@ -166,7 +166,7 @@ var taeUI = new function() {
 			var p = $(this);
 			p.attr("id", "sp"+i++);
 	        p.css('position','relative');
-	        p.css('borderLeft', "thick solid " + taeUI.colors.simplify);
+	        p.css('borderLeft', "thick solid " + taeUIPopup.colors.simplify);
 	        p.on("click", function(){
 	        	doSimplify(p.attr('id'));
 	        });
@@ -192,7 +192,7 @@ var taeUI = new function() {
 
 	function doSimplify(id) {
 		var p = $('#'+id);
-		p.css('borderBottom', 'thick solid ' + taeUI.colors.simplify);
+		p.css('borderBottom', 'thick solid ' + taeUIPopup.colors.simplify);
 		taeEngine.getSimplifiedText(p.text(),function(txt) {
 			var cpy = p.clone();
 			cpy.attr('id',id+'_simplified');

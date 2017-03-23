@@ -13,8 +13,8 @@ function initFeatures() {
   // - clientID: the IFE Client ID registered
   // - authority: the used authentication mechanism
   authManager.getInstance().init({
-    endpoint: '', 
-    clientID: '',
+    endpoint: 'http://localhost:8080/aac', 
+    clientID: '65b4f53f-76a7-47cf-94ce-c82db0c8dea9',
     authority: "google"
   });
 
