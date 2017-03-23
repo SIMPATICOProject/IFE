@@ -133,8 +133,6 @@ function createButtonNode(button) {
 // It creates the configured buttons and adds them to the toolbar
 // Called one time
 function enablePrivateFeatures() {
-  console.log(">>> enablePrivateFeatures()");
-
   // Update the login button status
   var loginButton = document.getElementById(buttons[0].id);
   loginButton.childNodes[0].src = buttons[0].imageSrcEnabled;
@@ -144,15 +142,11 @@ function enablePrivateFeatures() {
   for (var i = 1, len = buttons.length; i < len; i++) {
     buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
   }
-
-  console.log("<<< enablePrivateFeatures(): " + buttonsContainer);
 }//enablePrivateFeatures(id)
 
 // It inits all the configured buttons
 // Called one time
 function disablePrivateFeatures() {
-  console.log(">>> removeButtons()");
-
   // Update the login button status
   var loginButton = document.getElementById(buttons[0].id);
   loginButton.childNodes[0].src = buttons[0].imageSrcDisabled;
@@ -165,8 +159,6 @@ function disablePrivateFeatures() {
       currentButton.parentNode.removeChild(currentButton);
     }
   }
-
-  console.log("<<< removeButtons()");
 }//disablePrivateFeatures()
 
 // It adds the Simpatico Toolbar inside the component of which id is passed 
@@ -202,23 +194,38 @@ function addSimpaticoBar(containerID) {
 // switch on/off the control buttons.
 // -id: of the button which calls this function
 function toggleAction(id) {
-  console.log(">>> toggleAction(" + id + ")");
-  // For each button remove the node 
-  for (var i = 0, len = buttons.length; i < len; i++) {
-    if(buttons[i].id == id) {
-      if (buttons[i].isEnabled()) {
-        document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassEnabled);
-        document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassDisabled);
-        buttons[i].disable();
-      } else {
-        document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassDisabled);
-        document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassEnabled);
-        buttons[i].enable();
-      }
+  var clickedButon;
+  // Disable all the buttons
+  for (var i = 1, len = buttons.length; i < len; i++) {
+    if(buttons[i].id == id && !buttons[i].isEnabled()) {
+      clickedButon = buttons[i];
+    } else {
+      buttons[i].disable();
+      updateButtonStyle(buttons[i]);
     }
   }
-  console.log("<<< toggleAction(" + id + ")");
-}//toggleAction(id)
+  // Enable/Disable the selected button
+  if (clickedButon.isEnabled()) {
+    clickedButon.disable();
+  } else {
+    clickedButon.enable();
+  }
+  updateButtonStyle(clickedButon);
+} //toggleAction(id)
+
+
+
+// Adds the corresponding styleClass depending on the current feature status
+// - button: to be updated
+function updateButtonStyle(button) {
+  if (button.isEnabled()) {
+    document.getElementById(button.id).classList.remove(button.styleClassDisabled);
+    document.getElementById(button.id).classList.add(button.styleClassEnabled);
+  } else {
+    document.getElementById(button.id).classList.remove(button.styleClassEnabled);
+    document.getElementById(button.id).classList.add(button.styleClassDisabled);
+  }
+}
 
 // Once the document is loaded the Simpatico features are initialised and the 
 // toolbar added
