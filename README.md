@@ -22,9 +22,21 @@ Depending of the features, different JS Libraries should be selected.
 
 
 ## Integration steps 
-In order to successfully integrate the IFE with an e-service, 3 main steps should be followed:
+In order to successfully integrate the IFE with an e-service, 5 main steps should be followed:
 
-### 1. Global variables set up
+### 1. Enhanced webpage set up
+In order to enhance a webpage with the IFE, an element which will contain the toolbar should be defined, as well as global scope JavaScript variables which identifies the e-service to enhance.
+
+#### Simpatico toolbar container definition
+Inside the body of the webpage, a ```<div>``` element with an special id (by default is ```simpatico_top```) should be placed.
+
+Example:
+```html
+  <div id="simpatico_top"></div>
+```
+
+#### Global variables
+
 In order to identify the e-service which is going to be enhanced, two JavaScript variables should be initialized at global scope level:
 * **simpaticoEservice**: It contains the unique id of the enhanced e-service. It is used by the Citizenpedia client.
 * **simpaticoCategory**: It contains the general category of the enhanced e-service. It is used by the Citizenpedia client.
@@ -179,7 +191,7 @@ Example of the buttons configuration:
             ];
 ```
 
-### 4. Style set upd
+### 5. Style set upd
 To be completed....
 
 ## Development of a new feature
