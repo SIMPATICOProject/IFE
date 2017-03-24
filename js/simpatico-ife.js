@@ -56,6 +56,20 @@ function initFeatures() {
     wordPropertiesClassName: "simp-tae-ui-word"
   });
 
+	// INIT TAE CONFIG
+	taeUIPopup.getInstance().init({
+		lang: 'it',
+		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
+		dialogTitle: 'Arricchimento testo',
+		tabDefinitionsTitle: 'Definizioni',
+		tabSimplificationTitle: 'Semplificazione',
+		tabWikipediaTitle: 'Wikipedia',
+		entryMessage: 'Scegli il tipo di aiuto',
+		notextMessage: 'Nessun testo selezionato',
+		simplifyColor: '#0000FF'
+	});
+
+  
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
   // Options available:
@@ -102,7 +116,27 @@ function initFeatures() {
                   isEnabled: function() { return taeUI.getInstance().isEnabled(); },
                   enable: function() { taeUI.getInstance().enable(); },
                   disable: function() { taeUI.getInstance().disable(); }
-                }
+                },
+                
+                {
+                    id: "simp-bar-sw-tae-popup",
+                    // Ad-hoc images to define the enabled/disabled images
+                    imageSrcEnabled: "./img/enrich.png",
+                    imageSrcDisabled: "./img/enrich.png",
+                    alt: "Free text simplification",
+                    // Ad-hoc css classes to define the enabled/disabled styles
+                    styleClassEnabled: "simp-bar-btn-active-tae",
+                    styleClassDisabled: "simp-bar-btn-inactive-tae",
+
+                    isEnabled: function() { taeUIPopup.getInstance().isEnabled(); },
+                    enable: function() { 
+                    	taeUIPopup.getInstance().showDialog(); 
+                    },
+                    disable: function() { 
+                    	taeUIPopup.getInstance().hideDialog(); 
+                    }
+                  }
+                
             ];
 }//initFeatures()
 
