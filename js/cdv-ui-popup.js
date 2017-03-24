@@ -83,9 +83,11 @@ var cdvUI = (function () {
 				var inizialize = initializeAccount();
 				cdvCORE.getInstance().initializeAccount(inizialize);
 				console.log("<<<<initializing CDV Dialog Box");
+				
 			} else {
 
 				dialog_cdv.dialog("open");
+				
 
 			}
 			highlightFields(dataFields, true);
@@ -98,6 +100,7 @@ var cdvUI = (function () {
 			featureEnabled = false;
 			selectedField = null;
 			highlightFields(dataFields, false);
+			$('#plist').remove();
 			if (dialog_cdv) {
 				dialog_cdv.dialog("destroy");
 				dialog_cdv=null;
@@ -159,7 +162,7 @@ var cdvUI = (function () {
 				var fieldSelect1 = "<fieldset><legend>Selected field </legend>";
 				var fieldSelect2 = "<fieldset><legend>Other available fields</legend>";
 
-				/* // code for the creation of datalist to anchor to each data input
+				 // code for the creation of datalist to anchor to each data input
 				var p = $('#plist');
 				if (p) {
 					console.log("p");
@@ -168,22 +171,36 @@ var cdvUI = (function () {
 				var datalisttemp = '<div id="plist">';
 				for (itemName in json.properties) {
 					property = json.properties[itemName];
+					var propertyField= property.key;
+					propertyField=propertyField.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" );	
+					
 					datalisttemp += '<datalist id="datalist' + property.key + '">';
 
 					for (field in property.values) {
 						datalisttemp += '<option>' + property.values[field] + '</option>';
 					}
 					datalisttemp += '</datalist>';
-					$('#' + property.key).attr("list", "datalist" + property.key);
+					$('#' +propertyField).attr("list", "datalist" + property.key);
 					console.log(datalisttemp);
 				}
-				$(document.body).append(datalisttemp + '</div>');*/
+				$(document.body).append(datalisttemp + '</div>');
 
-				for (itemName in json.properties) {
+				
+				/*for (itemName in json.properties) {
 					property = json.properties[itemName];
+					var fieldSelectTemp='';
+					var propertyField= property.key;
+					propertyField=propertyField.replace( /(:|\.|\[|\]|,|=|@)/g, "\\\\$1" );
+					console.log(propertyField);
+					if ($('#' + propertyField).attr("label")){
+						fieldSelectTemp = '<label class="Labeltabella">' + $('#' + propertyField).attr("label") + '</label>';
 					
-					var fieldSelectTemp = '<label class="Labeltabella">' + $('#' + property.key).attr("label") + '</label>';
-					fieldSelectTemp += '<p><select onchange="setFieldValue(\'' + $('#' + property.key).attr("id") + '\',$(this).val())">';
+					} else{
+						
+						fieldSelectTemp = $('label[for="' + property.key + '"]').html();
+					}
+					
+					fieldSelectTemp += '<p><select onchange="setFieldValue(\'' + propertyField + '\',$(this).val())">';
 					fieldSelectTemp += '<option value="">--------</option>';
 					for (field in property.values) {
 						fieldSelectTemp += '<option value=\'' + property.values[field] + '\'>' + property.values[field] + '</option>';
@@ -198,7 +215,7 @@ var cdvUI = (function () {
 					
 				}
 				document.getElementById(target).innerHTML = fieldSelect1 + "</fieldset>";
-				document.getElementById(target).innerHTML += fieldSelect2 + "</fieldset>";
+				document.getElementById(target).innerHTML += fieldSelect2 + "</fieldset>";*/
 
 			}
 
@@ -259,7 +276,6 @@ var cdvUI = (function () {
 						'			<p>' + statusMessage + '</p>' +
 						'		</div>' +
 						'		<div id="tab-pdata">' +
-						'			<p>Loading...</p>' +
 						'		</div>' +
 						'		<div id="tab-setting">' +
 						'			<p>Loading...</p>' +
@@ -285,7 +301,13 @@ var cdvUI = (function () {
 						hide: {
 							effect: "blind",
 							duration: 200
-						}
+						},
+						
+						open: function(){
+                                var errCb = setError("tab-0");
+				                var getPDataList = updatePDataFields(null, null);
+				                cdvCORE.getInstance().cdv_getdata(getPDataList, null);
+                        }
 
 					});
 
@@ -336,9 +358,9 @@ var cdvUI = (function () {
 						var errCb = setError(ui.newPanel["0"].id);
 
 						if (ui.newPanel["0"].id == "tab-pdata") {
-							ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
+							/*ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
 							var getPDataList = updatePDataFields(cdvUI.selectedField, ui.newPanel["0"].id);
-							cdvCORE.getInstance().cdv_getdata(getPDataList, errCb);
+							cdvCORE.getInstance().cdv_getdata(getPDataList, errCb);*/
 						}
 						
 						if (ui.newPanel["0"].id == "tab-setting") {
@@ -351,19 +373,20 @@ var cdvUI = (function () {
 					},
 					load: function (event, ui) {
 						/* After page load*/
+						
 
 					}
 				});
 
 				$("input[type!='submit']").on("click", function () {
 					console.log("<<<selected field: " + $(this).attr("id"));
-					if ($.inArray($(this).attr("id"), dataFields) != -1) {
+					/*if ($.inArray($(this).attr("id"), dataFields) != -1) {
 						console.log("selected field: " + $(this).attr("id"));
 						cdvUI.selectedField = $(this);
 						var errCb = setError("tab-pdata");
 						var getPDataList = updatePDataFields(cdvUI.selectedField, "tab-pdata");
 						cdvCORE.getInstance().cdv_getdata(getPDataList, errCb);
-					}
+					}*/
 
 				});
 
@@ -435,18 +458,21 @@ var cdvUI = (function () {
 
 		function highlightFields(fields, selected) {
 			var n = fields.length;
+			console.log("#"+n);
+			var field="";
 			for (var i = 0; i < n; i++) {
-
+				field = fields[i].replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" );
+                 console.log("#"+field+$('#'+field).html());
 				if (selected) {
-					originalCSS = $('#' + fields[i]).css('border');
+					originalCSS = $('#' + field).css('border');
 
-					$('#' + fields[i]).css({
+					$('#' + field).css({
 						'border': '2px solid ' + colors.cdv
 					});
 
 				} else if (originalCSS) {
 
-					$('#' + fields[i]).css({
+					$('#' + field).css({
 						'border': originalCSS
 					});
 

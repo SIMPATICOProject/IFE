@@ -46,9 +46,9 @@ function initFeatures() {
   // - tabPFieldsTitle: tab label of personal data
   cdvUI.getInstance().init({
     endpoint: 'http://localhost:8080',
-    serviceID: '2',
+    serviceID: simpaticoEservice,
 	serviceURL: 'http://localhost:8080/IFE/index_demo.html',
-	dataFields:["AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail"], 
+	dataFields: simpaticoMapping,
     cdvColor: '#008000',
 	dialogTitle: 'Citizen Data Vault',
     tabPFieldsTitle: 'My Data'

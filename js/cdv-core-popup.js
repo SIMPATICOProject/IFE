@@ -247,12 +247,12 @@ var cdvCORE = (function () {
 				contentType: "application/json; charset=utf-8",
 				success: function (json) {
 					console.log(json);
-					var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(json));
+					var data = encodeURIComponent(json);
 
 
 					$("<a />", {
-						"download": "data.json",
-						"href": "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify($(this).data().obj))
+						"download": "data.csv",
+						"href": "data:application/json;charset=utf-8," + data
 					}).appendTo("body")
 					.click(function () {
 						$(this).remove()
@@ -324,12 +324,17 @@ var cdvCORE = (function () {
 			var obj = JSON.parse(jsonStr);
 			var n = fields.length;
 			for (var i = 0; i < n; i++) {
-				$('#' + fields[i]).val();
-				fields[i];
-				if ($('#' + fields[i]).val())
+				
+				var propertyField= fields[i];
+					propertyField=propertyField.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" );
+				
+				
+				console.log(propertyField+"-"+$('#'+propertyField).val());
+				
+				if ($('#' + propertyField).val())
 					obj['properties'].push({
 						"key": fields[i],
-						"values": [$('#' + fields[i]).val()]
+						"values": [$('#' + propertyField).val()]
 					});
 			}
 			jsonStr = JSON.stringify(obj);
