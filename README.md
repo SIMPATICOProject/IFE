@@ -17,7 +17,7 @@ Depending of the features, different JS Libraries should be selected.
 | :--- | :--- | :---: | :---: | :--- |
 | *simpatico-ife.js* | **Main Toolbar** | Yes | - | The main toolbar which exposes the buttons to enable/disable the features |
 |  *simpatico-auth.js* | **Authentication**  | Yes | AAC |The Authentication and Authorization Control Module client |
-| *ctz-ui.js* and *ctz-core.js* | **Questions**  | No | Citizenpedia  | The Citizenpedia Component client which exposes questions related to the e-service and enables users to ask new ones |
+| *ctz-ui.js* and *ctz-core.js* | **Questions and Diagrams**  | No | Citizenpedia  | The Citizenpedia Component client which exposes questions related to the e-service, it enables users to ask new ones and search a diagram which represents the current e-service |
 | *tae-ui.js* and *tae-core.js* | **Text Adaptation**  | No | TAE  | The Text Adaptation Engine Component client which exposes text simplifications and complex words definitions and synonyms to ease the e-service understanding  |
 
 
@@ -96,6 +96,9 @@ Example of an init call:
     questionsBoxClassName: "simp-ctz-ui-qb",
     questionsBoxTitle: "RELATED QUESTIONS",
     addQuestionLabel: "+ Add new question",
+    diagramNotificationImage: "./img/diagram.png",
+    diagramNotificationClassName: "simp-ctz-ui-diagram",
+    diagramNotificationText: "There is one diagram related to this e-service in Citizenpedia"
   });
 ```
 Parameters:
@@ -106,6 +109,9 @@ Parameters:
 * **questionsBoxClassName**: the CSS class of the box which shows questions
 * **questionsBoxTitle**: title of the box which shows questions
 * **addQuestionLabel**: text exposed to show the action to create a question
+* **diagramNotificationImage**: Image to show when a diagram is found
+* **diagramNotificationClassName**: The CSS class of the img shown when a diagram is found
+* **diagramNotificationText**: The text to notify that a diagram
 
 #### Text Adaptation Engine:
 
