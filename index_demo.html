@@ -43,13 +43,14 @@
 
     <!-- ////////      STYLES USED BY SIMPATICO TOOLBAR:BEGIN      //////// -->
     <!-- NOTE: CSS styles should be pasted in a CSS file -->
-<style type="text/css">
+  <style type="text/css">
     /********************* Toolbar and buttons Styles *********************/
     body {
       margin-top: 60px;
     }
 
     #simp-bar {
+      display: inline-table;
       z-index: 999;
       position: fixed;
       top:0;
@@ -138,7 +139,7 @@
     /*****************************************************************************/
 
 
-    /********************* Citizenpedia questions box Styles *********************/
+    /***************************** Citizenpedia Styles ***************************/
 
     /* Main question box class */
     .simp-ctz-ui-qb {
@@ -174,20 +175,38 @@
     }
 
     /* Answers style*/
-    .simp-ctz-ui-qb li a i{
+    .simp-ctz-ui-qb li a i {
       font-style: italic;
       font-weight: bold;
       padding-left: 5px !important;
       color: #24BCDA  !important;
     }
     /* Number of answers & add question style*/
-    .simp-ctz-ui-qb li a b{
+    .simp-ctz-ui-qb li a b {
       font-style: initial;
       padding: 1px 5px 1px 5px !important;
       border-radius: 6px !important;
       color: #E9F8FC  !important;
       background-color: #24BCDA !important;
     }
+    /* Diagram found notification style*/
+    .simp-ctz-ui-diagram {
+      z-index: 999;
+      position: fixed;
+      font-style: initial;
+      border-radius: 0px 25px 25px 0px;
+      padding: 0px 16px 0px 16px !important;
+      background-color: #d3d3d6 !important;
+      webkit-box-shadow: 0px 0px 5px 0px #000000;
+      -moz-box-shadow: 0px 0px 5px 0px #000000;
+      box-shadow: 0px 0px 5px 0px #000000;
+      margin: 0px 0px 0px 0px !important;
+    }
+    .simp-ctz-ui-diagram:hover {
+      border-left: 12px solid #24BCDA;
+      padding: 0px 16px 0px 4px !important;
+    }
+
     /*****************************************************************************/
 
 
@@ -263,9 +282,6 @@
       color: #DE453E !important;
     }
     /*****************************************************************************/
-
-
-
 
   </style>
     <!-- /////////      STYLES USED BY SIMPATICO TOOLBAR:END      ///////// -->
