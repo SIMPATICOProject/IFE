@@ -20,10 +20,14 @@ var citizenpediaUI = (function () {
     var questionsBoxTitleClassName = '';
     var questionsBoxClassName = '';
     var addQuestionLabel = '';
+    var diagramNotificationImage = '';
+    var diagramNotificationClassName = '';
+    var diagramNotificationText = '';
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
     var originalStyles = []; // Used to store the tagged paragraphs CSSstyles
+    var diagramContainer; // Used to show the CPD diagram
 
     // Component-related methods and behaviour
     function initComponent(parameters) {
@@ -33,6 +37,9 @@ var citizenpediaUI = (function () {
       questionsBoxTitle = parameters.questionsBoxTitle;
       questionsBoxClassName = parameters.questionsBoxClassName;
       addQuestionLabel = parameters.addQuestionLabel;
+      diagramNotificationImage = parameters.diagramNotificationImage;
+      diagramNotificationClassName = parameters.diagramNotificationClassName;
+      diagramNotificationText = parameters.diagramNotificationText;
       qaeCORE.getInstance().init({
           endpoint: parameters.endpoint
         });
@@ -70,6 +77,8 @@ var citizenpediaUI = (function () {
           "paragraphEvent('" + paragraphName + "');");
         paragrapId++;
       }
+
+      qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, drawDiagramNotification);
     }
   
     function disableComponentFeatures() {
@@ -88,6 +97,12 @@ var citizenpediaUI = (function () {
         paragraphs[i].style = originalStyles[i];
         // Remove the onclick event to enhance the paragraph
         paragraphs[i].removeAttribute("onclick");
+      }
+
+      // Remove the diagram notification
+      if (diagramContainer != null) {
+        diagramContainer.parentNode.removeChild(diagramContainer);
+        diagramContainer = null;
       }
     }
 
@@ -156,6 +171,32 @@ var citizenpediaUI = (function () {
     function hideQuestionsBox(paragraphName) {
       var qBoxToRemove = document.getElementById(paragraphName + "_questions");
       qBoxToRemove.parentNode.removeChild(qBoxToRemove);
+    }
+
+    // If a diagram related to the enhanced e-service exists, a notification appears
+    // - response: a JSON response provided by the Citizenpedia instance 
+    function drawDiagramNotification(response) {
+      if (response != null) {
+        // Attach the notification container
+        var diagramNode = document.getElementById('simp-bar');
+        diagramContainer = document.createElement('div');
+        diagramContainer.className = diagramNotificationClassName;
+        if(diagramNode.nextSibling){ 
+            diagramNode.parentNode.insertBefore(diagramContainer, diagramNode.nextSibling); 
+        } else { 
+            diagramNode.parentNode.appendChild(diagramContainer); 
+        }
+        // Attach the corresponding CPD elements
+        var content = '<a href="' + response["url"] + '">' +                            
+                            '<img ' +
+                              'src="' + diagramNotificationImage + '" ' +
+                              'wigth="40" ' +
+                              'height="40"' +
+                              'title="' + diagramNotificationText + '" ' +  
+                              'alt="' + diagramNotificationText + '" ' +
+                      '</a>'
+        diagramContainer.innerHTML = content;
+      }
     }
 
     return {
