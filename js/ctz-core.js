@@ -16,6 +16,7 @@ var qaeCORE = (function () {
     var createQuestionURL = '';
     var showQuestionURL = '';
     var getQuestionsAPI = '';
+    var getDiagramAPI = '';
 
     // In inits the main used variables
     // In this case it generates the used API and URL paths
@@ -24,6 +25,7 @@ var qaeCORE = (function () {
       createQuestionURL = parameters.endpoint + '/questions/create';
       showQuestionURL = parameters.endpoint + '/questions/show';
       getQuestionsAPI = parameters.endpoint + '/api/qae/questions';
+      getDiagramAPI = parameters.endpoint + '/api/diagram/eService';
     }
 
     // Get questions from Citizenpedia related to a paragraphName.
@@ -56,13 +58,25 @@ var qaeCORE = (function () {
                   "," + paragraphID;
     }
 
+
+    // It creates an URL which can be used to redirect to the diagram details of the CPD
+    // - serviceID: the id corresponding to the e-service
+    function getDiagramDetails(serviceID, diagramCallback) {
+      jQuery.getJSON(getDiagramAPI +'/' + serviceID + '/element',
+        function(jsonResponse) {
+          diagramCallback(jsonResponse);
+        }
+      );
+    }
+
     return {
         init: initComponent,
         getQuestions: getQuestions,
         createQuestionDetailsURL: createQuestionDetailsURL,
-        createNewQuestionURL: createNewQuestionURL
+        createNewQuestionURL: createNewQuestionURL,
+        getDiagramDetails: getDiagramDetails
       };
-  }  
+  }
   return {
     getInstance: function() {
       if(!instance) instance = Singleton();
