@@ -26,6 +26,9 @@ function initFeatures() {
   // - questionsBoxClassName: The CSS class of the box which shows questions
   // - questionsBoxTitle: Title of the box hwich shows questions
   // - addQuestionLabel: Text exposed to show the action to create a question
+  // - diagramNotificationImage: Image to show when a diagram is found
+  // - diagramNotificationClassName: The CSS class of the img shown when a diagram is found
+  // - diagramNotificationText: The text to notify that a diagram
   citizenpediaUI.getInstance().init({
     endpoint: '',
     primaryColor: "#24BCDA",
@@ -34,6 +37,9 @@ function initFeatures() {
     questionsBoxClassName: "simp-ctz-ui-qb",
     questionsBoxTitle: "RELATED QUESTIONS",
     addQuestionLabel: "+ Add new question",
+    diagramNotificationImage: "./img/diagram.png",
+    diagramNotificationClassName: "simp-ctz-ui-diagram",
+    diagramNotificationText: "There is one diagram related to this e-service in Citizenpedia"
   });
 
   // Init the Text Adaptation Engine component (see tae-ui.js)
@@ -165,6 +171,13 @@ function disablePrivateFeatures() {
 // as parameter
 // - containerID: the Id of the element which is going to contain the toolbar 
 function addSimpaticoBar(containerID) {
+  var simpaticoBarContainer = document.getElementById(containerID);
+  if (simpaticoBarContainer == null) {
+    var body = document.getElementsByTagName('body')[0];
+    simpaticoBarContainer = document.createElement('div');
+    body.insertBefore(simpaticoBarContainer, body.firstChild);
+  }
+
   // Create the main div of the toolbar
   var simpaticoBarHtml = '<div id="simp-bar">' +
                             '<div>' +
@@ -186,9 +199,9 @@ function addSimpaticoBar(containerID) {
 
   // Close the main div
   simpaticoBarHtml += '</div>';
-
+  
   // Add the generated bar to the container
-  document.getElementById(containerID).innerHTML = simpaticoBarHtml;
+  simpaticoBarContainer.innerHTML = simpaticoBarHtml;
 }//addSimpaticoBar()
 
 // switch on/off the control buttons.
@@ -212,7 +225,6 @@ function toggleAction(id) {
   }
   updateButtonStyle(clickedButon);
 } //toggleAction(id)
-
 
 
 // Adds the corresponding styleClass depending on the current feature status
