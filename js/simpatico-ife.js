@@ -242,13 +242,18 @@ function addSimpaticoBar(containerID) {
 // -id: of the button which calls this function
 function toggleAction(id) {
   var clickedButon;
-  // Disable all the buttons
-  for (var i = 1, len = buttons.length; i < len; i++) {
-    if(buttons[i].id == id) {
-      clickedButon = buttons[i];
-    } else {
-      buttons[i].disable();
-      updateButtonStyle(buttons[i]);
+  if (buttons[0].id == id) {
+    // Login button
+    clickedButon = buttons[0];
+  } else {
+    // Disable all the buttons
+    for (var i = 1, len = buttons.length; i < len; i++) {
+      if(buttons[i].id == id) {
+        clickedButon = buttons[i];
+      } else {
+        buttons[i].disable();
+        updateButtonStyle(buttons[i]);
+      }
     }
   }
   // Enable/Disable the selected button
