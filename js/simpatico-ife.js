@@ -13,8 +13,8 @@ function initFeatures() {
   // - clientID: the IFE Client ID registered
   // - authority: the used authentication mechanism
   authManager.getInstance().init({
-    endpoint: 'http://localhost:8080/aac', 
-    clientID: '65b4f53f-76a7-47cf-94ce-c82db0c8dea9',
+    endpoint: '', 
+    clientID: '',
     authority: "google"
   });
 
@@ -54,6 +54,15 @@ function initFeatures() {
     simplifyBoxClassName: "simp-tae-ui-sb",
     simplifyBoxTitle: "Simplified text",
     wordPropertiesClassName: "simp-tae-ui-word"
+  });
+
+  // Init the Session Feedback component (see sf-ui.js)
+  // - buttonToShowSfId: the id of the button/link that opens the dialog of the feedback form
+  // - apiEndpoint: the main URL of the logs API server
+  // NOTE: Requires jquery-ui to work properly
+  sfUI.getInstance().init({
+    buttonToShowSfId: '',
+    apiEndpoint: '',
   });
 
   // Declare here the buttons that will be available in the Simpatico Bar
