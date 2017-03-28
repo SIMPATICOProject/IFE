@@ -19,13 +19,16 @@
 
     <!-- Global variables set up -->
     <script type="text/javascript">
-      var simpaticoEservice = "demo-eservice"; //  the id corresponding to the e-service
+      var simpaticoEservice = "2"; //  the id corresponding to the e-service
       var simpaticoCategory = "Wellness"; // the general category of the e-service
+	  var simpaticoMapping=["AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail"];
     </script>
 
     <!-- Injection of JS Libraries -->
     <script src="js/ctz-ui.js"></script>
     <script src="js/ctz-core.js"></script>
+	<script src="js/cdv-ui-popup.js"></script>
+    <script src="js/cdv-core-popup.js"></script>
     <script src="js/tae-core.js"></script>
     <script src="js/tae-ui.js"></script>
     <script src="js/wae-core.js"></script>
@@ -48,7 +51,23 @@
     body {
       margin-top: 60px;
     }
-
+    /************************* CDV styles**********************************/
+    .ui-dialog {
+        position: fixed !important;
+    } 
+	
+	.no-close .ui-dialog-titlebar-close {
+        display: none;
+    }
+	/* Personalised style for active buttons cdv */
+    .simp-bar-btn-active-cdv {
+      background-color: #379E4C;
+      border: 1px solid #fff;
+    }
+	
+		
+	/************************* **********************************/
+	
     #simp-bar {
       display: inline-table;
       z-index: 999;
@@ -319,6 +338,61 @@
         This is a paragraph wich contains instructions, laws or any descripcion of an electronic service. Normaly, the content is difficult to understand, specialy the terms tlike this one: <span class="simp-text-term">(DNI)</span>. All these paragraphs can be large and has a lot of content.
       </p>
     </div>
+   </div>
+  
+    
+	<div style="padding: 25px; background-color: lightblue; margin: auto; width: 90%;"></div>
+	
+	<div style="padding: 25px; background-color: white; margin: auto; width: 90%;">
+
+    <div class="demo_paragraphs">
+      <h3> Web form </h3>
+      <p class ="simp-text-paragraph">
+        This is a paragraph which contains a sample form that can be filled with the support of CDV. The highligted fields can be filled with data stored in CDV or its values can be stored in CDV for next usage.
+      </p>
+           
+      <p>
+		<table class="Modulo" >
+			<tbody>
+				<tr >
+					<td style="width: 16.5%;">
+						<p class="Labelcella">Phone</p>
+					</td>
+					<td style="width: 16.5%;">
+						<p class="Labelcella">Fax</p>
+					</td>
+					<td style="width: 33%;">
+						<p class="Labelcella">
+							E-mail <i> (ordinary) </i>
+						</p>
+					</td>
+					<td>
+						<p >
+							PEC E-mail <i> (digital domicile) </i>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td><input class="inputNormal mandatory" id="AventeTitolo_Telefono" label="Phone" name="AventeTitolo_Telefono" style="width: 100%" placeholder="" list="datalist">
+					
+					</td>
+					<td><input class="inputNormal" id="AventeTitolo_Fax" label="Fax" mandatory="false" name="AventeTitolo_Fax" style="width: 100%" placeholder=""></td>
+					<td><input class="inputNormal" format="email" id="AventeTitolo_EMail" label="Ordinary E-mail" mandatory="false" name="AventeTitolo_EMail" style="width: 100%;" placeholder=""></td>
+					<td><input class="inputNormal" format="pec" id="AventeTitolo_EMailPEC" label="PEC E-mail" name="AventeTitolo_EMailPEC" style="width: 100%;" mandatory="false" placeholder=""></td>
+
+				</tr>
+			</tbody>
+		</table>
+      </p>
+      
     </div>
+    </div>
+	<div style="padding: 25px; background-color: lightblue; margin: auto; width: 90%;"></div>
+ <datalist id="datalist">
+					<option>First Choice</option>
+					<option>Second Choice</option>
+					<option>Third Choice</option>
+				</datalist>
+				
   </body>
 </html>

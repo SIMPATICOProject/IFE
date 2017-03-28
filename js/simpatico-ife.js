@@ -13,8 +13,8 @@ function initFeatures() {
   // - clientID: the IFE Client ID registered
   // - authority: the used authentication mechanism
   authManager.getInstance().init({
-    endpoint: '', 
-    clientID: '',
+    endpoint: 'http://localhost:8080/aac', 
+    clientID: '33c10bee-136b-463c-8b9d-ad21d82182db',
     authority: "google"
   });
 
@@ -30,7 +30,7 @@ function initFeatures() {
   // - diagramNotificationClassName: The CSS class of the img shown when a diagram is found
   // - diagramNotificationText: The text to notify that a diagram
   citizenpediaUI.getInstance().init({
-    endpoint: '',
+    endpoint: 'http://localhost:8080/IFE/index_demo.html',
     primaryColor: "#24BCDA",
     secondaryColor:"#D3F2F8",
     elementsToEnhanceClassName: "simp-text-paragraph",
@@ -40,6 +40,24 @@ function initFeatures() {
     diagramNotificationImage: "./img/diagram.png",
     diagramNotificationClassName: "simp-ctz-ui-diagram",
     diagramNotificationText: "There is one diagram related to this e-service in Citizenpedia"
+  });
+  
+  // Init the CDV component (see cdv-ui.js)
+  // - endpoint: the main URL of the used cdv instance
+  // - serviceID: the id corresponding to the e-service
+  // - serviceURL: the id corresponding to the e-service
+  // - dataFields: eservice field ids mapped with cdv
+  // - cdvColor: Color used to highlight the eservice fields enhanced with cdv 
+  // - dialogTitle: Title of the dialog box of CDV component
+  // - tabPFieldsTitle: tab label of personal data
+  cdvUI.getInstance().init({
+    endpoint: 'http://localhost:8080',
+    serviceID: simpaticoEservice,
+    serviceURL: 'http://localhost:8080/IFE/index_demo.html',
+    dataFields: simpaticoMapping,
+    cdvColor: '#008000',
+    dialogTitle: 'Citizen Data Vault',
+    tabPFieldsTitle: 'My Data'
   });
 
   // Init the Text Adaptation Engine component (see tae-ui.js)
@@ -75,7 +93,8 @@ function initFeatures() {
 		simplifyColor: '#0000FF'
 	});
 
-  
+
+
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
   // Options available:
@@ -141,8 +160,21 @@ function initFeatures() {
                     disable: function() { 
                     	taeUIPopup.getInstance().hideDialog(); 
                     }
-                  }
-                
+                  },
+                {
+                  id: "simp-bar-sw-cdv",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/cdv.png",
+                  imageSrcDisabled: "./img/cdv.png",
+                  alt: "Citizen Data Vault",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-cdv",
+                  styleClassDisabled: "simp-bar-btn-inactive",
+
+                  isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
+                  enable: function() { cdvUI.getInstance().enable(); },
+                  disable: function() { cdvUI.getInstance().disable(); }
+                }
             ];
 }//initFeatures()
 
@@ -218,7 +250,7 @@ function addSimpaticoBar(containerID) {
                               '<a href="#">' +
                                 '<img src="./img/logo.png" ' +
                                 'height="50px" ' +
-                                'alt="Simpatico">' +
+                                'alt="Simpatico ">' +
                               '</a>' +
                             '</div>';
 
@@ -254,7 +286,7 @@ function toggleAction(id) {
         buttons[i].disable();
         updateButtonStyle(buttons[i]);
       }
-    }
+    } 
   }
   // Enable/Disable the selected button
   if (clickedButon.isEnabled()) {
