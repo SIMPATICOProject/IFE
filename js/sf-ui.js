@@ -16,6 +16,7 @@ var sfUI = (function () {
     var simplificationSelected = false;
     var timeoutExceeded = false;
     var timeout = 5 * 60 * 1000; // 5 minutes in ms
+    var startTime;
 
     function initComponent (parameters) {
       buttonToShowSfId = parameters.buttonToShowSfId;
@@ -27,12 +28,20 @@ var sfUI = (function () {
       var button = document.getElementById(buttonToShowSfId);
       button.setAttribute("onclick",
         "sfUI.getInstance().showSF();");
+
+      // Start counting time
+      startTime = new Date().getTime();
     }
 
     function showSF () {
       if (!authManager.getInstance().isEnabled()) return; // If there isn't an user logged in, SF won't work
 
-      var data = JSON.parse(localStorage.userData);
+      var data = JSON.parse(localStorage.userData); // Get the user's ID from localStorage
+      if (citizenpediaUI.getInstance().isEnabled()) ctzSelected = true;
+      if (taeUI.getInstance().isEnabled()) simplificationSelected = true;
+      // Check if timeout exists
+      var currentTime = new Date().getTime();
+      timeoutExceeded = isTimeExceeded(currentTime - startTime);
       sfCORE.getInstance().selectDialog(ctzSelected, simplificationSelected, timeoutExceeded, data.userId);
     }
 
