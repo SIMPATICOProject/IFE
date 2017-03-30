@@ -58,12 +58,21 @@ function initFeatures() {
 
   // Init the Session Feedback component (see sf-ui.js)
   // - buttonToShowSfId: the id of the button/link that opens the dialog of the feedback form
-  // - apiEndpoint: the main URL of the logs API server
+  // - apiEndpoint: the main URL of the logs API server (<site>/simpatico/api)
   // NOTE: Requires jquery-ui to work properly
   sfUI.getInstance().init({
     buttonToShowSfId: '',
     apiEndpoint: '',
   });
+
+  // Init the Data Analysis component (see da-ui.js)
+  // It is useful for UI elements like different tabs in the same view or an accordion.
+  // - elementsToTrackTimeClassName: The CSS class used to define the different tabs
+  // - apiEndpoint: the main URL of the logs API server (<site>/simpatico/api)
+  daUI.getInstance().init({
+    elementsToTrackTimeClassName: '',
+    apiEndpoint: ''
+  })
 
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
