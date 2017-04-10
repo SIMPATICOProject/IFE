@@ -141,7 +141,7 @@ var citizenpediaUI = (function () {
         questionsHtml += '<li>' + 
                             '<a href="' + 
                                 qaeCORE.getInstance().createQuestionDetailsURL(
-                                  responseQuestions[i]._id) + '">' +
+                                  responseQuestions[i]._id) + '"  target="_blank">' +
                                 '<b>' + responseQuestions[i].answers.length + '</b>' + 
                                 '<i>' + responseQuestions[i].title + '</i>' +
                             '</a>' +
@@ -155,7 +155,7 @@ var citizenpediaUI = (function () {
                                   "Benestar", // TO-DO: Remove the hardcoded element
                                   simpaticoEservice,
                                   paragraphName, 
-                                  document.getElementById(paragraphName).textContent) + '">' +
+                                  document.getElementById(paragraphName).textContent) + '" target="_blank">' +
                                 '<b>' + addQuestionLabel + '</b>' +
                           '</a>'
       questionsHtml += '</li>';
