@@ -62,6 +62,16 @@ font-weight: bold;
 		
 	/************************* **********************************/
 
+/************************* WAE styles**********************************/
+	/* Personalised style for active buttons cdv */
+    .simp-bar-btn-active-wae {
+      background-color: #379E4C;
+      border: 1px solid #fff;
+    }
+
+
+	/************************* **********************************/
+
 
 #simp-bar-container-left {
 	display: inline-block;

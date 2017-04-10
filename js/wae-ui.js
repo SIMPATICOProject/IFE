@@ -1,13 +1,19 @@
 /**
  * WORKFLOW ENGINE UI OPERATIONS
  */
-var waeUI = new function() {
+var waeUI = (function () {
+
+  var instance; // Singleton Instance of the UI component
+
+  function Singleton() {
 	
 	var blockMap = {};
 	var moduleErrorMessage;
 	var topBarHeight = 50;
+	var errorLabel = {};
+    var active = false;
 	
-	var labels = {
+  	var labels = {
 			prevButtonLabel: 'Previous',
 			nextButtonLabel: 'Next'
 	};
@@ -28,6 +34,7 @@ var waeUI = new function() {
 		labels.prevButtonLabel = config.prevButtonLabel || labels.prevButtonLabel;
 		labels.nextButtonLabel = config.nextButtonLabel || labels.nextButtonLabel;
 		topBarHeight = config.topBarHeight || topBarHeight;
+		errorLabel = config.errorLabel;
 	}
 
 	
@@ -37,12 +44,17 @@ var waeUI = new function() {
 	this.loadModel = function(idProfile) {
 		var moduleUri = $("[data-simpatico-workflow]").attr('data-simpatico-workflow');
 		waeEngine.loadModel(moduleUri, idProfile, moduleLoaded, moduleLoadError);
+        active = true;
 	};
-	
+
+    this.isEnabled = function(){
+      return active;
+    }
+    this.enable = this.loadModel;
 	/**
 	 * RETURN TRUE IF THE CURRENT PAGE CONTAINS FORM TO SIMPLIFY
 	 */
-	this.enabled = function(){
+	this.available = function(){
 		var ens = $("[data-simpatico-workflow]");
 		if(ens && ens.length > 0) return true;
 		return false;
@@ -56,8 +68,11 @@ var waeUI = new function() {
 				showElement(key, "SHOW");
 			}
 		}
+        this.active = false;
 		$('html, body').animate({scrollTop: 0}, 200);
 	}
+    this.disable = this.reset;
+
 
 	function moduleLoaded(map) {
 		blockMap = map;
@@ -138,10 +153,12 @@ var waeUI = new function() {
 	};
 	
 	function moduleErrorMsg(text) {
-		moduleErrorMessage = text;
+		var keyNames = Object.keys(JSON.parse(text));
+		var blockId = keyNames[0];
+		moduleErrorMessage = errorLabel[blockId];
 		var element = $("#div_simpatico_error_msg");
 		if(element != null) {
-			$(element).text(text);
+			$(element).text(moduleErrorMessage);
 		}
 	};
 	
@@ -177,4 +194,11 @@ var waeUI = new function() {
 	function prevBlock() {
 		waeEngine.prevBlock(doActions, moduleErrorMsg);
 	};
-}
+  }
+  return {
+    	getInstance: function() {
+    		if(!instance) instance = new Singleton();
+    		return instance;
+    	}
+    };
+})();

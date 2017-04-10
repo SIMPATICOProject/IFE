@@ -66,7 +66,14 @@ var cdvUI = (function () {
 			labels.tabPFieldsTitle = parameters.tabPFieldsTitle || labels.tabPFieldsTitle;
 			labels.entryMessage = parameters.entryMessage || labels.entryMessage;
 			labels.notextMessage = parameters.notextMessage || labels.notextMessage;
-			colors.cdv = parameters.cdvColor || colors.cdv;
+			labels.statusMessage = parameters.statusMessage || labels.statusMessage;
+            labels.dialogSaveTitle = parameters.dialogSaveTitle || labels.dialogSaveTitle;
+			labels.dialogSaveMessage = parameters.dialogSaveMessage || labels.dialogSaveMessage;
+            labels.statusMessageNoAccount = parameters.statusMessageNoAccount || labels.statusMessageNoAccount;
+            labels.statusMessageNoActive = parameters.statusMessageNoActive || labels.statusMessageNoActive;
+			labels.tabSettingsTitle = parameters.tabSettingsTitle || labels.tabSettingsTitle;
+
+          colors.cdv = parameters.cdvColor || colors.cdv;
 
 		}
 

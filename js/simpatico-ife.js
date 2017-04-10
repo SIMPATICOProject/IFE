@@ -11,7 +11,8 @@ function initFeatures() {
   // Init the Auth component (see simpatico-auth.js)
   // - endpoint: the main URL of the used AAC instance
   // - clientID: the IFE Client ID registered
-  // - authority: the used authentication mechanism
+  // - authority: the used authentication mechanism or null if many allowed
+  // - redirect: url redirect (default is /IFE/login.html)
   authManager.getInstance().init({
     endpoint: 'http://localhost:8080/aac', 
     clientID: '33c10bee-136b-463c-8b9d-ad21d82182db',
@@ -57,7 +58,15 @@ function initFeatures() {
     dataFields: simpaticoMapping,
     cdvColor: '#008000',
     dialogTitle: 'Citizen Data Vault',
-    tabPFieldsTitle: 'My Data'
+    tabPFieldsTitle: 'My Data',
+    entryMessage: 'Welcome to SIMPATICO CDV!',
+    statusMessage: 'Now you can select/update your personal data to fill form fields.',
+    notextMessage: 'No field selected',
+    dialogSaveTitle: 'Data Saved',
+    dialogSaveMessage: 'Data saved successfully into your Data Vault.',
+    statusMessageNoAccount: "No CDV Account associated to you. Create?",
+    statusMessageNoActive: "CDV is not active for this service. Activate?",
+    tabSettingsTitle: 'Settings'
   });
 
   // Init the Text Adaptation Engine component (see tae-ui.js)
@@ -80,8 +89,16 @@ function initFeatures() {
     wordPropertiesClassName: "simp-tae-ui-word"
   });
 
-	// INIT TAE CONFIG
-	taeUIPopup.getInstance().init({
+  // Init the Text Adaptation Engine component for free text selection (see tae-ui-popup.js)
+  // - language: the language of the text to adapt by the TAE instance
+  // - endpoint: the main URL of the used TAE instance
+  // - dialogTitle: popup title
+  // - tabDefinitionsTitle: title of 'definitions' tab
+  // - tabSimplificationTitle: title of 'simplifications' tab
+  // - tabWikipediaTitle: title of 'wikipedia' tab
+  // - entryMessage: label of 'enter text' hint
+  // - notextMessage: label of 'no text selected' hint
+  taeUIPopup.getInstance().init({
 		lang: 'it',
 		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
 		dialogTitle: 'Arricchimento testo',
@@ -89,11 +106,24 @@ function initFeatures() {
 		tabSimplificationTitle: 'Semplificazione',
 		tabWikipediaTitle: 'Wikipedia',
 		entryMessage: 'Scegli il tipo di aiuto',
-		notextMessage: 'Nessun testo selezionato',
-		simplifyColor: '#0000FF'
+		notextMessage: 'Nessun testo selezionato'
 	});
-
-
+  // Init the Workflow Adaptation Engine component (see wae-ui.js)
+  // - endpoint: the main URL of the used WAE instance
+  // - prevButtonLabel: Label for 'previous step' button
+  // - nextButtonLabel: Label for 'next step' button
+  // - topBarHeight: height of the bar to control the scroll
+  // - errorLabel: map with blockId - error message in case of block precondition fails
+  waeUI.getInstance().init({
+		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/wae',
+		prevButtonLabel: 'Precedente',
+		nextButtonLabel: 'Successivo',
+		topBarHeight: 60,
+		errorLabel: {
+			'block1' : 'Manca il codice fiscale',
+			'block4' : 'Manca selezione Part-time / Full-time'
+		}
+  });
 
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
