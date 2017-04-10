@@ -138,6 +138,60 @@ Parameters:
 * **simplifyBoxTitle**: Title of the box which shows the simplifications
 * **wordPropertiesClassName**: The CSS class of the word properties box
 
+#### Text Adaptation Engine (With Free Text Popup):
+
+Example of an init call:
+```JavaScript
+  taeUIPopup.getInstance().init({
+      lang: 'it',
+      endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
+      dialogTitle: 'Arricchimento testo',
+      tabDefinitionsTitle: 'Definizioni',
+      tabSimplificationTitle: 'Semplificazione',
+      tabWikipediaTitle: 'Wikipedia',
+      entryMessage: 'Scegli il tipo di aiuto',
+      notextMessage: 'Nessun testo selezionato'
+  });
+```
+Parameters:
+* **endpoint**: the main URL of the used TAE instance
+* **lang**: the language of the text to be adapted by the TAE instance
+* **dialogTitle**: popup title
+* **tabDefinitionsTitle**: title of 'definitions' tab
+* **tabSimplificationTitle**: title of 'simplifications' tab
+* **tabWikipediaTitle**: title of 'wikipedia' tab
+* **entryMessage**: label of 'enter text' hint
+* **notextMessage**: label of 'no text selected' hint
+
+#### Workflow Adaptation Engine (With Free Text Popup):
+
+Example of an init call:
+```JavaScript
+  waeUI.getInstance().init({
+		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/wae',
+		prevButtonLabel: 'Precedente',
+		nextButtonLabel: 'Successivo',
+		topBarHeight: 60,
+		errorLabel: {
+			'block1' : 'Manca il codice fiscale',
+			'block4' : 'Manca selezione Part-time / Full-time'
+		}
+  });
+```
+Parameters:
+* **endpoint**: the main URL of the used WAE instance
+* **prevButtonLabel**: Label for 'previous step' button
+* **nextButtonLabel**: Label for 'next step' button
+* **topBarHeight**: height of the bar to control the scroll
+* **errorLabel**: map with blockId - error message in case of block precondition fails
+
+Please note that the module requires that the corresponding workflow has been uploaded to the WAE repository. The URI of the
+workflow model is configured directly in the page as an **data-simpatico-workflow** attribute of the enclosing HTML tag, e.g.,
+```HTML
+<form data-simpatico-workflow="http://simpatico.eu/test" ...
+```
+
+
 ### 4. Buttons configuration
 
 In order to personalise the look and feel of each feature button, the parameters of each one should be defined.
@@ -193,6 +247,37 @@ Example of the buttons configuration:
                   isEnabled: function() { return taeUI.getInstance().isEnabled(); },
                   enable: function() { taeUI.getInstance().enable(); },
                   disable: function() { taeUI.getInstance().disable(); }
+                },
+                {
+                    id: "simp-bar-sw-tae-popup",
+                    // Ad-hoc images to define the enabled/disabled images
+                    imageSrcEnabled: "./img/enrich.png",
+                    imageSrcDisabled: "./img/enrich.png",
+                    alt: "Semplificazione del testo selezionato",
+                    // Ad-hoc css classes to define the enabled/disabled styles
+                    styleClassEnabled: "simp-bar-btn-active-tae",
+                    styleClassDisabled: "simp-bar-btn-inactive-tae",
+
+                    isEnabled: function() { return taeUIPopup.getInstance().isEnabled(); },
+                    enable: function() { 
+                    	taeUIPopup.getInstance().showDialog(); 
+                    },
+                    disable: function() { 
+                    	taeUIPopup.getInstance().hideDialog(); 
+                    }
+                },
+                { // workflow adaptation. Switch to the modality, where the form adaptation starts
+                  id: 'workflow',
+                  imageSrcEnabled: "./img/forms.png",
+                  imageSrcDisabled: "./img/forms.png",
+                  alt: "Semplifica processo",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-wae",
+                  styleClassDisabled: "simp-bar-btn-inactive",
+
+                  isEnabled: function() { return waeUI.getInstance().isEnabled(); },
+                  enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
+                  disable: function() { waeUI.getInstance().disable(); }
                 }
             ];
 ```
