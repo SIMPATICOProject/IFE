@@ -106,6 +106,13 @@ var citizenpediaUI = (function () {
       }
     }
 
+
+    // If logs when the questions related to the paragraph passed as parameter are requested
+    // - paragraphName: the id of the paragraph which has produced the event
+    function log(paragraphName, event) {
+      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, event, "ON");
+    }
+
     // If the Component feature is enabled it calls to the Citizenpedia instance to 
     // get the questions related to the paragraph passed as parameter
     // - paragraphName: the id of the paragraph which has produced the event
@@ -113,12 +120,29 @@ var citizenpediaUI = (function () {
     function paragraphEvent(paragraphName) {
       if (!featureEnabled) return;
       if (document.getElementById(paragraphName + "_questions") === null) {
+        log(paragraphName, "citizenpedia_content_request");
         qaeCORE.getInstance().getQuestions(simpaticoEservice, paragraphName, drawQuestionsBox);
       } else {
         hideQuestionsBox(paragraphName);
       }
     }
-    
+
+    // If logs when user creates a new question related to the paragraph passed as parameter
+    // - paragraphName: the id of the paragraph which has produced the event
+    function createNewQuestionEvent(paragraphName) {
+      if (!featureEnabled) return;
+      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, "citizenpedia_new_question", "");
+    }
+
+
+    // If logs when user creates a new question related to the paragraph passed as parameter
+    // - paragraphName: the id of the paragraph which has produced the event
+    // - questionID: the id of the question which is the user interested in
+    function showQuestionDetailsEvent(paragraphName, questionID) {
+      if (!featureEnabled) return;
+      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, "citizenpedia_question_request", questionID);
+    }    
+
     // Draw the questions box
     // - paragraphName: the id of the paragraph
     // - responseQuestions: the JSON Object of the questions related to the paragraph
@@ -139,8 +163,8 @@ var citizenpediaUI = (function () {
       // 2.a. for each question a new bulletpoint is made 
       for (var i = 0, len = responseQuestions.length; i < len; i++) {
         questionsHtml += '<li>' + 
-                            '<a href="' + 
-                                qaeCORE.getInstance().createQuestionDetailsURL(
+                            '<a onclick="citizenpediaUI.getInstance().showQuestionDetailsEvent(\'' + paragraphName + '\', \'' + responseQuestions[i]._id + '\');" ' +
+                            'href="' + qaeCORE.getInstance().createQuestionDetailsURL(
                                   responseQuestions[i]._id) + '"  target="_blank">' +
                                 '<b>' + responseQuestions[i].answers.length + '</b>' + 
                                 '<i>' + responseQuestions[i].title + '</i>' +
@@ -150,8 +174,8 @@ var citizenpediaUI = (function () {
 
       // 2.b. finally the Add Question link is also attached 
       questionsHtml += '<li>'
-      questionsHtml +=    '<a href="' + 
-                                qaeCORE.getInstance().createNewQuestionURL(
+      questionsHtml +=    '<a onclick="citizenpediaUI.getInstance().createNewQuestionEvent(\'' + paragraphName + '\');" ' +
+                              'href="' + qaeCORE.getInstance().createNewQuestionURL(
                                   "Benestar", // TO-DO: Remove the hardcoded element
                                   simpaticoEservice,
                                   paragraphName, 
@@ -206,7 +230,10 @@ var citizenpediaUI = (function () {
       disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       
-      paragraphEvent: paragraphEvent
+      paragraphEvent: paragraphEvent,
+
+      createNewQuestionEvent: createNewQuestionEvent,
+      showQuestionDetailsEvent: showQuestionDetailsEvent
     };
   }
   
