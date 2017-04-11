@@ -1,18 +1,9 @@
-// Citizenpedia User Interface (ctz-ui.js)
-//-----------------------------------------------------------------------------
-// This JavaScript contains the functionality related to the User Interface
-// which enriches the Interactive Front-End component with the features of 
-// the Citizenpedia component.
-// - It uses the methods implemented in ctz-core.js
-// - The Citizenpedia server side code is available in:
-//              https://github.com/SIMPATICOProject/Citizenpedia
-//-----------------------------------------------------------------------------
-
-// Log Core Client (log-core.js)
+// Log User Interface (log-ui.js)
 //-----------------------------------------------------------------------------
 // This JavaScript contains the functionality related to the User Interface of 
 // the Log component. The main functionality is to hook and log the main events 
 // through the calls to the server side of the corresponding Log instance
+// - It uses the methods implemented in log-core.js
 // - Used by ctz-ui.js
 // - The Log server side code is available in:
 //              https://github.com/SIMPATICOProject/logs
@@ -33,17 +24,6 @@ var logUI = (function () {
           endpoint: parameters.endpoint
         });
     }
-    
-    function enableComponentFeatures() {
-      if (featureEnabled) return;
-      featureEnabled = true;
-    }
-  
-    function disableComponentFeatures() {
-      if (!featureEnabled) return;
-      featureEnabled = false;
-    }
-
 
     // It logs an event caused when a user uses a Simpatico feature.
     // - component: Component which produces the event (e.g. tae, wae, ctz...)
@@ -52,6 +32,14 @@ var logUI = (function () {
     // - details: Optional parameter to pass additional info if it is required
     function logSimpaticoEvent(component, element, event, details) {
       logCORE.getInstance().logSimpaticoEvent(component, element, event, details);
+    }
+
+    // TODO: HIB - Complete it
+    // It logs an event caused when a user uses interacts with a hooked element.
+    // - element: Id of the element that causes the event (e.g. paragraphID...)
+    // - details: Optional parameter to pass additional info if it is required
+    function logTimeEvent(element, details) {
+      logCORE.getInstance().logTimeEvent(element, details);
     }
 
 
@@ -64,7 +52,7 @@ var logUI = (function () {
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
 
       logSimpaticoEvent: logSimpaticoEvent,
-      logTimeEvent: function() { logCORE.getInstance().logTimeEvent}
+      logTimeEvent: logTimeEvent
     };
   }
   
