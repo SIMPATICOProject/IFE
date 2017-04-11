@@ -25,6 +25,13 @@ var taeUIPopup = (function () {
 			notextMessage: 'No text selected'
 	
 		};
+
+		// It uses the log component to register the produced events
+    // - event: type of the produced event
+    // - details: details of the produced event (e.g. the selected text)
+		_instance.log = function(event, details) {
+      if (logUI != null) logUI.getInstance().logSimpaticoEvent("TAE", "", event, details);
+    }
 	
 		/**
 		 * INITIALIZE UI COMPONENT.
@@ -103,6 +110,7 @@ var taeUIPopup = (function () {
 					} if(ui.newPanel["0"].id == "tab-synt-simp") {
 						if(!!_instance.selectedText) {
 							ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
+							_instance.log("free_text_simplification", _instance.selectedText);
 							taeEngine.getInstance().getSimplifiedText(_instance.selectedText, cb, errCb);
 						} else {
 							ui.newPanel["0"].innerHTML = '<p>'+_instance.labels.notextMessage+'</p>';
