@@ -109,8 +109,8 @@ var citizenpediaUI = (function () {
 
     // If logs when the questions related to the paragraph passed as parameter are requested
     // - paragraphName: the id of the paragraph which has produced the event
-    function log(paragraphName, event) {
-      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, event, "ON");
+    function log(paragraphName, event, details) {
+      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, event, details);
     }
 
     // If the Component feature is enabled it calls to the Citizenpedia instance to 
@@ -120,7 +120,7 @@ var citizenpediaUI = (function () {
     function paragraphEvent(paragraphName) {
       if (!featureEnabled) return;
       if (document.getElementById(paragraphName + "_questions") === null) {
-        log(paragraphName, "citizenpedia_content_request");
+        log(paragraphName, "citizenpedia_content_request", "");
         qaeCORE.getInstance().getQuestions(simpaticoEservice, paragraphName, drawQuestionsBox);
       } else {
         hideQuestionsBox(paragraphName);
@@ -131,7 +131,7 @@ var citizenpediaUI = (function () {
     // - paragraphName: the id of the paragraph which has produced the event
     function createNewQuestionEvent(paragraphName) {
       if (!featureEnabled) return;
-      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, "citizenpedia_new_question", "");
+      log(paragraphName, "citizenpedia_new_question", "");
     }
 
 
@@ -140,7 +140,7 @@ var citizenpediaUI = (function () {
     // - questionID: the id of the question which is the user interested in
     function showQuestionDetailsEvent(paragraphName, questionID) {
       if (!featureEnabled) return;
-      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, "citizenpedia_question_request", questionID);
+      log(paragraphName, "citizenpedia_question_request", questionID);
     }    
 
     // Draw the questions box
