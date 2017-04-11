@@ -47,9 +47,6 @@ var logUI = (function () {
     return {
       // Public definitions
       init: initComponent, // Called only one time
-      enable: enableComponentFeatures,  // Called when the Component button is enabled
-      disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
-      isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
 
       logSimpaticoEvent: logSimpaticoEvent,
       logTimeEvent: logTimeEvent
