@@ -107,8 +107,10 @@ var citizenpediaUI = (function () {
     }
 
 
-    // If logs when the questions related to the paragraph passed as parameter are requested
+    // It uses the log component to register the produced events
     // - paragraphName: the id of the paragraph which has produced the event
+    // - event: type of the produced event
+    // - details: details of the produced event (e.g. the question Id)
     function log(paragraphName, event, details) {
       if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, event, details);
     }
