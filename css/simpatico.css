@@ -46,8 +46,7 @@ font-weight: bold;
 /************************* CDV styles**********************************/
     .ui-dialog {
         position: fixed !important;
-		overflow-y:auto;
-		overflow-x:hidden;
+		
     } 
 	
 	.no-close .ui-dialog-titlebar-close {
@@ -60,6 +59,16 @@ font-weight: bold;
     }
 	
 		
+	/************************* **********************************/
+
+/************************* WAE styles**********************************/
+	/* Personalised style for active buttons cdv */
+    .simp-bar-btn-active-wae {
+      background-color: #379E4C;
+      border: 1px solid #fff;
+    }
+
+
 	/************************* **********************************/
 
 

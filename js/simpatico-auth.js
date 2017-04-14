@@ -11,11 +11,25 @@ var authManager = (function () {
     var ifeClientID = '33c10bee-136b-463c-8b9d-ad21d82182db'
     var endpoint = 'http://localhost:8080/aac'
     var authority = 'google';
+    var redirect = null;
 
     function initComponent(parameters) {
       endpoint = parameters.endpoint;
       ifeClientID = parameters.clientID;
       authority = parameters.authority;
+      // support null setting where authority is selected by user
+      if (!authority) {
+        authority = "";
+      } else {
+        authority = "/"+authority;
+      }
+      // allow for custom redirect
+      redirect = parameters.redirect;
+      if (!redirect) {
+        var base = window.location.href;
+        var arr = base.split("/");
+        redirect = arr[0] + '//' + arr[2] + '/IFE/login.html';
+      }
     }
       
 
@@ -25,9 +39,9 @@ var authManager = (function () {
       var base = window.location.href;
       var arr = base.split("/");
 	 
-      var url = endpoint + '/eauth/authorize/' + authority + '?' + 
+      var url = endpoint + '/eauth/authorize' + authority + '?' +
                     'response_type=token' +
-                    '&redirect_uri=' + arr[0] + '//' + arr[2] + '/IFE/login.html' + // login window URL
+                    '&redirect_uri=' + redirect + // login window URL
                     '&client_id=' + ifeClientID; //Client id from the AAC console
 	   console.log(url);				
 

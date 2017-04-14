@@ -18,6 +18,7 @@ var cdvCORE = (function () {
 		var dataFields = [];
 		var serviceLink = '';
 		var username = '';
+        var cdvDashUrl='#' 
 		/**
 		 * INIT THE ENGINE CONFIG. PARAMETERS:
 		 * - endpoint: URL OF THE CDV API
@@ -35,6 +36,9 @@ var cdvCORE = (function () {
 			}
 			if (parameters.dataFields) {
 				dataFields = parameters.dataFields;
+			}
+            if (parameters.cdvDashUrl) {
+				cdvDashUrl = parameters.cdvDashUrl;
 			}
 
 		}
@@ -403,5 +407,5 @@ function setFieldValue(target, value) {
 }
 
 function openCDV() {
-	window.open("https://simpatico.eng.it/CDV/ng-admin/index.html#/dashboard", "_blank")
+	window.open(cdvDashUrl, "_blank");
 }

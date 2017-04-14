@@ -11,7 +11,8 @@ function initFeatures() {
   // Init the Auth component (see simpatico-auth.js)
   // - endpoint: the main URL of the used AAC instance
   // - clientID: the IFE Client ID registered
-  // - authority: the used authentication mechanism
+  // - authority: the used authentication mechanism or null if many allowed
+  // - redirect: url redirect (default is /IFE/login.html)
   authManager.getInstance().init({
     endpoint: 'http://localhost:8080/aac', 
     clientID: '33c10bee-136b-463c-8b9d-ad21d82182db',
@@ -26,6 +27,9 @@ function initFeatures() {
   // - questionsBoxClassName: The CSS class of the box which shows questions
   // - questionsBoxTitle: Title of the box hwich shows questions
   // - addQuestionLabel: Text exposed to show the action to create a question
+  // - diagramNotificationImage: Image to show when a diagram is found
+  // - diagramNotificationClassName: The CSS class of the img shown when a diagram is found
+  // - diagramNotificationText: The text to notify that a diagram
   citizenpediaUI.getInstance().init({
     endpoint: 'http://localhost:8080/IFE/index_demo.html',
     primaryColor: "#24BCDA",
@@ -34,6 +38,9 @@ function initFeatures() {
     questionsBoxClassName: "simp-ctz-ui-qb",
     questionsBoxTitle: "RELATED QUESTIONS",
     addQuestionLabel: "+ Add new question",
+    diagramNotificationImage: "./img/diagram.png",
+    diagramNotificationClassName: "simp-ctz-ui-diagram",
+    diagramNotificationText: "There is one diagram related to this e-service in Citizenpedia"
   });
   
   // Init the CDV component (see cdv-ui.js)
@@ -47,15 +54,77 @@ function initFeatures() {
   cdvUI.getInstance().init({
     endpoint: 'http://localhost:8080',
     serviceID: simpaticoEservice,
-	serviceURL: 'http://localhost:8080/IFE/index_demo.html',
-	dataFields: simpaticoMapping,
+    serviceURL: 'http://localhost:8080/IFE/index_demo.html',
+    dataFields: simpaticoMapping,
     cdvColor: '#008000',
-	dialogTitle: 'Citizen Data Vault',
-    tabPFieldsTitle: 'My Data'
+    dialogTitle: 'Citizen Data Vault',
+    tabPFieldsTitle: 'My Data',
+    entryMessage: 'Welcome to SIMPATICO CDV!',
+    statusMessage: 'Now you can select/update your personal data to fill form fields.',
+    notextMessage: 'No field selected',
+    dialogSaveTitle: 'Data Saved',
+    dialogSaveMessage: 'Data saved successfully into your Data Vault.',
+    statusMessageNoAccount: "No CDV Account associated to you. Create?",
+    statusMessageNoActive: "CDV is not active for this service. Activate?",
+    tabSettingsTitle: 'Settings'
   });
-  
 
- 
+  // Init the Text Adaptation Engine component (see tae-ui.js)
+  // - endpoint: the main URL of the used TAE instance
+  // - language: the language of the text to adapt by the TAE instance
+  // - primaryColor: Color used to highlight the enhanced components
+  // - secondaryColor: Color used to paint the simplification boxes backgrounds
+  // - elementsToEnhanceClassName: The CSS class used to define the enhanced elements
+  // - simplifyBoxClassName: The CSS class of the box which shows the simplifications
+  // - simplifyBoxTitle: Title of the box which shows the simplifications
+  // - wordPropertiesClassName: The CSS class of the word properties box
+  taeUI.getInstance().init({
+    endpoint: '',
+    language: '',
+    primaryColor: "#DE453E",
+    secondaryColor:"#F0ABA8",
+    elementsToEnhanceClassName: "simp-text-paragraph",
+    simplifyBoxClassName: "simp-tae-ui-sb",
+    simplifyBoxTitle: "Simplified text",
+    wordPropertiesClassName: "simp-tae-ui-word"
+  });
+
+  // Init the Text Adaptation Engine component for free text selection (see tae-ui-popup.js)
+  // - language: the language of the text to adapt by the TAE instance
+  // - endpoint: the main URL of the used TAE instance
+  // - dialogTitle: popup title
+  // - tabDefinitionsTitle: title of 'definitions' tab
+  // - tabSimplificationTitle: title of 'simplifications' tab
+  // - tabWikipediaTitle: title of 'wikipedia' tab
+  // - entryMessage: label of 'enter text' hint
+  // - notextMessage: label of 'no text selected' hint
+  taeUIPopup.getInstance().init({
+		lang: 'it',
+		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
+		dialogTitle: 'Arricchimento testo',
+		tabDefinitionsTitle: 'Definizioni',
+		tabSimplificationTitle: 'Semplificazione',
+		tabWikipediaTitle: 'Wikipedia',
+		entryMessage: 'Scegli il tipo di aiuto',
+		notextMessage: 'Nessun testo selezionato'
+	});
+  // Init the Workflow Adaptation Engine component (see wae-ui.js)
+  // - endpoint: the main URL of the used WAE instance
+  // - prevButtonLabel: Label for 'previous step' button
+  // - nextButtonLabel: Label for 'next step' button
+  // - topBarHeight: height of the bar to control the scroll
+  // - errorLabel: map with blockId - error message in case of block precondition fails
+  waeUI.getInstance().init({
+		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/wae',
+		prevButtonLabel: 'Precedente',
+		nextButtonLabel: 'Successivo',
+		topBarHeight: 60,
+		errorLabel: {
+			'block1' : 'Manca il codice fiscale',
+			'block4' : 'Manca selezione Part-time / Full-time'
+		}
+  });
+
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
   // Options available:
@@ -90,6 +159,39 @@ function initFeatures() {
                 },
 
                 {
+                  id: "simp-bar-sw-tae",
+                  // Ad-hoc images to define the enabled/disabled images
+                  imageSrcEnabled: "./img/simplify.png",
+                  imageSrcDisabled: "./img/simplify.png",
+                  alt: "Text simplification",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-tae",
+                  styleClassDisabled: "simp-bar-btn-inactive-tae",
+
+                  isEnabled: function() { return taeUI.getInstance().isEnabled(); },
+                  enable: function() { taeUI.getInstance().enable(); },
+                  disable: function() { taeUI.getInstance().disable(); }
+                },
+                
+                {
+                    id: "simp-bar-sw-tae-popup",
+                    // Ad-hoc images to define the enabled/disabled images
+                    imageSrcEnabled: "./img/enrich.png",
+                    imageSrcDisabled: "./img/enrich.png",
+                    alt: "Free text simplification",
+                    // Ad-hoc css classes to define the enabled/disabled styles
+                    styleClassEnabled: "simp-bar-btn-active-tae",
+                    styleClassDisabled: "simp-bar-btn-inactive-tae",
+
+                    isEnabled: function() { taeUIPopup.getInstance().isEnabled(); },
+                    enable: function() { 
+                    	taeUIPopup.getInstance().showDialog(); 
+                    },
+                    disable: function() { 
+                    	taeUIPopup.getInstance().hideDialog(); 
+                    }
+                  },
+                {
                   id: "simp-bar-sw-cdv",
                   // Ad-hoc images to define the enabled/disabled images
                   imageSrcEnabled: "./img/cdv.png",
@@ -103,7 +205,6 @@ function initFeatures() {
                   enable: function() { cdvUI.getInstance().enable(); },
                   disable: function() { cdvUI.getInstance().disable(); }
                 }
-				
             ];
 }//initFeatures()
 
@@ -113,12 +214,12 @@ function createButtonHTML(button) {
   return '<li class="'+ button.styleClassDisabled +'" id="' + button.id + '" '+
                           'onclick="toggleAction(\'' + button.id + '\');">'+
                           //'<a href="#">' +
-                          '<img alt="' + button.alt + '" ' + 
+                          '<img ' +
+                            'alt="' + button.alt + '" ' + 
+                            'title="' + button.alt + '" ' +
                             'id="' + button.id + '-img" ' +
                             'src="' + button.imageSrcDisabled + '" ' +
-                            'width="50" height="50" ' + 
-			                'title="' + button.alt + '" ' +
-                            'alt="submit"/>' +
+                            'width="50" height="50" />' +
                             //'</a>'+
                           '</li>';
 }//createButtonHTMLbutton()
@@ -134,8 +235,6 @@ function createButtonNode(button) {
 // It creates the configured buttons and adds them to the toolbar
 // Called one time
 function enablePrivateFeatures() {
-  console.log(">>> enablePrivateFeatures()");
-
   // Update the login button status
   var loginButton = document.getElementById(buttons[0].id);
   loginButton.childNodes[0].src = buttons[0].imageSrcEnabled;
@@ -145,15 +244,11 @@ function enablePrivateFeatures() {
   for (var i = 1, len = buttons.length; i < len; i++) {
     buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
   }
-
-  console.log("<<< enablePrivateFeatures(): " + buttonsContainer);
 }//enablePrivateFeatures(id)
 
 // It inits all the configured buttons
 // Called one time
 function disablePrivateFeatures() {
-  console.log(">>> removeButtons()");
-
   // Update the login button status
   var loginButton = document.getElementById(buttons[0].id);
   loginButton.childNodes[0].src = buttons[0].imageSrcDisabled;
@@ -166,14 +261,19 @@ function disablePrivateFeatures() {
       currentButton.parentNode.removeChild(currentButton);
     }
   }
-
-  console.log("<<< removeButtons()");
 }//disablePrivateFeatures()
 
 // It adds the Simpatico Toolbar inside the component of which id is passed 
 // as parameter
 // - containerID: the Id of the element which is going to contain the toolbar 
 function addSimpaticoBar(containerID) {
+  var simpaticoBarContainer = document.getElementById(containerID);
+  if (simpaticoBarContainer == null) {
+    var body = document.getElementsByTagName('body')[0];
+    simpaticoBarContainer = document.createElement('div');
+    body.insertBefore(simpaticoBarContainer, body.firstChild);
+  }
+
   // Create the main div of the toolbar
   var simpaticoBarHtml = '<div id="simp-bar">' +
                             '<div>' +
@@ -195,31 +295,50 @@ function addSimpaticoBar(containerID) {
 
   // Close the main div
   simpaticoBarHtml += '</div>';
-
+  
   // Add the generated bar to the container
-  document.getElementById(containerID).innerHTML = simpaticoBarHtml;
+  simpaticoBarContainer.innerHTML = simpaticoBarHtml;
 }//addSimpaticoBar()
 
 // switch on/off the control buttons.
 // -id: of the button which calls this function
 function toggleAction(id) {
-  console.log(">>> toggleAction(" + id + ")");
-  // For each button remove the node 
-  for (var i = 0, len = buttons.length; i < len; i++) {
-    if(buttons[i].id == id) {
-      if (buttons[i].isEnabled()) {
-		document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassEnabled);
-        document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassDisabled);
-        buttons[i].disable();
+  var clickedButon;
+  if (buttons[0].id == id) {
+    // Login button
+    clickedButon = buttons[0];
+  } else {
+    // Disable all the buttons
+    for (var i = 1, len = buttons.length; i < len; i++) {
+      if(buttons[i].id == id) {
+        clickedButon = buttons[i];
       } else {
-        document.getElementById(buttons[i].id).classList.remove(buttons[i].styleClassDisabled);
-        document.getElementById(buttons[i].id).classList.add(buttons[i].styleClassEnabled);
-        buttons[i].enable();
+        buttons[i].disable();
+        updateButtonStyle(buttons[i]);
       }
     } 
   }
-  console.log("<<< toggleAction(" + id + ")");
-}//toggleAction(id)
+  // Enable/Disable the selected button
+  if (clickedButon.isEnabled()) {
+    clickedButon.disable();
+  } else {
+    clickedButon.enable();
+  }
+  updateButtonStyle(clickedButon);
+} //toggleAction(id)
+
+
+// Adds the corresponding styleClass depending on the current feature status
+// - button: to be updated
+function updateButtonStyle(button) {
+  if (button.isEnabled()) {
+    document.getElementById(button.id).classList.remove(button.styleClassDisabled);
+    document.getElementById(button.id).classList.add(button.styleClassEnabled);
+  } else {
+    document.getElementById(button.id).classList.remove(button.styleClassEnabled);
+    document.getElementById(button.id).classList.add(button.styleClassDisabled);
+  }
+}
 
 // Once the document is loaded the Simpatico features are initialised and the 
 // toolbar added
