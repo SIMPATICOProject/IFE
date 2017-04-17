@@ -93,6 +93,14 @@ var taeUI = (function () {
       }
     }
 
+    // It uses the log component to register the produced events
+    // - paragraphName: the id of the paragraph which has produced the event
+    // - event: type of the produced event
+    // - details: details of the produced event (e.g. the question Id)
+    function log(paragraphName, event, details) {
+      if (logUI != null) logUI.getInstance().logSimpaticoEvent("TAE", paragraphName, event, details);
+    }
+
     // If the Component feature is enabled it calls to the TAE engine instance to 
     // get the simplifications related to the paragraph passed as parameter
     // - paragraphID: the id of the paragraph which has produced the event
@@ -101,6 +109,7 @@ var taeUI = (function () {
       var currentParagraph = document.getElementById(paragraphID + simplifyBoxIdSuffix);
       
       if ( currentParagraph === null) {
+        log(paragraphID, "paragraph_simplification", "");
         currentParagraph = document.getElementById(paragraphID);
         var text = currentParagraph.textContent ? currentParagraph.textContent : currentParagraph.innerText;//IE uses innerText
         taeCORE.getInstance().simplifyText(paragraphID, text, showSimplificationBox);
@@ -195,6 +204,8 @@ var taeUI = (function () {
                                 + '</br>';
       if (synonyms != null) // If the word has synonyms show them
         currentBox.innerHTML += '<i>' + 'Synonyms:' + '</i>' + synonyms;
+
+      log(paragraphId, "word_simplification", wordHTMLelement.innerHTML);
     }
 
     // Function called when an user clicks on a WordProperties box

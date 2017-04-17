@@ -17,14 +17,26 @@ Depending of the features, different JS Libraries should be selected.
 | :--- | :--- | :---: | :---: | :--- |
 | *simpatico-ife.js* | **Main Toolbar** | Yes | - | The main toolbar which exposes the buttons to enable/disable the features |
 |  *simpatico-auth.js* | **Authentication**  | Yes | AAC |The Authentication and Authorization Control Module client |
-| *ctz-ui.js* and *ctz-core.js* | **Questions**  | No | Citizenpedia  | The Citizenpedia Component client which exposes questions related to the e-service and enables users to ask new ones |
+| *ctz-ui.js* and *ctz-core.js* | **Questions and Diagrams**  | No | Citizenpedia  | The Citizenpedia Component client which exposes questions related to the e-service, it enables users to ask new ones and search a diagram which represents the current e-service |
 | *tae-ui.js* and *tae-core.js* | **Text Adaptation**  | No | TAE  | The Text Adaptation Engine Component client which exposes text simplifications and complex words definitions and synonyms to ease the e-service understanding  |
 
 
 ## Integration steps 
-In order to successfully integrate the IFE with an e-service, 3 main steps should be followed:
+In order to successfully integrate the IFE with an e-service, 5 main steps should be followed:
 
-### 1. Global variables set up
+### 1. Enhanced webpage set up
+In order to enhance a webpage with the IFE, an element which will contain the toolbar should be defined, as well as global scope JavaScript variables which identifies the e-service to enhance.
+
+#### Simpatico toolbar container definition
+Inside the body of the webpage, a ```<div>``` element with an special id (by default is ```simpatico_top```) should be placed.
+
+Example:
+```html
+  <div id="simpatico_top"></div>
+```
+
+#### Global variables
+
 In order to identify the e-service which is going to be enhanced, two JavaScript variables should be initialized at global scope level:
 * **simpaticoEservice**: It contains the unique id of the enhanced e-service. It is used by the Citizenpedia client.
 * **simpaticoCategory**: It contains the general category of the enhanced e-service. It is used by the Citizenpedia client.
@@ -84,6 +96,9 @@ Example of an init call:
     questionsBoxClassName: "simp-ctz-ui-qb",
     questionsBoxTitle: "RELATED QUESTIONS",
     addQuestionLabel: "+ Add new question",
+    diagramNotificationImage: "./img/diagram.png",
+    diagramNotificationClassName: "simp-ctz-ui-diagram",
+    diagramNotificationText: "There is one diagram related to this e-service in Citizenpedia"
   });
 ```
 Parameters:
@@ -94,6 +109,9 @@ Parameters:
 * **questionsBoxClassName**: the CSS class of the box which shows questions
 * **questionsBoxTitle**: title of the box which shows questions
 * **addQuestionLabel**: text exposed to show the action to create a question
+* **diagramNotificationImage**: Image to show when a diagram is found
+* **diagramNotificationClassName**: The CSS class of the img shown when a diagram is found
+* **diagramNotificationText**: The text to notify that a diagram
 
 #### Text Adaptation Engine:
 
@@ -119,6 +137,60 @@ Parameters:
 * **simplifyBoxClassName**: The CSS class of the box which shows the simplifications
 * **simplifyBoxTitle**: Title of the box which shows the simplifications
 * **wordPropertiesClassName**: The CSS class of the word properties box
+
+#### Text Adaptation Engine (With Free Text Popup):
+
+Example of an init call:
+```JavaScript
+  taeUIPopup.getInstance().init({
+      lang: 'it',
+      endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
+      dialogTitle: 'Arricchimento testo',
+      tabDefinitionsTitle: 'Definizioni',
+      tabSimplificationTitle: 'Semplificazione',
+      tabWikipediaTitle: 'Wikipedia',
+      entryMessage: 'Scegli il tipo di aiuto',
+      notextMessage: 'Nessun testo selezionato'
+  });
+```
+Parameters:
+* **endpoint**: the main URL of the used TAE instance
+* **lang**: the language of the text to be adapted by the TAE instance
+* **dialogTitle**: popup title
+* **tabDefinitionsTitle**: title of 'definitions' tab
+* **tabSimplificationTitle**: title of 'simplifications' tab
+* **tabWikipediaTitle**: title of 'wikipedia' tab
+* **entryMessage**: label of 'enter text' hint
+* **notextMessage**: label of 'no text selected' hint
+
+#### Workflow Adaptation Engine (With Free Text Popup):
+
+Example of an init call:
+```JavaScript
+  waeUI.getInstance().init({
+		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/wae',
+		prevButtonLabel: 'Precedente',
+		nextButtonLabel: 'Successivo',
+		topBarHeight: 60,
+		errorLabel: {
+			'block1' : 'Manca il codice fiscale',
+			'block4' : 'Manca selezione Part-time / Full-time'
+		}
+  });
+```
+Parameters:
+* **endpoint**: the main URL of the used WAE instance
+* **prevButtonLabel**: Label for 'previous step' button
+* **nextButtonLabel**: Label for 'next step' button
+* **topBarHeight**: height of the bar to control the scroll
+* **errorLabel**: map with blockId - error message in case of block precondition fails
+
+Please note that the module requires that the corresponding workflow has been uploaded to the WAE repository. The URI of the
+workflow model is configured directly in the page as an **data-simpatico-workflow** attribute of the enclosing HTML tag, e.g.,
+```HTML
+<form data-simpatico-workflow="http://simpatico.eu/test" ...
+```
+
 
 ### 4. Buttons configuration
 
@@ -175,11 +247,42 @@ Example of the buttons configuration:
                   isEnabled: function() { return taeUI.getInstance().isEnabled(); },
                   enable: function() { taeUI.getInstance().enable(); },
                   disable: function() { taeUI.getInstance().disable(); }
+                },
+                {
+                    id: "simp-bar-sw-tae-popup",
+                    // Ad-hoc images to define the enabled/disabled images
+                    imageSrcEnabled: "./img/enrich.png",
+                    imageSrcDisabled: "./img/enrich.png",
+                    alt: "Semplificazione del testo selezionato",
+                    // Ad-hoc css classes to define the enabled/disabled styles
+                    styleClassEnabled: "simp-bar-btn-active-tae",
+                    styleClassDisabled: "simp-bar-btn-inactive-tae",
+
+                    isEnabled: function() { return taeUIPopup.getInstance().isEnabled(); },
+                    enable: function() { 
+                    	taeUIPopup.getInstance().showDialog(); 
+                    },
+                    disable: function() { 
+                    	taeUIPopup.getInstance().hideDialog(); 
+                    }
+                },
+                { // workflow adaptation. Switch to the modality, where the form adaptation starts
+                  id: 'workflow',
+                  imageSrcEnabled: "./img/forms.png",
+                  imageSrcDisabled: "./img/forms.png",
+                  alt: "Semplifica processo",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-wae",
+                  styleClassDisabled: "simp-bar-btn-inactive",
+
+                  isEnabled: function() { return waeUI.getInstance().isEnabled(); },
+                  enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
+                  disable: function() { waeUI.getInstance().disable(); }
                 }
             ];
 ```
 
-### 4. Style set upd
+### 5. Style set upd
 To be completed....
 
 ## Development of a new feature
