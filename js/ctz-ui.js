@@ -10,7 +10,7 @@
 
 var citizenpediaUI = (function () {
   var instance; // Singleton Instance of the UI component
-  var featureEnabled = false;
+  var featureEnabled = true;
   function Singleton () {
     // Component-related variables
     var primaryColor = '';
@@ -20,10 +20,14 @@ var citizenpediaUI = (function () {
     var questionsBoxTitleClassName = '';
     var questionsBoxClassName = '';
     var addQuestionLabel = '';
+    var diagramNotificationImage = '';
+    var diagramNotificationClassName = '';
+    var diagramNotificationText = '';
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
     var originalStyles = []; // Used to store the tagged paragraphs CSSstyles
+    var diagramContainer; // Used to show the CPD diagram
 
     // Component-related methods and behaviour
     function initComponent(parameters) {
@@ -33,6 +37,9 @@ var citizenpediaUI = (function () {
       questionsBoxTitle = parameters.questionsBoxTitle;
       questionsBoxClassName = parameters.questionsBoxClassName;
       addQuestionLabel = parameters.addQuestionLabel;
+      diagramNotificationImage = parameters.diagramNotificationImage;
+      diagramNotificationClassName = parameters.diagramNotificationClassName;
+      diagramNotificationText = parameters.diagramNotificationText;
       qaeCORE.getInstance().init({
           endpoint: parameters.endpoint
         });
@@ -70,6 +77,8 @@ var citizenpediaUI = (function () {
           "paragraphEvent('" + paragraphName + "');");
         paragrapId++;
       }
+
+      qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, drawDiagramNotification);
     }
   
     function disableComponentFeatures() {
@@ -89,6 +98,21 @@ var citizenpediaUI = (function () {
         // Remove the onclick event to enhance the paragraph
         paragraphs[i].removeAttribute("onclick");
       }
+
+      // Remove the diagram notification
+      if (diagramContainer != null) {
+        diagramContainer.parentNode.removeChild(diagramContainer);
+        diagramContainer = null;
+      }
+    }
+
+
+    // It uses the log component to register the produced events
+    // - paragraphName: the id of the paragraph which has produced the event
+    // - event: type of the produced event
+    // - details: details of the produced event (e.g. the question Id)
+    function log(paragraphName, event, details) {
+      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, event, details);
     }
 
     // If the Component feature is enabled it calls to the Citizenpedia instance to 
@@ -98,12 +122,29 @@ var citizenpediaUI = (function () {
     function paragraphEvent(paragraphName) {
       if (!featureEnabled) return;
       if (document.getElementById(paragraphName + "_questions") === null) {
+        log(paragraphName, "citizenpedia_content_request", "");
         qaeCORE.getInstance().getQuestions(simpaticoEservice, paragraphName, drawQuestionsBox);
       } else {
         hideQuestionsBox(paragraphName);
       }
     }
-    
+
+    // If logs when user creates a new question related to the paragraph passed as parameter
+    // - paragraphName: the id of the paragraph which has produced the event
+    function createNewQuestionEvent(paragraphName) {
+      if (!featureEnabled) return;
+      log(paragraphName, "citizenpedia_new_question", "");
+    }
+
+
+    // If logs when user creates a new question related to the paragraph passed as parameter
+    // - paragraphName: the id of the paragraph which has produced the event
+    // - questionID: the id of the question which is the user interested in
+    function showQuestionDetailsEvent(paragraphName, questionID) {
+      if (!featureEnabled) return;
+      log(paragraphName, "citizenpedia_question_request", questionID);
+    }    
+
     // Draw the questions box
     // - paragraphName: the id of the paragraph
     // - responseQuestions: the JSON Object of the questions related to the paragraph
@@ -124,9 +165,9 @@ var citizenpediaUI = (function () {
       // 2.a. for each question a new bulletpoint is made 
       for (var i = 0, len = responseQuestions.length; i < len; i++) {
         questionsHtml += '<li>' + 
-                            '<a href="' + 
-                                qaeCORE.getInstance().createQuestionDetailsURL(
-                                  responseQuestions[i]._id) + '">' +
+                            '<a onclick="citizenpediaUI.getInstance().showQuestionDetailsEvent(\'' + paragraphName + '\', \'' + responseQuestions[i]._id + '\');" ' +
+                            'href="' + qaeCORE.getInstance().createQuestionDetailsURL(
+                                  responseQuestions[i]._id) + '"  target="_blank">' +
                                 '<b>' + responseQuestions[i].answers.length + '</b>' + 
                                 '<i>' + responseQuestions[i].title + '</i>' +
                             '</a>' +
@@ -135,12 +176,12 @@ var citizenpediaUI = (function () {
 
       // 2.b. finally the Add Question link is also attached 
       questionsHtml += '<li>'
-      questionsHtml +=    '<a href="' + 
-                                qaeCORE.getInstance().createNewQuestionURL(
+      questionsHtml +=    '<a onclick="citizenpediaUI.getInstance().createNewQuestionEvent(\'' + paragraphName + '\');" ' +
+                              'href="' + qaeCORE.getInstance().createNewQuestionURL(
                                   "Benestar", // TO-DO: Remove the hardcoded element
                                   simpaticoEservice,
                                   paragraphName, 
-                                  document.getElementById(paragraphName).textContent) + '">' +
+                                  document.getElementById(paragraphName).textContent) + '" target="_blank">' +
                                 '<b>' + addQuestionLabel + '</b>' +
                           '</a>'
       questionsHtml += '</li>';
@@ -158,6 +199,32 @@ var citizenpediaUI = (function () {
       qBoxToRemove.parentNode.removeChild(qBoxToRemove);
     }
 
+    // If a diagram related to the enhanced e-service exists, a notification appears
+    // - response: a JSON response provided by the Citizenpedia instance 
+    function drawDiagramNotification(response) {
+      if (response != null) {
+        // Attach the notification container
+        var diagramNode = document.getElementById('simp-bar');
+        diagramContainer = document.createElement('div');
+        diagramContainer.className = diagramNotificationClassName;
+        if(diagramNode.nextSibling){ 
+            diagramNode.parentNode.insertBefore(diagramContainer, diagramNode.nextSibling); 
+        } else { 
+            diagramNode.parentNode.appendChild(diagramContainer); 
+        }
+        // Attach the corresponding CPD elements
+        var content = '<a href="' + response["url"] + '">' +                            
+                            '<img ' +
+                              'src="' + diagramNotificationImage + '" ' +
+                              'wigth="40" ' +
+                              'height="40"' +
+                              'title="' + diagramNotificationText + '" ' +  
+                              'alt="' + diagramNotificationText + '" ' +
+                      '</a>'
+        diagramContainer.innerHTML = content;
+      }
+    }
+
     return {
       // Public definitions
       init: initComponent, // Called only one time
@@ -165,7 +232,10 @@ var citizenpediaUI = (function () {
       disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       
-      paragraphEvent: paragraphEvent
+      paragraphEvent: paragraphEvent,
+
+      createNewQuestionEvent: createNewQuestionEvent,
+      showQuestionDetailsEvent: showQuestionDetailsEvent
     };
   }
   

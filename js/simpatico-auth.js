@@ -5,17 +5,31 @@
 var authManager = (function () {
   var instance; // Singleton Instance of the UI component
   function Singleton () {
-    var featureEnabled = false;
+    var featureEnabled = true;
     // Component-related variables
     var userdataElementID = 'simp-usr-data'
-    var ifeClientID = ''
-    var endpoint = ''
+    var ifeClientID = '65b4f53f-76a7-47cf-94ce-c82db0c8dea9'
+    var endpoint = 'http://localhost:8080/aac'
     var authority = 'google';
+    var redirect = null;
 
     function initComponent(parameters) {
       endpoint = parameters.endpoint;
       ifeClientID = parameters.clientID;
       authority = parameters.authority;
+      // support null setting where authority is selected by user
+      if (!authority) {
+        authority = "";
+      } else {
+        authority = "/"+authority;
+      }
+      // allow for custom redirect
+      redirect = parameters.redirect;
+      if (!redirect) {
+        var base = window.location.href;
+        var arr = base.split("/");
+        redirect = arr[0] + '//' + arr[2] + '/IFE/login.html';
+      }
     }
       
 
@@ -24,10 +38,12 @@ var authManager = (function () {
       if (featureEnabled) return;
       var base = window.location.href;
       var arr = base.split("/");
-      var url = endpoint + '/eauth/authorize/' + authority + '?' + 
+	 
+      var url = endpoint + '/eauth/authorize' + authority + '?' +
                     'response_type=token' +
-                    '&redirect_uri=' + arr[0] + '//' + arr[2] + '/IFE/login.html' + // login window URL
+                    '&redirect_uri=' + redirect + // login window URL
                     '&client_id=' + ifeClientID; //Client id from the AAC console
+	   console.log(url);				
 
       var win = window.open(url, 'AuthPopup', 'width=1024,height=768,resizable=true,scrollbars=true,status=true');
 
