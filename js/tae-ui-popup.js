@@ -27,11 +27,11 @@ var taeUIPopup = (function () {
 		};
 
 		// It uses the log component to register the produced events
-    // - event: type of the produced event
-    // - details: details of the produced event (e.g. the selected text)
-		_instance.log = function(event, details) {
-      if (logUI != null) logUI.getInstance().logSimpaticoEvent("TAE", "", event, details);
-    }
+		_instance.logger = function(event, details) {
+		  var nop = function(){};
+	      if (logCORE != null) return logCORE.getInstance().taeLogger;
+	      else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
+	    }
 	
 		/**
 		 * INITIALIZE UI COMPONENT.
@@ -110,7 +110,6 @@ var taeUIPopup = (function () {
 					} if(ui.newPanel["0"].id == "tab-synt-simp") {
 						if(!!_instance.selectedText) {
 							ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
-							_instance.log("free_text_simplification", _instance.selectedText);
 							taeEngine.getInstance().getSimplifiedText(_instance.selectedText, cb, errCb);
 						} else {
 							ui.newPanel["0"].innerHTML = '<p>'+_instance.labels.notextMessage+'</p>';
@@ -158,6 +157,12 @@ var taeUIPopup = (function () {
 		_instance.showDialog = function() {
 			_instance.shown = true;
 			_instance.selectedText = getSelectedTextData();
+			if (_instance.selectedText && _instance.selectedText.word) {
+				_instance.logger().logWord(simpaticoEservice,  _instance.selectedText.word);
+			} else if (_instance.selectedText && _instance.selectedText.text) {
+				_instance.logger().logFreetext(simpaticoEservice,  _instance.selectedText.text);
+			}
+
 			_instance.dialog_simplify.tabs( "option", "active", 0);
 			var disabled = [];
 			if (!_instance.selectedText || !_instance.selectedText.text) disabled = [0,1,2,3,4];
