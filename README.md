@@ -121,6 +121,9 @@ Parameters:
 the redirect page to contain the scripts which communicates the OAuth2.0 token information upon success. See [login.html](https://github.com/SIMPATICOProject/IFE/blob/master/login.html)
 page for details.
 
+**IMPORTANT!** For make the Authentication work correctly under IE 10/11, it is necessary that the redirect page is **IN THE SAME DOMAIN** the e-service page is. The
+code of the redirect page should reflect the one found in [login.html](https://github.com/SIMPATICOProject/IFE/blob/master/login.html). 
+
 ### 2.2. Configure Logging
 
 The logging component is used by all the other IFE modules in order to log the relevant interaction events. It should be already installed
@@ -251,6 +254,16 @@ The URI of the workflow model is configured directly in the page as an **data-si
 <form data-simpatico-workflow="indexdemo" ...>
 ...
 </form>
+```
+
+**IMPORTANT!** WAE library relies on the XPath API of the browser, which is not available on IE 10/11. To make it work, the following JS and code
+should be included in the page together with the other JavaScript dependencies:
+
+```HTML
+    <script src="https://github.com/google/wicked-good-xpath/releases/download/1.3.0/wgxpath.install.js"></script>
+    <script>
+        wgxpath.install();
+    </script>
 ```
 
 ### 2.6. Configure Citizen Data Vault Module

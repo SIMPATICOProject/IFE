@@ -54,25 +54,34 @@ var authManager = (function () {
 
       var win = window.open(url, 'AuthPopup', 'width=1024,height=768,resizable=true,scrollbars=true,status=true');
 
-      window.addEventListener('message', function (event) {
+      var processData = function(data) {
         jQuery.ajax({
-          url: endpoint + '/basicprofile/me',
-          type: 'GET',
-          dataType: 'json',
-          success: function(data) {
-            localStorage.userData = JSON.stringify(data);
-            updateUserData();
-          },
-          error: function(err) {
-            console.log(err);
-          },
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader('Authorization', 'Bearer ' + event.data.access_token);
-          }
-        });
-        // add expiration timestamp with 1 hour buffer
-        event.data.expires_on = new Date().getTime() + parseInt(event.data.expires_in)*1000 - 1000*60*60*1;
-        localStorage.aacTokenData = JSON.stringify(event.data);
+		  url: endpoint + '/basicprofile/me',
+		  type: 'GET',
+		  dataType: 'json',
+		  success: function(data) {
+		    localStorage.userData = JSON.stringify(data);
+		    updateUserData();
+		  },
+		  error: function(err) {
+		    console.log(err);
+		  },
+		  beforeSend: function(xhr) {
+		    xhr.setRequestHeader('Authorization', 'Bearer ' + data.access_token);
+		  }
+		});
+		// add expiration timestamp with 1 hour buffer
+		data.expires_on = new Date().getTime() + parseInt(data.expires_in)*1000 - 1000*60*60*1;
+		localStorage.aacTokenData = JSON.stringify(data);
+      }
+
+      window.handleDataDirectly = function(dataStr) {
+    	  var data = JSON.parse(dataStr);
+    	  processData(data);
+    	  win.close();
+      }
+      window.addEventListener('message', function (event) {
+    	  processData(event.data);
       }, false);
     }
 
