@@ -27,11 +27,12 @@ var taeUIPopup = (function () {
 		};
 
 		// It uses the log component to register the produced events
-    // - event: type of the produced event
-    // - details: details of the produced event (e.g. the selected text)
-		_instance.log = function(event, details) {
-      if (logUI != null) logUI.getInstance().logSimpaticoEvent("TAE", "", event, details);
-    }
+		_instance.logger = function(event, details) {
+		  var nop = function(){};
+	      if (logCORE != null) return logCORE.getInstance().taeLogger;
+	      else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
+	    }
+
 	
 		/**
 		 * INITIALIZE UI COMPONENT.
@@ -202,7 +203,117 @@ var taeUIPopup = (function () {
 			        p.unbind("click");
 				}
 			});
+			_instance.dialog_simplify.tabs({
+				beforeActivate: function( event, ui ) {
+					var cb = setInnerText(ui.newPanel["0"].id);
+					var errCb = setError(ui.newPanel["0"].id);
+	
+					if(ui.newPanel["0"].id == "tab-0") {
+						if(!!_instance.selectedText) {
+							ui.newPanel["0"].innerHTML = '<p>'+_instance.labels.entryMessage+'</p>';
+						} else {
+							ui.newPanel["0"].innerHTML = '<p>'+_instance.labels.notextMessage+'</p>';
+						}
+					} if(ui.newPanel["0"].id == "tab-synt-simp") {
+						if(!!_instance.selectedText) {
+							ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
+							taeEngine.getInstance().getSimplifiedText(_instance.selectedText, cb, errCb);
+						} else {
+							ui.newPanel["0"].innerHTML = '<p>'+_instance.labels.notextMessage+'</p>';
+						}
+					} if(ui.newPanel["0"].id == "tab-definizioni") {
+						if(!!_instance.selectedText) {
+							ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
+							taeEngine.getInstance().getDefinitions(_instance.selectedText, cb, errCb);
+						} else {
+							ui.newPanel["0"].innerHTML = '<p>'+_instance.labels.notextMessage+'</p>';
+						}
+					} if(ui.newPanel["0"].id == "tab-semplificazione") {
+						if(!!_instance.selectedText) {
+							ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
+							taeEngine.getInstance().getExplanations(_instance.selectedText, cb, errCb);
+						} else {
+							ui.newPanel["0"].innerHTML = '<p>'+_instance.labels.notextMessage+'</p>';
+						}
+					} else if(ui.newPanel["0"].id == "tab-wikipedia") {
+						if(!!_instance.selectedText) {
+							ui.newPanel["0"].innerHTML = '<p>Loading...</p>';
+							taeEngine.getInstance().wikipedia(_instance.selectedText, cb, errCb);
+						} else {
+							ui.newPanel["0"].innerHTML = '<p>'+_instance.labels.notextMessage+'</p>';
+						}
+					}
+				},
+				load:function( event, ui ) {
+		  		/* After page load*/
+		  	}
+			});
+	
+		}
+	
+		/**
+		 * CURRENTLY SELECTED TEXT DATA: text, word, position (if apply)
+		 */
+		_instance.selectedText = null;
+	
+		_instance.dialog_simplify = null;
+	
+		/**
+		 * OPEN TAE UI DIALOG FOR CURRENTLY SELECTED TEXT
+		 */
+		_instance.showDialog = function() {
+			_instance.shown = true;
+			_instance.selectedText = getSelectedTextData();
+			if (_instance.selectedText && _instance.selectedText.word) {
+				_instance.logger().logWord(simpaticoEservice,  _instance.selectedText.word);
+			} else if (_instance.selectedText && _instance.selectedText.text) {
+				_instance.logger().logFreetext(simpaticoEservice,  _instance.selectedText.text);
+			}
 
+			_instance.dialog_simplify.tabs( "option", "active", 0);
+			var disabled = [];
+			if (!_instance.selectedText || !_instance.selectedText.text) disabled = [0,1,2,3,4];
+			else if (_instance.selectedText.word) disabled.push(1);
+			_instance.dialog_simplify.tabs("option", "disabled", disabled);
+			_instance.dialog_simplify.dialog("open");
+	
+		}
+		_instance.hideDialog = function() {
+			_instance.shown = false;
+			_instance.dialog_simplify.dialog("close");
+		}
+	
+		/**
+		 * FIND AND UPDATE THE TEXT ELEMENTS FOR SIMPLIFICATION. THE
+		 * TEXT TO SIMPLIFY SHOULD BE ANNOTATED WITH THE simp-text-paragraph ANNOTATION
+		 */
+		_instance.activateSimplification = function() {
+			$('.simp-text-paragraph').each(function(i){
+				var p = $(this);
+				p.attr("id", "sp"+i++);
+		        p.css('position','relative');
+		        p.css('borderLeft', "thick solid " + _instance.colors.simplify);
+		        p.on("click", function(){
+		        	doSimplify(p.attr('id'));
+		        });
+			});
+		}
+		/**
+		 * FIND AND UPDATE THE TEXT ELEMENTS FOR SIMPLIFICATION
+		 */
+		_instance.deactivateSimplification = function() {
+			$('.simp-text-paragraph').each(function(i){
+				var p = $(this);
+				if (p.attr('id').indexOf('_simplified')>0) {
+					p.remove();
+				}
+				else {
+			        p.css('display', "");
+			        p.css('borderLeft', "0");
+			        p.css('borderBottom', "0");
+			        p.unbind("click");
+				}
+			});
 		}
 	
 		_instance.isEnabled = function() {
@@ -274,4 +385,5 @@ var taeUIPopup = (function () {
     		return instance;
     	}
     };
+
 })();
