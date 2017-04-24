@@ -85,7 +85,7 @@ function initFeatures() {
   // - simplifyBoxTitle: Title of the box which shows the simplifications
   // - wordPropertiesClassName: The CSS class of the word properties box
   taeUI.getInstance().init({
-    endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
+    endpoint: '',
     language: '',
     primaryColor: "#DE453E",
     secondaryColor:"#F0ABA8",

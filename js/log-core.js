@@ -3,6 +3,7 @@
 // This JavaScript contains the client side of the Log component. The main 
 // functionality is to log the main events through the calls to the server side 
 // of the corresponding Log instance
+// - Used by log-ui.js
 // - The Log server side code is available in:
 //              https://github.com/SIMPATICOProject/logs
 //-----------------------------------------------------------------------------
@@ -115,7 +116,6 @@ var logCORE = (function () {
 			log(logsEndpoint, data);
 		}
 	}
-
 
     // In inits the main used variables
     // In this case it generates the used API and URL paths
