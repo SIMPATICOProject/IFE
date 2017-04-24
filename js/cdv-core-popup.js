@@ -18,7 +18,8 @@ var cdvCORE = (function () {
 		var dataFields = [];
 		var serviceLink = '';
 		var username = '';
-        var cdvDashUrl='#' 
+		var cdvDashUrl='#'
+
 		/**
 		 * INIT THE ENGINE CONFIG. PARAMETERS:
 		 * - endpoint: URL OF THE CDV API
@@ -37,7 +38,8 @@ var cdvCORE = (function () {
 			if (parameters.dataFields) {
 				dataFields = parameters.dataFields;
 			}
-            if (parameters.cdvDashUrl) {
+
+			if (parameters.cdvDashUrl) {
 				cdvDashUrl = parameters.cdvDashUrl;
 			}
 

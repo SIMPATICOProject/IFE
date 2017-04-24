@@ -60,7 +60,7 @@ var cdvUI = (function () {
 				serviceID: parameters.serviceID,
 				dataFields: parameters.dataFields,
 				serviceURL: parameters.serviceURL,
-                cdvDashUrl: parameters.cdvDashUrl
+				cdvDashUrl: parameters.cdvDashUrl
 			});
 
 			labels.dialogTitle = parameters.dialogTitle || labels.dialogTitle;
@@ -183,21 +183,22 @@ var cdvUI = (function () {
 					propertyField=propertyField.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" );	
 					
 					datalisttemp += '<datalist id="datalist' + property.key + '">';
-                    datalisttemp +='<select id='+property.key+' style="display: none;">';
+					datalisttemp +='<select id='+property.key+' style="display: none;">';
 					for (field in property.values) {
 						datalisttemp += '<option>' + property.values[field] + '</option>';
 					}
 					datalisttemp += '</select></datalist>';
 					$('#' +propertyField).attr("list", "datalist" + property.key);
-					
-                    if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
-						$('#' +propertyField).autocomplete({
-							source: property.values,
-							minLength: 0,
-						  }).focus(function () {
-							$(this).autocomplete("search");
-						  });
-					 }
+
+					console.log(datalisttemp);
+					if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+						 $('#' +propertyField).autocomplete({
+							 source: property.values,
+							 minLength: 0,
+							 }).focus(function () {
+							 $(this).autocomplete("search");
+						 });
+					}
 				}
 				$(document.body).append(datalisttemp + '</div>');
 
