@@ -95,7 +95,7 @@ var taeUI = (function () {
 
     // It uses the log component to register the produced events
     var logger = function(event, details) {
-	  var nop = function(){};
+	    var nop = function(){};
       if (logCORE != null) return logCORE.getInstance().taeLogger;
       else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
     }

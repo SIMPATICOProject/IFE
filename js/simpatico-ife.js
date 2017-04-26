@@ -22,7 +22,7 @@ function initFeatures() {
     // Init the LOG component (see log-core.js)
   // - endpoint: the main URL of the used LOG instance
   logCORE.getInstance().init({
-	  endpoint: "http://localhost:8080/IFE/index_demo.html"
+	  endpoint: "https://simpatico.hi-iberia.es:4570/simpatico/api"
   });
 
   // Init the Citizenpedia component (see ctz-ui.js)
@@ -134,16 +134,7 @@ function initFeatures() {
   // NOTE: Requires jquery-ui to work properly
   sfUI.getInstance().init({
     buttonToShowSfId: 'Save',
-    apiEndpoint: 'http://localhost:8080',
-  });
-
-  // Init the Session Feedback component (see sf-ui.js)
-  // - buttonToShowSfId: the id of the button/link that opens the dialog of the feedback form
-  // - apiEndpoint: the main URL of the logs API server (<site>/simpatico/api)
-  // NOTE: Requires jquery-ui to work properly
-  sfUI.getInstance().init({
-    buttonToShowSfId: 'testSF',
-    apiEndpoint: '',
+    apiEndpoint: 'https://simpatico.hi-iberia.es:4570/simpatico/api',
   });
 
   // Init the Data Analysis component (see da-ui.js)

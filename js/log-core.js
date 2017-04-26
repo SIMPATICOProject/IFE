@@ -46,7 +46,6 @@ var logCORE = (function () {
 			},
 			beforeSend: function (xhr) {
 				xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-
 			}
 
 		});
@@ -129,9 +128,11 @@ var logCORE = (function () {
       logsEndpoint = parameters.endpoint + '/logs/insert';
     }
 
-    // TODO: HIB - Implement it
     function insertLogEvent(data) {
-      console.warn("TO-DO: HIB Implement the log insertion in [" + insertLogEventAPI + "] ---> " + JSON.stringify(data));
+      // console.warn("TO-DO: HIB Implement the log insertion in [" + insertLogEventAPI + "] ---> " + JSON.stringify(data));
+      $.post(insertLogEventAPI, JSON.stringify(data), function (response) {
+        console.log(response);
+      });
     }
 
 
@@ -141,15 +142,15 @@ var logCORE = (function () {
     // - event: Id of the element that causes the event (e.g. paragraphID...)
     // - details: Optional parameter to pass additional info if it is required
     function logSimpaticoEvent(component, element, event, details) {
-      var timestamp = new Date().getTime()
+      var timestamp = new Date().getTime();
       //TODO: HIB- Implement it
       var postData = {
         "component": component, // Component which produces the event
         "element": element,
         "event": event,
         "details": details,
-        "userID": "userData.userId", // the id of the logged user
-        "serviceID": simpaticoEservice, // the id of the corresponding e-service
+        "userID": userData.userId, // the id of the logged user
+        "e-serviceID": simpaticoEservice, // the id of the corresponding e-service
         "timestamp": timestamp
       }
       insertLogEvent(postData);
@@ -163,10 +164,11 @@ var logCORE = (function () {
     function logTimeEvent(element, details) {
       var timestamp = new Date().getTime()
       var postData = {
-        "duration": "", // Component which produces the event
+        "duration": "", 
         "userID": userData.userId, // the id of the logged user
         "datatype": "duration",
-        "timeForElement": element
+        "timeForElement": element, // Component which produces the event
+        "details": details
       }
       insertLogEvent(postData);
     }
