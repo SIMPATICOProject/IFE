@@ -3,7 +3,6 @@
 // This JavaScript contains the client side of the Log component. The main 
 // functionality is to log the main events through the calls to the server side 
 // of the corresponding Log instance
-// - Used by log-ui.js
 // - The Log server side code is available in:
 //              https://github.com/SIMPATICOProject/logs
 //-----------------------------------------------------------------------------
@@ -15,8 +14,8 @@ var logCORE = (function () {
 	// Variables to store the used API and URL paths
 	var insertLogEventAPI = '';
 
-    // for test purposes. Set to true if no LOG component is available
-    var TEST_MODE = false;
+  // for test purposes. Set to true if no LOG component is available
+  var TEST_MODE = false;
 
 	var serverEndpoint = '';
 	var ctzpEndpoint = '';
@@ -27,7 +26,7 @@ var logCORE = (function () {
 	var logsEndpoint = '';
 
 	var log = function(url, data) {
-      if (TEST_MODE) return;
+    if (TEST_MODE) return;
 
 		var token = authManager.getInstance().getToken();
 		var userId = authManager.getInstance().getUserId();

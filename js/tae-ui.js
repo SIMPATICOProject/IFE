@@ -94,13 +94,7 @@ var taeUI = (function () {
     }
 
     // It uses the log component to register the produced events
-
-    // - paragraphName: the id of the paragraph which has produced the event
-    // - event: type of the produced event
-    // - details: details of the produced event (e.g. the question Id)
-    function log(paragraphName, event, details) {
-      if (logUI != null) logUI.getInstance().logSimpaticoEvent("TAE", paragraphName, event, details);
-	var logger = function(event, details) {
+    var logger = function(event, details) {
 	  var nop = function(){};
       if (logCORE != null) return logCORE.getInstance().taeLogger;
       else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
@@ -281,4 +275,3 @@ var taeUI = (function () {
     }
   };
 })();
-

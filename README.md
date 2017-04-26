@@ -35,7 +35,6 @@ In order to integrate IFE into a e-service Web page, the following steps should 
 TO enable SIMPATICO toolbar for a specific e-service, the Web page of the e-service should include the reference 
 to the SIMPATICO JavaScript libraries according to the table defined above. For example: 
 
-
 ```html
     <script src="js/log-core.js"></script>
     <script src="js/ctz-ui.js"></script>
@@ -95,7 +94,7 @@ The toolbar, its appearance and functionality is defined in *simpatico-ife.js* J
 defines the toolbar itself, and defines the behavior of the toolbar buttons.  To change the default behavior, it is possible to
 change this script. In particular, it is possible to define which components should be activated, how the toolbar appears, etc.
 
-## 2. Configuring IFE Components 
+## 2. Configuring IFE Components
 
 The configuration of IFE modules is performed within the [simpatico-ife.js](https://github.com/SIMPATICOProject/IFE/blob/master/js/simpatico-ife.js) file.
 
@@ -105,7 +104,6 @@ The AAC module should be already installed and available over Internet. It is al
 with the implicit (browser) flow enabled and redirect URI defined.
 
 To configure AAC in IFE it is necessary to define the properties of the authManager module:
-
 
 ```JavaScript
   authManager.getInstance().init({
@@ -143,7 +141,6 @@ Parameters:
 ### 2.3. Configure Question and Answer Module (Citizenpedia)
 
 The citizenpedia IFE module requires the citizenpedia component already installed and made available over Internet.
-
 
 To configure the Citizenpedia component it is necessary to setup the citizenpediaUI module:
 ```JavaScript
