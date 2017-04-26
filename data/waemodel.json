@@ -1,0 +1,45 @@
+{
+    "uri": "indexdemo",
+    "profileTypes": [],
+    "model": {
+      "context": {},
+      "blocks": [
+        {
+          "id": "block1",
+          "type": "BLOCK",
+          "xpath": "//div[@id=\"section1\"]",
+          "tags": [],
+          "fields": [
+            "AventeTitolo_Telefono"
+          ],
+          "blocks": [],
+          "dependencies": [],
+          "condition": null,
+          "completed": "!!context['AventeTitolo_Telefono']"
+        },
+        {
+          "id": "block2",
+          "type": "BLOCK",
+          "xpath": "//div[@id=\"section2\"]",
+          "tags": [],
+          "fields": [],
+          "blocks": [],
+          "dependencies": [
+            "block1"
+          ],
+          "condition": null,
+          "completed": null
+        }
+      ],
+      "fields": [
+        {
+          "id": "AventeTitolo_Telefono",
+          "xpath": "//*[@id=\"AventeTitolo_Telefono\"]",
+          "mapping": {
+            "key": "AventeTitolo_Telefono",
+            "binding": "OUT"
+          }
+        }
+      ]
+    }
+  }

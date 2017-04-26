@@ -16,12 +16,17 @@
 
 
     <!-- ////////////////////      SIMPATICO:BEGIN      /////////////////// -->
+    <link rel="stylesheet" href="css/simpatico.css"/>
 
     <!-- Global variables set up -->
     <script type="text/javascript">
       var simpaticoEservice = "2"; //  the id corresponding to the e-service
+      var simpaticoForm = "main";
       var simpaticoCategory = "Wellness"; // the general category of the e-service
 	  var simpaticoMapping=["AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail"];
+      var ERROR_LABELS = {
+        'block1' : 'Phone number is required'
+      }
     </script>
 
     <!-- Injection of JS Libraries -->
@@ -38,16 +43,21 @@
     <script src="js/sf-core.js"></script>
     <script src="js/sf-ui.js"></script>
     <script src="js/da-ui.js"></script>
+    <script src="https://github.com/google/wicked-good-xpath/releases/download/1.3.0/wgxpath.install.js"></script>
+    <script>
+        wgxpath.install();
+    </script>
 
     <script src="js/tae-core-popup.js"></script>
     <script src="js/tae-ui-popup.js"></script>
+
+    <script src="js/sf-core.js"></script>
+    <script src="js/sf-ui.js"></script>
 
     <script src="js/simpatico-ife.js"></script>
     <script src="js/simpatico-auth.js"></script>
 
     <!-- /////////////////////      SIMPATICO:END      //////////////////// -->
-
-
 
     <!-- ////////      STYLES USED BY SIMPATICO TOOLBAR:BEGIN      //////// -->
     <!-- NOTE: CSS styles should be pasted in a CSS file -->
@@ -351,13 +361,19 @@
 	
 	<div style="padding: 25px; background-color: white; margin: auto; width: 90%;">
 
-    <div class="demo_paragraphs">
+    <div class="demo_paragraphs" data-simpatico-workflow="indexdemo">
       <h3> Web form </h3>
       <p class ="simp-text-paragraph">
         This is a paragraph which contains a sample form that can be filled with the support of CDV. The highligted fields can be filled with data stored in CDV or its values can be stored in CDV for next usage.
       </p>
            
+     <form autocomplete="off"> 
       <p>
+
+
+      <div id="section1">
+        <h4> Section 1 </h4>
+
 		<table class="Modulo" >
 			<tbody>
 				<tr >
@@ -379,7 +395,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><input class="inputNormal mandatory" id="AventeTitolo_Telefono" label="Phone" name="AventeTitolo_Telefono" style="width: 100%" placeholder="" list="datalist">
+					<td><input class="inputNormal mandatory" id="AventeTitolo_Telefono" label="Phone" name="AventeTitolo_Telefono" style="width: 100%" placeholder="" >
 					
 					</td>
 					<td><input class="inputNormal" id="AventeTitolo_Fax" label="Fax" mandatory="false" name="AventeTitolo_Fax" style="width: 100%" placeholder=""></td>
@@ -389,16 +405,45 @@
 				</tr>
 			</tbody>
 		</table>
-      </p>
+      </div>
       
+      <div id="section2">
+        <h4> Section 2 </h4>
+        <p class ="simp-text-paragraph">
+          This is a another block.
+        </p>
+		<table class="Modulo" >
+			<tbody>
+				<tr >
+					<td style="width: 16.5%;">
+						<p class="Labelcella">Address</p>
+					</td>
+					<td style="width: 16.5%;">
+						<p class="Labelcella">Place of birth</p>
+					</td>
+					<td style="width: 33%;">
+						<p class="Labelcella">
+							City
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td><input class="inputNormal mandatory" id="AventeTitolo_Telefono" label="Phone" name="AventeTitolo_Telefono" style="width: 100%" placeholder="" list="datalist">
+
+					</td>
+					<td><input class="inputNormal"  mandatory="false" name="Address" style="width: 100%" placeholder=""></td>
+					<td><input class="inputNormal" mandatory="false" name="Place" style="width: 100%;" placeholder=""></td>
+					<td><input class="inputNormal"  name="City" style="width: 100%;" mandatory="false" placeholder=""></td>
+
+				</tr>
+			</tbody>
+		</table>
+      </div>
+      <button type="button" id="Save">Send data</button>
     </div>
     </div>
 	<div style="padding: 25px; background-color: lightblue; margin: auto; width: 90%;"></div>
- <datalist id="datalist">
-					<option>First Choice</option>
-					<option>Second Choice</option>
-					<option>Third Choice</option>
-				</datalist>
+ 
 				
   </body>
 </html>

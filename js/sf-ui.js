@@ -25,9 +25,14 @@ var sfUI = (function () {
       });
 
       // Add the onclick event
-      var button = document.getElementById(buttonToShowSfId);
-      button.setAttribute("onclick",
-        "sfUI.getInstance().showSF();");
+      if (buttonToShowSfId) {
+        var button = document.getElementById(buttonToShowSfId);
+        if (button != null) {
+          button.addEventListener('click', function(){
+        	  sfUI.getInstance().showSF();
+          });
+        }
+      }
 
       // Start counting time
       startTime = new Date().getTime();
