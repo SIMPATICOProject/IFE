@@ -184,12 +184,12 @@ var cdvUI = (function () {
 					
 					datalisttemp += '<datalist id="datalist' + property.key + '">';
 					datalisttemp +='<select id='+property.key+' style="display: none;">';
+
 					for (field in property.values) {
 						datalisttemp += '<option>' + property.values[field] + '</option>';
 					}
 					datalisttemp += '</select></datalist>';
 					$('#' +propertyField).attr("list", "datalist" + property.key);
-
 					console.log(datalisttemp);
 					if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
 						 $('#' +propertyField).autocomplete({
