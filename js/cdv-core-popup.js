@@ -38,11 +38,9 @@ var cdvCORE = (function () {
 			if (parameters.dataFields) {
 				dataFields = parameters.dataFields;
 			}
-
 			if (parameters.cdvDashUrl) {
 				cdvDashUrl = parameters.cdvDashUrl;
 			}
-
 		}
 
 		this.cdv_getdata = function (updatePDataFields, errorCallback) {
