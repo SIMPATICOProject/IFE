@@ -27,10 +27,10 @@ var sfCORE = (function () {
   			width: 600
       });
       $('#dialogSF').show();
-      $('#dialogSF #button_cancel_session_feedback_text').click(function(){
-    	  $('#dialogSF').dialog( "close" );
+      $('#dialogSF #button_cancel_session_feedback_text').off('click').on('click', function () {
+    	  $('#dialogSF').dialog("destroy").remove();
       });
-      $('#dialogSF #button_send_session_feedback_text').click(sendFeedback);
+      $('#dialogSF #button_send_session_feedback_text').off('click').on('click', sendFeedback);
     }
 
     // Internal
@@ -45,6 +45,9 @@ var sfCORE = (function () {
   		// TODO: manage complexity correctly
   		complexity = 0;
   		logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
+
+      // Close dialog
+      $('#dialogSF').dialog("destroy").remove();
     }
 
     return {

@@ -111,6 +111,7 @@ var logCORE = (function () {
 		},
 		feedbackData: function(eservice, data) {
 			data['e-serviceID'] = eservice;
+      data['datatype'] = 'session-feedback'; // to distinguish it
 			log(logsEndpoint, data);
 		}
 	}
