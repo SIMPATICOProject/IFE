@@ -10,15 +10,20 @@ var sfCORE = (function () {
 
     function selectDialog (ctzSelected, simplificationSelected, timeoutExceeded, userId) {
       // Check which dialog show
-      $.get(endpoint + "/sf/selectdialog?id="+userId+"&ctz="+ctzSelected+"&simpl="+simplificationSelected+"&timeout="+timeoutExceeded,
+      // Lang possible values: es, en (default), it
+      var lang = "en"; // TODO: How to get this
+      $.get(endpoint + "/sf/selectdialog?id="+userId+"&ctz="+ctzSelected+"&simpl="+simplificationSelected+"&timeout="+timeoutExceeded+"&lang="+lang,
         function (modalChosen) {
-          showFeedbackDialog(modalChosen);
+          showFeedbackDialog(modalChosen, lang);
         });
     }
 
     // Internal
-    function showFeedbackDialog (modalChosen) {
-      var title_modal_session_feedback = "¡Envíenos sus comentarios!";
+    function showFeedbackDialog (modalChosen, lang) {
+      var title_modal_session_feedback = "Send us your comments!"
+      if (lang == "es") title_modal_session_feedback = "¡Envíenos sus comentarios!";
+      else if (lang == "it") title_modal_session_feedback = "Inviaci i tuoi commenti!"
+
       $('<div id="dialogSF" />').html(modalChosen).dialog({
   			title: title_modal_session_feedback,
       	  	modal: true,
