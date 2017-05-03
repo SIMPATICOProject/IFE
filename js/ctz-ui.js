@@ -111,7 +111,7 @@ var citizenpediaUI = (function () {
 	  var logger = function(event, details) {
       var nop = function(){};
       if (logCORE != null) return logCORE.getInstance().ctzpLogger;
-      else return {logContentRequest: nop, logQuestionRequest: nop, logNewQuestionRequest: nop, logTermRequest: nop};
+      else return {logContentRequest: nop, logQuestionRequest: nop, logNewQuestionRequest: nop, logTermRequest: nop, logNewAnswer: nop};
     }
 
     // If the Component feature is enabled it calls to the Citizenpedia instance to 

@@ -37,7 +37,7 @@ function initFeatures() {
   // - diagramNotificationClassName: The CSS class of the img shown when a diagram is found
   // - diagramNotificationText: The text to notify that a diagram
   citizenpediaUI.getInstance().init({
-    endpoint: 'http://localhost:8080/IFE/index_demo.html',
+    endpoint: 'https://simpatico.morelab.deusto.es/qae',
     primaryColor: "#24BCDA",
     secondaryColor:"#D3F2F8",
     elementsToEnhanceClassName: "simp-text-paragraph",
@@ -382,4 +382,9 @@ document.addEventListener('DOMContentLoaded', function () {
   initFeatures();
   addSimpaticoBar("simpatico_top");
   authManager.getInstance().updateUserData();
+});
+
+// Save the time spent in the website by calling the function here
+window.addEventListener('beforeunload', function (e) {
+  logCORE.getInstance().logTimeEvent($('body'));
 });

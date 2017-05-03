@@ -25,6 +25,8 @@ var logCORE = (function () {
 	var sfEndpoint = '';
 	var logsEndpoint = '';
 
+  var start;
+
 	var log = function(url, data) {
     if (TEST_MODE) return;
 
@@ -64,6 +66,9 @@ var logCORE = (function () {
 		logTermRequest: function(eservice, contentId, term) {
 			log(ctzpEndpoint+'/termrequest', {'e-serviceID': eservice, annotableElementID: contentId, selected_term: term});
 		},
+    logNewAnswer: function(eservice, contentId, questionId) {
+      log(ctzpEndpoint+'/newanswer', {'e-serviceID': eservice, annotableElementID: contentId, questionID: questionId});
+    }
 	};
 	var taeLogger = {
 		logParagraph: function(eservice, paragraphID) {
@@ -103,7 +108,10 @@ var logCORE = (function () {
 		formEnd: function(eservice, form) {
 			var ts = new Date().getTime();
 			log(ifeEndpoint+'/formend', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
-		}
+		},
+    clicks: function(eservice, contentId, clicks) {
+      log(ifeEndpoint+'/clicks', {'e-serviceID': eservice, annotableElementID: contentId, clicks: clicks});
+    }
 	}
 	var sfLogger = {
 		feedbackEvent: function(eservice, complexity) {
@@ -127,13 +135,13 @@ var logCORE = (function () {
       ifeEndpoint = parameters.endpoint + '/ife/insert';
       sfEndpoint = parameters.endpoint + '/sf/insert';
       logsEndpoint = parameters.endpoint + '/logs/insert';
+
+      // Start measuring time
+      start = new Date().getTime();
     }
 
     function insertLogEvent(data) {
-      // console.warn("TO-DO: HIB Implement the log insertion in [" + insertLogEventAPI + "] ---> " + JSON.stringify(data));
-      $.post(insertLogEventAPI, JSON.stringify(data), function (response) {
-        console.log(response);
-      });
+      log(insertLogEventAPI, data);
     }
 
 
@@ -144,34 +152,34 @@ var logCORE = (function () {
     // - details: Optional parameter to pass additional info if it is required
     function logSimpaticoEvent(component, element, event, details) {
       var timestamp = new Date().getTime();
-      //TODO: HIB- Implement it
+
       var postData = {
         "component": component, // Component which produces the event
         "element": element,
         "event": event,
         "details": details,
-        "userID": userData.userId, // the id of the logged user
         "e-serviceID": simpaticoEservice, // the id of the corresponding e-service
         "timestamp": timestamp
       }
       insertLogEvent(postData);
     }
 
-
-    // TODO: HIB - Complete it
     // It logs an event caused when a user uses interacts with a hooked element.
     // - element: Id of the element that causes the event (e.g. paragraphID...)
     // - details: Optional parameter to pass additional info if it is required
     function logTimeEvent(element, details) {
-      var timestamp = new Date().getTime()
+      var end = new Date().getTime();
+      
       var postData = {
-        "duration": "", 
-        "userID": userData.userId, // the id of the logged user
+        "duration": end - start,
         "datatype": "duration",
         "timeForElement": element, // Component which produces the event
         "details": details
       }
       insertLogEvent(postData);
+
+      // Restart the time count variable
+      start = new Date().getTime();
     }
 
     return {
