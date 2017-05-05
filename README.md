@@ -320,6 +320,7 @@ Parameters:
 it is possible to use ` sfUI.getInstance().showSF()` method.
 * **apiEndpoint**: endpoint of the LOG component to log data to  
 
+**IMPORTANT!** Right now the language for the SF dialog is hardcoded in the code: `js/sf-core.js:14`. Our idea was to get it from the url or the browser’s default language, but it is not done yet. Possible values are `es`, `en` and `it`.
 
 ### 2.7. Buttons configuration
 In order to personalise the look and feel of each feature button, the parameters of each one should be defined.
