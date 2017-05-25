@@ -29,6 +29,19 @@ var waeEngine = new function() {
 		}
 	}
 	
+	this.isLoaded = function() {
+		return workflowModel != null;
+	}
+	this.reset = function(){
+		actualBlockIndex = -1;
+		prevBlockIndex = -1;
+		actualBlockId = null;
+		prevBlockId = null;
+		moveToBlock = true;
+		blockCompiledMap = {};
+		uncompletedFieldMap = {};
+		contextVar = {};
+	}
 	function getActualBlockIndex() {
 		return actualBlockIndex;
  	}; 	
@@ -36,6 +49,9 @@ var waeEngine = new function() {
  	 * RETURN CURRENT BLOCK INDEX
  	 */
 	this.getActualBlockIndex = getActualBlockIndex;
+	this.getActualBlockId = function() {
+		return actualBlockId;
+	};
 	
 	function getBlocksNum() {
 		return workflowModel.blocks.length;
@@ -109,7 +125,7 @@ var waeEngine = new function() {
 		prevBlockId = actualBlockId;
 		prevBlockIndex = actualBlockIndex;
 		actualBlockIndex = index;
-		actualBlockId = workflowModel.blocks[actualBlockIndex].id;
+		actualBlockId = workflowModel.blocks[actualBlockIndex] ? workflowModel.blocks[actualBlockIndex].id : null;
 		moveToBlock = true;
 	};
 
@@ -203,7 +219,7 @@ var waeEngine = new function() {
 						var element = getSimpaticoFieldElement(field.id);
 						if(element != null) {
 							var value = getInputValue(element);
-							if(value != null) {
+							if(!!value) {
 								contextVar[field.mapping.key] = value;
 							} else {
 								delete contextVar[field.mapping.key];
@@ -280,6 +296,18 @@ var waeEngine = new function() {
 	 */
 	this.nextBlock = nextBlock;
 
+	/**
+	 * RETURN BLOCK DESCRIPTION
+	 */
+	this.getBlockDescription = function() {
+		if (!!workflowModel && !!workflowModel.blocks && workflowModel.blocks[actualBlockIndex]) {
+			return workflowModel.blocks[actualBlockIndex].description;
+		}
+	}
+	this.restartBlock = function(callback, errorCallback) {
+		setActualBlock(actualBlockIndex -1);
+		this.nextBlock(callback,errorCallback);
+	}
 	function fillBlock() {
 		var block = blockMap[actualBlockId];
 		if(block != null) {
@@ -318,6 +346,10 @@ var waeEngine = new function() {
 	function getInputValue(element) {
 		//TODO get input value
 		if($(element).is(':checkbox')) {
+			if($(element).is(':checked')) {
+				return $(element).val();
+			}
+		} else if($(element).is(':radio')) {
 			if($(element).is(':checked')) {
 				return $(element).val();
 			}
