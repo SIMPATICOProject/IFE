@@ -14,8 +14,8 @@ function initFeatures() {
   // - authority: the used authentication mechanism or null if many allowed
   // - redirect: url redirect (default is /IFE/login.html)
   authManager.getInstance().init({
-    endpoint: 'http://localhost:8080/aac',
-    clientID: '65b4f53f-76a7-47cf-94ce-c82db0c8dea9',
+    endpoint: 'https://simpatico.hi-iberia.es:4570/aac/',
+    clientID: '',
     authority: "google"
   });
 
@@ -37,7 +37,7 @@ function initFeatures() {
   // - diagramNotificationClassName: The CSS class of the img shown when a diagram is found
   // - diagramNotificationText: The text to notify that a diagram
   citizenpediaUI.getInstance().init({
-    endpoint: 'https://simpatico.morelab.deusto.es/qae',
+    endpoint: 'https://simpatico.hi-iberia.es:4570/qae',
     primaryColor: "#24BCDA",
     secondaryColor:"#D3F2F8",
     elementsToEnhanceClassName: "simp-text-paragraph",
@@ -58,9 +58,9 @@ function initFeatures() {
   // - dialogTitle: Title of the dialog box of CDV component
   // - tabPFieldsTitle: tab label of personal data
   cdvUI.getInstance().init({
-    endpoint: 'http://localhost:8080',
+    endpoint: 'https://simpatico.hi-iberia.es:4570',
     serviceID: simpaticoEservice,
-    serviceURL: 'http://localhost:8080/IFE/index_demo.html',
+    serviceURL: 'https://simpatico.hi-iberia.es:4570/IFE/'+simpaticoEservice+'_es.html',
     dataFields: simpaticoMapping,
     cdvColor: '#008000',
     dialogTitle: 'Citizen Data Vault',
@@ -85,7 +85,7 @@ function initFeatures() {
   // - simplifyBoxTitle: Title of the box which shows the simplifications
   // - wordPropertiesClassName: The CSS class of the word properties box
   taeUI.getInstance().init({
-    endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
+    endpoint: 'https://simpatico.hi-iberia.es:4570/simp-engines/tae',
     language: '',
     primaryColor: "#DE453E",
     secondaryColor:"#F0ABA8",
@@ -106,7 +106,7 @@ function initFeatures() {
   // - notextMessage: label of 'no text selected' hint
   taeUIPopup.getInstance().init({
 		lang: 'it',
-		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
+		endpoint: 'https://simpatico.hi-iberia.es:4570/simp-engines/tae',
 		dialogTitle: 'Text Enrichment',
 		tabDefinitionsTitle: 'Definitions',
 		tabSimplificationTitle: 'Simplification',
@@ -121,7 +121,7 @@ function initFeatures() {
   // - topBarHeight: height of the bar to control the scroll
   // - errorLabel: map with blockId - error message in case of block precondition fails
   waeUI.getInstance().init({
-		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/wae',
+		endpoint: 'https://simpatico.hi-iberia.es:4570/simp-engines/wae',
 		prevButtonLabel: 'Previous',
 		nextButtonLabel: 'Next',
 		topBarHeight: 60,

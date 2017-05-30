@@ -11,7 +11,7 @@ var sfCORE = (function () {
     function selectDialog (ctzSelected, simplificationSelected, timeoutExceeded, userId) {
       // Check which dialog show
       // Lang possible values: es, en (default), it
-      var lang = "en"; // TODO: How to get this
+      var lang = "es"; // TODO: How to get this
       $.get(endpoint + "/sf/selectdialog?id="+userId+"&ctz="+ctzSelected+"&simpl="+simplificationSelected+"&timeout="+timeoutExceeded+"&lang="+lang,
         function (modalChosen) {
           showFeedbackDialog(modalChosen, lang);
@@ -26,11 +26,12 @@ var sfCORE = (function () {
 
       $('<div id="dialogSF" />').html(modalChosen).dialog({
   			title: title_modal_session_feedback,
-      	  	modal: true,
+      	modal: true,
   			resizable: true,
   			height: "auto",
   			width: 600
       });
+      $('.ui-dialog').css('zIndex', '10000');
       $('#dialogSF').show();
       $('#dialogSF #button_cancel_session_feedback_text').off('click').on('click', function () {
     	  $('#dialogSF').dialog("destroy").remove();

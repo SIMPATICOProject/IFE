@@ -16,7 +16,6 @@ var logCORE = (function () {
 
   // for test purposes. Set to true if no LOG component is available
   var TEST_MODE = false;
-
 	var serverEndpoint = '';
 	var ctzpEndpoint = '';
 	var taeEndpoint = '';
@@ -25,7 +24,7 @@ var logCORE = (function () {
 	var sfEndpoint = '';
 	var logsEndpoint = '';
 
-  var start;
+    var start;
 
 	var log = function(url, data) {
     if (TEST_MODE) return;
@@ -33,6 +32,7 @@ var logCORE = (function () {
 		var token = authManager.getInstance().getToken();
 		var userId = authManager.getInstance().getUserId();
 		data.userID = userId;
+		
 		$.ajax({
 			url: url,
 			type: 'POST',
@@ -66,9 +66,9 @@ var logCORE = (function () {
 		logTermRequest: function(eservice, contentId, term) {
 			log(ctzpEndpoint+'/termrequest', {'e-serviceID': eservice, annotableElementID: contentId, selected_term: term});
 		},
-    logNewAnswer: function(eservice, contentId, questionId) {
-      log(ctzpEndpoint+'/newanswer', {'e-serviceID': eservice, annotableElementID: contentId, questionID: questionId});
-    }
+	    logNewAnswer: function(eservice, contentId, questionId) {
+	      log(ctzpEndpoint+'/newanswer', {'e-serviceID': eservice, annotableElementID: contentId, questionID: questionId});
+	    }
 	};
 	var taeLogger = {
 		logParagraph: function(eservice, paragraphID) {
@@ -109,9 +109,9 @@ var logCORE = (function () {
 			var ts = new Date().getTime();
 			log(ifeEndpoint+'/formend', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
 		},
-    clicks: function(eservice, contentId, clicks) {
-      log(ifeEndpoint+'/clicks', {'e-serviceID': eservice, annotableElementID: contentId, clicks: clicks});
-    }
+	    clicks: function(eservice, contentId, clicks) {
+	      log(ifeEndpoint+'/clicks', {'e-serviceID': eservice, annotableElementID: contentId, clicks: clicks});
+	    }
 	}
 	var sfLogger = {
 		feedbackEvent: function(eservice, complexity) {
@@ -191,7 +191,7 @@ var logCORE = (function () {
         waeLogger: waeLogger,
         ifeLogger: ifeLogger,
         sfLogger: sfLogger
-      };
+    };
   }
   return {
     getInstance: function() {

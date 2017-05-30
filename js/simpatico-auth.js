@@ -8,8 +8,8 @@ var authManager = (function () {
     var featureEnabled = true;
     // Component-related variables
     var userdataElementID = 'simp-usr-data'
-    var ifeClientID = '65b4f53f-76a7-47cf-94ce-c82db0c8dea9'
-    var endpoint = 'http://localhost:8080/aac'
+    var ifeClientID = ''
+    var endpoint = 'https://simpatico.hi-iberia.es:4570/aac/'
     var authority = 'google';
     var redirect = null;
 
@@ -49,8 +49,7 @@ var authManager = (function () {
       var url = endpoint + '/eauth/authorize' + authority + '?' +
                     'response_type=token' +
                     '&redirect_uri=' + redirect + // login window URL
-                    '&client_id=' + ifeClientID; //Client id from the AAC console
-	   console.log(url);				
+                    '&client_id=' + ifeClientID; //Client id from the AAC console			
 
       var win = window.open(url, 'AuthPopup', 'width=1024,height=768,resizable=true,scrollbars=true,status=true');
 
