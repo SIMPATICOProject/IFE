@@ -230,17 +230,23 @@ The WAE IFE module requires the TAE/WAE component already installed and made ava
 To configure the WAE component it is necessary to setup waeUI module:
 ```JavaScript
   waeUI.getInstance().init({
+		lang: 'en',
 		endpoint: 'https://he-wae-instance-endpoint.com/simp-engines/wae',
 		prevButtonLabel: 'Previous',
 		nextButtonLabel: 'Next',
+		lastButtonLabel: 'Done',
+		descriptionLabel: 'Description',
 		topBarHeight: 60,
 		errorLabel: ERROR_LABELS
   });
 ```
 Parameters:
+* **lang**: the language of the text to be adapted by the WAE instance
 * **endpoint**: the main URL of the used WAE instance
 * **prevButtonLabel**: Label for 'previous step' button
 * **nextButtonLabel**: Label for 'next step' button
+* **lastButtonLabel**: Label for 'last step' button
+* **descriptionLabel**: Label for 'description' block header
 * **topBarHeight**: height of the bar to control the scroll
 * **errorLabel**: refernce to the error labels global configuration
 
@@ -285,7 +291,18 @@ To configure the CDV component it is necessary to setup cdvUI module:
     dialogSaveMessage: 'I tuoi dati sono stati salvati con successo al tuo Data Vault.',
     statusMessageNoAccount: "Nessun account CDV e' associato a te. Crearne uno?",
     statusMessageNoActive: "CDV non e' abilitato per questo servizio. Abilitare?",
-    tabSettingsTitle: 'Impostazioni'
+    tabSettingsTitle: 'Impostazioni',
+    buttonSave: 'Salva i tuoi dati',
+    labelAccount : 'Account',
+    buttonRemoveAccount: 'Rimuovi account',
+    buttonActivateCDV: 'Abilita gestione dati personali',
+    labelExport : 'Esportazione',
+    buttonExport: 'Esporta i tuoi dati',
+    buttonActivate: 'Crea account',
+    msgConfirmRemove: "<p> Sei sicuro di voler rimuovere l'account?</p><p>I tuoi dati personali salvati in Citizen Data Vault saranno cancellati. </p><p>Premere 'OK' per procedere...</p>",
+    dialogRemoveTitle: 'Rimuovi account',
+    buttonOK : 'OK',
+    buttonCANCEL: 'Annula'
     
   });
 ```
@@ -303,6 +320,17 @@ Parameters:
 * **statusMessageNoAccount**: message that the account is not enabled.
 * **statusMessageNoActive**: message that the e-service is not enabled for the user in CDV.
 * **tabSettingsTitle**: setting tab title 
+* **buttonSave**: save button label,
+* **labelAccount**: account label,
+* **buttonRemoveAccount**: 'Remove account' button label,
+* **buttonActivateCDV**: CDV activation button label,
+* **labelExport**: data export label,
+* **buttonExport**: data export button label,
+* **buttonActivate**: 'Create account' button label,
+* **msgConfirmRemove**: 'Remove account' dialog text,
+* **dialogRemoveTitle**: 'Remove account' dialog title,
+* **buttonOK**: OK button label,
+* **buttonCANCEL**: 'cancel' button label
 
 ### 2.6. Configure Session Feedback Module
 
