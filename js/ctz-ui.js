@@ -80,6 +80,8 @@ var citizenpediaUI = (function () {
         paragrapId++;
       }
 
+      qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, drawDiagramNotification);
+
     }
   
     function disableComponentFeatures() {
@@ -218,16 +220,18 @@ var citizenpediaUI = (function () {
             diagramNode.parentNode.appendChild(diagramContainer); 
         }
         // Attach the corresponding CPD elements
-        var content = '<a href="' + response["url"] + '">' +                            
-                            '<img ' +
+        //document.getElementById(\'cpdsvg\').style.display = \"block\";
+        var content = '<img ' +
+                              'onClick="document.getElementById(\'cpdsvg\').style.display == \'none\' ? document.getElementById(\'cpdsvg\').style.display = \'block\' : document.getElementById(\'cpdsvg\').style.display = \'none\'"' +
                               'src="' + diagramNotificationImage + '" ' +
                               'wigth="40" ' +
                               'height="40"' +
                               'title="' + diagramNotificationText + '" ' +  
-                              'alt="' + diagramNotificationText + '" ' +
-                      '</a>'
+                              'alt="' + diagramNotificationText + '" >' +
+                      '<a href="' + response["url"] + '">' +
+                        '<img id="cpdsvg" style="display:none;" src="' + response["svg"] + '">' +
+                      '</a>';
         diagramContainer.innerHTML = content;
-        diagramURL = response["url"];
       }
     }
 
