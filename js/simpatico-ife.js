@@ -15,7 +15,7 @@ function initFeatures() {
   // - redirect: url redirect (default is /IFE/login.html)
   authManager.getInstance().init({
     endpoint: 'https://simpatico.hi-iberia.es:4570/aac/',
-    clientID: '',
+    clientID: '5c24dd95-a1b4-4208-ab5a-ce288963fe28',
     authority: "google"
   });
 
@@ -37,13 +37,13 @@ function initFeatures() {
   // - diagramNotificationClassName: The CSS class of the img shown when a diagram is found
   // - diagramNotificationText: The text to notify that a diagram
   citizenpediaUI.getInstance().init({
-    endpoint: 'https://simpatico.hi-iberia.es:4570/qae',
+    endpoint: 'https://simpatico.hi-iberia.es:4569/qae',
     primaryColor: "#24BCDA",
     secondaryColor:"#D3F2F8",
     elementsToEnhanceClassName: "simp-text-paragraph",
     questionsBoxClassName: "simp-ctz-ui-qb",
-    questionsBoxTitle: "RELATED QUESTIONS",
-    addQuestionLabel: "+ Add new question",
+    questionsBoxTitle: "Preguntas relacionadas", //"RELATED QUESTIONS",
+    addQuestionLabel: "+ Añadir nueva pregunta", //"+ Add new question",
     diagramNotificationImage: "./img/diagram.png",
     diagramNotificationClassName: "simp-ctz-ui-diagram",
     diagramNotificationText: "There is one diagram related to this e-service in Citizenpedia"
@@ -227,7 +227,7 @@ function initFeatures() {
                   disable: function() { cdvUI.getInstance().disable(); }
                 },
                 { // workflow adaptation. Switch to the modality, where the form adaptation starts
-                  id: 'workflow',
+                  id: 'workflow1',
                   imageSrcEnabled: "./img/forms.png",
                   imageSrcDisabled: "./img/forms.png",
                   alt: "Semplifica processo",

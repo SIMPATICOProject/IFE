@@ -8,7 +8,7 @@ var authManager = (function () {
     var featureEnabled = true;
     // Component-related variables
     var userdataElementID = 'simp-usr-data'
-    var ifeClientID = ''
+    var ifeClientID = '5c24dd95-a1b4-4208-ab5a-ce288963fe28'
     var endpoint = 'https://simpatico.hi-iberia.es:4570/aac/'
     var authority = 'google';
     var redirect = null;

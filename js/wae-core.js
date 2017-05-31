@@ -86,7 +86,7 @@ var waeEngine = new function() {
 	this.getSimpaticoContainer = getSimpaticoContainer;
 
 	function loadModel(uri, idProfile, callback, errorCallback) {
-		var url = endpoint + "/model/page?uri=" + uri + (!!idProfile ? ("&idProfile="+idProfile) : "");
+/*		var url = endpoint + "/model/page?uri=" + uri + (!!idProfile ? ("&idProfile="+idProfile) : "");
 		$.getJSON(url)
 	  .done(function(json) {
 	  	workflowModel = json;
@@ -104,6 +104,7 @@ var waeEngine = new function() {
 	  	console.log(textStatus + ", " + error);
 	  	if (errorCallback) errorCallback(textStatus + ", " + error);
 	  });
+*/	  
 	};
 	/**
 	 * LOAD ADAPTED WORKFLOW MODEL FOR THE SPECIFIED FORM AND USER
