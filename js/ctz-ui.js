@@ -44,7 +44,6 @@ var citizenpediaUI = (function () {
       qaeCORE.getInstance().init({
           endpoint: parameters.endpoint
         });
-      qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, drawDiagramNotification);
     }
     
     function enableComponentFeatures() {
