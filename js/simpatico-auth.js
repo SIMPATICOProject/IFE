@@ -8,9 +8,13 @@ var authManager = (function () {
     var featureEnabled = true;
     // Component-related variables
     var userdataElementID = 'simp-usr-data'
-    var ifeClientID = '5c24dd95-a1b4-4208-ab5a-ce288963fe28'
     var endpoint = 'https://simpatico.hi-iberia.es:4570/aac/'
+    // Google
+    var ifeClientID = '5c24dd95-a1b4-4208-ab5a-ce288963fe28'
     var authority = 'google';
+    // Internal
+    //var ifeClientID = '73ed521f-06a8-429e-80cc-dfe361fd801c'
+    //var authority = 'internal';
     var redirect = null;
 
     function initComponent(parameters) {
@@ -107,7 +111,7 @@ var authManager = (function () {
               return;
           }
           userData = data;
-          document.getElementById(userdataElementID).innerHTML = 'Hello, ' + data.name + ' '+ data.surname;
+          document.getElementById(userdataElementID).innerHTML = 'Hola, ' + data.name + ' '+ data.surname;
           document.getElementById(userdataElementID).style = "display:block";
           enablePrivateFeatures();
           featureEnabled = true;

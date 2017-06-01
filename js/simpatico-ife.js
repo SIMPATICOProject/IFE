@@ -15,8 +15,12 @@ function initFeatures() {
   // - redirect: url redirect (default is /IFE/login.html)
   authManager.getInstance().init({
     endpoint: 'https://simpatico.hi-iberia.es:4570/aac/',
+    // Google
     clientID: '5c24dd95-a1b4-4208-ab5a-ce288963fe28',
     authority: "google"
+    // Internal
+    //clientID: '73ed521f-06a8-429e-80cc-dfe361fd801c',
+    //authority: "internal"
   });
 
     // Init the LOG component (see log-core.js)

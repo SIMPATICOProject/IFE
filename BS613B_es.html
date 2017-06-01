@@ -50,7 +50,7 @@
         <script>
         $(document).ready(function () {
 
-          $("#BS613BFICHA").click(function(e) {
+          $("#BS613BFICHA,#inicioSolicitudeLateralPDF").click(function(e) {
             window.open('BS613B/BS613B.html', '_blank');     // Open in new tab
             //window.location.href = "solicitud/BS613B.html";   // Open same tab
           });
@@ -107,25 +107,16 @@
               var u="//simpatico.hi-iberia.es:4570/piwik/";
               _paq.push(['setTrackerUrl', u+'piwik.php']);
               _paq.push(['setSiteId', '1']);
+
+              // We will also collect the website data into Website ID = 3
+              var websiteIdDuplicate = 3;
+              // The data will be duplicated into `piwik.example.org/piwik.php`
+              _paq.push(['addTracker', piwikUrl = u+'piwik.php', websiteIdDuplicate]);
+              // Your data is now tracked in both website ID 1 and website 3 into your piwik.example.org server!
+
               var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
               g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
             })();
-        </script>
-        <!-- End Piwik Code -->
-
-        <!-- Piwik BS613B -->
-        <script type="text/javascript">
-          var _paq = _paq || [];
-          /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-          _paq.push(['trackPageView']);
-          _paq.push(['enableLinkTracking']);
-          (function() {
-            var u="//simpatico.hi-iberia.es:4570/piwik/";
-            _paq.push(['setTrackerUrl', u+'piwik.php']);
-            _paq.push(['setSiteId', '3']);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-          })();
         </script>
         <!-- End Piwik Code -->
 

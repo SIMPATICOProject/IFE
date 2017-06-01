@@ -70,6 +70,14 @@ var taeUI = (function () {
         paragraphs[i].setAttribute("onclick", 
           "taeUI.getInstance()." + 
               "paragraphEvent('" + paragraphName + "');");
+
+  var loadingImage = document.createElement("img");
+        loadingImage.setAttribute("src", "img/loader.gif");
+        loadingImage.setAttribute("id", "loading_"+paragraphName);
+        loadingImage.style.display = "none";
+
+        paragraphs[i].appendChild(loadingImage);
+
         paragrapId++;
       }
     }
@@ -95,7 +103,7 @@ var taeUI = (function () {
 
     // It uses the log component to register the produced events
     var logger = function(event, details) {
-	    var nop = function(){};
+      var nop = function(){};
       if (logCORE != null) return logCORE.getInstance().taeLogger;
       else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
     }
@@ -133,6 +141,17 @@ var taeUI = (function () {
     // - originalText: the original text contained in a paragraph
     // - simplifications: A list of simplified words of the text
     function createSimplifiedTextHTML(originalText, simplifications) {
+      // We need to do this to assure that the array comes ordered by start position
+      Array.prototype.keySort = function(key, desc){
+        this.sort(function(a, b) {
+          var result = desc ? (a[key] < b[key]) : (a[key] > b[key]);
+          return result ? 1 : -1;
+        });
+        return this;
+      }
+
+      simplifications.keySort('start');
+
       var result = originalText;
       var item = '';
       // for each simplified word add an element containing it
@@ -246,6 +265,7 @@ var taeUI = (function () {
       // 3. The Simplification Box div is attached to the corresponding paragraph
       questionsBox.innerHTML = questionsHtml;
       document.getElementById(paragraphID).appendChild(questionsBox);
+      document.getElementById('loading_'+paragraphID).style.display = "none";
     } //showSimplificationBox
 
     // Hide the simplification box attached to a paragraph passed as paramether
