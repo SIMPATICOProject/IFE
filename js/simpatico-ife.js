@@ -54,7 +54,8 @@ function initFeatures() {
   cdvUI.getInstance().init({
     endpoint: 'http://localhost:8080',
     serviceID: simpaticoEservice,
-    serviceURL: 'http://localhost:8080/IFE/index_demo.html',
+	serviceName: serviceName,
+    serviceURL: serviceURL,
     dataFields: simpaticoMapping,
     cdvColor: '#008000',
     dialogTitle: 'Citizen Data Vault',
@@ -66,7 +67,8 @@ function initFeatures() {
     dialogSaveMessage: 'Data saved successfully into your Data Vault.',
     statusMessageNoAccount: "No CDV Account associated to you. Create?",
     statusMessageNoActive: "CDV is not active for this service. Activate?",
-    tabSettingsTitle: 'Settings'
+    tabSettingsTitle: 'Settings',
+	cdvDashUrl:'http://localhost:8080/cdv-dashboard/index.html'
   });
 
   // Init the Text Adaptation Engine component (see tae-ui.js)

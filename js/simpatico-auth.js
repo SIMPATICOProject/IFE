@@ -71,7 +71,8 @@ var authManager = (function () {
     function handleSignoutClick(event) {
       if (!featureEnabled) return;
       localStorage.userData = '';
-      updateUserData();
+	  localStorage.aacTokenData = '';
+	  updateUserData();
     }
 
     // It checks if the corresponding user is previously loged in and updates the view accordingly 

@@ -12,7 +12,7 @@
 var cdvUI = (function () {
 	var instance; // Singleton Instance of the UI component
 	var featureEnabled = false;
-
+    var dialog_cdv = null;
 	function Singleton() {
 
 		var colors = {
@@ -36,13 +36,14 @@ var cdvUI = (function () {
 		};
 
 		var dataFields = [];
+		var cdvDashUrl = "#";
 
 		/**
 		 * CURRENTLY SELECTED FIELD
 		 */
 		var selectedField = null;
 
-		var dialog_cdv = null;
+		
 
 		/**
 		 * INITIALIZE UI COMPONENT.
@@ -51,13 +52,20 @@ var cdvUI = (function () {
 		 */
 		function initComponent(parameters) {
 
+			if (parameters.cdvDashUrl) {
+				cdvDashUrl = parameters.cdvDashUrl;
+			}
+			
 			if (parameters.dataFields) {
 				dataFields = parameters.dataFields;
 			}
+			
+			cdvDashUrl: parameters.cdvDashUrl
 
 			cdvCORE.getInstance().init({
 				endpoint: parameters.endpoint,
 				serviceID: parameters.serviceID,
+				serviceName: parameters.serviceName,
 				dataFields: parameters.dataFields,
 				serviceURL: parameters.serviceURL,
                 cdvDashUrl: parameters.cdvDashUrl
@@ -96,12 +104,16 @@ var cdvUI = (function () {
 
 				dialog_cdv.dialog("open");
 				
+				
 
 			}
 			highlightFields(dataFields, true);
+			$(document.body).append('<div id="cdv_toolbar_buttons" style="z-index: 999;position: fixed;right: 0px;top: 60px;width: auto;height: auto;padding: 0px;"><button title="Open CDV" onClick="toggleDialog();" name="Open CDV">&#9776; CDV Menu</button></div>');
+			
 
 		}
-
+		
+		
 		function disableComponentFeatures() {
 			if (!featureEnabled)
 				return;
@@ -112,6 +124,7 @@ var cdvUI = (function () {
 			if (dialog_cdv) {
 				dialog_cdv.dialog("destroy");
 				dialog_cdv=null;
+				$('#cdv_toolbar_buttons').remove();
 			}
 
 		}
@@ -249,7 +262,7 @@ var cdvUI = (function () {
 			    fieldSelect1 += ' <button class="ui-button ui-widget ui-corner-all" onClick="confirmRemoveAccount();">Remove Account</button>';
 
 				fieldSelect2 += ' <button on-click class="ui-button ui-widget ui-corner-all" onClick="cdvCORE.getInstance().exportData();">Export your data</button>';
-				fieldSelect3 += ' <button class="ui-button ui-widget ui-corner-all" onClick="openCDV()">Manage your Data</button>';
+				fieldSelect3 += ' <button class="ui-button ui-widget ui-corner-all" onClick="openCDV(\''+cdvDashUrl+'\')">Manage your Data</button>';
 
 				
 				
@@ -289,6 +302,7 @@ var cdvUI = (function () {
 						'			<p>' + entryMessage + '</p>' +
 						'			<br>' +
 						'			<p>' + statusMessage + '</p>' +
+						'			<hr><p style="float: right; font-style: italic;"><a>Informed Consent</a> - <a>Privacy Policy</a></p>' +
 						'		</div>' +
 						'		<div id="tab-setting">' +
 						'			<p>Loading...</p>' +
@@ -298,22 +312,25 @@ var cdvUI = (function () {
 						dialogClass: "no-close",
 						autoOpen: false,
 						modal: false,
-						closeOnEscape: false,
-						resizable: true,
+						closeOnEscape: true,
+						resizable: false,
+						draggable: false,
 						height: "auto",
 						position: {
 							my: "right top",
 							at: "right bottom",
 							of: "#simp-bar"
 						},
-						width: 600,
+						width: 310,
 						show: {
-							effect: "blind",
-							duration: 200
+							effect: "slide",
+							duration: 200,
+							direction: 'right'
 						},
 						hide: {
-							effect: "blind",
-							duration: 200
+							effect: "slide",
+							duration: 200,
+							direction: 'right'
 						},
 						
 						open: function(){
@@ -547,3 +564,12 @@ function confirmRemoveAccount(){
 			dialog_saved.dialog("open");
 
 		}
+		
+function toggleDialog(){
+			
+	if ($('#dialog-cdv').dialog('isOpen') === true) {
+	  $('#dialog-cdv').dialog("close"); 
+	} else {
+	  $('#dialog-cdv').dialog("open"); 
+	   }
+}
