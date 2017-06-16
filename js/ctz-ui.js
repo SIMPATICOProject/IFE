@@ -108,10 +108,11 @@ var citizenpediaUI = (function () {
 
 
     // It uses the log component to register the produced events
-  	var logger = function(event, details) {
-	  var nop = function(){};
-      if (logCORE != null) return logCORE.getInstance().ctzpLogger;
-      else return {logContentRequest: nop, logQuestionRequest: nop, logNewQuestionRequest: nop, logTermRequest: nop};
+    // - paragraphName: the id of the paragraph which has produced the event
+    // - event: type of the produced event
+    // - details: details of the produced event (e.g. the question Id)
+    function log(paragraphName, event, details) {
+      if (logUI != null) logUI.getInstance().logSimpaticoEvent("CTZ", paragraphName, event, details);
     }
 
     // If the Component feature is enabled it calls to the Citizenpedia instance to 
@@ -121,7 +122,7 @@ var citizenpediaUI = (function () {
     function paragraphEvent(paragraphName) {
       if (!featureEnabled) return;
       if (document.getElementById(paragraphName + "_questions") === null) {
-        logger().logContentRequest(simpaticoEservice, paragraphName);
+        log(paragraphName, "citizenpedia_content_request", "");
         qaeCORE.getInstance().getQuestions(simpaticoEservice, paragraphName, drawQuestionsBox);
       } else {
         hideQuestionsBox(paragraphName);
@@ -132,7 +133,7 @@ var citizenpediaUI = (function () {
     // - paragraphName: the id of the paragraph which has produced the event
     function createNewQuestionEvent(paragraphName) {
       if (!featureEnabled) return;
-      logger().logNewQuestionRequest(simpaticoEservice, paragraphName);
+      log(paragraphName, "citizenpedia_new_question", "");
     }
 
 
@@ -141,7 +142,7 @@ var citizenpediaUI = (function () {
     // - questionID: the id of the question which is the user interested in
     function showQuestionDetailsEvent(paragraphName, questionID) {
       if (!featureEnabled) return;
-      logger().logQuestionRequest(simpaticoEservice, paragraphName, questionID);
+      log(paragraphName, "citizenpedia_question_request", questionID);
     }    
 
     // Draw the questions box
@@ -177,7 +178,7 @@ var citizenpediaUI = (function () {
       questionsHtml += '<li>'
       questionsHtml +=    '<a onclick="citizenpediaUI.getInstance().createNewQuestionEvent(\'' + paragraphName + '\');" ' +
                               'href="' + qaeCORE.getInstance().createNewQuestionURL(
-                                  simpaticoCategory,
+                                  "Benestar", // TO-DO: Remove the hardcoded element
                                   simpaticoEservice,
                                   paragraphName, 
                                   document.getElementById(paragraphName).textContent) + '" target="_blank">' +

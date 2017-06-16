@@ -12,122 +12,15 @@
 var logCORE = (function () {
   var instance;
   function Singleton () {
-	// Variables to store the used API and URL paths
-	var insertLogEventAPI = '';
 
-    // for test purposes. Set to true if no LOG component is available
-    var TEST_MODE = false;
-
-	var serverEndpoint = '';
-	var ctzpEndpoint = '';
-	var taeEndpoint = '';
-	var waeEndpoint = '';
-	var ifeEndpoint = '';
-	var sfEndpoint = '';
-	var logsEndpoint = '';
-
-	var log = function(url, data) {
-      if (TEST_MODE) return;
-
-		var token = authManager.getInstance().getToken();
-		var userId = authManager.getInstance().getUserId();
-		data.userID = userId;
-		$.ajax({
-			url: url,
-			type: 'POST',
-			data: JSON.stringify(data),
-			contentType: "application/json; charset=utf-8",
-			dataType: 'json',
-			success: (function (resp) {
-				console.log(resp);
-
-			}),
-			error: function (jqxhr, textStatus, err) {
-				console.log(textStatus + ", " + err);
-			},
-			beforeSend: function (xhr) {
-				xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-
-			}
-
-		});
-	}
-
-	var ctzpLogger = {
-		logContentRequest: function(eservice, contentId) {
-			log(ctzpEndpoint+'/contentrequest', {'e-serviceID': eservice, annotableElementID: contentId});
-		},
-		logQuestionRequest: function(eservice, contentId, questionId) {
-			log(ctzpEndpoint+'/questionrequest', {'e-serviceID': eservice, annotableElementID: contentId, questionID: questionId});
-		},
-		logNewQuestionRequest: function(eservice, contentId) {
-			log(ctzpEndpoint+'/newquestion', {'e-serviceID': eservice, annotableElementID: contentId});
-		},
-		logTermRequest: function(eservice, contentId, term) {
-			log(ctzpEndpoint+'/termrequest', {'e-serviceID': eservice, annotableElementID: contentId, selected_term: term});
-		},
-	};
-	var taeLogger = {
-		logParagraph: function(eservice, paragraphID) {
-			log(taeEndpoint+'/paragraph', {'e-serviceID': eservice, paragraphID: paragraphID});
-		},
-		logPhrase: function(eservice, phraseID) {
-			log(taeEndpoint+'/phrase', {'e-serviceID': eservice, phraseID: phraseID});
-		},
-		logWord: function(eservice, wordID) {
-			log(taeEndpoint+'/word', {'e-serviceID': eservice, wordID: wordID});
-		},
-		logFreetext: function(eservice, selected_text) {
-			log(taeEndpoint+'/freetext', {'e-serviceID': eservice, selected_text: selected_text});
-		}
-	}
-	var waeLogger = {
-		logWae: function(eservice) {
-			log(waeEndpoint, {'e-serviceID': eservice, timestamp: ''+new Date().getTime()});
-		}
-	}
-	var ifeLogger = {
-		sessionStart: function(eservice) {
-			var ts = new Date().getTime();
-			// record session start for sessionEnd reference
-			localStorage.logSessionStart = ts;
-			log(ifeEndpoint+'/sessionstart', {'e-serviceID': eservice, timestamp: ''+ts});
-		},
-		sessionEnd: function(eservice) {
-			var ts = parseInt(localStorage.logSessionStart || (''+new Date().getTime()));
-			var diff = new Date().getTime() - ts;
-			log(ifeEndpoint+'/sessionend', {'e-serviceID': eservice, timestamp: ''+ts, sessionDuration: ''+diff, averageTime: diff});
-		},
-		formStart: function(eservice, form) {
-			var ts = new Date().getTime();
-			log(ifeEndpoint+'/formstart', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
-		},
-		formEnd: function(eservice, form) {
-			var ts = new Date().getTime();
-			log(ifeEndpoint+'/formend', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
-		}
-	}
-	var sfLogger = {
-		feedbackEvent: function(eservice, complexity) {
-			log(sfEndpoint, {'e-serviceID': eservice, complexity: complexity});
-		},
-		feedbackData: function(eservice, data) {
-			data['e-serviceID'] = eservice;
-			log(logsEndpoint, data);
-		}
-	}
+    // Variables to store the used API and URL paths
+    var insertLogEventAPI = '';
 
     // In inits the main used variables
     // In this case it generates the used API and URL paths
     // An object with an endpoint 
     function initComponent(parameters) {
       insertLogEventAPI = parameters.endpoint + '/logs/insert';
-      ctzpEndpoint = parameters.endpoint + '/ctzp/insert';
-      taeEndpoint = parameters.endpoint + '/tae/insert';
-      waeEndpoint = parameters.endpoint + '/wae/insert';
-      ifeEndpoint = parameters.endpoint + '/ife/insert';
-      sfEndpoint = parameters.endpoint + '/sf/insert';
-      logsEndpoint = parameters.endpoint + '/logs/insert';
     }
 
     // TODO: HIB - Implement it
@@ -175,12 +68,7 @@ var logCORE = (function () {
     return {
         init: initComponent,
         logSimpaticoEvent: logSimpaticoEvent,
-        logTimeEvent: logTimeEvent,
-        ctzpLogger: ctzpLogger,
-        taeLogger: taeLogger,
-        waeLogger: waeLogger,
-        ifeLogger: ifeLogger,
-        sfLogger: sfLogger
+        logTimeEvent: logTimeEvent
       };
   }
   return {

@@ -31,14 +31,7 @@ var authManager = (function () {
         redirect = arr[0] + '//' + arr[2] + '/IFE/login.html';
       }
     }
-
-	// It uses the log component to register the produced events
-	var logger = function(event, details) {
-	  var nop = function(){};
-      if (logCORE != null) return logCORE.getInstance().ifeLogger;
-      else return {sessionStart: nop, sessionEnd: nop, formStart: nop, formEnd: nop};
-    }
-
+      
 
     // Component-related methods and behaviour
     function handleAuthClick() {
@@ -54,43 +47,29 @@ var authManager = (function () {
 
       var win = window.open(url, 'AuthPopup', 'width=1024,height=768,resizable=true,scrollbars=true,status=true');
 
-      var processData = function(data) {
-        jQuery.ajax({
-		  url: endpoint + '/basicprofile/me',
-		  type: 'GET',
-		  dataType: 'json',
-		  success: function(data) {
-		    localStorage.userData = JSON.stringify(data);
-		    updateUserData();
-		  },
-		  error: function(err) {
-		    console.log(err);
-		  },
-		  beforeSend: function(xhr) {
-		    xhr.setRequestHeader('Authorization', 'Bearer ' + data.access_token);
-		  }
-		});
-		// add expiration timestamp with 1 hour buffer
-		data.expires_on = new Date().getTime() + parseInt(data.expires_in)*1000 - 1000*60*60*1;
-		localStorage.aacTokenData = JSON.stringify(data);
-      }
-
-      window.handleDataDirectly = function(dataStr) {
-    	  var data = JSON.parse(dataStr);
-    	  processData(data);
-    	  win.close();
-      }
       window.addEventListener('message', function (event) {
-    	  processData(event.data);
+        jQuery.ajax({
+          url: endpoint + '/basicprofile/me',
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            localStorage.userData = JSON.stringify(data);
+            updateUserData();
+          },
+          error: function(err) {
+            console.log(err);
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + event.data.access_token);
+          }
+        });
+        localStorage.aacTokenData = JSON.stringify(event.data);
       }, false);
     }
 
     // attach login flow to the sign-in button
     function handleSignoutClick(event) {
       if (!featureEnabled) return;
-
-      // log end of session
-      logger().sessionEnd(simpaticoEservice);
       localStorage.userData = '';
 	  localStorage.aacTokenData = '';
 	  updateUserData();
@@ -101,27 +80,11 @@ var authManager = (function () {
       console.log(">>> updateUserData()");
         var data = JSON.parse(localStorage.userData || 'null');
         if (!!data) {
-          var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
-          if (! tokenData || tokenData.expires_on < new Date().getTime()) {
-              localStorage.userData = '';
-              localStorage.aacTokenData = '';
-              updateUserData();
-              return;
-          }
           userData = data;
           document.getElementById(userdataElementID).innerHTML = 'Hello, ' + data.name + ' '+ data.surname;
           document.getElementById(userdataElementID).style = "display:block";
           enablePrivateFeatures();
           featureEnabled = true;
-
-          // session started successfully, log
-          logger().sessionStart(simpaticoEservice);
-          // if the e-service page is associated to the form, log the form start event
-          if (window.simpaticoForm) {
-              // log end of session
-        	  logger().formStart(simpaticoEservice, simpaticoForm);
-          }
-
         } else {
           document.getElementById(userdataElementID).innerHTML = "";
           disablePrivateFeatures();
@@ -137,15 +100,7 @@ var authManager = (function () {
       disable: handleSignoutClick,  // When the CB. is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       // More component related public methods
-      updateUserData: updateUserData,
-      getUserId: function() {
-          var data = JSON.parse(localStorage.userData || 'null');
-          return !!data ? data.userId : null
-      },
-      getToken: function() {
-          var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
-    	  return !!tokenData ? tokenData.access_token : null;
-      }
+      updateUserData: updateUserData
     };
   }
   

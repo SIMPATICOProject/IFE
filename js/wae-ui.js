@@ -37,12 +37,6 @@ var waeUI = (function () {
 		errorLabel = config.errorLabel;
 	}
 
-	// It uses the log component to register the produced events
-	var logger = function(event, details) {
-      if (logCORE != null) return logCORE.getInstance().waeLogger;
-      else return {logWae: function(){}};
-    }
-
 	
 	/**
 	 * LOAD MODEL FROM ENGINE
@@ -87,7 +81,6 @@ var waeUI = (function () {
 				showElement(key, "HIDE");
 			}
 		}
-		logger().logWae(simpaticoEservice);
 		waeEngine.nextBlock(doActions, moduleErrorMsg);
 	};
 	

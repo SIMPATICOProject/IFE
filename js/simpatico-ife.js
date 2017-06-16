@@ -19,12 +19,6 @@ function initFeatures() {
     authority: "google"
   });
 
-    // Init the LOG component (see log-core.js)
-  // - endpoint: the main URL of the used LOG instance
-  logCORE.getInstance().init({
-	  endpoint: "http://localhost:8080/IFE/index_demo.html"
-  });
-
   // Init the Citizenpedia component (see ctz-ui.js)
   // - endpoint: the main URL of the used Citizenpedia instance
   // - primaryColor: Color used to highlight the enhanced components
@@ -109,12 +103,12 @@ function initFeatures() {
   taeUIPopup.getInstance().init({
 		lang: 'it',
 		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/tae',
-		dialogTitle: 'Text Enrichment',
-		tabDefinitionsTitle: 'Definitions',
-		tabSimplificationTitle: 'Simplification',
+		dialogTitle: 'Arricchimento testo',
+		tabDefinitionsTitle: 'Definizioni',
+		tabSimplificationTitle: 'Semplificazione',
 		tabWikipediaTitle: 'Wikipedia',
-		entryMessage: 'Select a help method',
-		notextMessage: 'No text selected'
+		entryMessage: 'Scegli il tipo di aiuto',
+		notextMessage: 'Nessun testo selezionato'
 	});
   // Init the Workflow Adaptation Engine component (see wae-ui.js)
   // - endpoint: the main URL of the used WAE instance
@@ -124,19 +118,13 @@ function initFeatures() {
   // - errorLabel: map with blockId - error message in case of block precondition fails
   waeUI.getInstance().init({
 		endpoint: 'https://dev.smartcommunitylab.it/simp-engines/wae',
-		prevButtonLabel: 'Previous',
-		nextButtonLabel: 'Next',
+		prevButtonLabel: 'Precedente',
+		nextButtonLabel: 'Successivo',
 		topBarHeight: 60,
-		errorLabel: ERROR_LABELS
-  });
-
-  // Init the Session Feedback component (see sf-ui.js)
-  // - buttonToShowSfId: the id of the button/link that opens the dialog of the feedback form
-  // - apiEndpoint: the main URL of the logs API server (<site>/simpatico/api)
-  // NOTE: Requires jquery-ui to work properly
-  sfUI.getInstance().init({
-    buttonToShowSfId: 'Save',
-    apiEndpoint: 'http://localhost:8080',
+		errorLabel: {
+			'block1' : 'Manca il codice fiscale',
+			'block4' : 'Manca selezione Part-time / Full-time'
+		}
   });
 
   // Declare here the buttons that will be available in the Simpatico Bar
@@ -218,19 +206,6 @@ function initFeatures() {
                   isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
                   enable: function() { cdvUI.getInstance().enable(); },
                   disable: function() { cdvUI.getInstance().disable(); }
-                },
-                { // workflow adaptation. Switch to the modality, where the form adaptation starts
-                  id: 'workflow',
-                  imageSrcEnabled: "./img/forms.png",
-                  imageSrcDisabled: "./img/forms.png",
-                  alt: "Semplifica processo",
-                  // Ad-hoc css classes to define the enabled/disabled styles
-                  styleClassEnabled: "simp-bar-btn-active-wae",
-                  styleClassDisabled: "simp-bar-btn-inactive",
-
-                  isEnabled: function() { return waeUI.getInstance().isEnabled(); },
-                  enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
-                  disable: function() { waeUI.getInstance().disable(); }
                 }
             ];
 }//initFeatures()
@@ -269,9 +244,7 @@ function enablePrivateFeatures() {
   // For each button (without the login one) create and add the node
   var buttonsContainer = document.getElementById("simp-bar-container-left");
   for (var i = 1, len = buttons.length; i < len; i++) {
-	if (document.getElementById(buttons[i].id) == null) {
-		buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
-	}
+    buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
   }
 }//enablePrivateFeatures(id)
 

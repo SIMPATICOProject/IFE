@@ -68,7 +68,7 @@ var cdvUI = (function () {
 				serviceName: parameters.serviceName,
 				dataFields: parameters.dataFields,
 				serviceURL: parameters.serviceURL,
-				cdvDashUrl: parameters.cdvDashUrl
+                cdvDashUrl: parameters.cdvDashUrl
 			});
 
 			labels.dialogTitle = parameters.dialogTitle || labels.dialogTitle;
@@ -108,7 +108,7 @@ var cdvUI = (function () {
 
 			}
 			highlightFields(dataFields, true);
-			$(document.body).append('<div id="cdv_toolbar_buttons" style="z-index: 999;position: fixed;right: 0px;top: 60px;width: auto;height: auto;padding: 0px;"><button title="Open CDV" onClick="toggleDialog();" name="Open CDV">&#9776; CDV Menu</button></div>');
+			$(document.body).append('<div id="cdv_toolbar_buttons" style="z-index: 999;position: fixed;right: 0px;top: 52px;width: auto;height: auto;padding: 0px;"><button class="btn btn-primary pull-right" title="Open CDV" onClick="toggleDialog();" name="Open CDV">&#9776; CDV Menu</button></div>');
 			
 
 		}
@@ -196,22 +196,21 @@ var cdvUI = (function () {
 					propertyField=propertyField.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" );	
 					
 					datalisttemp += '<datalist id="datalist' + property.key + '">';
-					datalisttemp +='<select id='+property.key+' style="display: none;">';
+                    datalisttemp +='<select id='+property.key+' style="display: none;">';
 					for (field in property.values) {
 						datalisttemp += '<option>' + property.values[field] + '</option>';
 					}
 					datalisttemp += '</select></datalist>';
 					$('#' +propertyField).attr("list", "datalist" + property.key);
-
-					console.log(datalisttemp);
-					if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
-						 $('#' +propertyField).autocomplete({
-							 source: property.values,
-							 minLength: 0,
-							 }).focus(function () {
-							 $(this).autocomplete("search");
-						 });
-					}
+					
+                    if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+						$('#' +propertyField).autocomplete({
+							source: property.values,
+							minLength: 0,
+						  }).focus(function () {
+							$(this).autocomplete("search");
+						  });
+					 }
 				}
 				$(document.body).append(datalisttemp + '</div>');
 
@@ -303,7 +302,7 @@ var cdvUI = (function () {
 						'			<p>' + entryMessage + '</p>' +
 						'			<br>' +
 						'			<p>' + statusMessage + '</p>' +
-						'			<hr><p style="float: right; font-style: italic;"><a>Informed Consent</a> - <a>Privacy Policy</a></p>' +
+						'			<hr><p style="float: right; font-style: italic;"><a>Informed Consent</a> - <a onClick="showPrivacyPolicy();">Privacy Policy</a></p>' +
 						'		</div>' +
 						'		<div id="tab-setting">' +
 						'			<p>Loading...</p>' +
@@ -574,3 +573,26 @@ function toggleDialog(){
 	  $('#dialog-cdv').dialog("open"); 
 	   }
 }
+
+
+
+function showPrivacyPolicy(url, title){
+	var $dialog = $('<div></div>')
+			.load("informed_consent.html").dialog({
+				autoOpen: false,
+				title: "Privacy Policy",
+				width: 700,
+				height: 350,
+				modal: true,
+				buttons: {
+				"Consent": function() {
+				  $( this ).dialog( "close" );
+				}
+			  }
+			});
+	$dialog.dialog('open'); 
+	
+}
+
+
+

@@ -96,7 +96,6 @@ var taeEngine = ( function () {
 					    annotatedText = annotatedText + value.substring(index, value.length);
 					    callback(annotatedText);
 			    	} else {
-
 					    for (item in json.simplifications) {
 					    	if (json.simplifications[item].start == value.indexOf(data.word)) {
 					    		callback(' <a class="simpatico-label" title="' + json.simplifications[item].simplification + 
@@ -134,7 +133,6 @@ var taeEngine = ( function () {
 				    json.linkings.sort(compareLinkItem);
 				    var actualOffset = -1;
 				    var actualLinkItem = null;
-
 				    for (itemName in json.linkings) {
 				    	var item = json.linkings[itemName];
 				    	if(actualOffset == -1) {
@@ -165,7 +163,6 @@ var taeEngine = ( function () {
 				    //console.log('annotatedText ' + annotatedText);
 				    callback(annotatedText);		    	
 			    } else {
-
 				    for (itemName in json.linkings) {
 				    	var item = json.linkings[itemName];
 				    	if(item.offset == value.indexOf(data.word)) {
@@ -229,5 +226,4 @@ var taeEngine = ( function () {
 	      return instance;
 	    }
     };
-
 })();

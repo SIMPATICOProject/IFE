@@ -46,7 +46,6 @@ var taeCORE = ( function () {
       // text and the json response
       // When we have the TAE working we will change it
 
-
       // TODO: REMOVE [START]
       originalText = 'Ai sensi del regolamento per la disciplina del ' +
                       'sistema dei servizi socio educativi per la prima ' +
@@ -60,7 +59,6 @@ var taeCORE = ( function () {
       // TODO: REMOVE [END]
       // TODO: UNCOMMENT [BEGIN]
       /*
-
       jQuery.getJSON(simplifyTextURL + '?' +
                             'text="' + originalText +
                             '"&lang="' + language +
