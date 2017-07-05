@@ -37,44 +37,12 @@
       $("#btn_presentarElect,#btn2_presentarElect").click(function(e) {
         e.preventDefault();
 
-        sfUI.getInstance().showSF();
+        window.location.href = "BS613B_end_replica.html";
       });
     });    
   </script>
 
-<script>
-                    setInterval(function(){
-                        $("#button_send_session_feedback_text").off('click').on('click', function() {
-
-                        console.log("SendFeedback");
-                var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
-                var dataObj = {};
-                dataForms.each(function(idx, d) {
-                        var key = d.name ? d.name : d.id;
-                        if (d.type=='radio') {
-                                if (d.checked) dataObj[key] = d.value;
-                        } else {
-                        dataObj[key] = d.value;
-                        }
-                });
-                console.log("Sending:");
-                console.log(dataObj);
-                logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
-                // TODO: manage complexity correctly
-                complexity = 0;
-                logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
-
-      // Close dialog
-      $('#dialogSF').dialog("destroy").remove();
-
-                        window.location = "BS613B_end.html";
-                        });
-                    }, 1000);
-
-        </script>
-
-
-  <script type="text/javascript">
+<!--  <script type="text/javascript">
     var simpaticoEservice = "BS613B"; // Eservice 
     var simpaticoForm = "main";
     var simpaticoCategory = "Wellness"; // the general category of the e-service
@@ -83,9 +51,9 @@
         'block1' : 'Phone number is required'
     }
   </script>
-
+-->
   <!-- Injection of JS Libraries -->
-  <script src="../js/log-core.js"></script>
+<!--  <script src="../js/log-core.js"></script>
   <script src="../js/ctz-ui.js"></script>
   <script src="../js/ctz-core.js"></script>
   <script src="../js/cdv-ui-popup.js"></script>
@@ -105,9 +73,9 @@
   </script>
   <script src="../js/simpatico-ife.js"></script>
   <script src="../js/simpatico-auth.js"></script>
-
+-->
   <!-- Piwik ALL -->
-  <script type="text/javascript">
+<!--  <script type="text/javascript">
     var _paq = _paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
     _paq.push(['trackPageView']);
@@ -126,7 +94,7 @@
       var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
       g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
     })();
-  </script>
+-->  </script>
   <!-- End Piwik Code -->
 
 </head>
@@ -184,8 +152,8 @@
               <div class="fila">
                 <div class="botonera">
                   <button type="button" name="accion" value="presentarElect" id="btn_presentarElect" class="boton" onclick="" title=""> Presentar </button>
-                  <button type="button" name="accion" value="guardar" id="btn_guardar" class="boton " onclick="" title=""> Guardar </button>
-                  <button type="button" name="accion" value="cancel" id="btn_cancel" class="boton " onclick="" title=""> Cancelar </button>
+                  <button type="submit" name="accion" value="guardar" id="btn_guardar" class="boton " onclick="" title=""> Guardar </button>
+                  <button type="submit" name="accion" value="cancel" id="btn_cancel" class="boton " onclick="" title=""> Cancelar </button>
                 </div>
               </div>
 
@@ -2217,8 +2185,8 @@
               <div class="fila">
                 <div class="botonera">
                   <button type="submit" name="accion" value="presentarElect" id="btn2_presentarElect" class="boton " onclick="" title=""> Presentar </button>
-                  <button type="button" name="accion" value="guardar" id="btn2_guardar" class="boton " onclick="" title=""> Guardar </button>
-                  <button type="button" name="accion" value="cancel" id="btn2_cancel" class="boton " onclick="" title=""> Cancelar </button>
+                  <button type="submit" name="accion" value="guardar" id="btn2_guardar" class="boton " onclick="" title=""> Guardar </button>
+                  <button type="submit" name="accion" value="cancel" id="btn2_cancel" class="boton " onclick="" title=""> Cancelar </button>
                 </div>
               </div>
             </form> <!-- /#command -->

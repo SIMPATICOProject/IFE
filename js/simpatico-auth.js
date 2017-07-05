@@ -10,11 +10,11 @@ var authManager = (function () {
     var userdataElementID = 'simp-usr-data'
     var endpoint = 'https://simpatico.hi-iberia.es:4570/aac/'
     // Google
-    var ifeClientID = '5c24dd95-a1b4-4208-ab5a-ce288963fe28'
-    var authority = 'google';
+    //var ifeClientID = '5c24dd95-a1b4-4208-ab5a-ce288963fe28'
+    //var authority = 'google';
     // Internal
-    //var ifeClientID = '73ed521f-06a8-429e-80cc-dfe361fd801c'
-    //var authority = 'internal';
+    var ifeClientID = 'f21558f2-0992-47b1-85af-1ada614d8cc6'
+    var authority = 'internal';
     var redirect = null;
 
     function initComponent(parameters) {

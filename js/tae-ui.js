@@ -152,17 +152,26 @@ var taeUI = (function () {
 
       simplifications.keySort('start');
 
+      if (simplifications.length == 0)
+
+      {
+	var result = 'No hay palabras que necesiten ser simplificadas';
+      }else{
+
+
       var result = originalText;
       var item = '';
       // for each simplified word add an element containing it
       for (var i = simplifications.length -1; i >= 0; i--) {
         item = simplifications[i];
+	console.log(item);
         result = result.substring(0, item.start) + 
                       createSimplifiedWordLabel(item) + 
                         result.substring(item.end, result.length);
       }
-      return result;
-    }
+      }// if simplifications.length
+ return result;
+}
 
 
     // Method used to cancel the propagation of the events
@@ -217,11 +226,11 @@ var taeUI = (function () {
       // Update the content
       currentBox.innerHTML = '<b>' + wordHTMLelement.innerText + '</b></br>';
       if (definition != null) // If the word has definition show it
-        currentBox.innerHTML += '<i>' + 'Definition:' + '</i>' 
+        currentBox.innerHTML += '<i>' + 'Definición:' + '</i>' 
                                 + definition 
                                 + '</br>';
       if (synonyms != null) // If the word has synonyms show them
-        currentBox.innerHTML += '<i>' + 'Synonyms:' + '</i>' + synonyms;
+        currentBox.innerHTML += '<i>' + 'Sinónimos:' + '</i>' + synonyms;
 
       logger().logWord(simpaticoEservice, wordHTMLelement.innerHTML);
     }

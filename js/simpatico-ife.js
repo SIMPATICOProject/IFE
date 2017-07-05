@@ -16,11 +16,11 @@ function initFeatures() {
   authManager.getInstance().init({
     endpoint: 'https://simpatico.hi-iberia.es:4570/aac/',
     // Google
-    clientID: '5c24dd95-a1b4-4208-ab5a-ce288963fe28',
-    authority: "google"
+    //clientID: '5c24dd95-a1b4-4208-ab5a-ce288963fe28',
+    //authority: "google"
     // Internal
-    //clientID: '73ed521f-06a8-429e-80cc-dfe361fd801c',
-    //authority: "internal"
+    clientID: 'f21558f2-0992-47b1-85af-1ada614d8cc6',
+    authority: "internal"
   });
 
     // Init the LOG component (see log-core.js)
@@ -50,7 +50,7 @@ function initFeatures() {
     addQuestionLabel: "+ Añadir nueva pregunta", //"+ Add new question",
     diagramNotificationImage: "./img/diagram.png",
     diagramNotificationClassName: "simp-ctz-ui-diagram",
-    diagramNotificationText: "There is one diagram related to this e-service in Citizenpedia"
+    diagramNotificationText: "Hay un diagrama relacionado con este servicio en la Citizenpedia"
   });
   
   // Init the CDV component (see cdv-ui.js)
@@ -68,15 +68,15 @@ function initFeatures() {
     dataFields: simpaticoMapping,
     cdvColor: '#008000',
     dialogTitle: 'Citizen Data Vault',
-    tabPFieldsTitle: 'My Data',
-    entryMessage: 'Welcome to SIMPATICO CDV!',
-    statusMessage: 'Now you can select/update your personal data to fill form fields.',
-    notextMessage: 'No field selected',
-    dialogSaveTitle: 'Data Saved',
-    dialogSaveMessage: 'Data saved successfully into your Data Vault.',
-    statusMessageNoAccount: "No CDV Account associated to you. Create?",
-    statusMessageNoActive: "CDV is not active for this service. Activate?",
-    tabSettingsTitle: 'Settings'
+    tabPFieldsTitle: 'Mis Datos',
+    entryMessage: 'Bienvenido a SIMPATICO',
+    statusMessage: 'Ahora puedes seleccionar/actualizar tus datos personales para rellenar campos.',
+    notextMessage: 'Ningún campo seleccionado',
+    dialogSaveTitle: 'Datos Salvados',
+    dialogSaveMessage: 'Datos salvados correctamente.',
+    statusMessageNoAccount: "No hay cuenta de Simpatico ascociada. ¿Crear?",
+    statusMessageNoActive: "Simpatico no está activo para este servicio. ¿Activar?",
+    tabSettingsTitle: 'Configuración'
   });
 
   // Init the Text Adaptation Engine component (see tae-ui.js)
@@ -95,7 +95,7 @@ function initFeatures() {
     secondaryColor:"#F0ABA8",
     elementsToEnhanceClassName: "simp-text-paragraph",
     simplifyBoxClassName: "simp-tae-ui-sb",
-    simplifyBoxTitle: "Simplified text",
+    simplifyBoxTitle: "Texto simplificado",
     wordPropertiesClassName: "simp-tae-ui-word"
   });
 
@@ -111,12 +111,12 @@ function initFeatures() {
   taeUIPopup.getInstance().init({
 		lang: 'it',
 		endpoint: 'https://simpatico.hi-iberia.es:4570/simp-engines/tae',
-		dialogTitle: 'Text Enrichment',
-		tabDefinitionsTitle: 'Definitions',
-		tabSimplificationTitle: 'Simplification',
+		dialogTitle: 'Texto Enriquecido',
+		tabDefinitionsTitle: 'Definiciones',
+		tabSimplificationTitle: 'Simplificación',
 		tabWikipediaTitle: 'Wikipedia',
-		entryMessage: 'Select a help method',
-		notextMessage: 'No text selected'
+		entryMessage: 'Seleccione un método de ayuda',
+		notextMessage: 'No hay texto seleccionado'
 	});
   // Init the Workflow Adaptation Engine component (see wae-ui.js)
   // - endpoint: the main URL of the used WAE instance
@@ -126,8 +126,8 @@ function initFeatures() {
   // - errorLabel: map with blockId - error message in case of block precondition fails
   waeUI.getInstance().init({
 		endpoint: 'https://simpatico.hi-iberia.es:4570/simp-engines/wae',
-		prevButtonLabel: 'Previous',
-		nextButtonLabel: 'Next',
+		prevButtonLabel: 'Anterior',
+		nextButtonLabel: 'Siguiente',
 		topBarHeight: 60,
 		errorLabel: ERROR_LABELS
   });
@@ -137,7 +137,7 @@ function initFeatures() {
   // - apiEndpoint: the main URL of the logs API server (<site>/simpatico/api)
   // NOTE: Requires jquery-ui to work properly
   sfUI.getInstance().init({
-    buttonToShowSfId: 'Save',
+    buttonToShowSfId: 'Salvar',
     apiEndpoint: 'https://simpatico.hi-iberia.es:4570/simpatico/api',
   });
 
@@ -158,7 +158,7 @@ function initFeatures() {
                   // Ad-hoc images to define the enabled/disabled images
                   imageSrcEnabled: "./img/ic_on.png",
                   imageSrcDisabled: "./img/login.png",
-                  alt: "Autheticate",
+                  alt: "Entrar",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-none", 
                   styleClassDisabled: "simp-none",
@@ -173,7 +173,7 @@ function initFeatures() {
                   // Ad-hoc images to define the enabled/disabled images
                   imageSrcEnabled: "./img/citizenpedia.png",
                   imageSrcDisabled: "./img/citizenpedia.png",
-                  alt: "Questions and answer",
+                  alt: "Preguntas y respuestas",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-bar-btn-active",
                   styleClassDisabled: "simp-bar-btn-inactive",
@@ -188,7 +188,7 @@ function initFeatures() {
                   // Ad-hoc images to define the enabled/disabled images
                   imageSrcEnabled: "./img/simplify.png",
                   imageSrcDisabled: "./img/simplify.png",
-                  alt: "Text simplification",
+                  alt: "Simplificación de texto",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-bar-btn-active-tae",
                   styleClassDisabled: "simp-bar-btn-inactive-tae",
@@ -198,30 +198,30 @@ function initFeatures() {
                   disable: function() { taeUI.getInstance().disable(); }
                 },
                 
-                {
-                    id: "simp-bar-sw-tae-popup",
-                    // Ad-hoc images to define the enabled/disabled images
-                    imageSrcEnabled: "./img/enrich.png",
-                    imageSrcDisabled: "./img/enrich.png",
-                    alt: "Free text simplification",
-                    // Ad-hoc css classes to define the enabled/disabled styles
-                    styleClassEnabled: "simp-bar-btn-active-tae",
-                    styleClassDisabled: "simp-bar-btn-inactive-tae",
-
-                    isEnabled: function() { taeUIPopup.getInstance().isEnabled(); },
-                    enable: function() { 
-                    	taeUIPopup.getInstance().showDialog(); 
-                    },
-                    disable: function() { 
-                    	taeUIPopup.getInstance().hideDialog(); 
-                    }
-                  },
+//                {
+//                    id: "simp-bar-sw-tae-popup",
+//                    // Ad-hoc images to define the enabled/disabled images
+//                    imageSrcEnabled: "./img/enrich.png",
+//                    imageSrcDisabled: "./img/enrich.png",
+//                    alt: "Simplificación de texto libre",
+//                    // Ad-hoc css classes to define the enabled/disabled styles
+//                    styleClassEnabled: "simp-bar-btn-active-tae",
+//                    styleClassDisabled: "simp-bar-btn-inactive-tae",
+//
+//                    isEnabled: function() { taeUIPopup.getInstance().isEnabled(); },
+//                    enable: function() { 
+//                    	taeUIPopup.getInstance().showDialog(); 
+//                    },
+//                    disable: function() { 
+//                    	taeUIPopup.getInstance().hideDialog(); 
+//                    }
+//                  },
                 {
                   id: "simp-bar-sw-cdv",
                   // Ad-hoc images to define the enabled/disabled images
                   imageSrcEnabled: "./img/cdv.png",
                   imageSrcDisabled: "./img/cdv.png",
-                  alt: "Citizen Data Vault",
+                  alt: "Datos de los ciudadanos",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-bar-btn-active-cdv",
                   styleClassDisabled: "simp-bar-btn-inactive",
@@ -229,20 +229,21 @@ function initFeatures() {
                   isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
                   enable: function() { cdvUI.getInstance().enable(); },
                   disable: function() { cdvUI.getInstance().disable(); }
-                },
-                { // workflow adaptation. Switch to the modality, where the form adaptation starts
-                  id: 'workflow1',
-                  imageSrcEnabled: "./img/forms.png",
-                  imageSrcDisabled: "./img/forms.png",
-                  alt: "Semplifica processo",
-                  // Ad-hoc css classes to define the enabled/disabled styles
-                  styleClassEnabled: "simp-bar-btn-active-wae",
-                  styleClassDisabled: "simp-bar-btn-inactive",
-
-                  isEnabled: function() { return waeUI.getInstance().isEnabled(); },
-                  enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
-                  disable: function() { waeUI.getInstance().disable(); }
-                }
+		  }
+//                },
+//                { // workflow adaptation. Switch to the modality, where the form adaptation starts
+//                  id: 'workflow1',
+//                  imageSrcEnabled: "./img/forms.png",
+//                  imageSrcDisabled: "./img/forms.png",
+//                  alt: "Simplifica proceso",
+//                  // Ad-hoc css classes to define the enabled/disabled styles
+//                  styleClassEnabled: "simp-bar-btn-active-wae",
+//                  styleClassDisabled: "simp-bar-btn-inactive",
+//
+//                  isEnabled: function() { return waeUI.getInstance().isEnabled(); },
+//                  enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
+//                  disable: function() { waeUI.getInstance().disable(); }
+//                }
             ];
 }//initFeatures()
 
@@ -390,5 +391,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Save the time spent in the website by calling the function here
 window.addEventListener('beforeunload', function (e) {
-  logCORE.getInstance().logTimeEvent($('body'));
+  logCORE.getInstance().logTimeEvent({});
 });

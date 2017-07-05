@@ -4,14 +4,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <title>SIMPATICO Authorization</title>
 <script type="text/javascript">
-        function processAuthParams(input) {
-            var params = {}, queryString = input;
-            var regex = /([^&=]+)=([^&]*)/g;
-            while (m = regex.exec(queryString)) {
-              params[m[1]] = m[2];
-            }
-            return params;
-        }
+		function processAuthParams(input) {
+		    var params = {}, queryString = input;
+		    var regex = /([^&=]+)=([^&]*)/g;
+		    while (m = regex.exec(queryString)) {
+		      params[m[1]] = m[2];
+		    }
+		    return params;
+		}
         
         function complete() {
             var params = processAuthParams(decodeURIComponent(document.location.hash.substring(1)));
@@ -44,26 +44,24 @@
 </script>
 </head>
 <body onload="init()" class="text-center">
-  <h1>Bienvenido al proyecto SIMPATICO</h1>
-  <img src="https://sede.xunta.gal/cas/images/sede/logoXunta.png" alt="Xunta de Galicia">
+  <h1>Benvenuto in SIMPATICO!</h1>
   
-  <h3>&iquest;Desea entrar en el servicio?</h3>
+  <h3>Autorizzi a utilizzare i tuoi dati?</h3>
   
   <div class="row">
     <div class="checkbox">
       <label>
-        <input type="checkbox" onchange="oncheck()"  id="check"> No preguntar de nuevo
+        <input type="checkbox" onchange="oncheck()"  id="check"> Non chiedermi piu'
       </label>
     </div>    
   </div>  
   <div class="row">
     <div class="col-sm-offset-2 col-sm-4">
-      <button type="button" class="btn btn-primary" onclick="complete()">Aceptar</button>
+      <button type="button" class="btn btn-primary" onclick="complete()">Autorizzo</button>
     </div>  
     <div class="col-sm-4">
-      <button type="button" class="btn btn-danger" onclick="cancel()">Cancelar</button>
+      <button type="button" class="btn btn-danger" onclick="cancel()">Non Autorizzo</button>
     </div>  
   </div>  
 </body>
 </html>
-

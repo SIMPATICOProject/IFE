@@ -240,121 +240,40 @@ var cdvCORE = (function () {
 
 		this.cdv_exportData = function () {
 
-                var dataUser = JSON.parse(localStorage.userData || 'null');
-			var name = dataUser.name;
-			var surname = dataUser.surname;
+			var dataUser = JSON.parse(localStorage.userData || 'null');
+			var url = endpoint + "/pdata-manager/api/v1/pData/download?fileFormat=CSV";
+			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
+			console.log(tokenData);
 
-			console.log(name);
-			console.log(surname);
-
-			var fullName = name + " " + surname; 
-
-
-			$.get('../js/usuarios_prueba.json', function (data) {
-				// Fill fields with data from json
-
-				// Data es un ARRAY de usuarios
-				// TODO: Bucle para buscar al usuario con name + " " + surname == data[i]["FIELD3"] + " " + data[i][FIELD4] + " " + data[i]["FIELD5"]
-
-				data.forEach(function(current, index, array) {
-				    console.log(current);
-
-				    var nameJSON = current["FIELD3"];
-				    nameJSON = nameJSON.replace(/á/gi,"");
-					nameJSON = nameJSON.replace(/é/gi,"");
-					nameJSON = nameJSON.replace(/í/gi,"");
-					nameJSON = nameJSON.replace(/ó/gi,"");
-					nameJSON = nameJSON.replace(/ú/gi,"");
-					nameJSON = nameJSON.replace(/ñ/gi,"");
-
-					var firstSurnameJSON = current["FIELD4"];
-					firstSurnameJSON = firstSurnameJSON.replace(/á/gi,"");
-					firstSurnameJSON = firstSurnameJSON.replace(/é/gi,"");
-					firstSurnameJSON = firstSurnameJSON.replace(/í/gi,"");
-					firstSurnameJSON = firstSurnameJSON.replace(/ó/gi,"");
-					firstSurnameJSON = firstSurnameJSON.replace(/ú/gi,"");
-					firstSurnameJSON = firstSurnameJSON.replace(/ñ/gi,"");
-
-					var secondSurnameJSON = current["FIELD5"];
-					secondSurnameJSON = secondSurnameJSON.replace(/á/gi,"");
-					secondSurnameJSON = secondSurnameJSON.replace(/é/gi,"");
-					secondSurnameJSON = secondSurnameJSON.replace(/í/gi,"");
-					secondSurnameJSON = secondSurnameJSON.replace(/ó/gi,"");
-					secondSurnameJSON = secondSurnameJSON.replace(/ú/gi,"");
-					secondSurnameJSON = secondSurnameJSON.replace(/ñ/gi,"");
-
-                                    
-				    if (fullName == nameJSON + " " + firstSurnameJSON + " " + secondSurnameJSON) {
-				    	$("#BS607A\\.Entidad\\.txtNombre").val(current["FIELD3"]);
-						$("#BS607A\\.Entidad\\.txtApel1").val(current["FIELD4"]);
-						$("#BS607A\\.Entidad\\.txtApel2").val(current["FIELD5"]);
-						$("#BS607A\\.Entidad\\.txtNifCif").val(current["FIELD6"]);
+			$.ajax({
+				url: url,
+				type: 'GET',
+				contentType: "application/json; charset=utf-8",
+				success: function (json) {
+					console.log(json);
+					var data = encodeURIComponent(json);
 
 
-						$("#BS607A\\.Entidad\\.txtDireccion").val(current["FIELD8"]);
-						$("#BS607A\\.Entidad\\.txtParroquia").val(current["FIELD12"]); // No viene en el JSON de usuarios. 12 al azar
-						$("#BS607A\\.Entidad\\.txtLugar").val(current["FIELD12"]);
-						$("#BS607A\\.Entidad\\.txtCodigoPostal").val(current["FIELD6"]); // No viene
-						$("#BS607A\\.Entidad\\.txtLocalidad").val(current["FIELD32"]);
-						$("#BS607A\\.Entidad\\.txtTelefono").val(current["FIELD13"]);
-						$("#BS607A\\.Entidad\\.txtMovil").val(current["FIELD13"]); // Igual que teléfono
-						$("#BS607A\\.Entidad\\.txtEmail").val(current["FIELD14"]);
+					$("<a />", {
+						"download": "data.csv",
+						"href": "data:application/json;charset=utf-8," + data
+					}).appendTo("body")
+					.click(function () {
+						$(this).remove()
+					})[0].click()
+					
+				},
+				error: function (jqxhr, textStatus, err) {
+					console.log(textStatus + ",	" + err);
+					
+				},
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('Authorization', 'Bearer ' + tokenData.access_token);
+					xhr.setRequestHeader('accountId', username);
 
-						$("#BS613B\\.Entidad\\.txtNombre").val(current["FIELD3"]);
-						$("#BS613B\\.Entidad\\.txtApel1").val(current["FIELD4"]);
-						$("#BS613B\\.Entidad\\.txtApel2").val(current["FIELD5"]);
-						$("#BS613B\\.Entidad\\.txtNifCif").val(current["FIELD6"]);
+				}
 
-
-						$("#BS613B\\.Entidad\\.txtDireccion").val(current["FIELD8"]);
-						$("#BS613B\\.Entidad\\.txtParroquia").val(current["FIELD12"]); // No viene en el JSON de usuarios. 12 al azar
-						$("#BS613B\\.Entidad\\.txtLugar").val(current["FIELD12"]);
-						$("#BS613B\\.Entidad\\.txtCodigoPostal").val(current["FIELD6"]); // No viene
-						$("#BS613B\\.Entidad\\.txtLocalidad").val(current["FIELD32"]);
-						$("#BS613B\\.Entidad\\.txtTelefono").val(current["FIELD13"]);
-						$("#BS613B\\.Entidad\\.txtMovil").val(current["FIELD13"]); // Igual que teléfono
-						$("#BS613B\\.Entidad\\.txtEmail").val(current["FIELD14"]);
-				    } else {
-				    	console.log("No match");
-				    	console.log(fullName);
-				    	console.log(current["FIELD3"] + " " + current["FIELD4"] + " " + current["FIELD5"])
-				    }
-				});
 			});
-			
-                        // var url = endpoint + "/pdata-manager/api/v1/pData/download?fileFormat=CSV";
-			// var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
-			// console.log(tokenData);
-
-			// $.ajax({
-			// 	url: url,
-			// 	type: 'GET',
-			// 	contentType: "application/json; charset=utf-8",
-			// 	success: function (json) {
-			// 		console.log(json);
-			// 		var data = encodeURIComponent(json);
-
-
-			// 		$("<a />", {
-			// 			"download": "data.csv",
-			// 			"href": "data:application/json;charset=utf-8," + data
-			// 		}).appendTo("body")
-			// 		.click(function () {
-			// 			$(this).remove()
-			// 		})[0].click()
-					
-			// 	},
-			// 	error: function (jqxhr, textStatus, err) {
-			// 		console.log(textStatus + ",	" + err);
-					
-			// 	},
-			// 	beforeSend: function (xhr) {
-			// 		xhr.setRequestHeader('Authorization', 'Bearer ' + tokenData.access_token);
-			// 		xhr.setRequestHeader('accountId', username);
-
-			// 	}
-
-			// });
 
 		}
 		

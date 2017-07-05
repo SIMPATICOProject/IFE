@@ -45,8 +45,13 @@ var taeCORE = ( function () {
       // As we don't have a TAE working environment, we emulate the original 
       // text and the json response
       // When we have the TAE working we will change it
-      
-      // TODO: UNCOMMENT [BEGIN]
+      document.getElementById('loading_'+name).style.display = "block";
+      // TODO: UNCOMMENT [BEGIN
+	/*
+      console.log(simplifyTextURL + '?' +
+                            'text="' + originalText +
+                            '"&lang="' + language +
+                            '"');
       jQuery.getJSON(simplifyTextURL + '?' +
                             'text="' + originalText +
                             '"&lang="' + language +
@@ -56,7 +61,14 @@ var taeCORE = ( function () {
           simplifyCallback(name, originalText, jsonResponse);
         }
       );//
-      // TODO: UNCOMMENT [END]
+      // TODO: UNCOMMENT [END]/
+      */
+	jQuery.getJSON('https://simpatico.hi-iberia.es:4570/IFE/tae/'+simpaticoEservice+'_'+name+'.json',
+        function(jsonResponse) {
+          storeWords(name, jsonResponse);
+          simplifyCallback(name, originalText, jsonResponse);
+        }
+      );//*/
     }
 
     // Given a jsonResponse, it stores/or updates new details of each 

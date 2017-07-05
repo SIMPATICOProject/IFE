@@ -6,14 +6,9 @@
 	<title> BS607A </title>
 
 	<link rel="shortcut icon" type="image/x-icon" href="https://sede.xunta.gal/formularios/resources/favicon.ico">
-	
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  	<link rel="stylesheet" type="text/css" media="screen" href="../css/simpatico.css">
-  	<link rel="stylesheet" type="text/css" media="screen" href="./css/base.css">
-  	<link rel="stylesheet" type="text/css" media="screen" href="./css/estilos.css">
-
-  	<link rel="stylesheet" type="text/css" media="screen" href="./css/jquery-ui-1.10.2.custom.css">
-	<link rel="stylesheet" type="text/css" media="screen" href="./css/bootstrap-3.3.6.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="./css/base.css">	
+	<link rel="stylesheet" type="text/css" media="screen" href="./css/estilos.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="./css/jquery-ui-1.10.2.custom.css">
 
 	<script type="text/javascript">
 		var global_contextPath = '/formularios';
@@ -21,7 +16,6 @@
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	
 
 	<link rel="stylesheet" type="text/css" media="screen" href="./css/SH-Xerator.css">
@@ -29,59 +23,28 @@
 
 
 	<!-- SIMPATICO BEGIN -->
-	<!--<link rel="stylesheet" type="text/css" media="screen" href="../css/simpatico.css">-->
+	<link rel="stylesheet" type="text/css" media="screen" href="../css/simpatico.css">
 
 	<script>
 		$(document).ready(function() {
 			$("#btn_presentarElect,#btn2_presentarElect").click(function(e) {
 				e.preventDefault();
 
-				sfUI.getInstance().showSF();
+				window.location.href = "BS607A_end_replica.html";
 			});
-
 		});    
     </script>
-<script>
-		    setInterval(function(){
-		    	$("#button_send_session_feedback_text").off('click').on('click', function() {
-                        console.log("SendFeedback");
-                var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
-                var dataObj = {};
-                dataForms.each(function(idx, d) {
-                        var key = d.name ? d.name : d.id;
-                        if (d.type=='radio') {
-                                if (d.checked) dataObj[key] = d.value;
-                        } else {
-                        dataObj[key] = d.value;
-                        }
-                });
-                console.log("Sending:");
-                console.log(dataObj);
-                logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
-                // TODO: manage complexity correctly
-                complexity = 0;
-                logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
 
-      // Close dialog
-      $('#dialogSF').dialog("destroy").remove();
-
-
-             		window.location = "BS607A_end.html";
-         		});
-		    }, 1000);
-		
-	</script>
-
-	<script type="text/javascript">
+<!--	<script type="text/javascript">
 	  var simpaticoEservice = "BS607A"; // Eservice example
 	  var simpaticoMapping=["BS607A.Entidad.txtNombre","BS607A.Entidad.txtApel2","BS607A.Entidad.txtApel1","BS607A.Entidad.txtNifCif","BS607A.Entidad.txtDireccion","BS607A.Entidad.txtParroquia","BS607A.Entidad.txtLugar","BS607A.Entidad.txtCodigoPostal","BS607A.Entidad.txtLocalidad","BS607A.Entidad.txtPais","BS607A.Entidad.txtTelefono","BS607A.Entidad.txtMovil","BS607A.Entidad.txtEmail","BS607A.Declarante.txtNombre","BS607A.Declarante.txtApel2","BS607A.Declarante.txtApel1","BS607A.Declarante.txtNifCif"];
 	  var ERROR_LABELS = {
       	'block1' : 'Phone number is required'
       }
 	</script>
-
+-->
 	<!-- Injection of JS Libraries -->
-	<script src="../js/log-core.js"></script>
+<!--	<script src="../js/log-core.js"></script>
 	<script src="../js/ctz-ui.js"></script>
 	<script src="../js/ctz-core.js"></script>
 	<script src="../js/cdv-ui-popup.js"></script>
@@ -99,9 +62,9 @@
 	<script>wgxpath.install();</script>
 	<script src="../js/simpatico-ife.js"></script>
 	<script src="../js/simpatico-auth.js"></script>
-
+-->
 	<!-- Piwik ALL -->
-	<script type="text/javascript">
+<!--	<script type="text/javascript">
 		var _paq = _paq || [];
 		/* tracker methods like "setCustomDimension" should be called before "trackPageView" */
 		_paq.push(['trackPageView']);
@@ -120,7 +83,7 @@
 		  var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
 		  g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
 		})();
-	</script>
+-->	</script>
     <!-- End Piwik Code -->
 
 </head>
@@ -172,7 +135,7 @@
 							var esPresentacionPresencial = false;
 						</script>
 						<!-- ORIGINAL <form id="command" action="https://sede.xunta.gal/formularios/cumplimentacion/novo/PR013A?idioma=es" method="post"> -->
-						<form id="command" action="https://simpatico.morelab.deusto.es/replica/BS607A.html#" method="post">
+						<form id="command" action="https://simpatico.hi-iberia.es:4570/IFE/BS607A/BS607A_replica.html#" method="post">
 							<input id="codigoProcedimiento" name="codigoProcedimiento" type="hidden" value="BS607A">
 							<input id="idBorrador" name="idBorrador" type="hidden" value="">
 							<input id="codigoSeguridad" name="codigoSeguridad" type="hidden" value="">
@@ -184,8 +147,8 @@
 							<div class="fila">
 								<div class="botonera">
 									<button type="submit" name="accion" value="presentarElect" id="btn_presentarElect" class="boton " onclick="" title=""> Presentar </button>
-									<button type="button" name="accion" value="guardar" id="btn_guardar" class="boton " onclick="" title=""> Guardar </button>
-									<button type="button" name="accion" value="cancel" id="btn_cancel" class="boton " onclick="" title=""> Cancelar </button>
+									<button type="submit" name="accion" value="guardar" id="btn_guardar" class="boton " onclick="" title=""> Guardar </button>
+									<button type="submit" name="accion" value="cancel" id="btn_cancel" class="boton " onclick="" title=""> Cancelar </button>
 								</div>
 							</div>
 							<div id="formularioCumplimentacion">
@@ -250,7 +213,7 @@
 													<div class="col-md-2 col-sm-2"> 
 														<label for="BS607A.Entidad.cmbTipoVia" class="control-label text-left"> TIPO DE VÍA </label> 
 														<span id="BS607A.Entidad.cmbTipoVia.error" class="errores" style="display: none"></span> 
-														<select id="BS607A.Entidad.cmbTipoVia" name="campos[&#39;/ProcedimientoXunta/BS607A/Entidad/cmbTipoVia&#39;]" class="form-control input-sm" tipo="via"><option value="">Seleccione</option><option value="CALLE">CALLE</option><option value="ACCES">ACCESO</option><option value="ALAM">ALAMEDA</option><option value="ALDEA">ALDEA</option><option value="ALTO">ALTO</option><option value="APTOS">APARTAMENTOS</option><option value="AUTO">AUTOESTRADA / AUTOPISTA</option><option value="AVIA">AUTOVÍA</option><option value="AVDA">AVENIDA</option><option value="BDA">BAIXADA / BAJADA</option><option value="BARRO">BARRIO</option><option value="ACERA">BEIRARRÚA / ACERA</option><option value="BLQUE">BLOQUE</option><option value="BULEV">BULEVAR</option><option value="CLLON">CALEXÓN / CALLEJON</option><option value="CZADA">CALZADA</option><option value="CAMI">CAMIÑO / CAMINO</option><option value="CRA">CARREIRA / CARRERA</option><option value="CRO">CARREIRO / CARRERO</option><option value="CTRA">CARRETERA</option><option value="CERRO">CERRO</option><option value="CINT">CINTURÓN</option><option value="CIRCU">CIRCUNVALACIÓN</option><option value="C.N.">CMNO NOVO / NUEVO</option><option value="C.V.">CMNO VELLO / VIEJO</option><option value="CRRDA">CORREDOIRA / CORREDERA</option><option value="COSTA">COSTA</option><option value="ENTD">ENTRADA</option><option value="ESCA">ESCALEIRA / ESCALERA</option><option value="ESTDA">ESTRADA</option><option value="EXPLA">EXPLANADA</option><option value="FINCA">FINCA</option><option value="GTA">GLORIETA</option><option value="LUGAR">LUGAR</option><option value="MALEC">MALECÓN</option><option value="MIRAD">MIRADOR</option><option value="MONTE">MONTE</option><option value="PQUE">PARQUE</option><option value="PASAI">PASAXE / PASAJE</option><option value="PASEO">PASEO</option><option value="PZTA">PLAZOLETA</option><option value="POLIG">POLÍGONO</option><option value="PNTE">PONTE / PUENTE</option><option value="PLAYA">PRAIA / PLAYA</option><option value="PLAZA">PRAZA / PLAZA</option><option value="RCON">RECANTO / RINCON</option><option value="RBRA">RIBEIRA / RIBERA</option><option value="RONDA">RONDA</option><option value="RTDA">ROTONDA</option><option value="CALLE">RÚA / CALLE</option><option value="SENDA">SENDA</option><option value="TRVA">TRAVESÍA</option><option value="URB">URBANIZACIÓN</option><option value="VALLE">VAL / VALLE</option><option value="VEGA">VEIGA / VEGA</option><option value="VIA">VÍA</option><option value="VCTO">VIADUCTO</option><option value="JDIN">XARDÍN / JARDÍN</option><option value="ZONA">ZONA</option></select> 
+														<select id="BS607A.Entidad.cmbTipoVia" name="campos[&#39;/ProcedimientoXunta/BS607A/Entidad/cmbTipoVia&#39;]" class="form-control input-sm" tipo="via"><option value="">Seleccione</option><option value="ACCES">ACCESO</option><option value="ALAM">ALAMEDA</option><option value="ALDEA">ALDEA</option><option value="ALTO">ALTO</option><option value="APTOS">APARTAMENTOS</option><option value="AUTO">AUTOESTRADA / AUTOPISTA</option><option value="AVIA">AUTOVÍA</option><option value="AVDA">AVENIDA</option><option value="BDA">BAIXADA / BAJADA</option><option value="BARRO">BARRIO</option><option value="ACERA">BEIRARRÚA / ACERA</option><option value="BLQUE">BLOQUE</option><option value="BULEV">BULEVAR</option><option value="CLLON">CALEXÓN / CALLEJON</option><option value="CZADA">CALZADA</option><option value="CAMI">CAMIÑO / CAMINO</option><option value="CRA">CARREIRA / CARRERA</option><option value="CRO">CARREIRO / CARRERO</option><option value="CTRA">CARRETERA</option><option value="CERRO">CERRO</option><option value="CINT">CINTURÓN</option><option value="CIRCU">CIRCUNVALACIÓN</option><option value="C.N.">CMNO NOVO / NUEVO</option><option value="C.V.">CMNO VELLO / VIEJO</option><option value="CRRDA">CORREDOIRA / CORREDERA</option><option value="COSTA">COSTA</option><option value="ENTD">ENTRADA</option><option value="ESCA">ESCALEIRA / ESCALERA</option><option value="ESTDA">ESTRADA</option><option value="EXPLA">EXPLANADA</option><option value="FINCA">FINCA</option><option value="GTA">GLORIETA</option><option value="LUGAR">LUGAR</option><option value="MALEC">MALECÓN</option><option value="MIRAD">MIRADOR</option><option value="MONTE">MONTE</option><option value="PQUE">PARQUE</option><option value="PASAI">PASAXE / PASAJE</option><option value="PASEO">PASEO</option><option value="PZTA">PLAZOLETA</option><option value="POLIG">POLÍGONO</option><option value="PNTE">PONTE / PUENTE</option><option value="PLAYA">PRAIA / PLAYA</option><option value="PLAZA">PRAZA / PLAZA</option><option value="RCON">RECANTO / RINCON</option><option value="RBRA">RIBEIRA / RIBERA</option><option value="RONDA">RONDA</option><option value="RTDA">ROTONDA</option><option value="CALLE">RÚA / CALLE</option><option value="SENDA">SENDA</option><option value="TRVA">TRAVESÍA</option><option value="URB">URBANIZACIÓN</option><option value="VALLE">VAL / VALLE</option><option value="VEGA">VEIGA / VEGA</option><option value="VIA">VÍA</option><option value="VCTO">VIADUCTO</option><option value="JDIN">XARDÍN / JARDÍN</option><option value="ZONA">ZONA</option></select> 
 													</div> 
 													<div class="col-md-6 col-sm-6"> 
 														<label for="BS607A.Entidad.txtDireccion" class="control-label text-left"> NOMBRE DE LA VÍA </label> 
@@ -1339,8 +1302,8 @@
 							<div class="fila">
 								<div class="botonera">
 									<button type="submit" name="accion" value="presentarElect" id="btn2_presentarElect" class="boton " onclick="" title=""> Presentar </button>
-									<button type="button" name="accion" value="guardar" id="btn2_guardar" class="boton " onclick="" title=""> Guardar </button>
-									<button type="button" name="accion" value="cancel" id="btn2_cancel" class="boton " onclick="" title=""> Cancelar </button>
+									<button type="submit" name="accion" value="guardar" id="btn2_guardar" class="boton " onclick="" title=""> Guardar </button>
+									<button type="submit" name="accion" value="cancel" id="btn2_cancel" class="boton " onclick="" title=""> Cancelar </button>
 								</div>
 							</div>
 						</form>						

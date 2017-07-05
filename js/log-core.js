@@ -32,6 +32,11 @@ var logCORE = (function () {
 		var token = authManager.getInstance().getToken();
 		var userId = authManager.getInstance().getUserId();
 		data.userID = userId;
+
+                console.log("Sending to:");
+                console.log(url);
+                console.log("data:");
+                console.log(data);
 		
 		$.ajax({
 			url: url,
@@ -115,11 +120,19 @@ var logCORE = (function () {
 	}
 	var sfLogger = {
 		feedbackEvent: function(eservice, complexity) {
+                        console.log("feedbackEvent");
+                        console.log(eservice);
+                        console.log(complexity);
 			log(sfEndpoint, {'e-serviceID': eservice, complexity: complexity});
 		},
 		feedbackData: function(eservice, data) {
+                        console.log("feedbackData");
 			data['e-serviceID'] = eservice;
-      data['datatype'] = 'session-feedback'; // to distinguish it
+                        data['datatype'] = 'session-feedback'; // to distinguish it
+
+                        console.log("Sending:");
+                        console.log(data);
+
 			log(logsEndpoint, data);
 		}
 	}

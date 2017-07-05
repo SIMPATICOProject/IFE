@@ -41,6 +41,7 @@ var sfCORE = (function () {
 
     // Internal
     function sendFeedback () {
+                console.log("SendFeedback");
   		var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
   		var dataObj = {};
   		dataForms.each(function(idx, d) {
@@ -51,6 +52,8 @@ var sfCORE = (function () {
   			dataObj[key] = d.value;
 			}
   		});
+                console.log("Sending:");
+                console.log(dataObj);
   		logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
   		// TODO: manage complexity correctly
   		complexity = 0;
