@@ -67,6 +67,12 @@ function initFeatures() {
     dialogSaveMessage: 'Data saved successfully into your Data Vault.',
     statusMessageNoAccount: "No CDV Account associated to you. Create?",
     statusMessageNoActive: "CDV is not active for this service. Activate?",
+	confirmSaveDataMessage: "Update your Persona Data?",
+    buttonSaveData:"Save your data",
+    buttonManageData:"Manage your data",
+    buttonActivate:"Activate",
+    buttonCreate: "Create",
+    consentButton: "Consent",
     tabSettingsTitle: 'Settings',
 	cdvDashUrl:'http://localhost:8080/cdv-dashboard/index.html'
   });
