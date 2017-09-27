@@ -63,14 +63,15 @@ var taeCORE = ( function () {
       );//
       // TODO: UNCOMMENT [END]/
       */
-	    jQuery.getJSON(simplifyTextURL + "?" + originalText,
+	    jQuery.getJSON(simplifyTextURL + "?text=" + originalText,
         function(jsonResponse) {
           console.log("TAE REsponse:");
           console.log(jsonResponse);
           storeWords(name, jsonResponse);
           simplifyCallback(name, originalText, jsonResponse);
         }
-      ); 
+      );
+    }
 
     // Given a jsonResponse, it stores/or updates new details of each 
     // simplification requested to the TAE server
