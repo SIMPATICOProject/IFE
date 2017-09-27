@@ -19,7 +19,7 @@ function initFeatures() {
     //clientID: '5c24dd95-a1b4-4208-ab5a-ce288963fe28',
     //authority: "google"
     // Internal
-    clientID: 'f21558f2-0992-47b1-85af-1ada614d8cc6',
+    clientID: '',
     authority: "internal"
   });
 

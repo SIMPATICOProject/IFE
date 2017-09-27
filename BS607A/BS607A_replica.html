@@ -30,19 +30,28 @@
 			$("#btn_presentarElect,#btn2_presentarElect").click(function(e) {
 				e.preventDefault();
 
-				window.location.href = "BS607A_end_replica.html";
+				//window.location.href = "BS607A_end_replica.html";
+				console.log("NOS VAMOS");
+				window.location.replace("BS607A_end_replica.html");
 			});
 		});    
     </script>
 
-<!--	<script type="text/javascript">
-	  var simpaticoEservice = "BS607A"; // Eservice example
+	<script type="text/javascript">
+	  var simpaticoEservice = "BS607A_form"; // Eservice example
+	  var simpaticoForm = "form";
 	  var simpaticoMapping=["BS607A.Entidad.txtNombre","BS607A.Entidad.txtApel2","BS607A.Entidad.txtApel1","BS607A.Entidad.txtNifCif","BS607A.Entidad.txtDireccion","BS607A.Entidad.txtParroquia","BS607A.Entidad.txtLugar","BS607A.Entidad.txtCodigoPostal","BS607A.Entidad.txtLocalidad","BS607A.Entidad.txtPais","BS607A.Entidad.txtTelefono","BS607A.Entidad.txtMovil","BS607A.Entidad.txtEmail","BS607A.Declarante.txtNombre","BS607A.Declarante.txtApel2","BS607A.Declarante.txtApel1","BS607A.Declarante.txtNifCif"];
 	  var ERROR_LABELS = {
       	'block1' : 'Phone number is required'
       }
 	</script>
--->
+
+    <script src="../js/log-core.js"></script>
+    <script src="../js/simpatico-ife.js"></script>
+    <script src="../js/simpatico-auth.js"></script>
+    <script src="../js/ife-log.js"></script>
+
+
 	<!-- Injection of JS Libraries -->
 <!--	<script src="../js/log-core.js"></script>
 	<script src="../js/ctz-ui.js"></script>
