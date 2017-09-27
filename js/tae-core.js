@@ -67,6 +67,18 @@ var taeCORE = ( function () {
         function(jsonResponse) {
           console.log("TAE REsponse:");
           console.log(jsonResponse);
+          // Remove simplification with NULL value
+          if (jsonResponse && jsonResponse.simplifications) {
+            for(var i = 0; i < jsonResponse.simplifications.length; i++) {
+              if (jsonResponse.simplifications[i].simplification == "NULL") {
+                jsonResponse.simplifications.splice(i,1);
+                i--;
+              }
+            }
+
+            console.log("TAE REsponse without NULL simplification values:");
+            console.log(jsonResponse);
+          }
           storeWords(name, jsonResponse);
           simplifyCallback(name, originalText, jsonResponse);
         }
