@@ -96,7 +96,7 @@ var taeEngine = ( function () {
 					    annotatedText = annotatedText + value.substring(index, value.length);
 					    callback(annotatedText);
 			    	} else {
-					    for (var item = 0; item < json.simplifications.length; item++) {
+					    for (item in json.simplifications) {
 					    	if (json.simplifications[item].start == value.indexOf(data.word)) {
 					    		callback(' <a class="simpatico-label" title="' + json.simplifications[item].simplification + 
 								        '">' + data.word +'</a> ');
@@ -133,7 +133,8 @@ var taeEngine = ( function () {
 				    json.linkings.sort(compareLinkItem);
 				    var actualOffset = -1;
 				    var actualLinkItem = null;
-				    for (var itemName = 0; itemName < json.linkings.length; itemName++) {
+
+				    for (itemName in json.linkings) {
 				    	var item = json.linkings[itemName];
 				    	if(actualOffset == -1) {
 				    		actualOffset = item.offset;
@@ -163,7 +164,7 @@ var taeEngine = ( function () {
 				    //console.log('annotatedText ' + annotatedText);
 				    callback(annotatedText);		    	
 			    } else {
-				    for (var itemName = 0; itemName < json.linkings.length; itemName++) {
+				    for (itemName in json.linkings) {
 				    	var item = json.linkings[itemName];
 				    	if(item.offset == value.indexOf(data.word)) {
 					      callback(' <a class="simpatico-label" target="_blank" href="' + item.page + 
@@ -227,3 +228,4 @@ var taeEngine = ( function () {
 	    }
     };
 })();
+

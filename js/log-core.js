@@ -11,8 +11,6 @@
 var logCORE = (function () {
   var instance;
   function Singleton () {
-	// Variables to store the used API and URL paths
-	var insertLogEventAPI = '';
 
   // for test purposes. Set to true if no LOG component is available
   var TEST_MODE = false;
@@ -152,6 +150,9 @@ var logCORE = (function () {
 			log(logsEndpoint, data);
 		}
 	}
+
+    // Variables to store the used API and URL paths
+    var insertLogEventAPI = '';
 
     // In inits the main used variables
     // In this case it generates the used API and URL paths

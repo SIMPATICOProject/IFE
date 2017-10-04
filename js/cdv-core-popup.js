@@ -14,12 +14,13 @@ var cdvCORE = (function () {
 
 		var endpoint = "http://localhost:8080";
 		var serviceID = 2;
+		var serviceName = "2";
 		var serviceURL = "http://localhost:8080/service2";
 		var dataFields = [];
 		var serviceLink = '';
+		var serviceLinkToken='';
 		var username = '';
-		var cdvDashUrl='#'
-
+        var cdvDashUrl='#' 
 		/**
 		 * INIT THE ENGINE CONFIG. PARAMETERS:
 		 * - endpoint: URL OF THE CDV API
@@ -32,15 +33,19 @@ var cdvCORE = (function () {
 			if (parameters.serviceID) {
 				serviceID = parameters.serviceID;
 			}
+			if (parameters.serviceName) {
+				serviceName = parameters.serviceName;
+			}
 			if (parameters.serviceURL) {
 				serviceURL = parameters.serviceURL;
 			}
 			if (parameters.dataFields) {
 				dataFields = parameters.dataFields;
 			}
-			if (parameters.cdvDashUrl) {
+            if (parameters.cdvDashUrl) {
 				cdvDashUrl = parameters.cdvDashUrl;
 			}
+
 		}
 
 		this.cdv_getdata = function (updatePDataFields, errorCallback) {
@@ -53,7 +58,7 @@ var cdvCORE = (function () {
 			var data = JSON.parse(localStorage.userData || 'null');
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var pdata = new PData(data.userId, serviceLink);
+			var pdata = new PData(data.userId, serviceLink, serviceLinkToken);
 			$.ajax({
 				url: url,
 				type: 'POST',
@@ -83,7 +88,7 @@ var cdvCORE = (function () {
 			var url = endpoint + "/pdata-manager/api/v1/postPData?mode=append";
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var pdata = formFieldsToJSON(serviceLink, data.userId, dataFields);
+			var pdata = formFieldsToJSON(serviceLink,serviceLinkToken, data.userId, dataFields);
 
 			$.ajax({
 				url: url,
@@ -114,7 +119,7 @@ var cdvCORE = (function () {
 			var url = endpoint + "/account-manager/api/v1/users/" + data.userId + "/services/" + serviceID + "/serviceLink";
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var pdata = formFieldsToJSON(serviceLink, data.userId, dataFields);
+			
 
 			$.ajax({
 				url: url,
@@ -124,6 +129,7 @@ var cdvCORE = (function () {
 				success: function (json) {
 					console.log(json._id);
 					serviceLink = json._id;
+					serviceLinkToken = json.slrToken;
 					callback(true, true);
 
 				},
@@ -147,7 +153,7 @@ var cdvCORE = (function () {
 			var url = endpoint + "/account-manager/api/v1/users/" + data.userId + "/serviceLink";
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var pdata = formFieldsToJSON(serviceLink, data.userId, dataFields);
+			
 
 			$.ajax({
 				url: url,
@@ -157,6 +163,7 @@ var cdvCORE = (function () {
 				success: function (json) {
 					console.log(json.username);
 					username = json.username;
+					localStorage.accountData=username;
 					callback(true);
 
 				},
@@ -190,6 +197,7 @@ var cdvCORE = (function () {
 				success: function (resp) {
 					console.log("account created");
 					username = resp.username;
+					localStorage.accountData=username;
 					callback(true);
 
 				},
@@ -212,7 +220,7 @@ var cdvCORE = (function () {
 			var url = endpoint + "/account-manager/api/v1/accounts/" + username + "/serviceLinks";
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var slr = slrToJSON(data.userId, serviceID, serviceURL);
+			var slr = slrToJSON(data.userId, serviceID, serviceURL,serviceName);
 
 			$.ajax({
 				url: url,
@@ -222,6 +230,7 @@ var cdvCORE = (function () {
 				success: function (resp) {
 					console.log("slr saved!");
 					serviceLink = resp._id;
+					serviceLinkToken = resp.slrToken;
 					callback(true, true);
 
 				},
@@ -240,236 +249,40 @@ var cdvCORE = (function () {
 
 		this.cdv_exportData = function () {
 
-            var dataUser = JSON.parse(localStorage.userData || 'null');
-			var name = dataUser.name;
-			var surname = dataUser.surname;
+			var dataUser = JSON.parse(localStorage.userData || 'null');
+			var url = endpoint + "/pdata-manager/api/v1/pData/download?fileFormat=CSV";
+			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
+			console.log(tokenData);
 
-			console.log(name);
-			console.log(surname);
-
-			var fullName = name + " " + surname; 
-
-			if (simpaticoEservice == "BS613B") {
-				$.get('../js/usuarios_prueba_BS613B.json', function (data) {
-					// Fill fields with data from json
-
-					// Data es un ARRAY de usuarios
-					// TODO: Bucle para buscar al usuario con name + " " + surname == data[i]["FIELD3"] + " " + data[i][FIELD4] + " " + data[i]["FIELD5"]
-
-					data.forEach(function(current, index, array) {
-					    console.log(current);
-
-					    var nameJSON = current["FIELD3"];
-					    nameJSON = nameJSON.replace(/á/gi,"");
-						nameJSON = nameJSON.replace(/é/gi,"");
-						nameJSON = nameJSON.replace(/í/gi,"");
-						nameJSON = nameJSON.replace(/ó/gi,"");
-						nameJSON = nameJSON.replace(/ú/gi,"");
-						nameJSON = nameJSON.replace(/ñ/gi,"");
-
-						var firstSurnameJSON = current["FIELD4"];
-						firstSurnameJSON = firstSurnameJSON.replace(/á/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/é/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/í/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/ó/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/ú/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/ñ/gi,"");
-
-						var secondSurnameJSON = current["FIELD5"];
-						secondSurnameJSON = secondSurnameJSON.replace(/á/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/é/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/í/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/ó/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/ú/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/ñ/gi,"");
-
-	                                    
-					    if (fullName.toLowerCase() == nameJSON.toLowerCase() + " " + firstSurnameJSON.toLowerCase() + " " + secondSurnameJSON.toLowerCase()) {
-							$("#BS613B\\.Entidad\\.txtNombre").val(current["FIELD3"]);
-							$("#BS613B\\.Entidad\\.txtApel1").val(current["FIELD4"]);
-							$("#BS613B\\.Entidad\\.txtApel2").val(current["FIELD5"]);
-							$("#BS613B\\.Entidad\\.txtNifCif").val(current["FIELD6"]);
+			$.ajax({
+				url: url,
+				type: 'GET',
+				contentType: "application/json; charset=utf-8",
+				success: function (json) {
+					console.log(json);
+					var data = encodeURIComponent(json);
 
 
-							$("#BS613B\\.Entidad\\.txtDireccion").val(current["FIELD8"]);
-							$("#BS613B\\.Entidad\\.txtNumero").val(current["FIELD9"]);
-							$("#BS613B\\.Entidad\\.txtPiso").val(current["FIELD10"]);
-							$("#BS613B\\.Entidad\\.txtPuerta").val(current["FIELD11"]);
-							$("#BS613B\\.Entidad\\.txtLugar").val(current["FIELD12"]);
-							$("#BS613B\\.Entidad\\.txtLugar").val(current["FIELD12"]);
-							$("#BS613B\\.Entidad\\.txtCodigoPostal").val(current["FIELD6"]); // No viene
-							$("#BS613B\\.Entidad\\.txtLocalidad").val(current["FIELD32"]);
-							$("#BS613B\\.Entidad\\.txtTelefono").val(current["FIELD13"]);
-							$("#BS613B\\.Entidad\\.txtMovil").val(current["FIELD13"]); // Igual que teléfono
-							$("#BS613B\\.Entidad\\.txtEmail").val(current["FIELD14"]);
-
-							$("#BS613B\\.Cuenta\\.txtTitular").val(current["FIELD15"]);
-							var iban = current["FIELD16"];
-							var ibanSplit = iban.split(" ");
-							$("#BS613B\\.Cuenta\\.txtIBAN1").val(ibanSplit[0]);
-							$("#BS613B\\.Cuenta\\.txtIBAN2").val(ibanSplit[1]);
-							$("#BS613B\\.Cuenta\\.txtIBAN3").val(ibanSplit[2]);
-							$("#BS613B\\.Cuenta\\.txtIBAN4").val(ibanSplit[3]);
-							$("#BS613B\\.Cuenta\\.txtIBAN5").val(ibanSplit[4]);
-							$("#BS613B\\.Cuenta\\.txtIBAN6").val(ibanSplit[5]);
-
-							if (current["FIELD17"].indexOf("010110") > 0) {
-								$("#BS613B\\.TipoServicio\\.13").prop("checked", true);
-							} else {  // Es lo mismo, pero el id no concuerda
-								$("#BS613B\\.TipoServicio\\.13").prop("checked", true);
-							}
-
-							$("#BS613B\\.Discapacidad\\.Si").prop("checked", true);
-							$("#BS613B\\.Discapacidad\\.txtGrado").val(current["FIELD19"]);
-							$("#BS613B\\.Discapacidad\\.txtExpediente").val(current["FIELD20"]);
-
-							$("#BS613B\\.Dependencia\\.No").prop("checked", true);
-
-							$("#optAuth1_Si").prop("checked", true);
-							$("#optAuth2_Si").prop("checked", true);
-							$("#optAuth3_Si").prop("checked", true);
-							$("#optAuth4_Si").prop("checked", true);
-							$("#optAuth5_Si").prop("checked", true);
-							$("#optAuth6_Si").prop("checked", true);
-
-					    } else {
-					    	console.log("No match");
-					    	console.log(fullName);
-					    	console.log(current["FIELD3"] + " " + current["FIELD4"] + " " + current["FIELD5"])
-					    }
-					});
-				});
-			} else {
-				$.get('../js/usuarios_prueba_BS607A.json', function (data) {
-					// Fill fields with data from json
-
-					// Data es un ARRAY de usuarios
-					// TODO: Bucle para buscar al usuario con name + " " + surname == data[i]["FIELD3"] + " " + data[i][FIELD4] + " " + data[i]["FIELD5"]
-
-					data.forEach(function(current, index, array) {
-					    console.log(current);
-
-					    var nameJSON = current["FIELD3"];
-					    nameJSON = nameJSON.replace(/á/gi,"");
-						nameJSON = nameJSON.replace(/é/gi,"");
-						nameJSON = nameJSON.replace(/í/gi,"");
-						nameJSON = nameJSON.replace(/ó/gi,"");
-						nameJSON = nameJSON.replace(/ú/gi,"");
-						nameJSON = nameJSON.replace(/ñ/gi,"");
-
-						var firstSurnameJSON = current["FIELD4"];
-						firstSurnameJSON = firstSurnameJSON.replace(/á/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/é/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/í/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/ó/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/ú/gi,"");
-						firstSurnameJSON = firstSurnameJSON.replace(/ñ/gi,"");
-
-						var secondSurnameJSON = current["FIELD5"];
-						secondSurnameJSON = secondSurnameJSON.replace(/á/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/é/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/í/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/ó/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/ú/gi,"");
-						secondSurnameJSON = secondSurnameJSON.replace(/ñ/gi,"");
-
-	                                    
-					    if (fullName.toLowerCase() == nameJSON.toLowerCase() + " " + firstSurnameJSON.toLowerCase() + " " + secondSurnameJSON.toLowerCase()) {
-					    	$("#BS607A\\.Entidad\\.txtNombre").val(current["FIELD3"]);
-							$("#BS607A\\.Entidad\\.txtApel1").val(current["FIELD4"]);
-							$("#BS607A\\.Entidad\\.txtApel2").val(current["FIELD5"]);
-							$("#BS607A\\.Entidad\\.txtNifCif").val(current["FIELD6"]);
-
-
-							$("#BS607A\\.Entidad\\.txtDireccion").val(current["FIELD8"]);
-							$("#BS607A\\.Entidad\\.txtNumero").val(current["FIELD9"]);
-							$("#BS607A\\.Entidad\\.txtPiso").val(current["FIELD10"]);
-							$("#BS607A\\.Entidad\\.txtPuerta").val(current["FIELD11"]);
-							$("#BS607A\\.Entidad\\.txtLugar").val(current["FIELD12"]);
-							$("#BS607A\\.Entidad\\.txtCodigoPostal").val(current["FIELD6"]); // No viene
-							$("#BS607A\\.Entidad\\.txtLocalidad").val(current["FIELD32"]);
-							$("#BS607A\\.Entidad\\.txtTelefono").val(current["FIELD13"]);
-							$("#BS607A\\.Entidad\\.txtMovil").val(current["FIELD13"]); // Igual que teléfono
-							$("#BS607A\\.Entidad\\.txtEmail").val(current["FIELD14"]);
-
-							$("#BS607A\\.HijoDiscap\\.txtNombre").val(current["FIELD15"]);
-							$("#BS607A\\.HijoDiscap\\.txtApel1").val(current["FIELD16"]);
-							$("#BS607A\\.HijoDiscap\\.txtApel2").val(current["FIELD17"]);
-							$("#BS607A\\.HijoDiscap\\.txtNifCif").val(current["FIELD18"]);
-
-							$("#BS607A\\.HijoDiscap\\.txtFechaNac").val(current["FIELD20"]);
-							$("#BS607A\\.HijoDiscap\\.txtNCartillaSanit").val(current["FIELD21"]);
-							$("#BS607A\\.HijoDiscap\\.txtPorcentDiscap").val(current["FIELD22"]);
-
-							$("#BS607A\\.PersonaContact\\.txtNombre").val(current["FIELD23"]);
-							$("#BS607A\\.PersonaContact\\.txtApel1").val(current["FIELD24"]);
-							$("#BS607A\\.PersonaContact\\.txtApel2").val(current["FIELD25"]);
-							$("#BS607A\\.PersonaContact\\.txtNifCif").val(current["FIELD26"]);
-
-							$("#BS607A\\.PersonaContact\\.txtDireccion").val(current["FIELD28"]);
-							$("#BS607A\\.PersonaContact\\.txtNumero").val(current["FIELD29"]);
-							$("#BS607A\\.PersonaContact\\.txtPiso").val(current["FIELD30"]);
-							$("#BS607A\\.PersonaContact\\.txtPuerta").val(current["FIELD31"]);
-							$("#BS607A\\.PersonaContact\\.txtLugar").val(current["FIELD32"]);
-
-							$("#BS607A\\.DestFechSolicit\\.txtDestino1").val(current["FIELD33"]);
-							$("#BS607A\\.DestFechSolicit\\.txtFechaDest1").val(current["FIELD34"]);
-							$("#BS607A\\.DestFechSolicit\\.txtDestino2").val(current["FIELD35"]);
-							$("#BS607A\\.DestFechSolicit\\.txtFechaDest2").val(current["FIELD36"]);
-							
-							$("#BS607A\\.SaludSolicit\\.rbRadio\\.1").prop("checked", true);
-							$("#BS607A\\.SaludSolicit\\.rbRadio\\.14").prop("checked", true);   // Dieta no
-							
-							$("#BS607A\\.DatEconomicos\\.txtCuantiaMensual").val(current["FIELD40"]);
-							$("#BS607A\\.DatEconomicos\\.cvCasilla\\.1").prop("checked", true);
-
-							$("#BS607A\\.Autorizacion1\\.rbRadio\\.1").prop("checked", true);
-							$("#BS607A\\.Autorizacion2\\.rbRadio\\.1").prop("checked", true);
-							$("#BS607A\\.Autorizacion3\\.rbRadio\\.1").prop("checked", true);
-							$("#BS607A\\.Autorizacion4\\.rbRadio\\.1").prop("checked", true);
-
-					    } else {
-					    	console.log("No match");
-					    	console.log(fullName);
-					    	console.log(current["FIELD3"] + " " + current["FIELD4"] + " " + current["FIELD5"])
-					    }
-					});
-				});
-			}
-			
-                        // var url = endpoint + "/pdata-manager/api/v1/pData/download?fileFormat=CSV";
-			// var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
-			// console.log(tokenData);
-
-			// $.ajax({
-			// 	url: url,
-			// 	type: 'GET',
-			// 	contentType: "application/json; charset=utf-8",
-			// 	success: function (json) {
-			// 		console.log(json);
-			// 		var data = encodeURIComponent(json);
-
-
-			// 		$("<a />", {
-			// 			"download": "data.csv",
-			// 			"href": "data:application/json;charset=utf-8," + data
-			// 		}).appendTo("body")
-			// 		.click(function () {
-			// 			$(this).remove()
-			// 		})[0].click()
+					$("<a />", {
+						"download": "data.csv",
+						"href": "data:application/json;charset=utf-8," + data
+					}).appendTo("body")
+					.click(function () {
+						$(this).remove()
+					})[0].click()
 					
-			// 	},
-			// 	error: function (jqxhr, textStatus, err) {
-			// 		console.log(textStatus + ",	" + err);
+				},
+				error: function (jqxhr, textStatus, err) {
+					console.log(textStatus + ",	" + err);
 					
-			// 	},
-			// 	beforeSend: function (xhr) {
-			// 		xhr.setRequestHeader('Authorization', 'Bearer ' + tokenData.access_token);
-			// 		xhr.setRequestHeader('accountId', username);
+				},
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('Authorization', 'Bearer ' + tokenData.access_token);
+					xhr.setRequestHeader('accountId', username);
 
-			// 	}
+				}
 
-			// });
+			});
 
 		}
 		
@@ -504,9 +317,10 @@ var cdvCORE = (function () {
 		}
 
 		// pdata
-		function PData(userId, slrId) {
+		function PData(userId, slrId,slrToken) {
 			this.user_id = userId;
 			this.slr_id = slrId;
+			this.slr_token = slrToken;
 			this.properties = [];
 			this.toJsonString = function () {
 				return JSON.stringify(this);
@@ -514,10 +328,11 @@ var cdvCORE = (function () {
 		};
 
 		// Helper function to serialize all the form fields into a JSON string
-		function formFieldsToJSON(slrId, userId, fields) {
+		function formFieldsToJSON(slrId,slrToken, userId, fields) {
 			var properties = [];
 			var jsonStr = JSON.stringify({
 					"slr_id": slrId,
+					"slr_token": slrToken,
 					"user_id": userId,
 					"properties": []
 				});
@@ -561,12 +376,13 @@ var cdvCORE = (function () {
 		}
 
 		// Helper function to serialize all slr fields into a JSON string
-		function slrToJSON(userId, serviceId, serviceURL) {
+		function slrToJSON(userId, serviceId, serviceURL,serviceName) {
 			var properties = [];
 			var jsonStr = JSON.stringify({
 					"serviceId": serviceId,
 					"serviceUri": serviceURL,
-					"userId": userId
+					"userId": userId,
+					"serviceName":serviceName
 				});
 			return jsonStr;
 		}
@@ -602,6 +418,6 @@ function setFieldValue(target, value) {
 	});
 }
 
-function openCDV() {
+function openCDV(cdvDashUrl) {
 	window.open(cdvDashUrl, "_blank");
 }

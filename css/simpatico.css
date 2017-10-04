@@ -169,33 +169,42 @@ body {
 
     /*****************************************************************************/
 
+
 /************************* CDV styles**********************************/
     .ui-dialog {
         position: fixed !important;
+
     } 
 
     #dialog-cdv #tabs {
       min-height: 250px;
     }
-	
-	.no-close .ui-dialog-titlebar-close {
+  
+  .no-close .ui-dialog-titlebar-close {
         display: none;
     }
-	/* Personalised style for active buttons cdv */
+  /* Personalised style for active buttons cdv */
     .simp-bar-btn-active-cdv {
       background-color: #379E4C;
       border: 1px solid #fff;
     }
-	
-		
-	/************************* **********************************/
+  
+
+  .btn-primary {
+    color: #fff;
+    background-color: #379E4C;
+    border-color: #2e6da4;
+   }   
+
+  /************************* **********************************/
 
 /************************* WAE styles**********************************/
-	/* Personalised style for active buttons cdv */
+  /* Personalised style for active buttons cdv */
     .simp-bar-btn-active-wae {
       background-color: #379E4C;
       border: 1px solid #fff;
     }
+
 
 
   /************************* **********************************/
@@ -371,4 +380,113 @@ input[type="radio"]:checked+label{
   padding: 5px 10px;
   border: 1px solid;
   border-radius: 0 !important;
+  /************************* **********************************/
+
+
+#simp-bar-container-left {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#simp-bar-container-right {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  float: right;
+}
+
+#simp-bar li {
+    border: 1px solid transparent;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.simp-bar-btn-inactive {
+  background-color: transparent;
+  border: 0px solid #fff;
+}
+
+.simp-bar-btn-inactive:hover {
+    background-color: #24BCDA;
+    border: 1px solid #fff;
+}
+
+.simp-bar-btn-active {
+  background-color: #24BCDA;
+  border: 1px solid #fff;
+}
+
+
+/* TAE: Begin */
+.simp-bar-btn-inactive-tae {
+  background-color: transparent;
+  border: 0px solid #fff;
+}
+
+.simp-bar-btn-inactive-tae:hover {
+    background-color: #DE453E;
+    border: 1px solid #fff;
+}
+
+.simp-bar-btn-active-tae {
+  background-color: #DE453E;
+  border: 1px solid #fff;
+}
+/* TAE: End */
+
+/*////////////////////////////////////////////////////////////////////////////*/
+.ui-widget-content .simpatico-label  {
+  background-color:#337ab7;
+  color:#ffffff;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  padding-right: 0.3em;
+  padding-left: 0.3em;
+  border-radius: .25em
+}
+
+.ui-widget-content p {
+  line-height: 1.5em;
+}
+
+.main_form {
+  margin: 5px 25px 0 25px;
+}
+
+.test_content {
+  font-size: 1.5em;
+  line-height: 1.5em;
+  width: 19cm;
+}
+
+.block_edited {
+  border: 3px rgba(0, 128, 255, 0.45) solid;
+  width: 19cm;
+  /* margin: 2px; */
+  padding: 2px;
+}
+
+.simpatico-cpd-questions {
+  background-color: #a9a7a7;
+  padding: 5px;
+  font-style: normal;
+  text-align: left;
+  font-weight: normal;  
+    font-size: 14px;
+}
+.simpatico-cpd-questions span {
+  text-transform: uppercase;
+}
+.simpatico-cpd-questions li {
+  list-style: none;
+  padding-bottom: 5px;
+}
+.simpatico-cpd-questions li a {
+  color: #000;
+} 
+
+.simpatico-cpd-questions li.new-question {
+    padding-top: 5px;
+    text-decoration: underline;
 }

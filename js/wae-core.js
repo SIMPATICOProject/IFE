@@ -363,5 +363,4 @@ var waeEngine = new function() {
   function setElementValue(element, value) {
     $(element).val(value);
   }
-  
 }

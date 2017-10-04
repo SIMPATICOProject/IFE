@@ -35,14 +35,7 @@ var authManager = (function () {
         redirect = arr[0] + '//' + arr[2] + '/IFE/login.html';
       }
     }
-
-	// It uses the log component to register the produced events
-	var logger = function(event, details) {
-	  var nop = function(){};
-      if (logCORE != null) return logCORE.getInstance().ifeLogger;
-      else return {sessionStart: nop, sessionEnd: nop, formStart: nop, formEnd: nop};
-    }
-
+      
 
     // Component-related methods and behaviour
     function handleAuthClick() {
@@ -84,18 +77,31 @@ var authManager = (function () {
     	  win.close();
       }
       window.addEventListener('message', function (event) {
-    	  processData(event.data);
+        jQuery.ajax({
+          url: endpoint + '/basicprofile/me',
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            localStorage.userData = JSON.stringify(data);
+            updateUserData();
+          },
+          error: function(err) {
+            console.log(err);
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + event.data.access_token);
+          }
+        });
+        localStorage.aacTokenData = JSON.stringify(event.data);
       }, false);
     }
 
     // attach login flow to the sign-in button
     function handleSignoutClick(event) {
       if (!featureEnabled) return;
-
-      // log end of session
-      logger().sessionEnd(simpaticoEservice);
       localStorage.userData = '';
-      updateUserData();
+	  localStorage.aacTokenData = '';
+	  updateUserData();
     }
 
     // It checks if the corresponding user is previously loged in and updates the view accordingly 
@@ -117,7 +123,6 @@ var authManager = (function () {
           document.getElementById(userdataElementID).style = "display:block";
           enablePrivateFeatures();
           featureEnabled = true;
-
           // session started successfully, log
           logger().sessionStart(simpaticoEservice);
           // if the e-service page is associated to the form, log the form start event
@@ -141,15 +146,7 @@ var authManager = (function () {
       disable: handleSignoutClick,  // When the CB. is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       // More component related public methods
-      updateUserData: updateUserData,
-      getUserId: function() {
-          var data = JSON.parse(localStorage.userData || 'null');
-          return !!data ? data.userId : null
-      },
-      getToken: function() {
-          var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
-    	  return !!tokenData ? tokenData.access_token : null;
-      }
+      updateUserData: updateUserData
     };
   }
   

@@ -71,8 +71,9 @@ These properties include:
 * **simpaticoForm** (optional): It contains the unique identifier of the form of a e-service that the user is expected to fill in on the current
 page. If the page does not contain the form, the variable should be omitted. The value is used to log FORM START event upon the page initialization.
 * **simpaticoCategory** (optional): It contains the general category of the enhanced e-service. It is used by the Citizenpedia client.
-* **simpaticoMapping** (optional): list of CDV fields available on the current page. If CDV is not enable or the page does not contain the form, the value 
-may be omitted.
+* **simpaticoMapping** (optional): list of CDV fields available on the current page. If CDV is not enable or the page does not contain the form, the value may be omitted.
+* **serviceName** (optional): The name of the service. If CDV is not enable or the page does not contain the form, the value may be omitted.
+* **serviceURL** (optional): The URL of the service. If CDV is not enable or the page does not contain the form, the value may be omitted.
 * **ERROR_LABELS**(optional): Error messages for the adapted workflow blocks, if available on the page. If WAE is not enabled or if the page does not contain
 workflow, the value may be omitted.
 Example:
@@ -82,6 +83,8 @@ Example:
     var simpaticoForm = "main";
     var simpaticoCategory = "Wellness"; // the general category of the e-service
     var simpaticoMapping=["AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail"];
+    var serviceName = "PROGRAMA BIENESTAR EN BALNEARIOS"; // Eservice name
+	var serviceURL="http://localhost:8080/IFE/BS607A.html";// Eservice url
     var ERROR_LABELS = {
       'block1' : 'Phone number is required'
     }
@@ -279,11 +282,14 @@ The CDV IFE module requires the CDV components already installed and made availa
 To configure the CDV component it is necessary to setup cdvUI module:
 ```JavaScript
   cdvUI.getInstance().init({
-    endpoint: 'https://cdv-endpoint.com/',
+    endpoint: 'http://localhost:8080',
     serviceID: simpaticoEservice,
+	serviceName: serviceName,
+    serviceURL: serviceURL,
     dataFields: simpaticoMapping,
     cdvColor: '#008000',
     dialogTitle: 'Citizen Data Vault',
+
     entryMessage: 'Benvenuto a SIMPATICO Citizen Data Vault!',
     statusMessage: 'Adesso puoi selezionare/aggiornare i tuoi dati per compillare i campi del modulo.',
     notextMessage: 'Nessun campo selezionato',
@@ -303,7 +309,7 @@ To configure the CDV component it is necessary to setup cdvUI module:
     dialogRemoveTitle: 'Rimuovi account',
     buttonOK : 'OK',
     buttonCANCEL: 'Annula'
-    
+	cdvDashUrl:'http://localhost:8080/cdv-dashboard/index.html'
   });
 ```
 Parameters:
@@ -350,6 +356,7 @@ it is possible to use ` sfUI.getInstance().showSF()` method.
 
 
 ### 2.7. Buttons configuration
+
 In order to personalise the look and feel of each feature button, the parameters of each one should be defined.
 
 * **id**: the unique element id used to get the button inside the DOM

@@ -64,19 +64,27 @@ function initFeatures() {
   cdvUI.getInstance().init({
     endpoint: 'https://simpatico.hi-iberia.es:4570',
     serviceID: simpaticoEservice,
-    serviceURL: 'https://simpatico.hi-iberia.es:4570/IFE/'+simpaticoEservice+'_es.html',
+	  serviceName: serviceName,
+    serviceURL: serviceURL,
     dataFields: simpaticoMapping,
     cdvColor: '#008000',
     dialogTitle: 'Citizen Data Vault',
-    tabPFieldsTitle: 'Mis Datos',
-    entryMessage: 'Bienvenido a SIMPATICO',
-    statusMessage: 'Ahora puedes seleccionar/actualizar tus datos personales para rellenar campos.',
-    notextMessage: 'Ningún campo seleccionado',
-    dialogSaveTitle: 'Datos Salvados',
-    dialogSaveMessage: 'Datos salvados correctamente.',
-    statusMessageNoAccount: "No hay cuenta de Simpatico ascociada. ¿Crear?",
-    statusMessageNoActive: "Simpatico no está activo para este servicio. ¿Activar?",
-    tabSettingsTitle: 'Configuración'
+    tabPFieldsTitle: 'My Data',
+    entryMessage: 'Welcome to SIMPATICO CDV!',
+    statusMessage: 'Now you can select/update your personal data to fill form fields.',
+    notextMessage: 'No field selected',
+    dialogSaveTitle: 'Data Saved',
+    dialogSaveMessage: 'Data saved successfully into your Data Vault.',
+    statusMessageNoAccount: "No CDV Account associated to you. Create?",
+    statusMessageNoActive: "CDV is not active for this service. Activate?",
+	  confirmSaveDataMessage: "Update your Persona Data?",
+    buttonSaveData:"Save your data",
+    buttonManageData:"Manage your data",
+    buttonActivate:"Activate",
+    buttonCreate: "Create",
+    consentButton: "Consent",
+    tabSettingsTitle: 'Settings',
+	cdvDashUrl:'http://localhost:8080/cdv-dashboard/index.html'
   });
 
   // Init the Text Adaptation Engine component (see tae-ui.js)
@@ -148,6 +156,14 @@ function initFeatures() {
   daUI.getInstance().init({
     elementsToTrackTimeClassName: '',
     apiEndpoint: ''
+		endpoint: '',
+		prevButtonLabel: 'Anterior',
+		nextButtonLabel: 'Siguiente',
+		topBarHeight: 60,
+		errorLabel: {
+			'block1' : 'Manca il codice fiscale',
+			'block4' : 'Manca selezione Part-time / Full-time'
+		}
   });
 
   // Declare here the buttons that will be available in the Simpatico Bar
@@ -232,8 +248,8 @@ function initFeatures() {
                   isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
                   enable: function() { cdvUI.getInstance().enable(); },
                   disable: function() { cdvUI.getInstance().disable(); },
-		  text: "Datos"
-		  }
+		              text: "Datos"
+		            }
 //                },
 //                { // workflow adaptation. Switch to the modality, where the form adaptation starts
 //                  id: 'workflow1',
@@ -290,9 +306,7 @@ function enablePrivateFeatures() {
   // For each button (without the login one) create and add the node
   var buttonsContainer = document.getElementById("simp-bar-container-left");
   for (var i = 1, len = buttons.length; i < len; i++) {
-	if (document.getElementById(buttons[i].id) == null) {
-		buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
-	}
+    buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
   }
   document.getElementById("simpatico-bar-copy").style.display = "none";
   document.getElementById("simp-bar-sw-login-fig").innerHTML = "Salir";
