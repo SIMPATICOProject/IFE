@@ -1,307 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab');
+
 body {
-	margin-top: 60px !important;
+	margin-top: 80px;
 }
-
-#simp-bar {
-	z-index: 999;
-	position: fixed;
-	top:0;
-	width: 100%;
-	height: 52px;
-	background-color: #d3d3d6 !important;
-}
-
-#simp-bar img {
-    vertical-align: middle;
-}
-
-#simp-bar div, #simp-bar ul {
-	display: inline-block;
-	margin-top: 0;
-	margin-bottom: 0;
-}
-
-/********************* Citizenpedia questions box Styles *********************/
-
-/* Main question box class */
-.simp-ctz-ui-qb {
-	border-left: thick solid #24BCDA !important;
-	border-top: : thick solid #24BCDA !important;
-	background-color: #D3F2F8 !important;
-}
-/* Title of a question box */
-.simp-ctz-ui-qb p {
-font-weight: bold;
-	margin-left: 0px !important;
-	margin-right: : 0px !important;
-	color: #D3F2F8 !important;
-	background-color: #24BCDA !important;
-}
-/* Each question in a question list */
-.simp-ctz-ui-qb li {
-	padding-left: 10px !important;
-}
-.simp-ctz-ui-qb a {
-	text-decoration: none;
-}
-
-/*****************************************************************************/
-
-/************************* CDV styles**********************************/
-    .ui-dialog {
-        position: fixed !important;
-    } 
-	
-	.no-close .ui-dialog-titlebar-close {
-        display: none;
-    }
-	/* Personalised style for active buttons cdv */
-    .simp-bar-btn-active-cdv {
-      background-color: #379E4C;
-      border: 1px solid #fff;
-    }
-	
-		
-	/************************* **********************************/
-
-/************************* WAE styles**********************************/
-	/* Personalised style for active buttons cdv */
-    .simp-bar-btn-active-wae {
-      background-color: #379E4C;
-      border: 1px solid #fff;
-    }
-
-
-	/************************* **********************************/
-
-
-#simp-bar-container-left {
-	display: inline-block;
-	margin-top: 0;
-	margin-bottom: 0;
-}
-
-#simp-bar-container-right {
-	display: inline-block;
-	margin-top: 0;
-	margin-bottom: 0;
-	float: right;
-}
-
-#simp-bar li {
-    border: 1px solid transparent;
-    display: inline-block;
-    margin-right: 15px;
-}
-
-.simp-bar-btn-inactive {
-	background-color: transparent;
-	border: 0px solid #fff;
-}
-
-.simp-bar-btn-inactive:hover {
-		background-color: #24BCDA;
-    border: 1px solid #fff;
-}
-
-.simp-bar-btn-active {
-	background-color: #24BCDA;
-	border: 1px solid #fff;
-}
-
-
-/* TAE: Begin */
-.simp-bar-btn-inactive-tae {
-	background-color: transparent;
-	border: 0px solid #fff;
-}
-
-.simp-bar-btn-inactive-tae:hover {
-		background-color: #DE453E;
-    border: 1px solid #fff;
-}
-
-.simp-bar-btn-active-tae {
-	background-color: #DE453E;
-	border: 1px solid #fff;
-}
-/* TAE: End */
-
-/*////////////////////////////////////////////////////////////////////////////*/
-.ui-widget-content .simpatico-label  {
-	background-color:#337ab7;
-	color:#ffffff;
-	padding-top: 0.1em;
-	padding-bottom: 0.1em;
-	padding-right: 0.3em;
-	padding-left: 0.3em;
-	border-radius: .25em
-}
-
-.ui-widget-content p {
-	line-height: 1.5em;
-}
-
-.main_form {
-	margin: 5px 25px 0 25px;
-}
-
-.test_content {
-	font-size: 1.5em;
-	line-height: 1.5em;
-	width: 19cm;
-}
-
-.block_edited {
-	border: 3px rgba(0, 128, 255, 0.45) solid;
-	width: 19cm;
-	/* margin: 2px; */
-  padding: 2px;
-}
-
-.simpatico-cpd-questions {
-	background-color: #a9a7a7;
-	padding: 5px;
-	font-style: normal;
-	text-align: left;
-	font-weight: normal;	
-    font-size: 14px;
-}
-.simpatico-cpd-questions span {
-	text-transform: uppercase;
-}
-.simpatico-cpd-questions li {
-	list-style: none;
-	padding-bottom: 5px;
-}
-.simpatico-cpd-questions li a {
-	color: #000;
-}	
-
-.simpatico-cpd-questions li.new-question {
-    padding-top: 5px;
-    text-decoration: underline;
-}
-
-#div_simpatico_error_msg {
-	padding: 4px 16px;
-	color: red;
-	font-weight: bold;
-}
-
-<!-- ////////      STYLES USED BY SIMPATICO TOOLBAR:BEGIN      //////// -->
-    <!-- NOTE: CSS styles should be pasted in a CSS file -->
-  <style type="text/css">
-    /********************* Toolbar and buttons Styles *********************/
-    body {
-      margin-top: 60px;
-    }
-    /************************* CDV styles**********************************/
-    .ui-dialog {
-        position: fixed !important;
-    }
-
-    .no-close .ui-dialog-titlebar-close {
-        display: none;
-    }
-    /* Personalised style for active buttons cdv */
-    .simp-bar-btn-active-cdv {
-      background-color: #379E4C;
-      border: 1px solid #fff;
-    }
-
-
-    /************************* **********************************/
+    /************************* SIMPATICO BAR**********************************/
 
     #simp-bar {
-      display: inline-table;
-      z-index: 999;
-      position: fixed;
-      top:0;
-      width: 100%;
-      height: 52px;
-      background-color: #d3d3d6 !important;
-      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
-    }
-
-    #simp-bar img {
-        vertical-align: middle;
-    }
-
-    /* Private buttons container */
-    #simp-bar-container-left {
-      display: inline-block;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    /* Login button container */
-    #simp-bar-container-right {
-      display: inline-block;
-      margin-top: 0;
-      margin-bottom: 0;
-      float: right;
-    }
-    /* Toolbar divs and containers */
-    #simp-bar div, #simp-bar ul {
-      display: inline-block;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    /* Generic style for all the buttons */
-    #simp-bar li {
-        border: 1px solid transparent;
+        display: inline-table;
+        z-index: 999;
+        top:0;
+        width: 100%;
+        height: 52px;
+        background-color: #009ee0 !important;
+        font-family: 'Roboto Slab', sans-serif;
+	font-size: 14px;
+      }
+  
+      #simp-bar img {
+          vertical-align: middle;
+      }
+  
+      /* Private buttons container */
+      #simp-bar-container-left {
         display: inline-block;
-        margin-right: 15px;
-    }
-
-    /* Personalised style for buttons */
-
-    /* >>> QAE Button */
-    .simp-bar-btn-inactive {
-      background-color: transparent;
-      border: 0px solid #fff;
-    }
-    .simp-bar-btn-inactive:hover {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+  
+      /* Login button container */
+      #simp-bar-container-right {
+        display: inline-block;
+        margin-top: 0;
+        margin-bottom: 0;
+        float: right;
+        font-size: 20px;
+      }
+      /* Toolbar divs and containers */
+      #simp-bar div, #simp-bar ul {
+        display: inline-block;
+        margin-top: 4px;
+        margin-bottom: 0;
+      }
+  
+      #simpatico-bar-copy{
+        font-size: 20px;
+        padding: 10px;
+      }
+      /* Generic style for all the buttons */
+      #simp-bar li {
+          border: 1px solid transparent;
+          display: inline-block;
+          margin-right: 15px;
+      }
+  
+      /* Personalised style for buttons */
+  
+      /* >>> QAE Button */
+      .simp-bar-btn-inactive {
+        background-color: transparent;
+        border: 0px solid #fff;
+      }
+      .simp-bar-btn-inactive:hover {
+          background-color: #24BCDA;
+          border: 1px solid #fff;
+          animation-name: anim-inactive-hover;
+          animation-duration: 1s;
+      }
+      @keyframes anim-inactive-hover {
+        from {background-color: transparent;}
+        to {background-color: #24BCDA;}
+      }
+      .simp-bar-btn-active {
         background-color: #24BCDA;
         border: 1px solid #fff;
-        animation-name: anim-inactive-hover;
-        animation-duration: 1s;
-    }
-    @keyframes anim-inactive-hover {
-      from {background-color: transparent;}
-      to {background-color: #24BCDA;}
-    }
-    .simp-bar-btn-active {
-      background-color: #24BCDA;
-      border: 1px solid #fff;
-    }
-    /* <<< QAE Button */
-
-    /* >>> TAE Button */
-    .simp-bar-btn-inactive-tae {
-      background-color: transparent;
-      border: 0px solid #fff;
-    }
-    .simp-bar-btn-inactive-tae:hover {
+      }
+      /* <<< QAE Button */
+  
+      /* >>> TAE Button */
+      .simp-bar-btn-inactive-tae {
+        background-color: transparent;
+        border: 0px solid #fff;
+      }
+      .simp-bar-btn-inactive-tae:hover {
+          background-color: #DE453E;
+          border: 1px solid #fff;
+          animation-name: anim-inactive-hover-tae;
+          animation-duration: 1s;
+      }
+      @keyframes anim-inactive-hover-tae {
+        from {background-color: transparent;}
+        to {background-color: #DE453E;}
+      }
+      .simp-bar-btn-active-tae {
         background-color: #DE453E;
         border: 1px solid #fff;
-        animation-name: anim-inactive-hover-tae;
-        animation-duration: 1s;
-    }
-    @keyframes anim-inactive-hover-tae {
-      from {background-color: transparent;}
-      to {background-color: #DE453E;}
-    }
-    .simp-bar-btn-active-tae {
-      background-color: #DE453E;
-      border: 1px solid #fff;
-    }
-    /* <<< TAE Button */
-
-    /*****************************************************************************/
-
+      }
+      /* <<< TAE Button */
+  
+      /*****************************************************************************/
 
     /***************************** Citizenpedia Styles ***************************/
 
@@ -373,7 +169,37 @@ font-weight: bold;
 
     /*****************************************************************************/
 
+/************************* CDV styles**********************************/
+    .ui-dialog {
+        position: fixed !important;
+    } 
 
+    #dialog-cdv #tabs {
+      min-height: 250px;
+    }
+	
+	.no-close .ui-dialog-titlebar-close {
+        display: none;
+    }
+	/* Personalised style for active buttons cdv */
+    .simp-bar-btn-active-cdv {
+      background-color: #379E4C;
+      border: 1px solid #fff;
+    }
+	
+		
+	/************************* **********************************/
+
+/************************* WAE styles**********************************/
+	/* Personalised style for active buttons cdv */
+    .simp-bar-btn-active-wae {
+      background-color: #379E4C;
+      border: 1px solid #fff;
+    }
+
+
+  /************************* **********************************/
+  
     /********************* Text Adaptation Engine box Styles *********************/
 
     /* Main simplified text box class */
@@ -447,7 +273,17 @@ font-weight: bold;
     }
     /*****************************************************************************/
 
-    /********************* Session Feedback Dialog Styles *********************/
+
+  /***** XUNTA WEB STYLE HACK ******/
+  .inicioSolicitude{
+    border-style: dotted;
+    border-color: red;
+    border-width: 5px;
+    border-collapse: separate;
+
+  }
+
+  /********************* Session Feedback Dialog Styles *********************/
 .right {
     float: right;
 }
@@ -472,11 +308,11 @@ font-weight: bold;
     cursor: pointer;
 }
 input[type="radio"]:checked+label{
-    background-color: #efefef;
+    background-color: #b8b8b8;
 }
 
 #face-radio-buttons-session-feedback label:hover {
-    background-color: #efefef;
+    background-color: #b8b8b8;
 }
 #face-radio-buttons-session-feedback label img {
     padding: 3px;
@@ -531,7 +367,8 @@ input[type="radio"]:checked+label{
 }
 
 #button_cancel_session_feedback_text, #button_send_session_feedback_a {
-	padding: 5px 10px;
-	border: 1px solid;
-	border-radius: 0 !important;
+  background-color: #009de0;
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: 0 !important;
 }

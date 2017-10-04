@@ -19,7 +19,7 @@ function initFeatures() {
     //clientID: '5c24dd95-a1b4-4208-ab5a-ce288963fe28',
     //authority: "google"
     // Internal
-    clientID: '',
+    clientID: 'f21558f2-0992-47b1-85af-1ada614d8cc6',
     authority: "internal"
   });
 
@@ -165,7 +165,8 @@ function initFeatures() {
                   
                   isEnabled: function() { return authManager.getInstance().isEnabled(); },
                   enable: function() { authManager.getInstance().enable(); },
-                  disable: function() { authManager.getInstance().disable(); }
+                  disable: function() { authManager.getInstance().disable(); },
+		  text: "Entrar"
                 },
 
                 {
@@ -180,7 +181,8 @@ function initFeatures() {
 
                   isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
                   enable: function() { citizenpediaUI.getInstance().enable(); },
-                  disable: function() { citizenpediaUI.getInstance().disable(); }
+                  disable: function() { citizenpediaUI.getInstance().disable(); },
+		  text: "Preguntas"
                 },
 
                 {
@@ -195,7 +197,8 @@ function initFeatures() {
 
                   isEnabled: function() { return taeUI.getInstance().isEnabled(); },
                   enable: function() { taeUI.getInstance().enable(); },
-                  disable: function() { taeUI.getInstance().disable(); }
+                  disable: function() { taeUI.getInstance().disable(); },
+		  text: "Simplificar"
                 },
                 
 //                {
@@ -228,7 +231,8 @@ function initFeatures() {
 
                   isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
                   enable: function() { cdvUI.getInstance().enable(); },
-                  disable: function() { cdvUI.getInstance().disable(); }
+                  disable: function() { cdvUI.getInstance().disable(); },
+		  text: "Datos"
 		  }
 //                },
 //                { // workflow adaptation. Switch to the modality, where the form adaptation starts
@@ -252,6 +256,7 @@ function initFeatures() {
 function createButtonHTML(button) {
   return '<li class="'+ button.styleClassDisabled +'" id="' + button.id + '" '+
                           'onclick="toggleAction(\'' + button.id + '\');">'+
+			  '<figure>'+
                           //'<a href="#">' +
                           '<img ' +
                             'alt="' + button.alt + '" ' + 
@@ -260,6 +265,10 @@ function createButtonHTML(button) {
                             'src="' + button.imageSrcDisabled + '" ' +
                             'width="50" height="50" />' +
                             //'</a>'+
+	                    '<figcaption id="'+button.id +'-fig" style="text-align: center;">'+
+                            button.text + 
+                            '</figcaption>' + 
+                          '</figure>' + 
                           '</li>';
 }//createButtonHTMLbutton()
 
@@ -285,6 +294,8 @@ function enablePrivateFeatures() {
 		buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
 	}
   }
+  document.getElementById("simpatico-bar-copy").style.display = "none";
+  document.getElementById("simp-bar-sw-login-fig").innerHTML = "Salir";
 }//enablePrivateFeatures(id)
 
 // It inits all the configured buttons
@@ -308,6 +319,7 @@ function disablePrivateFeatures() {
 // as parameter
 // - containerID: the Id of the element which is going to contain the toolbar 
 function addSimpaticoBar(containerID) {
+  var simpaticoCopy = "SIMPATICO te ayudará con tus gestiones. Entra aquí";
   var simpaticoBarContainer = document.getElementById(containerID);
   if (simpaticoBarContainer == null) {
     var body = document.getElementsByTagName('body')[0];
@@ -317,16 +329,18 @@ function addSimpaticoBar(containerID) {
 
   // Create the main div of the toolbar
   var simpaticoBarHtml = '<div id="simp-bar">' +
-                            '<div>' +
+                            '<div style="margin: 1%;">' +
                               '<a href="#">' +
                                 '<img src="./img/logo.png" ' +
                                 'height="50px" ' +
                                 'alt="Simpatico ">' +
                               '</a>' +
-                            '</div>';
+                            '</div>'+
+			    '<div id="simpatico-bar-copy">'+simpaticoCopy+'</div>';
 
   // Add the left side of the toolbar
-  simpaticoBarHtml += '<ul id="simp-bar-container-left"></ul>';
+  //simpaticoBarHtml += '<ul id="simp-bar-container-left"></ul>';
+  simpaticoBarHtml += '<ul id="simp-bar-container-left" style="position: absolute;"></ul>';
 
   // Add the right side of the toolbar
   simpaticoBarHtml += '<ul id="simp-bar-container-right">' + 

@@ -8,12 +8,11 @@
 	<link rel="shortcut icon" type="image/x-icon" href="https://sede.xunta.gal/formularios/resources/favicon.ico">
 	
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  	<link rel="stylesheet" type="text/css" media="screen" href="../css/simpatico.css">
   	<link rel="stylesheet" type="text/css" media="screen" href="./css/base.css">
   	<link rel="stylesheet" type="text/css" media="screen" href="./css/estilos.css">
-
   	<link rel="stylesheet" type="text/css" media="screen" href="./css/jquery-ui-1.10.2.custom.css">
 	<link rel="stylesheet" type="text/css" media="screen" href="./css/bootstrap-3.3.6.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="../css/simpatico.css">
 
 	<script type="text/javascript">
 		var global_contextPath = '/formularios';
@@ -35,52 +34,53 @@
 		$(document).ready(function() {
 			$("#btn_presentarElect,#btn2_presentarElect").click(function(e) {
 				e.preventDefault();
-
 				sfUI.getInstance().showSF();
 			});
 
 		});    
     </script>
-<script>
-		    setInterval(function(){
-		    	$("#button_send_session_feedback_text").off('click').on('click', function() {
-                        console.log("SendFeedback");
-                var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
-                var dataObj = {};
-                dataForms.each(function(idx, d) {
-                        var key = d.name ? d.name : d.id;
-                        if (d.type=='radio') {
-                                if (d.checked) dataObj[key] = d.value;
-                        } else {
-                        dataObj[key] = d.value;
-                        }
-                });
-                console.log("Sending:");
-                console.log(dataObj);
-                logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
-                // TODO: manage complexity correctly
-                complexity = 0;
-                logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
+	<script>
+		setInterval(function(){
+			$("#button_send_session_feedback_text").off('click').on('click', function() {
+			    console.log("SendFeedback");
+				var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
+				var dataObj = {};
+				dataForms.each(function(idx, d) {
+				    var key = d.name ? d.name : d.id;
+				    if (d.type=='radio') {
+				    	if (d.checked) dataObj[key] = d.value;
+				    } else {
+				    	dataObj[key] = d.value;
+				    }
+				});
+				console.log("Sending:");
+				console.log(dataObj);
+				logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
+				// TODO: manage complexity correctly
+				complexity = 0;
+				logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
 
-      // Close dialog
-      $('#dialogSF').dialog("destroy").remove();
+				// Close dialog
+				$('#dialogSF').dialog("destroy").remove();
 
 
-             		window.location = "BS607A_end.html";
-         		});
-		    }, 1000);
-		
+				window.location = "BS607A_end.html";
+			});
+		}, 1000);
+			
 	</script>
 
 	<script type="text/javascript">
 	  var simpaticoEservice = "BS607A"; // Eservice example
-	  var simpaticoMapping=["BS607A.Entidad.txtNombre","BS607A.Entidad.txtApel2","BS607A.Entidad.txtApel1","BS607A.Entidad.txtNifCif","BS607A.Entidad.txtDireccion","BS607A.Entidad.txtParroquia","BS607A.Entidad.txtLugar","BS607A.Entidad.txtCodigoPostal","BS607A.Entidad.txtLocalidad","BS607A.Entidad.txtPais","BS607A.Entidad.txtTelefono","BS607A.Entidad.txtMovil","BS607A.Entidad.txtEmail","BS607A.Declarante.txtNombre","BS607A.Declarante.txtApel2","BS607A.Declarante.txtApel1","BS607A.Declarante.txtNifCif"];
+	  var simpaticoForm = "form";
+	  var simpaticoMapping=["BS607A.Entidad.txtNombre","BS607A.Entidad.txtApel2","BS607A.Entidad.txtApel1","BS607A.Entidad.txtNifCif","BS607A.Entidad.txtDireccion","BS607A.Entidad.txtNumero","BS607A.Entidad.txtPiso","BS607A.Entidad.txtPuerta","BS607A.Entidad.txtLugar","BS607A.Entidad.txtCodigoPostal","BS607A.Entidad.txtLocalidad","BS607A.Entidad.txtPais","BS607A.Entidad.txtTelefono","BS607A.Entidad.txtMovil","BS607A.Entidad.txtEmail","BS607A.HijoDiscap.txtNombre","BS607A.HijoDiscap.txtApel1","BS607A.HijoDiscap.txtApel2","BS607A.HijoDiscap.txtNifCif","BS607A.HijoDiscap.txtFechaNac","BS607A.HijoDiscap.txtNCartillaSanit","BS607A.HijoDiscap.txtPorcentDiscap","BS607A.PersonaContact.txtNombre","BS607A.PersonaContact.txtApel1","BS607A.PersonaContact.txtApel2","BS607A.PersonaContact.txtNifCif","BS607A.PersonaContact.txtDireccion","BS607A.PersonaContact.txtNumero","BS607A.PersonaContact.txtPiso","BS607A.PersonaContact.txtPuerta","BS607A.PersonaContact.txtLugar","BS607A.DestFechSolicit.txtDestino1","BS607A.DestFechSolicit.txtFechaDest1","BS607A.DestFechSolicit.txtDestino2","BS607A.DestFechSolicit.txtFechaDest2","BS607A.DestFechSolicit.txtCuantiaMensual"];
 	  var ERROR_LABELS = {
       	'block1' : 'Phone number is required'
       }
 	</script>
 
 	<!-- Injection of JS Libraries -->
+	<script src="../js/ife-userId.js"></script>
 	<script src="../js/log-core.js"></script>
 	<script src="../js/ctz-ui.js"></script>
 	<script src="../js/ctz-core.js"></script>
@@ -99,6 +99,8 @@
 	<script>wgxpath.install();</script>
 	<script src="../js/simpatico-ife.js"></script>
 	<script src="../js/simpatico-auth.js"></script>
+	<script src="../js/log-no-simpatico.js"></script>
+	
 
 	<!-- Piwik ALL -->
 	<script type="text/javascript">
@@ -165,14 +167,13 @@
 		<div id="content-wrapper" class="fila">
 			<div class="col11col">
 				<div>
-					<script type="text/javascript" src="js/avisoSesion.js"></script>
 					<div id="formularioCump">
 						<script type="text/javascript">
 							var migrado = '';
 							var esPresentacionPresencial = false;
 						</script>
 						<!-- ORIGINAL <form id="command" action="https://sede.xunta.gal/formularios/cumplimentacion/novo/PR013A?idioma=es" method="post"> -->
-						<form id="command" action="https://simpatico.morelab.deusto.es/replica/BS607A.html#" method="post">
+						<form id="command" action="" method="">
 							<input id="codigoProcedimiento" name="codigoProcedimiento" type="hidden" value="BS607A">
 							<input id="idBorrador" name="idBorrador" type="hidden" value="">
 							<input id="codigoSeguridad" name="codigoSeguridad" type="hidden" value="">
@@ -852,9 +853,9 @@
 														<input id="BS607A.DestFechSolicit.txtDestino1" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtDestino1&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
 													</div> 
 													<div class="col-md-2 col-sm-2"> 
-														<label for="BS607A.DestFechSolicit.txtFechaDest" class="control-label text-left"> FECHA </label> 
+														<label for="BS607A.DestFechSolicit.txtFechaDest1" class="control-label text-left"> FECHA </label> 
 														<span id="BS607A.DestFechSolicit.txtFechaDest.error" class="errores" style="display: none"></span> 
-														<input id="BS607A.DestFechSolicit.txtFechaDest" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtFechaDest&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
+														<input id="BS607A.DestFechSolicit.txtFechaDest1" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtFechaDest&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
 													</div> 
 												</div>
 												<div class="form-group-sm col-md-12"> 
@@ -864,9 +865,9 @@
 														<input id="BS607A.DestFechSolicit.txtDestino2" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtDestino2&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
 													</div> 
 													<div class="col-md-2 col-sm-2"> 
-														<label for="BS607A.DestFechSolicit.txtFechaDest" class="control-label text-left"> FECHA </label> 
+														<label for="BS607A.DestFechSolicit.txtFechaDest2" class="control-label text-left"> FECHA </label> 
 														<span id="BS607A.DestFechSolicit.txtFechaDest.error" class="errores" style="display: none"></span> 
-														<input id="BS607A.DestFechSolicit.txtFechaDest" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtFechaDest&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
+														<input id="BS607A.DestFechSolicit.txtFechaDest2" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtFechaDest&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
 													</div> 
 												</div>
 												<div class="form-group-sm col-md-12"> 
@@ -876,9 +877,9 @@
 														<input id="BS607A.DestFechSolicit.txtDestino3" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtDestino3&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
 													</div> 
 													<div class="col-md-2 col-sm-2"> 
-														<label for="BS607A.DestFechSolicit.txtFechaDest" class="control-label text-left"> FECHA </label> 
+														<label for="BS607A.DestFechSolicit.txtFechaDest3" class="control-label text-left"> FECHA </label> 
 														<span id="BS607A.DestFechSolicit.txtFechaDest.error" class="errores" style="display: none"></span> 
-														<input id="BS607A.DestFechSolicit.txtFechaDest" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtFechaDest&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
+														<input id="BS607A.DestFechSolicit.txtFechaDest3" name="campos[&#39;/ProcedimientoXunta/BS607A/DestFechSolicit/txtFechaDest&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
 													</div> 
 												</div>
 											</fieldset> 

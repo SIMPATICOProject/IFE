@@ -74,7 +74,7 @@ var authManager = (function () {
 		  }
 		});
 		// add expiration timestamp with 1 hour buffer
-		data.expires_on = new Date().getTime() + parseInt(data.expires_in)*1000 - 1000*60*60*1;
+		data.expires_on = new Date().getTime() + parseInt(data.expires_in)*1000 /*- 1000*60*60*1*/;
 		localStorage.aacTokenData = JSON.stringify(data);
       }
 
@@ -105,6 +105,8 @@ var authManager = (function () {
         if (!!data) {
           var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
           if (! tokenData || tokenData.expires_on < new Date().getTime()) {
+              console.log("[WARN] Now: " + new Date().getTime() + ", expire_on: " + tokenData.expires_on);
+              alert("Session Expired");
               localStorage.userData = '';
               localStorage.aacTokenData = '';
               updateUserData();
@@ -119,10 +121,10 @@ var authManager = (function () {
           // session started successfully, log
           logger().sessionStart(simpaticoEservice);
           // if the e-service page is associated to the form, log the form start event
-          if (window.simpaticoForm) {
-              // log end of session
-        	  logger().formStart(simpaticoEservice, simpaticoForm);
-          }
+          //if (window.simpaticoForm) {
+            // log end of session
+        	//  logger().formStart(simpaticoEservice, simpaticoForm);
+          //}
 
         } else {
           document.getElementById(userdataElementID).innerHTML = "";

@@ -42,6 +42,7 @@ var sfUI = (function () {
     function showSF () {
 
       if (!authManager.getInstance().isEnabled()){
+        alert("You must be log in SIMPATICO");
         console.log("Auth needed");
         return; // If there isn't an user logged in, SF won't work
       } 

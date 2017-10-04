@@ -69,11 +69,11 @@ var qaeCORE = (function () {
           for (var index in jsonResponse) {
             // if (json["id"] == serviceID) {
             if (serviceID == "BS607A") {
-              if (jsonResponse[index]["id"] == "60cc24d0-bb36-4580-9150-ee62eb32ab7a") {
+              if (jsonResponse[index]["diagramId"] == "60cc24d0-bb36-4580-9150-ee62eb32ab7a") {
                 return diagramCallback(jsonResponse[index]);
               }
             } else if (serviceID == "BS613B") {
-              if (jsonResponse[index]["id"] == "9fd2003a-8dcd-407a-9c48-b46951427947") {
+              if (jsonResponse[index]["diagramId"] == "9fd2003a-8dcd-407a-9c48-b46951427947") {
                 return diagramCallback(jsonResponse[index]);
               }
             }

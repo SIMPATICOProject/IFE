@@ -36,55 +36,55 @@
     $(document).ready(function() {
       $("#btn_presentarElect,#btn2_presentarElect").click(function(e) {
         e.preventDefault();
-
         sfUI.getInstance().showSF();
+
       });
     });    
   </script>
 
 <script>
-                    setInterval(function(){
-                        $("#button_send_session_feedback_text").off('click').on('click', function() {
+  setInterval(function(){
+    $("#button_send_session_feedback_text").off('click').on('click', function() {
 
-                        console.log("SendFeedback");
-                var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
-                var dataObj = {};
-                dataForms.each(function(idx, d) {
-                        var key = d.name ? d.name : d.id;
-                        if (d.type=='radio') {
-                                if (d.checked) dataObj[key] = d.value;
-                        } else {
-                        dataObj[key] = d.value;
-                        }
-                });
-                console.log("Sending:");
-                console.log(dataObj);
-                logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
-                // TODO: manage complexity correctly
-                complexity = 0;
-                logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
+      console.log("SendFeedback");
+      var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
+      var dataObj = {};
+      dataForms.each(function(idx, d) {
+      var key = d.name ? d.name : d.id;
+      if (d.type=='radio') {
+        if (d.checked) dataObj[key] = d.value;
+      } else {
+        dataObj[key] = d.value;
+      }
+      });
+      console.log("Sending:");
+      console.log(dataObj);
+      logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
+      // TODO: manage complexity correctly
+      complexity = 0;
+      logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
 
       // Close dialog
       $('#dialogSF').dialog("destroy").remove();
 
-                        window.location = "BS613B_end.html";
-                        });
-                    }, 1000);
+      window.location = "BS613B_end.html";
+    });
+  }, 1000);
 
-        </script>
-
+</script>
 
   <script type="text/javascript">
     var simpaticoEservice = "BS613B"; // Eservice 
-    var simpaticoForm = "main";
+    var simpaticoForm = "form";
     var simpaticoCategory = "Wellness"; // the general category of the e-service
-    var simpaticoMapping=["BS613B.Entidad.txtNombre","BS613B.Entidad.txtApel2","BS613B.Entidad.txtApel1","BS613B.Entidad.txtNifCif","BS613B.Entidad.txtDireccion","BS613B.Entidad.txtParroquia","BS613B.Entidad.txtLugar","BS613B.Entidad.txtCodigoPostal","BS613B.Entidad.txtLocalidad","BS613B.Entidad.txtPais","BS613B.Entidad.txtTelefono","BS613B.Entidad.txtMovil","BS613B.Entidad.txtEmail","BS613B.Declarante.txtNombre","BS613B.Declarante.txtApel2","BS613B.Declarante.txtApel1","BS613B.Declarante.txtNifCif"];
+    var simpaticoMapping=["BS613B.Entidad.txtNombre","BS613B.Entidad.txtApel2","BS613B.Entidad.txtApel1","BS613B.Entidad.txtNifCif","BS613B.Entidad.txtDireccion","BS613B.Entidad.txtNumero","BS613B.Entidad.txtPiso","BS613B.Entidad.txtPuerta","BS613B.Entidad.txtLugar","BS613B.Entidad.txtCodigoPostal","BS613B.Entidad.txtLocalidad","BS613B.Entidad.txtPais","BS613B.Entidad.txtTelefono","BS613B.Entidad.txtMovil","BS613B.Entidad.txtEmail","BS613B.Cuenta.txtTitular","BS613B.Cuenta.txtIBAN1","BS613B.Cuenta.txtIBAN2","BS613B.Cuenta.txtIBAN3","BS613B.Cuenta.txtIBAN4","BS613B.Cuenta.txtIBAN5","BS613B.Cuenta.txtIBAN6","BS613B.Discapacidad.txtGrado","BS613B.Discapacidad.txtExpediente"];
     var ERROR_LABELS = {
         'block1' : 'Phone number is required'
     }
   </script>
 
   <!-- Injection of JS Libraries -->
+  <script src="../js/ife-userId.js"></script>
   <script src="../js/log-core.js"></script>
   <script src="../js/ctz-ui.js"></script>
   <script src="../js/ctz-core.js"></script>
@@ -105,6 +105,8 @@
   </script>
   <script src="../js/simpatico-ife.js"></script>
   <script src="../js/simpatico-auth.js"></script>
+  <script src="../js/log-no-simpatico.js"></script>
+  
 
   <!-- Piwik ALL -->
   <script type="text/javascript">
@@ -166,7 +168,6 @@
     <div id="content-wrapper" class="fila">
       <div class="col11col">
         <div>
-          <script type="text/javascript" src="./js/avisoSesion.js"></script>
           <div id="formularioCump">
             <script type="text/javascript">
               var migrado = '';
@@ -592,120 +593,120 @@
                                 <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010505 Logopedia </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010506 Terapia ocupacional </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.14" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla14&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt14.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.14" class="labelRadio"> 01010506 Terapia ocupacional </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010507 Estimulación cognitiva </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.15" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt15.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.15" class="labelRadio"> 01010507 Estimulación cognitiva </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010508 Estimulación sensorial </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.16" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla16&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.16" class="labelRadio"> 01010508 Estimulación sensorial </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010509 Atención psicomotriz </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.17" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla17&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.17" class="labelRadio"> 01010509 Atención psicomotriz </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010510 Atención psicológica </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.18" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla18&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.18" class="labelRadio"> 01010510 Atención psicológica </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010511 Atención neuropsicológica </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.19" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla19&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt19.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.19" class="labelRadio"> 01010511 Atención neuropsicológica </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010512 Atención psiquiátrica </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.20" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla20&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt20.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.20" class="labelRadio"> 01010512 Atención psiquiátrica </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010513 Rehabilitación psicosocial </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.21" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla21&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt21.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.21" class="labelRadio"> 01010513 Rehabilitación psicosocial </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010514 Atención pedagógica </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.22" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla22&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt22.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.22" class="labelRadio"> 01010514 Atención pedagógica </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010516 Podología </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.23" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla23&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt23.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.23" class="labelRadio"> 01010516 Podología </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 010106 Servicio de actividades y programas </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.24" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla24&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt24.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.24" class="labelRadio"> 010106 Servicio de actividades y programas </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010601 Actividades de ocio y tiempo libre </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.25" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla25&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt25.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.25" class="labelRadio"> 01010601 Actividades de ocio y tiempo libre </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010602 Comer en casa </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.26" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla26&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt26.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.26" class="labelRadio"> 01010602 Comer en casa </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010603 Lavandería a domicilio </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.27" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla27&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt27.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.27" class="labelRadio"> 01010603 Lavandería a domicilio </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 010107 Supervisión y apoyos puntuales en equipaciones especiales </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.28" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla28&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt28.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.28" class="labelRadio"> 010107 Supervisión y apoyos puntuales en equipaciones especiales </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 010108 Área de habilitación psicosocial </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.29" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla29&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt29.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.29" class="labelRadio"> 010108 Área de habilitación psicosocial </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010801 Diseño de estrategias psicoeducativas </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.30" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla30&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt30.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.30" class="labelRadio"> 01010801 Diseño de estrategias psicoeducativas </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010802 Apoyo a la vida independiente </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.31" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla31&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt31.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.31" class="labelRadio"> 01010802 Apoyo a la vida independiente </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010803 Servicio de acompañamiento e intérpretes </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.32" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla32&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt32.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.32" class="labelRadio"> 01010803 Servicio de acompañamiento e intérpretes </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010804 Fomento y promoción de la inclusión social </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.33" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla33&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt33.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.33" class="labelRadio"> 01010804 Fomento y promoción de la inclusión social </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010805 Entrenamiento de habilidades personales y sociales </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.34" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla34&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt34.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.34" class="labelRadio"> 01010805 Entrenamiento de habilidades personales y sociales </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010806 Fomento del autocuidado físico </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.35" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla35&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt35.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.35" class="labelRadio"> 01010806 Fomento del autocuidado físico </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 010109 Servicio de apoyo para el desarrollo profesional y social para personas dependientes en edad laboral </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.36" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla36&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt36.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.36" class="labelRadio"> 010109 Servicio de apoyo para el desarrollo profesional y social para personas dependientes en edad laboral </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010901 Formación prelaboral (habilidades básicas y polivalentes para el empleo) </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.37" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla37&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt37.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.37" class="labelRadio"> 01010901 Formación prelaboral (habilidades básicas y polivalentes para el empleo) </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010902 Formación ocupacional </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.38" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla38&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt38.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.38" class="labelRadio"> 01010902 Formación ocupacional </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010903 Formación práctico-laboral </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.39" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla39&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt39.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.39" class="labelRadio"> 01010903 Formación práctico-laboral </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 01010904 Empleo con apoyo </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.40" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla40&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt40.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.40" class="labelRadio"> 01010904 Empleo con apoyo </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 010110 Servicio de transporte adaptado y asistido </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.41" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla41&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt41.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.41" class="labelRadio"> 010110 Servicio de transporte adaptado y asistido </label></td> 
                               </tr>
                               <tr> 
-                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.13" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla13&#39;]" value="1" type="checkbox"> </td> 
-                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt13.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.13" class="labelRadio"> 03 Servicios complementarios de asistencia personal </label></td> 
+                                <td style="width:3%"> <span id="BS613B.TipoServicio.error" class="errores" style="display: none"></span> <input id="BS613B.TipoServicio.42" name="campos[&#39;/ProcedimientoXunta/BS613B/TipoServicio/cvCasilla42&#39;]" value="1" type="checkbox"> </td> 
+                                <td td="" style="width:97%"> <span id="BS613B.TipoServicio.txt42.error" class="errores" style="display: none"></span><label for="BS613B.DocComplementaria.cvCasilla.42" class="labelRadio"> 03 Servicios complementarios de asistencia personal </label></td> 
                               </tr>
                             </tbody>
                           </table> 
@@ -758,22 +759,22 @@
                                 <div class="col-md-1">
                                   <div class="checkbox">
                                     <label>
-                                      <input type="checkbox"> SI
+                                      <input id="BS613B.Discapacidad.Si" type="checkbox"> SI
                                     </label>
                                   </div>
                                 </div>
                                 <div class="col-md-5 form-inline">
                                   <div class="form-group" style="margin-top: 10px; margin-bottom:10px;">
-                                    <label class="col-md-9" for="BS613B.Dependencia.txtGrado">% de grado de discapacidad reconocido: </label>
+                                    <label class="col-md-9" for="BS613B.Discapacidad.txtGrado">% de grado de discapacidad reconocido: </label>
                                     <div class="col-md-2">
-                                      <input id="BS613B.Dependencia.txtGrado" class="form-control" type="text" maxlength="3" style="width: 100%">
+                                      <input id="BS613B.Discapacidad.txtGrado" class="form-control" type="text" maxlength="3" style="width: 100%">
                                     </div>
                                   </div>
                                 </div>
                                 <div class="col-md-6 form-inline">
                                   <div class="form-group" style="margin-top: 10px; margin-bottom:10px;">
-                                    <label for="BS613B.Dependencia.txtExpediente">Nº de expediente de discapacidad: </label>
-                                    <input id="BS613B.Dependencia.txtExpediente" class="form-control" type="text" maxlength="">
+                                    <label for="BS613B.Discapacidad.txtExpediente">Nº de expediente de discapacidad: </label>
+                                    <input id="BS613B.Discapacidad.txtExpediente" class="form-control" type="text" maxlength="">
                                   </div>
                                 </div>
                               </div> <!-- /.row -->
@@ -791,7 +792,7 @@
                                 <div class="col-md-1">
                                   <div class="checkbox">
                                     <label>
-                                      <input type="checkbox"> NO
+                                      <input id="BS613B.Dependencia.No" type="checkbox"> NO
                                     </label>
                                   </div>
                                 </div>
@@ -1087,14 +1088,14 @@
                         <div class="form-group-sm col-md-1">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth1"> SÍ
+                              <input type="radio" id="optAuth1_Si"> SÍ
                             </label>
                           </div>
                         </div>
                         <div class="form-group-sm col-md-11">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth1"> NO (en este caso se adjuntará la documentación correspondiente)
+                              <input type="radio" id="optAuth1_No"> NO (en este caso se adjuntará la documentación correspondiente)
                             </label>
                           </div>
                         </div>
@@ -1112,14 +1113,14 @@
                         <div class="form-group-sm col-md-1">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth2"> SÍ
+                              <input type="radio" id="optAuth2_Si"> SÍ
                             </label>
                           </div>
                         </div>
                         <div class="form-group-sm col-md-11">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth2"> NO (en este caso se adjuntará la documentación correspondiente)
+                              <input type="radio" id="optAuth2_No"> NO (en este caso se adjuntará la documentación correspondiente)
                             </label>
                           </div>
                         </div>
@@ -1137,14 +1138,14 @@
                         <div class="form-group-sm col-md-1">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth3"> SÍ
+                              <input type="radio" id="optAuth3_Si"> SÍ
                             </label>
                           </div>
                         </div>
                         <div class="form-group-sm col-md-11">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth3"> NO (en este caso se adjuntará la documentación correspondiente)
+                              <input type="radio" id="optAuth3_No"> NO (en este caso se adjuntará la documentación correspondiente)
                             </label>
                           </div>
                         </div>
@@ -1162,14 +1163,14 @@
                         <div class="form-group-sm col-md-1">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth4"> SÍ
+                              <input type="radio" id="optAuth4_Si"> SÍ
                             </label>
                           </div>
                         </div>
                         <div class="form-group-sm col-md-11">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth4"> NO (en este caso se adjuntará la documentación correspondiente)
+                              <input type="radio" id="optAuth4_No"> NO (en este caso se adjuntará la documentación correspondiente)
                             </label>
                           </div>
                         </div>
@@ -1187,14 +1188,14 @@
                         <div class="form-group-sm col-md-1">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth5"> SÍ
+                              <input type="radio" id="optAuth5_Si"> SÍ
                             </label>
                           </div>
                         </div>
                         <div class="form-group-sm col-md-11">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth5"> NO (en este caso se adjuntará la documentación correspondiente)
+                              <input type="radio" id="optAuth5_No"> NO (en este caso se adjuntará la documentación correspondiente)
                             </label>
                           </div>
                         </div>
@@ -1212,14 +1213,14 @@
                         <div class="form-group-sm col-md-1">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth6"> SÍ
+                              <input type="radio" id="optAuth6_Si"> SÍ
                             </label>
                           </div>
                         </div>
                         <div class="form-group-sm col-md-11">
                           <div class="radio">
                             <label>
-                              <input type="radio" name="optAuth6"> NO (en este caso se adjuntará la documentación correspondiente)
+                              <input type="radio" id="optAuth6_No"> NO (en este caso se adjuntará la documentación correspondiente)
                             </label>
                           </div>
                         </div>

@@ -27,17 +27,23 @@ var logCORE = (function () {
     var start;
 
 	var log = function(url, data) {
-    if (TEST_MODE) return;
+    	if (TEST_MODE) return;
 
+    	//if (authManager && )
 		var token = authManager.getInstance().getToken();
 		var userId = authManager.getInstance().getUserId();
+		if (!userId || !($("#simp-bar").length > 0)) {
+			console.log("UserId by authManager: " + userId);
+			console.log("UserId by not logged: " + getUserIdNoLogged());
+			userId = getUserIdNoLogged();
+		}
 		data.userID = userId;
+        console.log("Sending to:");
+        console.log(url);
+        console.log("data:");
+        console.log(data);
 
-                console.log("Sending to:");
-                console.log(url);
-                console.log("data:");
-                console.log(data);
-		
+        
 		$.ajax({
 			url: url,
 			type: 'POST',
@@ -52,9 +58,11 @@ var logCORE = (function () {
 				console.log(textStatus + ", " + err);
 			},
 			beforeSend: function (xhr) {
-				xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+				if (localStorage.userData != null && localStorage.userData.length > 0) {
+					console.log("USING AUTH TOKEN...");
+					xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+				}
 			}
-
 		});
 	}
 
@@ -113,6 +121,14 @@ var logCORE = (function () {
 		formEnd: function(eservice, form) {
 			var ts = new Date().getTime();
 			log(ifeEndpoint+'/formend', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
+		},
+		formIdle: function(eservice, form) {  // TODO Create end point in log component
+			var ts = new Date().getTime();
+			log(ifeEndpoint, {'e-serviceID': eservice, formID: form, timestamp: ''+ts, event: "form_idle"});
+		},
+		formAbandoned: function(eservice, form) {  // TODO Create end point in log component
+			var ts = new Date().getTime();
+			log(ifeEndpoint, {'e-serviceID': eservice, formID: form, timestamp: ''+ts, event: "form_abandoned"});
 		},
 	    clicks: function(eservice, contentId, clicks) {
 	      log(ifeEndpoint+'/clicks', {'e-serviceID': eservice, annotableElementID: contentId, clicks: clicks});
