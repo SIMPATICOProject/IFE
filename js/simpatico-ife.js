@@ -415,6 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initFeatures();
   addSimpaticoBar("simpatico_top");
   authManager.getInstance().updateUserData();
+  citizenpediaUI.getInstance().enable();
 });
 
 // Save the time spent in the website by calling the function here
