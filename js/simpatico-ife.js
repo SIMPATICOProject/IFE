@@ -155,7 +155,7 @@ function initFeatures() {
   // - apiEndpoint: the main URL of the logs API server (<site>/simpatico/api)
   daUI.getInstance().init({
     elementsToTrackTimeClassName: '',
-    apiEndpoint: ''
+    apiEndpoint: '',
 		endpoint: '',
 		prevButtonLabel: 'Anterior',
 		nextButtonLabel: 'Siguiente',

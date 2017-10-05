@@ -36,6 +36,12 @@ var authManager = (function () {
       }
     }
       
+    // It uses the log component to register the produced events
+    var logger = function(event, details) {
+      var nop = function(){};
+      if (logCORE != null) return logCORE.getInstance().ifeLogger;
+      else return {sessionStart: nop, sessionEnd: nop, formStart: nop, formEnd: nop};
+    }  
 
     // Component-related methods and behaviour
     function handleAuthClick() {
@@ -146,7 +152,15 @@ var authManager = (function () {
       disable: handleSignoutClick,  // When the CB. is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       // More component related public methods
-      updateUserData: updateUserData
+      updateUserData: updateUserData,
+      getUserId: function() {
+          var data = JSON.parse(localStorage.userData || 'null');
+          return !!data ? data.userId : null
+      },
+      getToken: function() {
+          var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
+        return !!tokenData ? tokenData.access_token : null;
+      }
     };
   }
   

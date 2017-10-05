@@ -32,6 +32,8 @@
 	<!-- SIMPATICO BEGIN -->
 	<script type="text/javascript">
 	  var simpaticoEservice = "BS613B"; // Eservice example
+	  var serviceURL="https://simpatico.hi-iberia.es:4570/IFE/BS613B/BS613B_end.html";
+	  var serviceName = "Ayudas individuales para personas con discapacidad"; // Eservice example
 	</script>
 
 	<!-- Injection of JS Libraries -->
@@ -58,7 +60,6 @@
     </script>
     <script src="../js/simpatico-ife.js"></script>
     <script src="../js/simpatico-auth.js"></script>
-    <script src="../js/log-no-simpatico.js"></script>
 
     <script type="text/javascript">
           var simpaticoEservice = "BS613B"; // Eservice example
@@ -115,7 +116,6 @@
 							var esPresentacionPresencial = false;
 						</script>
 						<!-- ORIGINAL <form id="command" action="https://sede.xunta.gal/formularios/cumplimentacion/novo/PR013A?idioma=es" method="post"> -->
-						<!-- <form id="command" action="https://simpatico.morelab.deusto.es/replica/BS613B.html#" method="post"> -->
 						<form id="command" action="../BS613B_es.html" method="post">
 							<input id="codigoProcedimiento" name="codigoProcedimiento" type="hidden" value="BS613B">
 							<input id="idBorrador" name="idBorrador" type="hidden" value="">

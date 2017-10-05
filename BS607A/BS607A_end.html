@@ -57,11 +57,11 @@
     </script>
     <script src="../js/simpatico-ife.js"></script>
     <script src="../js/simpatico-auth.js"></script>
-    <script src="../js/log-no-simpatico.js"></script>
-
     <script type="text/javascript">
           var simpaticoEservice = "BS607A"; // Eservice example
-          var simpaticoMapping=[]
+          var serviceName = "PROGRAMA BIENESTAR EN BALNEARIOS"; // Eservice example
+          var serviceURL="https://simpatico.hi-iberia.es:4570/IFE/BS607A/BS607A_end.html";
+          var simpaticoMapping=[];
           var ERROR_LABELS = {
         'block1' : 'Phone number is required'
       }
@@ -115,7 +115,6 @@
 							var esPresentacionPresencial = false;
 						</script>
 						<!-- ORIGINAL <form id="command" action="https://sede.xunta.gal/formularios/cumplimentacion/novo/PR013A?idioma=es" method="post"> -->
-						<!-- <form id="command" action="https://simpatico.morelab.deusto.es/replica/BS607A.html#" method="post"> -->
 						<form id="command" action="../BS607A_es.html" method="post">
 							<input id="codigoProcedimiento" name="codigoProcedimiento" type="hidden" value="BS607A">
 							<input id="idBorrador" name="idBorrador" type="hidden" value="">

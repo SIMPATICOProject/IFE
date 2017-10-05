@@ -28,11 +28,11 @@ var taeUIPopup = (function () {
 
 		// It uses the log component to register the produced events
 		_instance.logger = function(event, details) {
-		  var nop = function(){};
-      if (logCORE != null) return logCORE.getInstance().taeLogger;
-      else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
-	  }
-	
+			  var nop = function(){};
+	      if (logCORE != null) return logCORE.getInstance().taeLogger;
+	      else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
+		  }
+		
 		/**
 		 * INITIALIZE UI COMPONENT.
 		 * CONFIG PARAMETERS:
@@ -139,7 +139,7 @@ var taeUIPopup = (function () {
 				},
 				load:function( event, ui ) {
 		  		/* After page load*/
-		  	}
+		  		}
 			});
 	
 		}
@@ -278,8 +278,4 @@ var taeUIPopup = (function () {
     		return instance;
     	}
     };
-<<<<<<< HEAD
 })();
-=======
-})();
->>>>>>> cdv_integration

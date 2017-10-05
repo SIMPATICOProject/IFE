@@ -106,12 +106,6 @@ var taeUI = (function () {
       var nop = function(){};
       if (logCORE != null) return logCORE.getInstance().taeLogger;
       else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
-
-    // - paragraphName: the id of the paragraph which has produced the event
-    // - event: type of the produced event
-    // - details: details of the produced event (e.g. the question Id)
-    function log(paragraphName, event, details) {
-      if (logUI != null) logUI.getInstance().logSimpaticoEvent("TAE", paragraphName, event, details);
     }
 
     // If the Component feature is enabled it calls to the TAE engine instance to 
@@ -122,7 +116,7 @@ var taeUI = (function () {
       var currentParagraph = document.getElementById(paragraphID + simplifyBoxIdSuffix);
       
       if ( currentParagraph === null) {
-        log(paragraphID, "paragraph_simplification", "");
+        logger().logParagraph(simpaticoEservice, paragraphID);
         currentParagraph = document.getElementById(paragraphID);
         var text = currentParagraph.textContent ? currentParagraph.textContent : currentParagraph.innerText;//IE uses innerText
         taeCORE.getInstance().simplifyText(paragraphID, text, showSimplificationBox);
@@ -161,7 +155,7 @@ var taeUI = (function () {
       if (simplifications.length == 0)
 
       {
-	var result = 'No hay palabras que necesiten ser simplificadas';
+  var result = 'No hay palabras que necesiten ser simplificadas';
       }else{
 
 
@@ -170,7 +164,7 @@ var taeUI = (function () {
       // for each simplified word add an element containing it
       for (var i = simplifications.length -1; i >= 0; i--) {
         item = simplifications[i];
-	console.log(item);
+  console.log(item);
         result = result.substring(0, item.start) + 
                       createSimplifiedWordLabel(item) + 
                         result.substring(item.end, result.length);
@@ -238,7 +232,7 @@ var taeUI = (function () {
       if (synonyms != null) // If the word has synonyms show them
         currentBox.innerHTML += '<i>' + 'Sinónimos:' + '</i>' + synonyms;
 
-      log(paragraphId, "word_simplification", wordHTMLelement.innerHTML);
+      logger().logWord(simpaticoEservice, wordHTMLelement.innerHTML);
     }
 
     // Function called when an user clicks on a WordProperties box
@@ -309,5 +303,4 @@ var taeUI = (function () {
       return instance;
     }
   };
-
 })();
