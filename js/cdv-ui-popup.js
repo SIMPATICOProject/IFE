@@ -122,7 +122,7 @@ var cdvUI = (function () {
 
 			}
 			highlightFields(dataFields, true);
-			$(document.body).append('<div id="cdv_toolbar_buttons" style="z-index: 999;position: fixed;right: 0px;top: 52px;width: auto;height: auto;padding: 0px;"><button class="btn btn-primary pull-right" title="Open CDV" onClick="toggleDialog();" name="Open CDV">&#9776; CDV Menu<i class="icon-circle-arrow-down"></i></button></div>');
+			$(document.body).append('<div id="cdv_toolbar_buttons" style="z-index: 999;position: fixed;right: 0px;top: 117px;width: auto;height: auto;padding: 0px;"><button class="btn btn-primary pull-right" title="Open CDV" onClick="toggleDialog();" name="Open CDV">&#9776; Gestor de Datos<i class="icon-circle-arrow-down"></i></button></div>');
 			
 
 		}
@@ -543,7 +543,7 @@ var cdvUI = (function () {
 						position: {
 							my: "right top",
 							at: "right bottom",
-							of: "#simp-bar"
+							of: "#cdv_toolbar_buttons"
 						},
 						width: 310,
 						show: {
@@ -586,7 +586,7 @@ var cdvUI = (function () {
 						position: {
 							my: "right top",
 							at: "right bottom",
-							of: "#simp-bar"
+							of: "#cdv_toolbar_buttons"
 						},
 						width: 310,
 						show: {

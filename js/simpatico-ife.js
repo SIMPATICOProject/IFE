@@ -68,22 +68,22 @@ function initFeatures() {
     serviceURL: serviceURL,
     dataFields: simpaticoMapping,
     cdvColor: '#008000',
-    dialogTitle: 'Citizen Data Vault',
-    tabPFieldsTitle: 'My Data',
-    entryMessage: 'Welcome to SIMPATICO CDV!',
-    statusMessage: 'Now you can select/update your personal data to fill form fields.',
-    notextMessage: 'No field selected',
-    dialogSaveTitle: 'Data Saved',
-    dialogSaveMessage: 'Data saved successfully into your Data Vault.',
-    statusMessageNoAccount: "No CDV Account associated to you. Create?",
-    statusMessageNoActive: "CDV is not active for this service. Activate?",
-	  confirmSaveDataMessage: "Update your Persona Data?",
-    buttonSaveData:"Save your data",
-    buttonManageData:"Manage your data",
-    buttonActivate:"Activate",
-    buttonCreate: "Create",
-    consentButton: "Consent",
-    tabSettingsTitle: 'Settings',
+    dialogTitle: 'Gestor de datos',
+    tabPFieldsTitle: 'Mis datos',
+    entryMessage: 'Gestor de datos personales de SIMPATICO',
+    statusMessage: 'Aquí podrá guardar sus datos para no tener que introducirlos siempre a mano',
+    notextMessage: 'Ningún campo seleccionado',
+    dialogSaveTitle: 'Datos guardados',
+    dialogSaveMessage: 'Dats guardados correctamente.',
+    statusMessageNoAccount: "¿Crear cuenta de datos?",
+    statusMessageNoActive: "Gestor de datos no activo. ¿Activar?",
+    confirmSaveDataMessage: "¿Actualizar sus datos?",
+    buttonSaveData:"Guardar datos",
+    buttonManageData:"Modificar datos",
+    buttonActivate:"Activar",
+    buttonCreate: "Crear",
+    consentButton: "Aceptar",
+    tabSettingsTitle: 'Opciones',
 	cdvDashUrl:'http://localhost:8080/cdv-dashboard/index.html'
   });
 
@@ -305,6 +305,9 @@ function enablePrivateFeatures() {
   
   // For each button (without the login one) create and add the node
   var buttonsContainer = document.getElementById("simp-bar-container-left");
+  while (buttonsContainer.firstChild) {
+    cuttonsContainer.removeChild(buttonsContainer.firstChild);
+  }
   for (var i = 1, len = buttons.length; i < len; i++) {
     buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
   }
@@ -327,6 +330,8 @@ function disablePrivateFeatures() {
       currentButton.parentNode.removeChild(currentButton);
     }
   }
+  document.getElementById("simpatico-bar-copy").style.display = "inline-block";
+  document.getElementById("simp-bar-sw-login-fig").innerHTML = "Entrar";
 }//disablePrivateFeatures()
 
 // It adds the Simpatico Toolbar inside the component of which id is passed 
@@ -415,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initFeatures();
   addSimpaticoBar("simpatico_top");
   authManager.getInstance().updateUserData();
-  citizenpediaUI.getInstance().enable();
+  //citizenpediaUI.getInstance().enable();
 });
 
 // Save the time spent in the website by calling the function here
