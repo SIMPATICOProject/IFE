@@ -35,13 +35,12 @@
           }
         </style>
 
-
         <!-- SIMPATICO BEGIN -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
         <script src="//code.jquery.com/jquery-1.12.4.js"></script>
         <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="screen" title="no title" charset="utf-8">
-        <link rel="stylesheet" href="css/simpatico.css"/>
+        <link rel="stylesheet" href="../css/simpatico.css"/>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <!-- Latest compiled and minified JavaScript -->
@@ -51,8 +50,8 @@
         $(document).ready(function () {
 
           $("#BS613BFICHA,#inicioSolicitudeLateralPDF").click(function(e) {
-            window.open('BS613B/BS613B.html', '_blank');     // Open in new tab
-            //window.location.href = "solicitud/BS613B.html";   // Open same tab
+            window.open('BS613B/BS613B_replica.html', '_blank');     // Open in new tab
+            //window.location.href = "solicitud/BS613B_replica.html";   // Open same tab
           });
 
         });
@@ -61,9 +60,7 @@
         <!-- Global variables set up -->
         <script type="text/javascript">
           var simpaticoEservice = "BS613B"; //  the id corresponding to the e-service
-          var serviceName = "Ayudas individuales para personas con discapacidad"; // Eservice example
-          var serviceURL="https://simpatico.hi-iberia.es:4570/IFE/BS613B_es.html";
-          /*var simpaticoForm = "init"; */
+          /*var simpaticoForm = "init_replica"; */
           var simpaticoCategory = "Wellness"; // the general category of the e-service
           var simpaticoMapping=["AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail"];
           var ERROR_LABELS = {
@@ -74,7 +71,7 @@
 
         <!-- Injection of JS Libraries -->
         <!-- Analytics -->
-        <script src="js/jquery.cookie.js"></script>
+<!--        <script src="js/jquery.cookie.js"></script>
         <script src="js/logget.js"></script>
 
 
@@ -96,12 +93,11 @@
         <script>
             wgxpath.install();
         </script>
-        <script src="js/ife-userId.js"></script>
         <script src="js/simpatico-ife.js"></script>
         <script src="js/simpatico-auth.js"></script>
-
+-->
         <!-- Piwik ALL -->
-        <script type="text/javascript">
+<!--        <script type="text/javascript">
             var _paq = _paq || [];
             /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
             _paq.push(['trackPageView']);
@@ -121,6 +117,7 @@
               g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
             })();
         </script>
+-->
         <!-- End Piwik Code -->
 
     </head>
@@ -325,13 +322,13 @@
                                                                                 </br>    
                                                                             </ul>
                                                                         </li>
-                                                                        <div class ="simp-text-paragraph">
-                                                                        <li>Las solicitudes deber&aacute;n presentarse preferiblemente por v&iacute;a electr&oacute;nica a trav&eacute;s del formulario normalizado disponible en la sede electr&oacute;nica de la Xunta de Galicia, https://sede.xunta.gal. Para la presentaci&oacute;n de las solicitudes se podr&aacute; emplear cualquiera de los mecanismos de identificaci&oacute;n y firma admitidos por la sede electr&oacute;nica de la Xunta de Galicia, incluido el sistema de usuario y clave Chave365, que puede solicitar accediendo a la web https://sede.xunta.gal/chave365.<br /><br />Opcionalmente, tambi&eacute;n se podr&aacute;n presentar las solicitudes en soporte papel en cualquiera de los lugares y registros establecidos en los art&iacute;culos 14.1 y 16.4 de la Ley 39/2015, de 1 de octubre, utilizando el formulario normalizado disponible en la sede electr&oacute;nica de la Xunta de Galicia.</li></div>
-                                                                        <div class ="simp-text-paragraph"><li>La solicitud, seg&uacute;n el modelo que se aporta como anexo III a esta orden, se dirigir&aacute; al &oacute;rgano de direcci&oacute;n con competencias en materia de dependencia de la Conseller&iacute;a de Pol&iacute;tica Social-Direcci&oacute;n General de Mayores y Personas con Discapacidad.</li>
-                                                                        <li>La documentaci&oacute;n complementaria se presentar&aacute; preferiblemente por v&iacute;a electr&oacute;nica. Las personas interesadas se responsabilizar&aacute;n de la veracidad de los documentos que presenten. La Administraci&oacute;n podr&aacute; requerir la exhibici&oacute;n del documento original para el cotejo de la copia electr&oacute;nica presentada.<br /><br />Opcionalmente, las personas interesadas podr&aacute;n presentar la documentaci&oacute;n complementaria presencialmente en cualquiera de los lugares y registros establecidos en la normativa reguladora del procedimiento administrativo com&uacute;n.</li> </div>
-                                                                        <div class ="simp-text-paragraph"><li>Siempre que se realice la presentaci&oacute;n de documentos separadamente de la solicitud se deber&aacute; indicar el c&oacute;digo y el &oacute;rgano responsable del procedimiento, el n&uacute;mero de registro de entrada de la solicitud y el n&uacute;mero de expediente si dispone de &eacute;l.</li></div>
-                                                                       <div class ="simp-text-paragraph"> <li>La sede electr&oacute;nica de la Xunta de Galicia tiene a disposici&oacute;n de las personas interesadas una serie de modelos normalizados para facilitar la realizaci&oacute;n de tr&aacute;mites administrativos despu&eacute;s de la presentaci&oacute;n de las solicitudes de inicio. Estos modelos se presentar&aacute;n preferentemente por medios electr&oacute;nicos accediendo a la carpeta del ciudadano de la persona interesada. Cuando las personas interesadas no resulten obligadas a la presentaci&oacute;n electr&oacute;nica de las solicitudes tambi&eacute;n podr&aacute;n presentarlos presencialmente en cualquiera de los lugares y registros establecidos en la normativa reguladora del procedimiento administrativo com&uacute;n.</li>
-                                                                        <li>En el plazo de presentaci&oacute;n de solicitudes, se entender&aacute; que el plazo vence el d&iacute;a cuyo ordinal coincida con el que sirvi&oacute; de partida, que es el de la publicaci&oacute;n en el Diario Oficial de Galicia, y, si es festivo, el primer d&iacute;a h&aacute;bil siguiente.</li></div>
+                                                                        
+                                                                        <li>Las solicitudes deber&aacute;n presentarse preferiblemente por v&iacute;a electr&oacute;nica a trav&eacute;s del formulario normalizado disponible en la sede electr&oacute;nica de la Xunta de Galicia, https://sede.xunta.gal. Para la presentaci&oacute;n de las solicitudes se podr&aacute; emplear cualquiera de los mecanismos de identificaci&oacute;n y firma admitidos por la sede electr&oacute;nica de la Xunta de Galicia, incluido el sistema de usuario y clave Chave365, que puede solicitar accediendo a la web https://sede.xunta.gal/chave365.<br /><br />Opcionalmente, tambi&eacute;n se podr&aacute;n presentar las solicitudes en soporte papel en cualquiera de los lugares y registros establecidos en los art&iacute;culos 14.1 y 16.4 de la Ley 39/2015, de 1 de octubre, utilizando el formulario normalizado disponible en la sede electr&oacute;nica de la Xunta de Galicia.</li>
+                                                                        <li>La solicitud, seg&uacute;n el modelo que se aporta como anexo III a esta orden, se dirigir&aacute; al &oacute;rgano de direcci&oacute;n con competencias en materia de dependencia de la Conseller&iacute;a de Pol&iacute;tica Social-Direcci&oacute;n General de Mayores y Personas con Discapacidad.</li>
+                                                                        <li>La documentaci&oacute;n complementaria se presentar&aacute; preferiblemente por v&iacute;a electr&oacute;nica. Las personas interesadas se responsabilizar&aacute;n de la veracidad de los documentos que presenten. La Administraci&oacute;n podr&aacute; requerir la exhibici&oacute;n del documento original para el cotejo de la copia electr&oacute;nica presentada.<br /><br />Opcionalmente, las personas interesadas podr&aacute;n presentar la documentaci&oacute;n complementaria presencialmente en cualquiera de los lugares y registros establecidos en la normativa reguladora del procedimiento administrativo com&uacute;n.</li>
+                                                                        <li>Siempre que se realice la presentaci&oacute;n de documentos separadamente de la solicitud se deber&aacute; indicar el c&oacute;digo y el &oacute;rgano responsable del procedimiento, el n&uacute;mero de registro de entrada de la solicitud y el n&uacute;mero de expediente si dispone de &eacute;l.</li>
+                                                                        <li>La sede electr&oacute;nica de la Xunta de Galicia tiene a disposici&oacute;n de las personas interesadas una serie de modelos normalizados para facilitar la realizaci&oacute;n de tr&aacute;mites administrativos despu&eacute;s de la presentaci&oacute;n de las solicitudes de inicio. Estos modelos se presentar&aacute;n preferentemente por medios electr&oacute;nicos accediendo a la carpeta del ciudadano de la persona interesada. Cuando las personas interesadas no resulten obligadas a la presentaci&oacute;n electr&oacute;nica de las solicitudes tambi&eacute;n podr&aacute;n presentarlos presencialmente en cualquiera de los lugares y registros establecidos en la normativa reguladora del procedimiento administrativo com&uacute;n.</li>
+                                                                        <li>En el plazo de presentaci&oacute;n de solicitudes, se entender&aacute; que el plazo vence el d&iacute;a cuyo ordinal coincida con el que sirvi&oacute; de partida, que es el de la publicaci&oacute;n en el Diario Oficial de Galicia, y, si es festivo, el primer d&iacute;a h&aacute;bil siguiente.</li>
                                                                     </ul>
                                                                     <p>
                                                                         <!--<br/>(*) Cando non se acheguen os documentos orixinais, deber&aacute;n aportarse copias compulsadas, ag&aacute;s que figure outra indicaci&oacute;n.<br/>-->
@@ -360,13 +357,13 @@
                                                             <div class="tab-pane" id="tabs-4">
                                                                 <div class="seccionTab">
                                                                     <p>
-                                                                    <div class ="simp-text-paragraph"><p>1. Esta orden tiene por objeto establecer las bases reguladoras de la convocatoria p&uacute;blica para la concesi&oacute;n de ayudas individuales destinadas a la adquisici&oacute;n de servicios de promoci&oacute;n de la autonom&iacute;a personal, as&iacute; como la adquisici&oacute;n de servicios complementarios de asistencia personal, para personas con discapacidad empadronadas en un municipio de la Comunidad Aut&oacute;noma de Galicia, en r&eacute;gimen de concurrencia competitiva y de car&aacute;cter no peri&oacute;dico.</p>
+                                                                    <p>1. Esta orden tiene por objeto establecer las bases reguladoras de la convocatoria p&uacute;blica para la concesi&oacute;n de ayudas individuales destinadas a la adquisici&oacute;n de servicios de promoci&oacute;n de la autonom&iacute;a personal, as&iacute; como la adquisici&oacute;n de servicios complementarios de asistencia personal, para personas con discapacidad empadronadas en un municipio de la Comunidad Aut&oacute;noma de Galicia, en r&eacute;gimen de concurrencia competitiva y de car&aacute;cter no peri&oacute;dico.</p>
                                                                     <p>2. La finalidad de estas ayudas es la de colaborar en determinados gastos, con efectos de 1 de enero de 2017, destinados a:<br />a) Facilitar la adquisici&oacute;n de servicios de promoci&oacute;n de la autonom&iacute;a personal.<br />b) Facilitar a adquisici&oacute;n de servicios complementarios de asistencia personal.</p>
-                                                                    <p>3. &Uacute;nicamente podr&aacute;n ser objeto de financiaci&oacute;n para esta convocatoria las actuaciones que se realicen entre el 1 de enero y el 30 de noviembre de 2017.</p></div>
+                                                                    <p>3. &Uacute;nicamente podr&aacute;n ser objeto de financiaci&oacute;n para esta convocatoria las actuaciones que se realicen entre el 1 de enero y el 30 de noviembre de 2017.</p>
                                                                     <p>Actuaciones subvencionables.</p>
-                                                                    <div class ="simp-text-paragraph"><p>1. Adquisici&oacute;n de servicios de promoci&oacute;n de la autonom&iacute;a personal que tienen por finalidad desarrollar y mantener la capacidad personal de controlar, afrontar y tomar decisiones acerca de como vivir de acuerdo con las normas y preferencias propias y facilitar la ejecuci&oacute;n de las actividades b&aacute;sicas de la vida diaria, de manera que todas las personas puedan llevar una vida lo m&aacute;s aut&oacute;noma posible. Se consideran servicios de promoci&oacute;n de la autonom&iacute;a personal subvencionables al amparo de esta orden los enumerados en el anexo I, de acuerdo con lo dispuesto en el Decreto 149/2013, de 5 de septiembre, por el que se define la cartera de servicios sociales para la promoci&oacute;n de la autonom&iacute;a personal y la atenci&oacute;n a las personas en situaci&oacute;n de dependencia y se determina el sistema de participaci&oacute;n de las personas usuarias en la financiaci&oacute;n de su coste.</p>
-                                                                    <p>Para poder ser subvencionable el servicio de transporte adaptado o asistido, deber&aacute; de justificarse la vinculaci&oacute;n de este servicio para el disfrute del otro servicio/prestaci&oacute;n social, o como medio de asistencia al trabajo o a una actividad formativa no obligatoria del Sistema p&uacute;blico educativo cuando no se enmarque dentro del &aacute;mbito de las competencias propias del Sistema educativo.</p></div>
-                                                                    <div class ="simp-text-paragraph"><p>2. Adquisici&oacute;n de servicios complementarios de asistencia personal que, de conformidad con el Decreto 149/2013, de 5 de septiembre, ser&aacute;n subvencionables:<br />- Asistencia en las necesidades de car&aacute;cter dom&eacute;stico y de la vivienda.<br />- Asistencia en las actividades b&aacute;sicas de la vida diaria.<br />- Asistencia en gestiones administrativas o de otra naturaleza fuera del domicilio.<br />- Asistencia en actividades de participaci&oacute;n social, educativa, laboral o de ocio.</p></div>
+                                                                    <p>1. Adquisici&oacute;n de servicios de promoci&oacute;n de la autonom&iacute;a personal que tienen por finalidad desarrollar y mantener la capacidad personal de controlar, afrontar y tomar decisiones acerca de como vivir de acuerdo con las normas y preferencias propias y facilitar la ejecuci&oacute;n de las actividades b&aacute;sicas de la vida diaria, de manera que todas las personas puedan llevar una vida lo m&aacute;s aut&oacute;noma posible. Se consideran servicios de promoci&oacute;n de la autonom&iacute;a personal subvencionables al amparo de esta orden los enumerados en el anexo I, de acuerdo con lo dispuesto en el Decreto 149/2013, de 5 de septiembre, por el que se define la cartera de servicios sociales para la promoci&oacute;n de la autonom&iacute;a personal y la atenci&oacute;n a las personas en situaci&oacute;n de dependencia y se determina el sistema de participaci&oacute;n de las personas usuarias en la financiaci&oacute;n de su coste.</p>
+                                                                    <p>Para poder ser subvencionable el servicio de transporte adaptado o asistido, deber&aacute; de justificarse la vinculaci&oacute;n de este servicio para el disfrute del otro servicio/prestaci&oacute;n social, o como medio de asistencia al trabajo o a una actividad formativa no obligatoria del Sistema p&uacute;blico educativo cuando no se enmarque dentro del &aacute;mbito de las competencias propias del Sistema educativo.</p>
+                                                                    <p>2. Adquisici&oacute;n de servicios complementarios de asistencia personal que, de conformidad con el Decreto 149/2013, de 5 de septiembre, ser&aacute;n subvencionables:<br />- Asistencia en las necesidades de car&aacute;cter dom&eacute;stico y de la vivienda.<br />- Asistencia en las actividades b&aacute;sicas de la vida diaria.<br />- Asistencia en gestiones administrativas o de otra naturaleza fuera del domicilio.<br />- Asistencia en actividades de participaci&oacute;n social, educativa, laboral o de ocio.</p>
                                                                     </p>    
                                                                 </div>
                                                                 <div class="seccionTab">

@@ -24,10 +24,8 @@ var cdvUI = (function () {
 
 		var labels = {
 			dialogTitle: 'Citizen Data Vault',
-			tabPFieldsTitle: 'Personal Data Fields',
 			entryMessage: 'Welcome to SIMPATICO Citizen Data Vault!',
-			statusMessage: 'Now you can select,store and update your personal data to fill form fields.',
-			notextMessage: 'No field selected',
+			statusMessage: 'Now you can select, store and update your personal data to fill form fields.',
 			dialogSaveTitle: 'Data Saved',
 			dialogSaveMessage: 'Data saved successfully into your Data Vault.',
 			statusMessageNoAccount: "No CDV Account associated to you. Create?",
@@ -37,13 +35,13 @@ var cdvUI = (function () {
 			buttonManageData:"Manage your data",
 			buttonActivate:"Activate",
 			buttonCreate: "Create",
-			consentButton: "Consent",
-			tabSettingsTitle: 'Settings'
+			consentButton: "Consent"
 
 		};
 
 		var dataFields = [];
 		var cdvDashUrl = "#";
+		var informedConsentLink = "informed_consent.html";
 
 		/**
 		 * CURRENTLY SELECTED FIELD
@@ -67,6 +65,9 @@ var cdvUI = (function () {
 				dataFields = parameters.dataFields;
 			}
 			
+			if (parameters.informedConsentLink) {
+				informedConsentLink = parameters.informedConsentLink;
+			}
 			cdvDashUrl: parameters.cdvDashUrl
 
 			cdvCORE.getInstance().init({
@@ -79,15 +80,12 @@ var cdvUI = (function () {
 			});
 
 			labels.dialogTitle = parameters.dialogTitle || labels.dialogTitle;
-			labels.tabPFieldsTitle = parameters.tabPFieldsTitle || labels.tabPFieldsTitle;
 			labels.entryMessage = parameters.entryMessage || labels.entryMessage;
-			labels.notextMessage = parameters.notextMessage || labels.notextMessage;
 			labels.statusMessage = parameters.statusMessage || labels.statusMessage;
             labels.dialogSaveTitle = parameters.dialogSaveTitle || labels.dialogSaveTitle;
 			labels.dialogSaveMessage = parameters.dialogSaveMessage || labels.dialogSaveMessage;
             labels.statusMessageNoAccount = parameters.statusMessageNoAccount || labels.statusMessageNoAccount;
             labels.statusMessageNoActive = parameters.statusMessageNoActive || labels.statusMessageNoActive;
-			labels.tabSettingsTitle = parameters.tabSettingsTitle || labels.tabSettingsTitle;
             
 			labels.confirmSaveDataMessage=parameters.confirmSaveDataMessage || labels.confirmSaveDataMessage;
 			labels.buttonSaveData=parameters.buttonSaveData || labels.buttonSaveData;
@@ -122,7 +120,7 @@ var cdvUI = (function () {
 
 			}
 			highlightFields(dataFields, true);
-			$(document.body).append('<div id="cdv_toolbar_buttons" style="z-index: 999;position: fixed;right: 0px;top: 117px;width: auto;height: auto;padding: 0px;"><button class="btn btn-primary pull-right" title="Open CDV" onClick="toggleDialog();" name="Open CDV">&#9776; Gestor de Datos<i class="icon-circle-arrow-down"></i></button></div>');
+			$(document.body).append('<div id="cdv_toolbar_buttons"><button class="btn btn-primary pull-right" title="Open CDV" onClick="toggleDialog();" name="Open CDV">&#9776; '+labels.dialogTitle + '<i class="icon-circle-arrow-down"></i></button></div>');
 			
 
 		}
@@ -514,59 +512,9 @@ var cdvUI = (function () {
 		}
 		
 		
-		function createDialogWithTabs(entryMessage, statusMessage){
-			dialog_cdv = $(
-						'<div id="dialog-cdv" title="' + labels.dialogTitle + '">' +
-						'	<div id="tabs">' +
-						'		<ul>' +
-						'			<li><a href="#tab-0">Simpatico</a></li>' +
-						'			<li><a href="#tab-setting">' + labels.tabSettingsTitle + '</a></li>' +
-						'		</ul>' +
-						'		<div id="tab-0">' +
-						'			<p>' + entryMessage + '</p>' +
-						'			<br>' +
-						'			<p>' + statusMessage + '</p>' +
-						'			<hr><p style="float: right; font-style: italic;"><a onClick="showPrivacyPolicy();">Privacy Policy</a></p>' +
-						'		</div>' +
-						'		<div id="tab-setting">' +
-						'			<p>Loading...</p>' +
-						'		</div>' +
-						'	</div>' +
-						'</div>').dialog({
-						dialogClass: "no-close",
-						autoOpen: false,
-						modal: false,
-						closeOnEscape: true,
-						resizable: false,
-						draggable: false,
-						height: "auto",
-						position: {
-							my: "right top",
-							at: "right bottom",
-							of: "#cdv_toolbar_buttons"
-						},
-						width: 310,
-						show: {
-							effect: "slide",
-							duration: 200,
-							direction: 'right'
-						},
-						hide: {
-							effect: "slide",
-							duration: 200,
-							direction: 'right'
-						},
 						
-						open: function(){
-                                var errCb = setError("tab-0");
-				                var getPDataList = updatePDataFields(null, null);
-				                cdvCORE.getInstance().cdv_getdata(getPDataList, null);
-                        }
 
-					});
 										
-					return dialog_cdv;					
-		}
 		
 		function createDialogNoTabs(entryMessage, statusMessage){
 			dialog_cdv = $(
@@ -617,7 +565,7 @@ var cdvUI = (function () {
 
 function showPrivacyPolicyForActivation(url, title){
 	var $dialog = $('<div></div>')
-			.load("informed_consent.html").dialog({
+			.load(cdvUI.getInstance().informedConsentLink).dialog({
 				autoOpen: false,
 				title: "Privacy Policy",
 				width: 700,
@@ -711,7 +659,7 @@ function toggleDialog(){
 
 function showPrivacyPolicy(url, title){
 	var $dialog = $('<div></div>')
-			.load("informed_consent.html").dialog({
+			.load(cdvUI.getInstance().informedConsentLink).dialog({
 				autoOpen: false,
 				title: "Privacy Policy",
 				width: 700,

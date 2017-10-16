@@ -20,7 +20,8 @@ function initFeatures() {
     //authority: "google"
     // Internal
     clientID: 'f21558f2-0992-47b1-85af-1ada614d8cc6',
-    authority: "internal"
+    authority: "internal",
+    redirect: 'https://simpatico.hi-iberia.es:4570/IFE/login.html',
   });
 
     // Init the LOG component (see log-core.js)
@@ -42,13 +43,14 @@ function initFeatures() {
   // - diagramNotificationText: The text to notify that a diagram
   citizenpediaUI.getInstance().init({
     endpoint: 'https://simpatico.hi-iberia.es:4569/qae',
+    cpdDiagramEndpoint: 'https://simpatico.hi-iberia.es:4570/cpd/api/diagram/eService',
     primaryColor: "#24BCDA",
     secondaryColor:"#D3F2F8",
     elementsToEnhanceClassName: "simp-text-paragraph",
     questionsBoxClassName: "simp-ctz-ui-qb",
     questionsBoxTitle: "Preguntas relacionadas", //"RELATED QUESTIONS",
     addQuestionLabel: "+ Añadir nueva pregunta", //"+ Add new question",
-    diagramNotificationImage: "./img/diagram.png",
+    diagramNotificationImage: "../img/diagram.png",
     diagramNotificationClassName: "simp-ctz-ui-diagram",
     diagramNotificationText: "Hay un diagrama relacionado con este servicio en la Citizenpedia"
   });
@@ -104,7 +106,10 @@ function initFeatures() {
     elementsToEnhanceClassName: "simp-text-paragraph",
     simplifyBoxClassName: "simp-tae-ui-sb",
     simplifyBoxTitle: "Texto simplificado",
-    wordPropertiesClassName: "simp-tae-ui-word"
+    wordPropertiesClassName: "simp-tae-ui-word",
+    synonymLabel:'Sinónimos',
+  	definitionLabel: 'Definición',
+    emptyText: 'No hay palabras que necesiten ser simplificadas'
   });
 
   // Init the Text Adaptation Engine component for free text selection (see tae-ui-popup.js)
@@ -145,6 +150,7 @@ function initFeatures() {
   // - apiEndpoint: the main URL of the logs API server (<site>/simpatico/api)
   // NOTE: Requires jquery-ui to work properly
   sfUI.getInstance().init({
+    language: 'it',
     buttonToShowSfId: 'Salvar',
     apiEndpoint: 'https://simpatico.hi-iberia.es:4570/simpatico/api',
   });
@@ -159,11 +165,7 @@ function initFeatures() {
 		endpoint: '',
 		prevButtonLabel: 'Anterior',
 		nextButtonLabel: 'Siguiente',
-		topBarHeight: 60,
-		errorLabel: {
-			'block1' : 'Manca il codice fiscale',
-			'block4' : 'Manca selezione Part-time / Full-time'
-		}
+		topBarHeight: 60
   });
 
   // Declare here the buttons that will be available in the Simpatico Bar
@@ -172,8 +174,8 @@ function initFeatures() {
   buttons = [{
                   id: "simp-bar-sw-login",
                   // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "./img/ic_on.png",
-                  imageSrcDisabled: "./img/login.png",
+                  imageSrcEnabled: "../img/ic_on.png",
+                  imageSrcDisabled: "../img/login.png",
                   alt: "Entrar",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-none", 
@@ -188,8 +190,8 @@ function initFeatures() {
                 {
                   id: "simp-bar-sw-citizenpedia",
                   // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "./img/citizenpedia.png",
-                  imageSrcDisabled: "./img/citizenpedia.png",
+                  imageSrcEnabled: "../img/citizenpedia.png",
+                  imageSrcDisabled: "../img/citizenpedia.png",
                   alt: "Preguntas y respuestas",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-bar-btn-active",
@@ -204,8 +206,8 @@ function initFeatures() {
                 {
                   id: "simp-bar-sw-tae",
                   // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "./img/simplify.png",
-                  imageSrcDisabled: "./img/simplify.png",
+                  imageSrcEnabled: "../img/simplify.png",
+                  imageSrcDisabled: "../img/simplify.png",
                   alt: "Simplificación de texto",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-bar-btn-active-tae",
@@ -220,8 +222,8 @@ function initFeatures() {
 //                {
 //                    id: "simp-bar-sw-tae-popup",
 //                    // Ad-hoc images to define the enabled/disabled images
-//                    imageSrcEnabled: "./img/enrich.png",
-//                    imageSrcDisabled: "./img/enrich.png",
+//                    imageSrcEnabled: "../img/enrich.png",
+//                    imageSrcDisabled: "../img/enrich.png",
 //                    alt: "Simplificación de texto libre",
 //                    // Ad-hoc css classes to define the enabled/disabled styles
 //                    styleClassEnabled: "simp-bar-btn-active-tae",
@@ -238,8 +240,8 @@ function initFeatures() {
                 {
                   id: "simp-bar-sw-cdv",
                   // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "./img/cdv.png",
-                  imageSrcDisabled: "./img/cdv.png",
+                  imageSrcEnabled: "../img/cdv.png",
+                  imageSrcDisabled: "../img/cdv.png",
                   alt: "Datos de los ciudadanos",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-bar-btn-active-cdv",
@@ -253,8 +255,8 @@ function initFeatures() {
 //                },
 //                { // workflow adaptation. Switch to the modality, where the form adaptation starts
 //                  id: 'workflow1',
-//                  imageSrcEnabled: "./img/forms.png",
-//                  imageSrcDisabled: "./img/forms.png",
+//                  imageSrcEnabled: "../img/forms.png",
+//                  imageSrcDisabled: "../img/forms.png",
 //                  alt: "Simplifica proceso",
 //                  // Ad-hoc css classes to define the enabled/disabled styles
 //                  styleClassEnabled: "simp-bar-btn-active-wae",
@@ -350,7 +352,7 @@ function addSimpaticoBar(containerID) {
   var simpaticoBarHtml = '<div id="simp-bar">' +
                             '<div style="margin: 1%;">' +
                               '<a href="#">' +
-                                '<img src="./img/logo.png" ' +
+                                '<img src="../img/logo.png" ' +
                                 'height="50px" ' +
                                 'alt="Simpatico ">' +
                               '</a>' +

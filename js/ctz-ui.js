@@ -29,6 +29,7 @@ var citizenpediaUI = (function () {
     var paragraphs = []; // Used to store all the tagged paragraphs
     var originalStyles = []; // Used to store the tagged paragraphs CSSstyles
     var diagramContainer; // Used to show the CPD diagram
+    var questionSelectionFilters = [];
 
     // Component-related methods and behaviour
     function initComponent(parameters) {
@@ -42,8 +43,15 @@ var citizenpediaUI = (function () {
       diagramNotificationClassName = parameters.diagramNotificationClassName;
       diagramNotificationText = parameters.diagramNotificationText;
       qaeCORE.getInstance().init({
-          endpoint: parameters.endpoint
+          endpoint: parameters.endpoint,
+          cpdDiagramEndpoint: parameters.cpdDiagramEndpoint
         });
+      questionSelectionFilters = parameters.questionSelectionFilters || [''];
+      qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, function(response){
+    	  if (response && response.length > 0 && response[0]) {
+    		  diagramURL = response[0].url;
+    	  }
+      });
     }
     
     function enableComponentFeatures() {
@@ -64,12 +72,14 @@ var citizenpediaUI = (function () {
 
         // Add the enhanced paragraph style
         paragraphName = "Paragraph" + paragrapId;
-        paragraphs[i].style.position = 'relative';
-        paragraphs[i].style.borderLeft = "12px solid " + primaryColor;
-        paragraphs[i].style.borderRadius = "16px";
+//        paragraphs[i].style.position = 'relative';
+//        paragraphs[i].style.borderLeft = "12px solid " + primaryColor;
+//        paragraphs[i].style.borderRadius = "16px";
 
-        paragraphs[i].style.padding = '0px 0px 0px 8px';
-        paragraphs[i].style.margin = '0px 0px 8px 0px';
+//        paragraphs[i].style.padding = '0px 0px 0px 8px';
+//        paragraphs[i].style.margin = '0px 0px 8px 0px';
+        paragraphs[i].classList.add('simp-paragraph-active');
+        paragraphs[i].style.borderLeftColor = primaryColor;
 
         paragraphs[i].setAttribute("id", paragraphName);
         // Add the onclick event to enhance the paragraph
@@ -78,7 +88,7 @@ var citizenpediaUI = (function () {
           "paragraphEvent('" + paragraphName + "');");
         paragrapId++;
       }
-
+	  logCORE.getInstance().startActivity('ctz', 'simplification');
       qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, drawDiagramNotification);
 
     }
@@ -96,7 +106,7 @@ var citizenpediaUI = (function () {
       // Reformat the paragraphs with the original style
       for (var i = 0, len = paragraphs.length; i < len; i++) {
         // Restore the original style
-        paragraphs[i].style = originalStyles[i];
+        paragraphs[i].classList.remove('simp-paragraph-active');
         // Remove the onclick event to enhance the paragraph
         paragraphs[i].removeAttribute("onclick");
       }
@@ -106,6 +116,7 @@ var citizenpediaUI = (function () {
         diagramContainer.parentNode.removeChild(diagramContainer);
         diagramContainer = null;
       }
+	  logCORE.getInstance().endActivity('ctz', 'simplification');      
     }
 
 
@@ -179,13 +190,22 @@ var citizenpediaUI = (function () {
       }
 
       // 2.b. finally the Add Question link is also attached 
-      questionsHtml += '<li>'
+      questionsHtml += '<li>';
+      var selectors = questionSelectionFilters;
+      var txt = '';
+      for (var v = 0; v < selectors.length; v++) {
+    	  txt = $("#"+paragraphName + " " + selectors[v]).text().trim();
+    	  if (txt) {
+    		  break;
+    	  }
+      }
+      txt = txt.replace(/[\f\t\n\r\v\s]+/g,' ');
       questionsHtml +=    '<a onclick="citizenpediaUI.getInstance().createNewQuestionEvent(\'' + paragraphName + '\');" ' +
                               'href="' + qaeCORE.getInstance().createNewQuestionURL(
                                   simpaticoCategory,
                                   simpaticoEservice,
                                   paragraphName, 
-                                  document.getElementById(paragraphName).textContent) + '" target="_blank">' +
+                                  txt) + '" target="_blank">' +
                                 '<b>' + addQuestionLabel + '</b>' +
                           '</a>'
       questionsHtml += '</li>';
@@ -209,6 +229,7 @@ var citizenpediaUI = (function () {
     // - response: a JSON response provided by the Citizenpedia instance 
     function drawDiagramNotification(response) {
       if (response != null) {
+    	response = response[0];
         // Attach the notification container
         var diagramNode = document.getElementById('simp-bar');
         diagramContainer = document.createElement('div');
@@ -227,10 +248,11 @@ var citizenpediaUI = (function () {
                               'height="40"' +
                               'title="' + diagramNotificationText + '" ' +  
                               'alt="' + diagramNotificationText + '" >' +
-                      '<a href="' + response["url"] + '">' +
+                      '<a href="' + response["url"] + '" target="_blank">' +
                         '<img id="cpdsvg" style="display:none;" src="' + response["svg"] + '">' +
                       '</a>';
         diagramContainer.innerHTML = content;
+    	diagramURL = response["url"];
       }
     }
 
@@ -241,7 +263,9 @@ var citizenpediaUI = (function () {
       disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       openDiagram: function(){
-        window.open(diagramURL,"_blank");
+    	  logCORE.getInstance().startActivity('cpd', 'process');
+		  window.open(diagramURL,"_blank");        	  
+
       },
       paragraphEvent: paragraphEvent,
 

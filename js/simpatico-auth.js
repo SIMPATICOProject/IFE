@@ -16,11 +16,13 @@ var authManager = (function () {
     var ifeClientID = 'f21558f2-0992-47b1-85af-1ada614d8cc6'
     var authority = 'internal';
     var redirect = null;
+    var greeting = '';
 
     function initComponent(parameters) {
       endpoint = parameters.endpoint;
       ifeClientID = parameters.clientID;
       authority = parameters.authority;
+      greeting = parameters.greeting || '';
       // support null setting where authority is selected by user
       if (!authority) {
         authority = "";
@@ -83,28 +85,17 @@ var authManager = (function () {
     	  win.close();
       }
       window.addEventListener('message', function (event) {
-        jQuery.ajax({
-          url: endpoint + '/basicprofile/me',
-          type: 'GET',
-          dataType: 'json',
-          success: function(data) {
-            localStorage.userData = JSON.stringify(data);
-            updateUserData();
-          },
-          error: function(err) {
-            console.log(err);
-          },
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader('Authorization', 'Bearer ' + event.data.access_token);
-          }
-        });
-        localStorage.aacTokenData = JSON.stringify(event.data);
+    	  processData(event.data);
       }, false);
     }
 
     // attach login flow to the sign-in button
     function handleSignoutClick(event) {
       if (!featureEnabled) return;
+      logger().sessionEnd(simpaticoEservice);
+      if (window.simpaticoForm) {
+    	  logger().formEnd(simpaticoEservice, simpaticoForm);
+      }
       localStorage.userData = '';
 	  localStorage.aacTokenData = '';
 	  updateUserData();
@@ -117,28 +108,27 @@ var authManager = (function () {
         if (!!data) {
           var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
           if (! tokenData || tokenData.expires_on < new Date().getTime()) {
-              console.log("[WARN] Now: " + new Date().getTime() + ", expire_on: " + tokenData.expires_on);
-              alert("Session Expired");
               localStorage.userData = '';
               localStorage.aacTokenData = '';
               updateUserData();
               return;
           }
           userData = data;
-          document.getElementById(userdataElementID).innerHTML = 'Hola, ' + data.name + ' '+ data.surname;
+          document.getElementById(userdataElementID).innerHTML = data.name + ' '+ data.surname;
           document.getElementById(userdataElementID).style = "display:block";
           enablePrivateFeatures();
           featureEnabled = true;
           // session started successfully, log
           logger().sessionStart(simpaticoEservice);
           // if the e-service page is associated to the form, log the form start event
-          //if (window.simpaticoForm) {
+          if (window.simpaticoForm) {
             // log end of session
-        	//  logger().formStart(simpaticoEservice, simpaticoForm);
-          //}
+        	  logger().formStart(simpaticoEservice, simpaticoForm);
+          }
 
         } else {
-          document.getElementById(userdataElementID).innerHTML = "";
+          document.getElementById(userdataElementID).innerHTML = greeting;
+          document.getElementById(userdataElementID).style  = "display:block";
           disablePrivateFeatures();
           featureEnabled = false;
         }

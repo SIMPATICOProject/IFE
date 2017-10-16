@@ -24,55 +24,55 @@
 
 
 		    <!-- SIMPATICO BEGIN -->
-            <link rel="stylesheet" type="text/css" href="css/moduli.css" />
-            <link rel="stylesheet" type="text/css" href="css/simpatico.css" />
 		    
-		    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 		    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		
 		    <script type="text/javascript">
-		      var simpaticoEservice = "3"; //  the id corresponding to the e-service
+		      var simpaticoEservice = "2"; //  the id corresponding to the e-service
+              var simpaticoEserviceName = "M1876 ISCRIZIONE NIDO"; //  the name corresponding to the e-service
+              var simpaticoEserviceURL = "https://sportello.comune.trento.it/sites/default/files/sportello_telematico/M1876-ISCRIZIONE-NIDO.html" ; //  the url corresponding to the e-service
 		      var simpaticoForm = "main";
 		      var simpaticoCategory = "Infanzia"; // the general category of the e-service
-		      var simpaticoMapping=["AventeTitolo_Telefono","AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail","AventeTitolo_EnteProvv","AventeTitolo_NumProt","AventeTitolo_Data","Parametri_TipoLavoroPadre","Parametri_AziendaLavoroPadre","Parametri_ProvAziendaLavoroPadre","Parametri_ComuneAziendaLavoroPadre","Parametri_IndirizzoAziendaLavoroPadre","Parametri_CivicoAziendaLavoroPadre","Parametri_CapAziendaLavoroPadre","Parametri_TelAziendaLavoroPadre","Parametri_EmailAziendaLavoroPadre","Parametri_AgenziaEntratePadre","Parametri_PIVAPadre","Parametri_ScuolaPadre","Parametri_TipoLavoroMadre","Parametri_AziendaLavoroMadre","Parametri_ProvAziendaLavoroMadre","Parametri_ComuneAziendaLavoroMadre","Parametri_IndirizzoAziendaLavoroMadre","Parametri_CivicoAziendaLavoroMadre","Parametri_CapAziendaLavoroMadre","Parametri_TelAziendaLavoroMadre","Parametri_EmailAziendaLavoroMadre","Parametri_AgenziaEntrateMadre","Parametri_PIVAMadre","Parametri_ScuolaMadre"];
+		      var simpaticoMapping=["AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail","AventeTitolo_EnteProvv","AventeTitolo_NumProt","AventeTitolo_Data","Parametri_TipoLavoroPadre","Parametri_AziendaLavoroPadre","Parametri_IndirizzoAziendaLavoroPadre","Parametri_CivicoAziendaLavoroPadre","Parametri_CapAziendaLavoroPadre","Parametri_TelAziendaLavoroPadre","Parametri_EmailAziendaLavoroPadre","Parametri_AgenziaEntratePadre","Parametri_PIVAPadre","Parametri_ScuolaPadre","Parametri_TipoLavoroMadre","Parametri_AziendaLavoroMadre","Parametri_IndirizzoAziendaLavoroMadre","Parametri_CivicoAziendaLavoroMadre","Parametri_CapAziendaLavoroMadre","Parametri_TelAziendaLavoroMadre","Parametri_EmailAziendaLavoroMadre","Parametri_AgenziaEntrateMadre","Parametri_PIVAMadre","Parametri_ScuolaMadre"];;
               var ERROR_LABELS = {
                       'block1' : 'Manca il codice fiscale',
-                      'block2' : 'Selezione Ruolo',
-                      'block6' : 'Selezione Part-time / Full-time'                       
+                      'block2' : 'Seleziona Ruolo',
+                      'block6' : 'Seleziona Part-time / Full-time',
+                      'block10': 'Seleziona se avvalersi dell\'attestazione ICEF o meno'
+                      
                     }
-	    	  var serviceName = "M1876 ISCRIZIONE NIDO"; // Eservice example
-	          var serviceURL="http://localhost:8080/IFE/M1876-ISCRIZIONE-NIDO-SIMPATICO_v0.3.html" 		
 		    </script>
 		
-		    <script src="js/log-core.js"></script>
+		    <script src="../js/log-core.js"></script>
 		
-		    <script src="js/ctz-ui.js"></script>
-		    <script src="js/ctz-core.js"></script>
+		    <script src="../js/ctz-ui.js"></script>
+		    <script src="../js/ctz-core.js"></script>
 		
-		    <script src="js/cdv-ui-popup.js"></script>
-		    <script src="js/cdv-core-popup.js"></script>
+		    <script src="../js/cdv-ui-popup.js"></script>
+		    <script src="../js/cdv-core-popup.js"></script>
 		
-		    <script src="js/tae-core.js"></script>
-		    <script src="js/tae-ui.js"></script>
+		    <script src="../js/tae-core.js"></script>
+		    <script src="../js/tae-ui.js"></script>
 		
-		    <script src="js/wae-core.js"></script>
-		    <script src="js/wae-ui.js"></script>
-		    <script src="https://github.com/google/wicked-good-xpath/releases/download/1.3.0/wgxpath.install.js"></script>
+		    <script src="../js/wae-core.js"></script>
+		    <script src="../js/wae-ui.js"></script>
+            
+            <script src="../js/da-ui.js"></script>
+		    <script src="../js/wgxpath.install.js"></script>
 		    <script>
 		        wgxpath.install();
 		    </script>
 		
-		    <script src="js/tae-core-popup.js"></script>
-		    <script src="js/tae-ui-popup.js"></script>
+		    <script src="../js/tae-core-popup.js"></script>
+		    <script src="../js/tae-ui-popup.js"></script>
 		
-		    <script src="js/sf-core.js"></script>
-		    <script src="js/sf-ui.js"></script>
+		    <script src="../js/sf-core.js"></script>
+		    <script src="../js/sf-ui.js"></script>
 		
+		    <script src="../js/simpatico-auth.js"></script>
 		    
-		    
-		    <script src="js/simpatico-ife.js"></script>
-			<script src="js/simpatico-auth.js"></script>
+		    <script src="simpatico-ife-trento.js"></script>
 		    
 		    <!-- SIMPATICO END -->
 
@@ -80,9 +80,9 @@
 </head>
 <body>
 
-<div id="simpatico_top"></div>
+
 	<form data-simpatico-workflow="http://simpatico.eu/M1876-ISCRIZIONE-NIDO-SIMPATICO_v0.3" id="modulo"
-		accept-charset="utf-8" method="post" onsubmit="return sendForm()"
+		accept-charset="utf-8" method="post" onsubmit="return sendForm(true)"
 		autocomplete="off">
 
 
@@ -4919,7 +4919,7 @@ function get_ufficio_dest() {
 <script src="./validator/js/validator.js" type="text/javascript"></script>
 <script src="./validator/js/moduli-driver.js" type="text/javascript"></script>
 <!-- Dinamic include -->
-<!--<script id="loader" type="text/javascript">
+<script id="loader" type="text/javascript">
          $(document).ready(function(){
              validator.tree_builder();
 			 $('#UfficioDestinatario').val(get_ufficio_dest());
@@ -4927,6 +4927,6 @@ function get_ufficio_dest() {
 
             
          });
-    </script>-->
+    </script>
 </html>
 

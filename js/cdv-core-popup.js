@@ -59,6 +59,7 @@ var cdvCORE = (function () {
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
 			var pdata = new PData(data.userId, serviceLink, serviceLinkToken);
+			logCORE.getInstance().cdvLogger.useData(simpaticoEservice);
 			$.ajax({
 				url: url,
 				type: 'POST',
@@ -90,6 +91,7 @@ var cdvCORE = (function () {
 			console.log(tokenData);
 			var pdata = formFieldsToJSON(serviceLink,serviceLinkToken, data.userId, dataFields);
 
+			logCORE.getInstance().cdvLogger.saveData(simpaticoEservice);
 			$.ajax({
 				url: url,
 				type: 'POST',

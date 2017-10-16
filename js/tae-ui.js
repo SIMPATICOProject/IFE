@@ -21,7 +21,9 @@ var taeUI = (function () {
     var simplifyBoxTitle = '';
     var simplifyBoxClassName = '';
     var wordPropertiesClassName = '';
-
+    var synonymLabel = '';
+    var definitionLabel = '';
+    var emptyText = '';
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
@@ -36,6 +38,9 @@ var taeUI = (function () {
       simplifyBoxTitle = parameters.simplifyBoxTitle;
       simplifyBoxClassName = parameters.simplifyBoxClassName;
       wordPropertiesClassName = parameters.wordPropertiesClassName;
+      synonymLabel = parameters.synonymLabel || 'Synonyms';
+      definitionLabel = parameters.definitionLabel || 'Definitions';
+      emptyText = parameters.emptyText || 'no simplification found for the text';
       taeCORE.getInstance().init({
           endpoint: parameters.endpoint,
           language: parameters.language
@@ -155,7 +160,7 @@ var taeUI = (function () {
       if (simplifications.length == 0)
 
       {
-  var result = 'No hay palabras que necesiten ser simplificadas';
+  var result = emptyText;//'No hay palabras que necesiten ser simplificadas';
       }else{
 
 
@@ -226,11 +231,11 @@ var taeUI = (function () {
       // Update the content
       currentBox.innerHTML = '<b>' + wordHTMLelement.innerText + '</b></br>';
       if (definition != null) // If the word has definition show it
-        currentBox.innerHTML += '<i>' + 'Definición:' + '</i>' 
+        currentBox.innerHTML += '<i>' + definitionLabel + ':' + '</i>' 
                                 + definition 
                                 + '</br>';
       if (synonyms != null) // If the word has synonyms show them
-        currentBox.innerHTML += '<i>' + 'Sinónimos:' + '</i>' + synonyms;
+        currentBox.innerHTML += '<i>' + synonymLabel +':' + '</i>' + synonyms;
 
       logger().logWord(simpaticoEservice, wordHTMLelement.innerHTML);
     }
