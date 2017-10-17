@@ -85,6 +85,7 @@ var authManager = (function () {
     	  win.close();
       }
       window.addEventListener('message', function (event) {
+        if (!event.data.access_token) return;
     	  processData(event.data);
       }, false);
     }

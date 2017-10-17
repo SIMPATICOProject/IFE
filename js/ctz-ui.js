@@ -244,7 +244,7 @@ var citizenpediaUI = (function () {
         var content = '<img ' +
                               'onClick="document.getElementById(\'cpdsvg\').style.display == \'none\' ? document.getElementById(\'cpdsvg\').style.display = \'block\' : document.getElementById(\'cpdsvg\').style.display = \'none\'"' +
                               'src="' + diagramNotificationImage + '" ' +
-                              'wigth="40" ' +
+                              'width="40" ' +
                               'height="40"' +
                               'title="' + diagramNotificationText + '" ' +  
                               'alt="' + diagramNotificationText + '" >' +
