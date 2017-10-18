@@ -20,7 +20,7 @@ var sfUI = (function () {
     var startTime;
     var language = null;
 
-    this.active = false;
+    var active = false;
     function initComponent (parameters) {
       buttonToShowSfId = parameters.buttonToShowSfId;
       formSelector = parameters.formSelector;
@@ -87,7 +87,7 @@ var sfUI = (function () {
       var currentTime = new Date().getTime();
       timeoutExceeded = isTimeExceeded(currentTime - startTime);
       sfCORE.getInstance().selectDialog(ctzSelected, simplificationSelected, timeoutExceeded, data.userId);
-      this.active = true;
+      active = true;
     }
 
     function isTimeExceeded (timeMs) {

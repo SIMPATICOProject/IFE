@@ -6,7 +6,7 @@ $( function() {
  * TAE UI OPERATIONS
  */
 var taeUIPopup = (function () {
-	  var instance; // Singleton Instance of the UI component
+	  var _instance; // Singleton Instance of the UI component
 
 	  function Singleton() {
 		_instance = this;
@@ -298,8 +298,8 @@ var taeUIPopup = (function () {
 	};
     return {
     	getInstance: function() {
-    		if(!instance) instance = new Singleton();
-    		return instance;
+    		if(!_instance) _instance = new Singleton();
+    		return _instance;
     	}
     };
 })();

@@ -114,7 +114,6 @@ var authManager = (function () {
               updateUserData();
               return;
           }
-          userData = data;
           document.getElementById(userdataElementID).innerHTML = data.name + ' '+ data.surname;
           document.getElementById(userdataElementID).style = "display:block";
           enablePrivateFeatures();
