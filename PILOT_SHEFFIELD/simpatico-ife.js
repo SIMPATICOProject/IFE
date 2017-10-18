@@ -84,6 +84,7 @@ function initFeatures() {
   //   tabSettingsTitle: 'Settings',
 	//   cdvDashUrl:'https://components.sparta.simpatico-project.eu/cdv/cdv-dashboard/index.html'
   // });
+
   // Init the Text Adaptation Engine component (see tae-ui.js)
   // - endpoint: the main URL of the used TAE instance
   // - language: the language of the text to adapt by the TAE instance
@@ -212,20 +213,20 @@ function initFeatures() {
                     	taeUIPopup.getInstance().hideDialog(); 
                     }
                   },
-                  {	// CDV
-                    id: "simp-bar-sw-cdv",
-                      // Ad-hoc images to define the enabled/disabled images
-                      imageSrcEnabled: IMG_BASE + "/cdv.png",
-                      imageSrcDisabled: IMG_BASE + "cdv.png",
-                      alt: "Save and modify your personal data",
-                      // Ad-hoc css classes to define the enabled/disabled styles
-                      styleClassEnabled: "simp-bar-btn-active",
-                      styleClassDisabled: "simp-bar-btn-inactive",
-                      label: 'Dati personali',
-                      isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
-                      enable: function() { cdvUI.getInstance().enable(); },
-                      disable: function() { cdvUI.getInstance().disable(); },
-                    },
+                  // {	// CDV
+                  //   id: "simp-bar-sw-cdv",
+                  //     // Ad-hoc images to define the enabled/disabled images
+                  //     imageSrcEnabled: IMG_BASE + "/cdv.png",
+                  //     imageSrcDisabled: IMG_BASE + "cdv.png",
+                  //     alt: "Save and modify your personal data",
+                  //     // Ad-hoc css classes to define the enabled/disabled styles
+                  //     styleClassEnabled: "simp-bar-btn-active",
+                  //     styleClassDisabled: "simp-bar-btn-inactive",
+                  //     label: 'Dati personali',
+                  //     isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
+                  //     enable: function() { cdvUI.getInstance().enable(); },
+                  //     disable: function() { cdvUI.getInstance().disable(); },
+                  //   },
 
             ];
 }//initFeatures()
