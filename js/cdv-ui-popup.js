@@ -595,7 +595,7 @@ function showPrivacyPolicyForActivation(url, title){
 			isEnabled: function () {
 				return featureEnabled;
 			}, // Returns if the feature is enabled
-
+			informedConsentLink: informedConsentLink
 			//paragraphEvent: paragraphEvent
 		};
 	}

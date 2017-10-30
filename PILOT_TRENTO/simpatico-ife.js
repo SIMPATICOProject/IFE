@@ -437,5 +437,10 @@ document.addEventListener('DOMContentLoaded', function () {
   authManager.getInstance().updateUserData();
 });
 window.addEventListener('beforeunload', function (e) {
-  logCORE.getInstance().logTimeEvent({});
+  logCORE.getInstance().setSyncMode();	
+  logCORE.getInstance().ifeLogger.sessionEnd(simpaticoEservice);
+  if (window.simpaticoForm) {
+      // log end of session
+	  logCORE.getInstance().ifeLogger.formEnd(simpaticoEservice, simpaticoForm);
+  }
 });
