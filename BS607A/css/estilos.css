@@ -174,7 +174,16 @@ PAGINADOR
 	font-style: normal;
 }
 
+/*#####  Buttons Form ######*/
+#btn_presentarElect,
+#btn2_presentarElect {
+  background-color: green !important;
+}
 
+#btn_cancel,
+#btn2_cancel {
+  background-color: red !important;
+}
 
 
 /* LOGIN */

@@ -68,23 +68,23 @@ function initFeatures() {
     serviceURL: serviceURL,
     dataFields: simpaticoMapping,
     cdvColor: '#008000',
-    dialogTitle: 'Citizen Data Vault',
-    tabPFieldsTitle: 'My Data',
-    entryMessage: 'Welcome to SIMPATICO CDV!',
-    statusMessage: 'Now you can select/update your personal data to fill form fields.',
-    notextMessage: 'No field selected',
-    dialogSaveTitle: 'Data Saved',
-    dialogSaveMessage: 'Data saved successfully into your Data Vault.',
-    statusMessageNoAccount: "No CDV Account associated to you. Create?",
-    statusMessageNoActive: "CDV is not active for this service. Activate?",
-	  confirmSaveDataMessage: "Update your Persona Data?",
-    buttonSaveData:"Save your data",
-    buttonManageData:"Manage your data",
-    buttonActivate:"Activate",
-    buttonCreate: "Create",
-    consentButton: "Consent",
-    tabSettingsTitle: 'Settings',
-	cdvDashUrl:'http://localhost:8080/cdv-dashboard/index.html'
+    dialogTitle: 'Gestor de datos',
+    tabPFieldsTitle: 'Mis datos',
+    entryMessage: 'Gestor de datos personales de SIMPATICO',
+    statusMessage: 'Aquí podrá guardar sus datos para no tener que introducirlos siempre a mano',
+    notextMessage: 'Ningún campo seleccionado',
+    dialogSaveTitle: 'Datos guardados',
+    dialogSaveMessage: 'Dats guardados correctamente.',
+    statusMessageNoAccount: "¿Crear cuenta de datos?",
+    statusMessageNoActive: "Gestor de datos no activo. ¿Activar?",
+    confirmSaveDataMessage: "¿Actualizar sus datos?",
+    buttonSaveData:"Guardar datos",
+    buttonManageData:"Modificar datos",
+    buttonActivate:"Activar",
+    buttonCreate: "Crear",
+    consentButton: "Aceptar",
+    tabSettingsTitle: 'Opciones',
+    cdvDashUrl:'https://simpatico.hi-iberia.es:4570/cdv-dashboard/index.html'
   });
 
   // Init the Text Adaptation Engine component (see tae-ui.js)
@@ -305,6 +305,9 @@ function enablePrivateFeatures() {
   
   // For each button (without the login one) create and add the node
   var buttonsContainer = document.getElementById("simp-bar-container-left");
+  while (buttonsContainer.firstChild) {
+    cuttonsContainer.removeChild(buttonsContainer.firstChild);
+  }
   for (var i = 1, len = buttons.length; i < len; i++) {
     buttonsContainer.appendChild(createButtonNode(buttons[i]), loginButton);
   }
@@ -327,6 +330,8 @@ function disablePrivateFeatures() {
       currentButton.parentNode.removeChild(currentButton);
     }
   }
+  document.getElementById("simpatico-bar-copy").style.display = "inline-block";
+  document.getElementById("simp-bar-sw-login-fig").innerHTML = "Entrar";
 }//disablePrivateFeatures()
 
 // It adds the Simpatico Toolbar inside the component of which id is passed 
@@ -350,7 +355,7 @@ function addSimpaticoBar(containerID) {
                                 'alt="Simpatico ">' +
                               '</a>' +
                             '</div>'+
-			    '<div id="simpatico-bar-copy">'+simpaticoCopy+'</div>';
+			    '<div id="simpatico-bar-copy" onclick="toggleAction(\'simp-bar-sw-login\');">'+simpaticoCopy+'</div>';
 
   // Add the left side of the toolbar
   //simpaticoBarHtml += '<ul id="simp-bar-container-left"></ul>';
@@ -415,9 +420,192 @@ document.addEventListener('DOMContentLoaded', function () {
   initFeatures();
   addSimpaticoBar("simpatico_top");
   authManager.getInstance().updateUserData();
+  //citizenpediaUI.getInstance().enable();
+
+  var query = location.search.split('goto=')[1];
+
+  if (query) {
+        var position = query.split(',');
+        if (position[0] == simpaticoEservice)
+        {
+        console.log ("Let's open "+position[1]);
+        toggleAction('simp-bar-sw-citizenpedia');
+        toggleAction('simp-bar-sw-citizenpedia');
+        citizenpediaUI.getInstance().paragraphEvent(position[1]);
+
+  }
+}
 });
 
 // Save the time spent in the website by calling the function here
 window.addEventListener('beforeunload', function (e) {
   logCORE.getInstance().logTimeEvent({});
 });
+
+//////////////////////////////////
+function fillData(fileName)
+{
+var dataUser = JSON.parse(localStorage.userData || 'null');
+            var name = dataUser.name;
+            var surname = dataUser.surname;
+
+            console.log(name);
+            console.log(surname);
+
+            var fullName = name + " " + surname; 
+
+            if (simpaticoEservice == "BS613B") {
+                $.get('../js/' + fileName, function (data) {
+                    // Fill fields with data from json
+
+                    // Data es un ARRAY de usuarios
+                    // TODO: Bucle para buscar al usuario con name + " " + surname == data[i]["FIELD3"] + " " + data[i][FIELD4] + " " + data[i]["FIELD5"]
+
+                    data.forEach(function(current, index, array) {
+                        console.log(current);
+
+                        var nameJSON = current["FIELD3"];
+
+                        var firstSurnameJSON = current["FIELD4"];
+
+                        var secondSurnameJSON = current["FIELD5"];
+
+                                        
+                        if (fullName.toLowerCase() == nameJSON.toLowerCase() + " " + firstSurnameJSON.toLowerCase() + " " + secondSurnameJSON.toLowerCase()) {
+                            $("#BS613B\\.Entidad\\.txtNombre").val(current["FIELD3"]);
+                            $("#BS613B\\.Entidad\\.txtApel1").val(current["FIELD4"]);
+                            $("#BS613B\\.Entidad\\.txtApel2").val(current["FIELD5"]);
+                            $("#BS613B\\.Entidad\\.txtNifCif").val(current["FIELD6"]);
+
+
+                            $("#BS613B\\.Entidad\\.txtDireccion").val(current["FIELD8"]);
+                            $("#BS613B\\.Entidad\\.txtNumero").val(current["FIELD9"]);
+                            $("#BS613B\\.Entidad\\.txtPiso").val(current["FIELD10"]);
+                            $("#BS613B\\.Entidad\\.txtPuerta").val(current["FIELD11"]);
+                            $("#BS613B\\.Entidad\\.txtLugar").val(current["FIELD12"]);
+                            $("#BS613B\\.Entidad\\.txtLugar").val(current["FIELD12"]);
+                            $("#BS613B\\.Entidad\\.txtCodigoPostal").val(current["FIELD6"]); // No viene
+                            $("#BS613B\\.Entidad\\.txtLocalidad").val(current["FIELD32"]);
+                            $("#BS613B\\.Entidad\\.txtTelefono").val(current["FIELD14"]);
+                            $("#BS613B\\.Entidad\\.txtMovil").val(current["FIELD14"]); // Igual que teléfono
+                            $("#BS613B\\.Entidad\\.txtEmail").val(current["FIELD15"]);
+
+                           // $("#BS613B\\.Cuenta\\.txtTitular").val(current["FIELD15"]);
+                            var iban = current["FIELD16"];
+                            var ibanSplit = iban.split(" ");
+                            $("#BS613B\\.Cuenta\\.txtIBAN1").val(ibanSplit[0]);
+                            $("#BS613B\\.Cuenta\\.txtIBAN2").val(ibanSplit[1]);
+                            $("#BS613B\\.Cuenta\\.txtIBAN3").val(ibanSplit[2]);
+                            $("#BS613B\\.Cuenta\\.txtIBAN4").val(ibanSplit[3]);
+                            $("#BS613B\\.Cuenta\\.txtIBAN5").val(ibanSplit[4]);
+                            $("#BS613B\\.Cuenta\\.txtIBAN6").val(ibanSplit[5]);
+
+                            if (current["FIELD17"].indexOf("010110") > 0) {
+                                $("#BS613B\\.TipoServicio\\.13").prop("checked", true);
+                            } else {  // Es lo mismo, pero el id no concuerda
+                                $("#BS613B\\.TipoServicio\\.13").prop("checked", true);
+                            }
+
+                            $("#BS613B\\.Discapacidad\\.Si").prop("checked", true);
+                            $("#BS613B\\.Discapacidad\\.txtGrado").val(current["FIELD19"]);
+                            $("#BS613B\\.Discapacidad\\.txtExpediente").val(current["FIELD20"]);
+
+                            $("#BS613B\\.Dependencia\\.No").prop("checked", true);
+
+                            $("#optAuth1_Si").prop("checked", true);
+                            $("#optAuth2_Si").prop("checked", true);
+                            $("#optAuth3_Si").prop("checked", true);
+                            $("#optAuth4_Si").prop("checked", true);
+                            $("#optAuth5_Si").prop("checked", true);
+                            $("#optAuth6_Si").prop("checked", true);
+
+                        } else {
+                            console.log("No match");
+                            console.log("'" + fullName + "'");
+                            console.log("'" + current["FIELD3"] + " " + current["FIELD4"] + " " + current["FIELD5"] + "'")
+                        }
+                    });
+                });
+            } else {
+                $.get('../js/' + fileName, function (data) {
+                    // Fill fields with data from json
+
+                    // Data es un ARRAY de usuarios
+                    // TODO: Bucle para buscar al usuario con name + " " + surname == data[i]["FIELD3"] + " " + data[i][FIELD4] + " " + data[i]["FIELD5"]
+
+                    data.forEach(function(current, index, array) {
+                        console.log(current);
+
+                        var nameJSON = current["FIELD3"];
+
+                        var firstSurnameJSON = current["FIELD4"];
+
+                        var secondSurnameJSON = current["FIELD5"];
+
+                                        
+                        if (fullName.toLowerCase() == nameJSON.toLowerCase() + " " + firstSurnameJSON.toLowerCase() + " " + secondSurnameJSON.toLowerCase()) {
+                            $("#BS607A\\.Entidad\\.txtNombre").val(current["FIELD3"]);
+                            $("#BS607A\\.Entidad\\.txtApel1").val(current["FIELD4"]);
+                            $("#BS607A\\.Entidad\\.txtApel2").val(current["FIELD5"]);
+                            $("#BS607A\\.Entidad\\.txtNifCif").val(current["FIELD6"]);
+
+
+                            $("#BS607A\\.Entidad\\.txtDireccion").val(current["FIELD8"]);
+                            $("#BS607A\\.Entidad\\.txtNumero").val(current["FIELD9"]);
+                            $("#BS607A\\.Entidad\\.txtPiso").val(current["FIELD10"]);
+                            $("#BS607A\\.Entidad\\.txtPuerta").val(current["FIELD11"]);
+                            $("#BS607A\\.Entidad\\.txtLugar").val(current["FIELD12"]);
+                            $("#BS607A\\.Entidad\\.txtCodigoPostal").val(current["FIELD6"]); // No viene
+                            $("#BS607A\\.Entidad\\.txtLocalidad").val(current["FIELD32"]);
+                            $("#BS607A\\.Entidad\\.txtTelefono").val(current["FIELD14"]);
+                            $("#BS607A\\.Entidad\\.txtMovil").val(current["FIELD14"]); // Igual que teléfono
+                            $("#BS607A\\.Entidad\\.txtEmail").val(current["FIELD15"]);
+
+//                            $("#BS607A\\.HijoDiscap\\.txtNombre").val(current["FIELD15"]);
+                            $("#BS607A\\.HijoDiscap\\.txtApel1").val(current["FIELD16"]);
+                            $("#BS607A\\.HijoDiscap\\.txtApel2").val(current["FIELD17"]);
+                            $("#BS607A\\.HijoDiscap\\.txtNifCif").val(current["FIELD18"]);
+
+                            $("#BS607A\\.HijoDiscap\\.txtFechaNac").val(current["FIELD20"]);
+                            $("#BS607A\\.HijoDiscap\\.txtNCartillaSanit").val(current["FIELD21"]);
+                            $("#BS607A\\.HijoDiscap\\.txtPorcentDiscap").val(current["FIELD22"]);
+
+                            $("#BS607A\\.PersonaContact\\.txtNombre").val(current["FIELD23"]);
+                            $("#BS607A\\.PersonaContact\\.txtApel1").val(current["FIELD24"]);
+                            $("#BS607A\\.PersonaContact\\.txtApel2").val(current["FIELD25"]);
+                            $("#BS607A\\.PersonaContact\\.txtNifCif").val(current["FIELD26"]);
+
+                            $("#BS607A\\.PersonaContact\\.txtDireccion").val(current["FIELD28"]);
+                            $("#BS607A\\.PersonaContact\\.txtNumero").val(current["FIELD29"]);
+                            $("#BS607A\\.PersonaContact\\.txtPiso").val(current["FIELD30"]);
+                            $("#BS607A\\.PersonaContact\\.txtPuerta").val(current["FIELD31"]);
+                            $("#BS607A\\.PersonaContact\\.txtLugar").val(current["FIELD32"]);
+
+                            $("#BS607A\\.DestFechSolicit\\.txtDestino1").val(current["FIELD33"]);
+                            $("#BS607A\\.DestFechSolicit\\.txtFechaDest1").val(current["FIELD34"]);
+                            $("#BS607A\\.DestFechSolicit\\.txtDestino2").val(current["FIELD35"]);
+                            $("#BS607A\\.DestFechSolicit\\.txtFechaDest2").val(current["FIELD36"]);
+                            
+                            $("#BS607A\\.SaludSolicit\\.rbRadio\\.1").prop("checked", true);
+                            $("#BS607A\\.SaludSolicit\\.rbRadio\\.14").prop("checked", true);   // Dieta no
+                            
+                            $("#BS607A\\.DatEconomicos\\.txtCuantiaMensual").val(current["FIELD40"]);
+                            $("#BS607A\\.DatEconomicos\\.cvCasilla\\.1").prop("checked", true);
+
+                            $("#BS607A\\.Autorizacion1\\.rbRadio\\.1").prop("checked", true);
+                            $("#BS607A\\.Autorizacion2\\.rbRadio\\.1").prop("checked", true);
+                            $("#BS607A\\.Autorizacion3\\.rbRadio\\.1").prop("checked", true);
+                            $("#BS607A\\.Autorizacion4\\.rbRadio\\.1").prop("checked", true);
+
+                        } else {
+                            console.log("No match");
+                            console.log("'" + fullName + "'");
+                            console.log("'" + current["FIELD3"] + " " + current["FIELD4"] + " " + current["FIELD5"] + "'")
+                        }
+                    });
+                });
+            }
+
+
+}
+

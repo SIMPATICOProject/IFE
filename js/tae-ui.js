@@ -121,7 +121,7 @@ var taeUI = (function () {
         var text = currentParagraph.textContent ? currentParagraph.textContent : currentParagraph.innerText;//IE uses innerText
         taeCORE.getInstance().simplifyText(paragraphID, text, showSimplificationBox);
       } else {
-        hideSimplificationBox(paragraphID);
+        //hideSimplificationBox(paragraphID);
       }
     }
     
@@ -262,24 +262,40 @@ var taeUI = (function () {
       questionsBox.className = simplifyBoxClassName;
       
       // 1. The title is attached 
-      var questionsHtml = '<p>' + simplifyBoxTitle + '</p>';
+      //var questionsHtml = '<div><p>' + simplifyBoxTitle + '</p><span id="' + paragraphID + simplifyBoxIdSuffix + '-close">&#10006;</span></div>';
+      var questionsHTMLTitle = document.createElement('div');
+      var questionsHTMLTitleP =  document.createElement('p');
+      questionsHTMLTitleP.appendChild(document.createTextNode(simplifyBoxTitle));
+      var questionsHTMLTitleSpan =  document.createElement('span');
+      questionsHTMLTitleSpan.id = paragraphID + simplifyBoxIdSuffix + '-close';
+      questionsHTMLTitleSpan.innerHTML = '&#10006;';
+      questionsHTMLTitleSpan.onclick = function () { taeUI.getInstance().hideSimplificationBox(event, paragraphID) };
+      questionsHTMLTitle.appendChild(questionsHTMLTitleP);
+      questionsHTMLTitle.appendChild(questionsHTMLTitleSpan);
 
       // 2. The simplification is attached
-      questionsHtml += '<ul>';
-      questionsHtml += '<li>' + createSimplifiedTextHTML(
-                                      originalText,
-                                      response.simplifications) + '</li>';
-      questionsHtml += '</ul>';
+      var questionsHtmlUl = document.createElement('ul');
+      var questionsHtmlLi = document.createElement('li');
+      questionsHtmlLi.innerHTML = createSimplifiedTextHTML(originalText, response.simplifications);
+      questionsHtmlUl.appendChild(questionsHtmlLi);
 
-      // 3. The Simplification Box div is attached to the corresponding paragraph
-      questionsBox.innerHTML = questionsHtml;
-      document.getElementById(paragraphID).appendChild(questionsBox);
-      document.getElementById('loading_'+paragraphID).style.display = "none";
+      // 3. Add elements to div
+      questionsBox.appendChild(questionsHTMLTitle);
+      questionsBox.appendChild(questionsHtmlUl);
+
+      // 4. The Simplification Box div is attached to the corresponding paragraph
+      // Check another time that simplification doesnt exists
+      var currentParagraph = document.getElementById(paragraphID + simplifyBoxIdSuffix);
+      if (currentParagraph === null) {	
+        document.getElementById(paragraphID).appendChild(questionsBox);
+        document.getElementById('loading_'+paragraphID).style.display = "none";
+      }
     } //showSimplificationBox
 
     // Hide the simplification box attached to a paragraph passed as paramether
     // - paragraphID: the id of the paragraph
-    function hideSimplificationBox(paragraphID) {
+    function hideSimplificationBox(event, paragraphID) {
+      cancelEventPropagation(event);
       var sBoxToRemove = document.getElementById(paragraphID + simplifyBoxIdSuffix);
       sBoxToRemove.parentNode.removeChild(sBoxToRemove);
     }
@@ -290,7 +306,8 @@ var taeUI = (function () {
       enable: enableComponentFeatures,  // Called when the Component button is enabled
       disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
-      
+
+      hideSimplificationBox: hideSimplificationBox,      
       paragraphEvent: paragraphEvent,
       wordEvent: wordEvent,
       wordPropertiesEvent: hideWordProperties

@@ -72,7 +72,7 @@ var cdvCORE = (function () {
 				}),
 				error: function (jqxhr, textStatus, err) {
 					console.log(textStatus + ", " + err);
-					errorCallback("Errore nella comunicazione col server");
+					//errorCallback("Errore nella comunicazione col server");
 				},
 				beforeSend: function (xhr) {
 					xhr.setRequestHeader('Authorization', 'Bearer ' + tokenData.access_token);

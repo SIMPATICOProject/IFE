@@ -224,8 +224,8 @@ body {
       box-shadow: inset -2px -2px 60px 0px #ee9f9b;
     }
 
-    /* Title of a simplified text box */
-    .simp-tae-ui-sb p {
+    /* Style box of a simplified text box */
+    .simp-tae-ui-sb div {
       font-weight: bold;
       padding-left: 10px;
       margin-left: 0px !important;
@@ -235,8 +235,24 @@ body {
       border-radius: 0px 16px 0px 0px;
     }
 
+    /* Title of a simplified text box */
+    .simp-tae-ui-sb div p {
+      display: inline-block;
+      margin-bottom: 2px;
+      margin-top: 2px;
+    }
+
+    /* Close button */
+    .simp-tae-ui-sb div span {
+      margin-right: 20px;
+      margin-bottom: 2px;
+      margin-top: 2px;
+      float: right;
+    }
+
     /* Style of a complex word */
     .simp-tae-ui-sb span {
+      cursor: pointer;
       font-style: italic;
       padding: 1px 5px 1px 5px !important;
       border-radius: 6px !important;
