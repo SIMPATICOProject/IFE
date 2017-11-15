@@ -46,6 +46,10 @@ var waeUI = (function () {
 		errorLabel = config.errorLabel;
 	}
 
+	var logger = function(event, details) {
+      if (logCORE != null) return logCORE.getInstance().waeLogger;
+      else return {logWae: function(){}, logBlockStart: function(){}, logBlockEnd: function(){}};
+    }
 	
 	/**
 	 * LOAD MODEL FROM ENGINE
@@ -72,6 +76,7 @@ var waeUI = (function () {
     	} else {
         	this.loadModel(idProfile);
     	}
+		logCORE.getInstance().startActivity('wae', 'simplification');
 		instance.active = true;
     }
 	/**
@@ -94,6 +99,7 @@ var waeUI = (function () {
 		resetBlock(waeEngine.getActualBlockId());
 		instance.active = false;
 		if (!stay) $('html, body').animate({scrollTop: 0}, 200);
+		logCORE.getInstance().endActivity('wae', 'simplification');
 	}
     this.disable = this.reset;
 
@@ -105,7 +111,9 @@ var waeUI = (function () {
 				showElement(key, "HIDE");
 			}
 		}
+		logger().logWae(simpaticoEservice);
 		waeEngine.nextBlock(doActions, moduleErrorMsg);
+		logger().logBlockStart(simpaticoEservice, waeEngine.getActualBlockId());
 	};
 	
 	function moduleLoadError(text) {
@@ -208,7 +216,7 @@ var waeUI = (function () {
 		});
 	};
 	function createDescription(text) {
-		return $('<div id="div_simpatico_block_description"><h5>'+labels.descriptionLabel+'</h5><p>'+text+'</p></div>');
+		return $('<div id="div_simpatico_block_description"><h5>'+labels.descriptionLabel+'</h5><div class="div_simpatico_block_description_content">'+text+'</div></div>');
 	};
 
 	function createNextButton() {
@@ -229,7 +237,9 @@ var waeUI = (function () {
 		};
 	
 	function nextBlock() {
-		waeEngine.nextBlock(doActions, moduleErrorMsg)
+		if (waeEngine.getActualBlockId()) logger().logBlockEnd(simpaticoEservice, waeEngine.getActualBlockId());
+		waeEngine.nextBlock(doActions, moduleErrorMsg);
+		if (waeEngine.getActualBlockId()) logger().logBlockStart(simpaticoEservice, waeEngine.getActualBlockId());
 	};
 	function lastBlock() {
 		instance.reset(true);
@@ -245,7 +255,9 @@ var waeUI = (function () {
 	};
 	
 	function prevBlock() {
+		if (waeEngine.getActualBlockId()) logger().logBlockEnd(simpaticoEservice, waeEngine.getActualBlockId());
 		waeEngine.prevBlock(doActions, moduleErrorMsg);
+		if (waeEngine.getActualBlockId()) logger().logBlockStart(simpaticoEservice, waeEngine.getActualBlockId());
 	};
   }
   return {

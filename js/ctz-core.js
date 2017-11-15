@@ -25,8 +25,7 @@ var qaeCORE = (function () {
       createQuestionURL = parameters.endpoint + '/questions/create';
       showQuestionURL = parameters.endpoint + '/questions/show';
       getQuestionsAPI = parameters.endpoint + '/api/qae/questions';
-      // getDiagramAPI = parameters.endpoint + '/api/diagram/eService';
-      getDiagramAPI = 'https://simpatico.hi-iberia.es:4570/cpd';
+      getDiagramAPI = parameters.cpdDiagramEndpoint;
     }
 
     // Get questions from Citizenpedia related to a paragraphName.
@@ -63,21 +62,10 @@ var qaeCORE = (function () {
     // It creates an URL which can be used to redirect to the diagram details of the CPD
     // - serviceID: the id corresponding to the e-service
     function getDiagramDetails(serviceID, diagramCallback) {
-      // jQuery.getJSON(getDiagramAPI +'/' + serviceID + '/element',
-      jQuery.getJSON(getDiagramAPI +'/api/diagram/summary/list',
+      jQuery.getJSON(getDiagramAPI +'/' + serviceID + '/summary',
         function(jsonResponse) {
-          for (var index in jsonResponse) {
             // if (json["id"] == serviceID) {
-            if (serviceID == "BS607A") {
-              if (jsonResponse[index]["diagramId"] == "60cc24d0-bb36-4580-9150-ee62eb32ab7a") {
-                return diagramCallback(jsonResponse[index]);
-              }
-            } else if (serviceID == "BS613B") {
-              if (jsonResponse[index]["diagramId"] == "9fd2003a-8dcd-407a-9c48-b46951427947") {
-                return diagramCallback(jsonResponse[index]);
-              }
-            }
-          }
+          diagramCallback(jsonResponse);
           // diagramCallback(jsonResponse);
         }
       );

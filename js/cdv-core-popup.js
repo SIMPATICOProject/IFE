@@ -11,6 +11,7 @@
 var cdvCORE = (function () {
 	var instance;
 	function Singleton() {
+		instance = this;
 
 		var endpoint = "http://localhost:8080";
 		var serviceID = 2;
@@ -59,6 +60,7 @@ var cdvCORE = (function () {
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
 			var pdata = new PData(data.userId, serviceLink, serviceLinkToken);
+			logCORE.getInstance().cdvLogger.useData(simpaticoEservice);
 			$.ajax({
 				url: url,
 				type: 'POST',
@@ -90,6 +92,7 @@ var cdvCORE = (function () {
 			console.log(tokenData);
 			var pdata = formFieldsToJSON(serviceLink,serviceLinkToken, data.userId, dataFields);
 
+			logCORE.getInstance().cdvLogger.saveData(simpaticoEservice);
 			$.ajax({
 				url: url,
 				type: 'POST',
@@ -113,7 +116,7 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_getSLink = function (callback) {
+		this.initializeSLR = function (callback) {
 
 			var data = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/users/" + data.userId + "/services/" + serviceID + "/serviceLink";
@@ -147,7 +150,7 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_getAccount = function (callback) {
+		this.initializeAccount = function (callback) {
 
 			var data = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/users/" + data.userId + "/serviceLink";
@@ -181,7 +184,7 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_createAccount = function (callback) {
+		this.createAccount = function (callback) {
 
 			var data = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/accounts";
@@ -214,7 +217,7 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_createSLR = function (callback) {
+		this.createSLR = function (callback) {
 
 			var data = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/accounts/" + username + "/serviceLinks";
@@ -247,7 +250,7 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_exportData = function () {
+		this.exportData = function () {
 
 			var dataUser = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/pdata-manager/api/v1/pData/download?fileFormat=CSV";
@@ -288,7 +291,7 @@ var cdvCORE = (function () {
 		
 		
 		
-		this.cdv_removeCDV = function () {
+		this.removeCDV = function () {
 
 			var dataUser = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/accounts/"+username;
@@ -387,24 +390,14 @@ var cdvCORE = (function () {
 			return jsonStr;
 		}
 
-		return {
-			init: initComponent,
-			cdv_getdata: cdv_getdata,
-			cdv_postdata: cdv_postdata,
-			initializeSLR: cdv_getSLink,
-			initializeAccount: cdv_getAccount,
-			createSLR: cdv_createSLR,
-			createAccount: cdv_createAccount,
-			exportData: cdv_exportData,
-			removeCDV: cdv_removeCDV
-		};
+		this.init = initComponent;
 
 	}
 
 	return {
 		getInstance: function () {
 			if (!instance)
-				instance = Singleton();
+				instance = new Singleton();
 			return instance;
 		}
 	};
