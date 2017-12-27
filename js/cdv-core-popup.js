@@ -11,14 +11,17 @@
 var cdvCORE = (function () {
 	var instance;
 	function Singleton() {
+		instance = this;
 
 		var endpoint = "http://localhost:8080";
 		var serviceID = 2;
+		var serviceName = "2";
 		var serviceURL = "http://localhost:8080/service2";
 		var dataFields = [];
 		var serviceLink = '';
+		var serviceLinkToken='';
 		var username = '';
-		var cdvDashUrl='#'
+        var cdvDashUrl='#' 
 		/**
 		 * INIT THE ENGINE CONFIG. PARAMETERS:
 		 * - endpoint: URL OF THE CDV API
@@ -31,15 +34,19 @@ var cdvCORE = (function () {
 			if (parameters.serviceID) {
 				serviceID = parameters.serviceID;
 			}
+			if (parameters.serviceName) {
+				serviceName = parameters.serviceName;
+			}
 			if (parameters.serviceURL) {
 				serviceURL = parameters.serviceURL;
 			}
 			if (parameters.dataFields) {
 				dataFields = parameters.dataFields;
 			}
-			if (parameters.cdvDashUrl) {
+            if (parameters.cdvDashUrl) {
 				cdvDashUrl = parameters.cdvDashUrl;
 			}
+
 		}
 
 		this.cdv_getdata = function (updatePDataFields, errorCallback) {
@@ -52,7 +59,8 @@ var cdvCORE = (function () {
 			var data = JSON.parse(localStorage.userData || 'null');
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var pdata = new PData(data.userId, serviceLink);
+			var pdata = new PData(data.userId, serviceLink, serviceLinkToken);
+			logCORE.getInstance().cdvLogger.useData(simpaticoEservice);
 			$.ajax({
 				url: url,
 				type: 'POST',
@@ -66,7 +74,7 @@ var cdvCORE = (function () {
 				}),
 				error: function (jqxhr, textStatus, err) {
 					console.log(textStatus + ", " + err);
-					errorCallback("Errore nella comunicazione col server");
+					//errorCallback("Errore nella comunicazione col server");
 				},
 				beforeSend: function (xhr) {
 					xhr.setRequestHeader('Authorization', 'Bearer ' + tokenData.access_token);
@@ -82,8 +90,9 @@ var cdvCORE = (function () {
 			var url = endpoint + "/pdata-manager/api/v1/postPData?mode=append";
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var pdata = formFieldsToJSON(serviceLink, data.userId, dataFields);
+			var pdata = formFieldsToJSON(serviceLink,serviceLinkToken, data.userId, dataFields);
 
+			logCORE.getInstance().cdvLogger.saveData(simpaticoEservice);
 			$.ajax({
 				url: url,
 				type: 'POST',
@@ -107,13 +116,13 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_getSLink = function (callback) {
+		this.initializeSLR = function (callback) {
 
 			var data = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/users/" + data.userId + "/services/" + serviceID + "/serviceLink";
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var pdata = formFieldsToJSON(serviceLink, data.userId, dataFields);
+			
 
 			$.ajax({
 				url: url,
@@ -123,6 +132,7 @@ var cdvCORE = (function () {
 				success: function (json) {
 					console.log(json._id);
 					serviceLink = json._id;
+					serviceLinkToken = json.slrToken;
 					callback(true, true);
 
 				},
@@ -140,13 +150,13 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_getAccount = function (callback) {
+		this.initializeAccount = function (callback) {
 
 			var data = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/users/" + data.userId + "/serviceLink";
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var pdata = formFieldsToJSON(serviceLink, data.userId, dataFields);
+			
 
 			$.ajax({
 				url: url,
@@ -156,6 +166,7 @@ var cdvCORE = (function () {
 				success: function (json) {
 					console.log(json.username);
 					username = json.username;
+					localStorage.accountData=username;
 					callback(true);
 
 				},
@@ -173,7 +184,7 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_createAccount = function (callback) {
+		this.createAccount = function (callback) {
 
 			var data = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/accounts";
@@ -189,6 +200,7 @@ var cdvCORE = (function () {
 				success: function (resp) {
 					console.log("account created");
 					username = resp.username;
+					localStorage.accountData=username;
 					callback(true);
 
 				},
@@ -205,13 +217,13 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_createSLR = function (callback) {
+		this.createSLR = function (callback) {
 
 			var data = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/accounts/" + username + "/serviceLinks";
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
-			var slr = slrToJSON(data.userId, serviceID, serviceURL);
+			var slr = slrToJSON(data.userId, serviceID, serviceURL,serviceName);
 
 			$.ajax({
 				url: url,
@@ -221,6 +233,7 @@ var cdvCORE = (function () {
 				success: function (resp) {
 					console.log("slr saved!");
 					serviceLink = resp._id;
+					serviceLinkToken = resp.slrToken;
 					callback(true, true);
 
 				},
@@ -237,7 +250,7 @@ var cdvCORE = (function () {
 
 		}
 
-		this.cdv_exportData = function () {
+		this.exportData = function () {
 
 			var dataUser = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/pdata-manager/api/v1/pData/download?fileFormat=CSV";
@@ -278,7 +291,7 @@ var cdvCORE = (function () {
 		
 		
 		
-		this.cdv_removeCDV = function () {
+		this.removeCDV = function () {
 
 			var dataUser = JSON.parse(localStorage.userData || 'null');
 			var url = endpoint + "/account-manager/api/v1/accounts/"+username;
@@ -307,9 +320,10 @@ var cdvCORE = (function () {
 		}
 
 		// pdata
-		function PData(userId, slrId) {
+		function PData(userId, slrId,slrToken) {
 			this.user_id = userId;
 			this.slr_id = slrId;
+			this.slr_token = slrToken;
 			this.properties = [];
 			this.toJsonString = function () {
 				return JSON.stringify(this);
@@ -317,10 +331,11 @@ var cdvCORE = (function () {
 		};
 
 		// Helper function to serialize all the form fields into a JSON string
-		function formFieldsToJSON(slrId, userId, fields) {
+		function formFieldsToJSON(slrId,slrToken, userId, fields) {
 			var properties = [];
 			var jsonStr = JSON.stringify({
 					"slr_id": slrId,
+					"slr_token": slrToken,
 					"user_id": userId,
 					"properties": []
 				});
@@ -364,34 +379,25 @@ var cdvCORE = (function () {
 		}
 
 		// Helper function to serialize all slr fields into a JSON string
-		function slrToJSON(userId, serviceId, serviceURL) {
+		function slrToJSON(userId, serviceId, serviceURL,serviceName) {
 			var properties = [];
 			var jsonStr = JSON.stringify({
 					"serviceId": serviceId,
 					"serviceUri": serviceURL,
-					"userId": userId
+					"userId": userId,
+					"serviceName":serviceName
 				});
 			return jsonStr;
 		}
 
-		return {
-			init: initComponent,
-			cdv_getdata: cdv_getdata,
-			cdv_postdata: cdv_postdata,
-			initializeSLR: cdv_getSLink,
-			initializeAccount: cdv_getAccount,
-			createSLR: cdv_createSLR,
-			createAccount: cdv_createAccount,
-			exportData: cdv_exportData,
-			removeCDV: cdv_removeCDV
-		};
+		this.init = initComponent;
 
 	}
 
 	return {
 		getInstance: function () {
 			if (!instance)
-				instance = Singleton();
+				instance = new Singleton();
 			return instance;
 		}
 	};
@@ -405,6 +411,6 @@ function setFieldValue(target, value) {
 	});
 }
 
-function openCDV() {
+function openCDV(cdvDashUrl) {
 	window.open(cdvDashUrl, "_blank");
 }
