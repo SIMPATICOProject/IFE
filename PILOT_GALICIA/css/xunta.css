@@ -1,0 +1,12 @@
+body {
+    margin-top: 80px !important;
+}
+
+/***** XUNTA WEB STYLE HACK ******/
+.inicioSolicitude{
+    border-style: dotted;
+    border-color: red;
+    border-width: 5px;
+    border-collapse: separate;
+
+}

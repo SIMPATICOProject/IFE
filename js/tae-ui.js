@@ -21,7 +21,9 @@ var taeUI = (function () {
     var simplifyBoxTitle = '';
     var simplifyBoxClassName = '';
     var wordPropertiesClassName = '';
-
+    var synonymLabel = '';
+    var definitionLabel = '';
+    var emptyText = '';
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
@@ -36,6 +38,9 @@ var taeUI = (function () {
       simplifyBoxTitle = parameters.simplifyBoxTitle;
       simplifyBoxClassName = parameters.simplifyBoxClassName;
       wordPropertiesClassName = parameters.wordPropertiesClassName;
+      synonymLabel = parameters.synonymLabel || 'Synonyms';
+      definitionLabel = parameters.definitionLabel || 'Definitions';
+      emptyText = parameters.emptyText || 'no simplification found for the text';
       taeCORE.getInstance().init({
           endpoint: parameters.endpoint,
           language: parameters.language
@@ -70,6 +75,14 @@ var taeUI = (function () {
         paragraphs[i].setAttribute("onclick", 
           "taeUI.getInstance()." + 
               "paragraphEvent('" + paragraphName + "');");
+
+  var loadingImage = document.createElement("img");
+        loadingImage.setAttribute("src", "img/loader.gif");
+        loadingImage.setAttribute("id", "loading_"+paragraphName);
+        loadingImage.style.display = "none";
+
+        paragraphs[i].appendChild(loadingImage);
+
         paragrapId++;
       }
     }
@@ -94,8 +107,8 @@ var taeUI = (function () {
     }
 
     // It uses the log component to register the produced events
-	var logger = function(event, details) {
-	  var nop = function(){};
+    var logger = function(event, details) {
+      var nop = function(){};
       if (logCORE != null) return logCORE.getInstance().taeLogger;
       else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop};
     }
@@ -113,7 +126,7 @@ var taeUI = (function () {
         var text = currentParagraph.textContent ? currentParagraph.textContent : currentParagraph.innerText;//IE uses innerText
         taeCORE.getInstance().simplifyText(paragraphID, text, showSimplificationBox);
       } else {
-        hideSimplificationBox(paragraphID);
+        //hideSimplificationBox(paragraphID);
       }
     }
     
@@ -133,17 +146,37 @@ var taeUI = (function () {
     // - originalText: the original text contained in a paragraph
     // - simplifications: A list of simplified words of the text
     function createSimplifiedTextHTML(originalText, simplifications) {
+      // We need to do this to assure that the array comes ordered by start position
+      Array.prototype.keySort = function(key, desc){
+        this.sort(function(a, b) {
+          var result = desc ? (a[key] < b[key]) : (a[key] > b[key]);
+          return result ? 1 : -1;
+        });
+        return this;
+      }
+
+      simplifications.keySort('start');
+
+      if (simplifications.length == 0)
+
+      {
+  var result = emptyText;//'No hay palabras que necesiten ser simplificadas';
+      }else{
+
+
       var result = originalText;
       var item = '';
       // for each simplified word add an element containing it
       for (var i = simplifications.length -1; i >= 0; i--) {
         item = simplifications[i];
+  console.log(item);
         result = result.substring(0, item.start) + 
                       createSimplifiedWordLabel(item) + 
                         result.substring(item.end, result.length);
       }
-      return result;
-    }
+      }// if simplifications.length
+ return result;
+}
 
 
     // Method used to cancel the propagation of the events
@@ -198,11 +231,11 @@ var taeUI = (function () {
       // Update the content
       currentBox.innerHTML = '<b>' + wordHTMLelement.innerText + '</b></br>';
       if (definition != null) // If the word has definition show it
-        currentBox.innerHTML += '<i>' + 'Definition:' + '</i>' 
+        currentBox.innerHTML += '<i>' + definitionLabel + ':' + '</i>' 
                                 + definition 
                                 + '</br>';
       if (synonyms != null) // If the word has synonyms show them
-        currentBox.innerHTML += '<i>' + 'Synonyms:' + '</i>' + synonyms;
+        currentBox.innerHTML += '<i>' + synonymLabel +':' + '</i>' + synonyms;
 
       logger().logWord(simpaticoEservice, wordHTMLelement.innerHTML);
     }
@@ -234,23 +267,40 @@ var taeUI = (function () {
       questionsBox.className = simplifyBoxClassName;
       
       // 1. The title is attached 
-      var questionsHtml = '<p>' + simplifyBoxTitle + '</p>';
+      //var questionsHtml = '<div><p>' + simplifyBoxTitle + '</p><span id="' + paragraphID + simplifyBoxIdSuffix + '-close">&#10006;</span></div>';
+      var questionsHTMLTitle = document.createElement('div');
+      var questionsHTMLTitleP =  document.createElement('p');
+      questionsHTMLTitleP.appendChild(document.createTextNode(simplifyBoxTitle));
+      var questionsHTMLTitleSpan =  document.createElement('span');
+      questionsHTMLTitleSpan.id = paragraphID + simplifyBoxIdSuffix + '-close';
+      questionsHTMLTitleSpan.innerHTML = '&#10006;';
+      questionsHTMLTitleSpan.onclick = function () { taeUI.getInstance().hideSimplificationBox(event, paragraphID) };
+      questionsHTMLTitle.appendChild(questionsHTMLTitleP);
+      questionsHTMLTitle.appendChild(questionsHTMLTitleSpan);
 
       // 2. The simplification is attached
-      questionsHtml += '<ul>';
-      questionsHtml += '<li>' + createSimplifiedTextHTML(
-                                      originalText,
-                                      response.simplifications) + '</li>';
-      questionsHtml += '</ul>';
+      var questionsHtmlUl = document.createElement('ul');
+      var questionsHtmlLi = document.createElement('li');
+      questionsHtmlLi.innerHTML = createSimplifiedTextHTML(originalText, response.simplifications);
+      questionsHtmlUl.appendChild(questionsHtmlLi);
 
-      // 3. The Simplification Box div is attached to the corresponding paragraph
-      questionsBox.innerHTML = questionsHtml;
-      document.getElementById(paragraphID).appendChild(questionsBox);
+      // 3. Add elements to div
+      questionsBox.appendChild(questionsHTMLTitle);
+      questionsBox.appendChild(questionsHtmlUl);
+
+      // 4. The Simplification Box div is attached to the corresponding paragraph
+      // Check another time that simplification doesnt exists
+      var currentParagraph = document.getElementById(paragraphID + simplifyBoxIdSuffix);
+      if (currentParagraph === null) {	
+        document.getElementById(paragraphID).appendChild(questionsBox);
+        document.getElementById('loading_'+paragraphID).style.display = "none";
+      }
     } //showSimplificationBox
 
     // Hide the simplification box attached to a paragraph passed as paramether
     // - paragraphID: the id of the paragraph
-    function hideSimplificationBox(paragraphID) {
+    function hideSimplificationBox(event, paragraphID) {
+      cancelEventPropagation(event);
       var sBoxToRemove = document.getElementById(paragraphID + simplifyBoxIdSuffix);
       sBoxToRemove.parentNode.removeChild(sBoxToRemove);
     }
@@ -261,7 +311,8 @@ var taeUI = (function () {
       enable: enableComponentFeatures,  // Called when the Component button is enabled
       disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
-      
+
+      hideSimplificationBox: hideSimplificationBox,      
       paragraphEvent: paragraphEvent,
       wordEvent: wordEvent,
       wordPropertiesEvent: hideWordProperties
