@@ -4,6 +4,9 @@ body {
     margin-top: 85px;
 }
     /************************* SIMPATICO BAR**********************************/
+    header.container-fluid {
+      margin-top: 79px;
+    }
 
     #simp-bar {
         display: inline-table;
@@ -19,6 +22,7 @@ body {
   
       #simp-bar img {
           vertical-align: middle;
+          height: 50px !important;
       }
   
       /* Private buttons container */
