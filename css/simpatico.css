@@ -6,6 +6,7 @@ body {
     /************************* SIMPATICO BAR**********************************/
     header.container-fluid {
       margin-top: 79px;
+      z-index: 998;
     }
 
     #simp-bar {
@@ -156,7 +157,7 @@ body {
     }
     /* Diagram found notification style*/
     .simp-ctz-ui-diagram {
-      z-index: 999;
+      z-index: 9999;
       position: fixed;
       font-style: initial;
       border-radius: 0px 25px 25px 0px;
@@ -170,6 +171,10 @@ body {
     .simp-ctz-ui-diagram:hover {
       border-left: 12px solid #24BCDA;
       padding: 0px 16px 0px 4px !important;
+    }
+
+    .simp-ctz-ui-diagram img.img-ui-diagram {
+      height: 40px !important;
     }
 
 	.simp-paragraph-active {

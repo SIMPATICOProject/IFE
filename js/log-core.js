@@ -12,186 +12,186 @@ var logCORE = (function () {
   var instance;
   function Singleton () {
 
-	var insertLogEventAPI = '';
-  // for test purposes. Set to true if no LOG component is available
-  var TEST_MODE = false;
-	var serverEndpoint = '';
-	var ctzpEndpoint = '';
-	var taeEndpoint = '';
-	var waeEndpoint = '';
-	var ifeEndpoint = '';
-	var sfEndpoint = '';
-	var logsEndpoint = '';
+  	var insertLogEventAPI = '';
+    // for test purposes. Set to true if no LOG component is available
+    var TEST_MODE = false;
+  	var serverEndpoint = '';
+  	var ctzpEndpoint = '';
+  	var taeEndpoint = '';
+  	var waeEndpoint = '';
+  	var ifeEndpoint = '';
+  	var sfEndpoint = '';
+  	var logsEndpoint = '';
 
-	var syncMode = false;
-	var activityStart = {};
-    var start;
+  	var syncMode = false;
+  	var activityStart = {};
+      var start;
 
-	var log = function(url, data) {
+  	var log = function(url, data) {
 
-		var token = authManager.getInstance().getToken();
-		var userId = authManager.getInstance().getUserId();
-		data.userID = userId;
-		data.sessionId = localStorage.logSessionStart;
-		if (TEST_MODE) {
-			console.log('TEST LOG: '+data);
-			return;
-		}
-		$.ajax({
-			url: url,
-			type: 'POST',
-			data: JSON.stringify(data),
-			async: !syncMode,
-			contentType: "application/json; charset=utf-8",
-			dataType: 'json',
-			success: (function (resp) {
-				console.log(resp);
+  		var token = authManager.getInstance().getToken();
+  		var userId = authManager.getInstance().getUserId();
+  		data.userID = userId;
+  		data.sessionId = localStorage.logSessionStart;
+  		if (TEST_MODE) {
+  			console.log('TEST LOG: '+data);
+  			return;
+  		}
+  		$.ajax({
+  			url: url,
+  			type: 'POST',
+  			data: JSON.stringify(data),
+  			async: !syncMode,
+  			contentType: "application/json; charset=utf-8",
+  			dataType: 'json',
+  			success: (function (resp) {
+  				console.log(resp);
 
-			}),
-			error: function (jqxhr, textStatus, err) {
-				console.log(textStatus + ", " + err);
-			},
-			beforeSend: function (xhr) {
-					xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+  			}),
+  			error: function (jqxhr, textStatus, err) {
+  				console.log(textStatus + ", " + err);
+  			},
+  			beforeSend: function (xhr) {
+  					xhr.setRequestHeader('Authorization', 'Bearer ' + token);
 
-			}
-		});
-	}
+  			}
+  		});
+  	}
 
-	var ctzpLogger = {
-		logContentRequest: function(eservice, contentId) {
-			log(ctzpEndpoint+'/contentrequest', {'e-serviceID': eservice, annotableElementID: contentId});
-		},
-		logQuestionRequest: function(eservice, contentId, questionId) {
-			log(ctzpEndpoint+'/questionrequest', {'e-serviceID': eservice, annotableElementID: contentId, questionID: questionId});
-		},
-		logNewQuestionRequest: function(eservice, contentId) {
-			log(ctzpEndpoint+'/newquestion', {'e-serviceID': eservice, annotableElementID: contentId});
-		},
-		logTermRequest: function(eservice, contentId, term) {
-			log(ctzpEndpoint+'/termrequest', {'e-serviceID': eservice, annotableElementID: contentId, selected_term: term});
-		},
-	    logNewAnswer: function(eservice, contentId, questionId) {
-	      log(ctzpEndpoint+'/newanswer', {'e-serviceID': eservice, annotableElementID: contentId, questionID: questionId});
-	    }
-	};
-	var taeLogger = {
-		logParagraph: function(eservice, paragraphID) {
-			log(taeEndpoint+'/paragraph', {'e-serviceID': eservice, paragraphID: paragraphID});
-		},
-		logPhrase: function(eservice, phraseID) {
-			log(taeEndpoint+'/phrase', {'e-serviceID': eservice, phraseID: phraseID});
-		},
-		logWord: function(eservice, wordID) {
-			log(taeEndpoint+'/word', {'e-serviceID': eservice, wordID: wordID});
-		},
-		logFreetext: function(eservice, selected_text) {
-			log(taeEndpoint+'/freetext', {'e-serviceID': eservice, selected_text: selected_text});
-		},
-		logAction: function(eservice, action, word) {
-	      var timestamp = new Date().getTime();
-	      var postData = {
-	        "component": 'tae', 
-	        "e-serviceID": eservice, // the id of the corresponding e-service
-	        "timestamp": timestamp,
-	        "action": action	        
-	      }
-	      if (!!word) postData.word = word;
-	      insertLogEvent(postData);
-		}
-	}
-	var waeLogger = {
-		logWae: function(eservice) {
-			log(waeEndpoint, {'e-serviceID': eservice, timestamp: ''+new Date().getTime()});
-		},
-		logBlockStart: function(eservice, blockId) {
-			startActivity('wae','block',blockId);
-		},
-		logBlockEnd: function(eservice, blockId) {
-			endActivity('wae','block',blockId);
-		}
-	}
-	var cdvLogger = {
-		saveData: function(eservice) {
-		      var timestamp = new Date().getTime();
-		      var postData = {
-		        "component": 'cdv', 
-		        "e-serviceID": eservice, // the id of the corresponding e-service
-		        "timestamp": timestamp,
-		        "action": "savedata"	        
-		      }
-		      insertLogEvent(postData);
-		},
-		useData: function(eservice, fieldId) {
-		      var timestamp = new Date().getTime();
-		      var postData = {
-		        "component": 'cdv', 
-		        "e-serviceID": eservice, // the id of the corresponding e-service
-		        "timestamp": timestamp,
-		        "action": "usedata"	        
-		      }
-		      if (fieldId != null) postData.fieldId = fieldId;
-		      insertLogEvent(postData);
-		}
-	}
-	var ifeLogger = {
-		sessionStart: function(eservice) {
-			var ts = new Date().getTime();
-			// record session start for sessionEnd reference
-			localStorage.logSessionStart = ts;
-			log(ifeEndpoint+'/sessionstart', {'e-serviceID': eservice, timestamp: ''+ts});
-			startActivity('ife','session', null, null, true);
-		},
-		sessionEnd: function(eservice) {
-			var ts = parseInt(localStorage.logSessionStart || (''+new Date().getTime()));
-			var diff = new Date().getTime() - ts;
-			log(ifeEndpoint+'/sessionend', {'e-serviceID': eservice, timestamp: ''+ts, sessionDuration: ''+diff, averageTime: diff});
-			endActivity('ife','session', null, null, true);
-		},
-		formStart: function(eservice, form) {
-			var ts = new Date().getTime();
-			log(ifeEndpoint+'/formstart', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
-			startActivity('ife','form', null, null, true);
-		},
-		formEnd: function(eservice, form) {
-			var ts = new Date().getTime();
-			log(ifeEndpoint+'/formend', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
-      endActivity('ife','form', null, null, true);
-		},
-		formIdle: function(eservice, form) {  // TODO Create end point in log component
-			var ts = new Date().getTime();
-			log(ifeEndpoint, {'e-serviceID': eservice, formID: form, timestamp: ''+ts, event: "form_idle"});
-		},
-		formAbandoned: function(eservice, form) {  // TODO Create end point in log component
-			var ts = new Date().getTime();
-			log(ifeEndpoint, {'e-serviceID': eservice, formID: form, timestamp: ''+ts, event: "form_abandoned"});
-		},
-	    clicks: function(eservice, contentId, clicks) {
-	      log(ifeEndpoint+'/clicks', {'e-serviceID': eservice, annotableElementID: contentId, clicks: clicks});
-	    }
-	}
-	var sfLogger = {
-		feedbackEvent: function(eservice, complexity) {
-                        console.log("feedbackEvent");
-                        console.log(eservice);
-                        console.log(complexity);
-			log(sfEndpoint, {'e-serviceID': eservice, complexity: complexity});
-		},
-		feedbackData: function(eservice, data) {
-                        console.log("feedbackData");
-			data['e-serviceID'] = eservice;
-			if (data.slider_session_feedback_paragraph) data.slider_session_feedback_paragraph = parseInt(data.slider_session_feedback_paragraph);
-			if (data.slider_session_feedback_phrase) data.slider_session_feedback_phrase = parseInt(data.slider_session_feedback_phrase);
-			if (data.slider_session_feedback_word) data.slider_session_feedback_word = parseInt(data.slider_session_feedback_word);
-			if (data.slider_session_feedback_ctz) data.slider_session_feedback_ctz = parseInt(data.slider_session_feedback_ctz);
-                        data['datatype'] = 'session-feedback'; // to distinguish it
+  	var ctzpLogger = {
+  		logContentRequest: function(eservice, contentId) {
+  			log(ctzpEndpoint+'/contentrequest', {'e-serviceID': eservice, annotableElementID: contentId});
+  		},
+  		logQuestionRequest: function(eservice, contentId, questionId) {
+  			log(ctzpEndpoint+'/questionrequest', {'e-serviceID': eservice, annotableElementID: contentId, questionID: questionId});
+  		},
+  		logNewQuestionRequest: function(eservice, contentId) {
+  			log(ctzpEndpoint+'/newquestion', {'e-serviceID': eservice, annotableElementID: contentId});
+  		},
+  		logTermRequest: function(eservice, contentId, term) {
+  			log(ctzpEndpoint+'/termrequest', {'e-serviceID': eservice, annotableElementID: contentId, selected_term: term});
+  		},
+  	    logNewAnswer: function(eservice, contentId, questionId) {
+  	      log(ctzpEndpoint+'/newanswer', {'e-serviceID': eservice, annotableElementID: contentId, questionID: questionId});
+  	    }
+  	};
+  	var taeLogger = {
+  		logParagraph: function(eservice, paragraphID) {
+  			log(taeEndpoint+'/paragraph', {'e-serviceID': eservice, paragraphID: paragraphID});
+  		},
+  		logPhrase: function(eservice, phraseID) {
+  			log(taeEndpoint+'/phrase', {'e-serviceID': eservice, phraseID: phraseID});
+  		},
+  		logWord: function(eservice, wordID) {
+  			log(taeEndpoint+'/word', {'e-serviceID': eservice, wordID: wordID});
+  		},
+  		logFreetext: function(eservice, selected_text) {
+  			log(taeEndpoint+'/freetext', {'e-serviceID': eservice, selected_text: selected_text});
+  		},
+  		logAction: function(eservice, action, word) {
+  	      var timestamp = new Date().getTime();
+  	      var postData = {
+  	        "component": 'tae', 
+  	        "e-serviceID": eservice, // the id of the corresponding e-service
+  	        "timestamp": timestamp,
+  	        "action": action	        
+  	      }
+  	      if (!!word) postData.word = word;
+  	      insertLogEvent(postData);
+  		}
+  	}
+  	var waeLogger = {
+  		logWae: function(eservice) {
+  			log(waeEndpoint, {'e-serviceID': eservice, timestamp: ''+new Date().getTime()});
+  		},
+  		logBlockStart: function(eservice, blockId) {
+  			startActivity('wae','block',blockId);
+  		},
+  		logBlockEnd: function(eservice, blockId) {
+  			endActivity('wae','block',blockId);
+  		}
+  	}
+  	var cdvLogger = {
+  		saveData: function(eservice) {
+  		      var timestamp = new Date().getTime();
+  		      var postData = {
+  		        "component": 'cdv', 
+  		        "e-serviceID": eservice, // the id of the corresponding e-service
+  		        "timestamp": timestamp,
+  		        "action": "savedata"	        
+  		      }
+  		      insertLogEvent(postData);
+  		},
+  		useData: function(eservice, fieldId) {
+  		      var timestamp = new Date().getTime();
+  		      var postData = {
+  		        "component": 'cdv', 
+  		        "e-serviceID": eservice, // the id of the corresponding e-service
+  		        "timestamp": timestamp,
+  		        "action": "usedata"	        
+  		      }
+  		      if (fieldId != null) postData.fieldId = fieldId;
+  		      insertLogEvent(postData);
+  		}
+  	}
+  	var ifeLogger = {
+  		sessionStart: function(eservice) {
+  			var ts = new Date().getTime();
+  			// record session start for sessionEnd reference
+  			localStorage.logSessionStart = ts;
+  			log(ifeEndpoint+'/sessionstart', {'e-serviceID': eservice, timestamp: ''+ts});
+  			startActivity('ife','session', null, null, true);
+  		},
+  		sessionEnd: function(eservice) {
+  			var ts = parseInt(localStorage.logSessionStart || (''+new Date().getTime()));
+  			var diff = new Date().getTime() - ts;
+  			log(ifeEndpoint+'/sessionend', {'e-serviceID': eservice, timestamp: ''+ts, sessionDuration: ''+diff, averageTime: diff});
+  			endActivity('ife','session', null, null, true);
+  		},
+  		formStart: function(eservice, form) {
+  			var ts = new Date().getTime();
+  			log(ifeEndpoint+'/formstart', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
+  			startActivity('ife','form', null, null, true);
+  		},
+  		formEnd: function(eservice, form) {
+  			var ts = new Date().getTime();
+  			log(ifeEndpoint+'/formend', {'e-serviceID': eservice, formID: form, timestamp: ''+ts});
+        endActivity('ife','form', null, null, true);
+  		},
+  		formIdle: function(eservice, form) {  // TODO Create end point in log component
+  			var ts = new Date().getTime();
+  			log(ifeEndpoint, {'e-serviceID': eservice, formID: form, timestamp: ''+ts, event: "form_idle"});
+  		},
+  		formAbandoned: function(eservice, form) {  // TODO Create end point in log component
+  			var ts = new Date().getTime();
+  			log(ifeEndpoint, {'e-serviceID': eservice, formID: form, timestamp: ''+ts, event: "form_abandoned"});
+  		},
+  	    clicks: function(eservice, contentId, clicks) {
+  	      log(ifeEndpoint+'/clicks', {'e-serviceID': eservice, annotableElementID: contentId, clicks: clicks});
+  	    }
+  	}
+  	var sfLogger = {
+  		feedbackEvent: function(eservice, complexity) {
+                          console.log("feedbackEvent");
+                          console.log(eservice);
+                          console.log(complexity);
+  			log(sfEndpoint, {'e-serviceID': eservice, complexity: complexity});
+  		},
+  		feedbackData: function(eservice, data) {
+                          console.log("feedbackData");
+  			data['e-serviceID'] = eservice;
+  			if (data.slider_session_feedback_paragraph) data.slider_session_feedback_paragraph = parseInt(data.slider_session_feedback_paragraph);
+  			if (data.slider_session_feedback_phrase) data.slider_session_feedback_phrase = parseInt(data.slider_session_feedback_phrase);
+  			if (data.slider_session_feedback_word) data.slider_session_feedback_word = parseInt(data.slider_session_feedback_word);
+  			if (data.slider_session_feedback_ctz) data.slider_session_feedback_ctz = parseInt(data.slider_session_feedback_ctz);
+                          data['datatype'] = 'session-feedback'; // to distinguish it
 
-                        console.log("Sending:");
-                        console.log(data);
+                          console.log("Sending:");
+                          console.log(data);
 
-			log(logsEndpoint, data);
-		}
-	}
+  			log(logsEndpoint, data);
+  		}
+  	}
 
 
     // In inits the main used variables
