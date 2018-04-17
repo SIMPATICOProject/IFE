@@ -304,7 +304,7 @@ body {
     /* Main simplified text box class */
     .simp-tae-ui-sb {
       border-top: : thick solid #DE453E !important;
-      background-color: #FAE1E0 !important;
+      background-color: #FAE1E0;
       border-radius: 0px 16px 16px 0px;
       margin-left: -8px;
       font-size: 12px;

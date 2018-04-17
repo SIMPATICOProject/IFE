@@ -444,6 +444,24 @@ window.addEventListener('beforeunload', function (e) {
   logCORE.getInstance().logTimeEvent({});
 });
 
+function simpliFysentence(color, event){
+  cancelEventPropagation(event);
+  console.log("SimplifySentence "+color);
+  document.getElementById("Paragraph1-simp-text-paragraph").setAttribute("style", "background-color: " + color + ";");
+  document.getElementById("Paragraph1-simp-text-paragraph").innerHTML = '<div><p>Texto simplificado</p><span id="Paragraph1-simp-text-paragraph-close">✖</span></div><ul><li>Already SIMPLIFIED text</li></ul>';
+}
+
+// Method used to cancel the propagation of the events
+// - event: the event to cancel
+function cancelEventPropagation(event) {
+  event = event || window.event // cross-browser event
+  if (event.stopPropagation) {
+      event.stopPropagation(); // W3C standard variant
+  } else {
+      event.cancelBubble = true; // IE variant
+  }
+}
+
 //////////////////////////////////
 function fillData(fileName)
 {

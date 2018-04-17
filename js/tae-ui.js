@@ -74,7 +74,7 @@ var taeUI = (function () {
         paragraphs[i].setAttribute("id", paragraphName);
         paragraphs[i].setAttribute("onclick", 
           "taeUI.getInstance()." + 
-              "paragraphEvent('" + paragraphName + "');");
+              "paragraphEvent('" + paragraphName + "', event);");
 
   var loadingImage = document.createElement("img");
         loadingImage.setAttribute("src", "img/loader.gif");
@@ -116,11 +116,21 @@ var taeUI = (function () {
     // If the Component feature is enabled it calls to the TAE engine instance to 
     // get the simplifications related to the paragraph passed as parameter
     // - paragraphID: the id of the paragraph which has produced the event
-    function paragraphEvent(paragraphID) {
+    function paragraphEvent(paragraphID, event) {
+      document.getElementById(paragraphID).removeAttribute("onclick");
       var simplifyBox = document.createElement('div');
-      simplifyBox.innerHTML = '<div id="Paragraph1-simp-text-paragraph" class="simp-tae-ui-sb"><div><p>Texto simplificado</p><span id="Paragraph1-simp-text-paragraph-close">✖</span></div><ul><li>No hay palabras que necesiten ser simplificadas</li></ul></div>';
+      simplifyBox.innerHTML = '<div id="Paragraph1-simp-text-paragraph" class="simp-tae-ui-sb"><div><p>Texto simplificado</p><span id="Paragraph1-simp-text-paragraph-close">✖</span></div><ul><li>Seleccione una frase para simplificar</li></ul></div>';
       var currentParagraph = document.getElementById(paragraphID);
       currentParagraph.appendChild(simplifyBox);
+      
+      var sentencesSpans = document.getElementsByClassName("simp-text-sentence");
+      var colors = ["#ef213d", "#FFFF00", "#4286f4", "#73ef3e"];
+      console.log(sentencesSpans);
+
+      for (var i = 0; i < sentencesSpans.length; i++) {
+        sentencesSpans[i].setAttribute("style", "background-color: " + colors[i] + ";");
+        sentencesSpans[i].setAttribute("onclick", "simpliFysentence('"+colors[i]+"', event)");
+      }
       // if (!featureEnabled) return;
       // var currentParagraph = document.getElementById(paragraphID + simplifyBoxIdSuffix);
       
