@@ -27,8 +27,96 @@
   <script src="./js/libs/sede.js"></script> 
   <script type="text/javascript">var ipecosUtils=new IpecosUtils();flowplayer.conf.adaptativeRatio=true;flowplayer.conf.swf="/sede-theme/js/flowplayer.6.0.5/flowplayer.swf";</script> 
   <script src="./js/libs/rs_html5/ReadSpeaker.js?pids=embhl" type="text/javascript"></script> 
-</head> 
+<!-- SIMPATICO BEGIN -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="../css/simpatico.css"/>
+<link rel="stylesheet" href="css/xunta.css"/>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script>
+   $(document).ready(function () {
+      $("#BS607AFICHA,#inicioSolicitudeLateralPDF").click(function(e) {
+         window.open('BS607A/BS607A.html', '_blank');     // Open in new tab
+         //window.location.href = "BS607A/index.html";   // Open same tab
+      });
+   });
+</script>
+
+<!-- Global variables set up -->
+<script type="text/javascript">
+   var simpaticoEservice = "BS607A"; //  the id corresponding to the e-service
+   var serviceName = "PROGRAMA BIENESTAR EN BALNEARIOS"; // Eservice example
+   var serviceURL="https://simpatico.hi-iberia.es:4570/IFE/BS607A_es.html";
+   /*var simpaticoForm = "init";*/
+   var simpaticoCategory = "Wellness"; // the general category of the e-service
+   var simpaticoMapping=["AventeTitolo_EMailPEC","AventeTitolo_Fax","AventeTitolo_EMail"];
+   var ERROR_LABELS = {
+   'block1' : 'Phone number is required'
+   }
+</script>
+
+
+<!-- Injection of JS Libraries -->
+<!-- Analytics -->
+<script src="js/jquery.cookie.js"></script>
+<script src="js/logget.js"></script>
+
+<script src="../js/log-core.js"></script>
+<script src="../js/ctz-ui.js"></script>
+<script src="../js/ctz-core.js"></script>
+<script src="../js/cdv-ui-popup.js"></script>
+<script src="../js/cdv-core-popup.js"></script>
+<script src="../js/tae-core.js"></script>
+<script src="../js/tae-ui.js"></script>
+<script src="../js/tae-core-popup.js"></script>
+<script src="../js/tae-ui-popup.js"></script>
+<script src="../js/sf-core.js"></script>
+<script src="../js/sf-ui.js"></script>
+<script src="../js/da-ui.js"></script>
+<script src="../js/wae-core.js"></script>
+<script src="../js/wae-ui.js"></script>
+<script src="//github.com/google/wicked-good-xpath/releases/download/1.3.0/wgxpath.install.js"></script>
+<script>
+   wgxpath.install();
+</script>
+<script src="js/ife-userId.js"></script>
+<script src="js/simpatico-ife.js"></script>
+<script src="../js/simpatico-auth.js"></script>
+
+<!-- Piwik ALL -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//simpatico.hi-iberia.es:4570/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+
+    // We will also collect the website data into Website ID = 2
+    var websiteIdDuplicate = 2;
+    // The data will be duplicated into `piwik.example.org/piwik.php`
+    _paq.push(['addTracker', piwikUrl = u+'piwik.php', websiteIdDuplicate]);
+    // Your data is now tracked in both website ID 1 and website 2 into your piwik.example.org server!
+
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+
+<!-- SIMPATICO END -->
 <body class=" yui3-skin-sam controls-visible signed-out public-page site"> 
+    <div id="simpatico_top"></div>
   <div id="wrapper"> 
     <header class="container-fluid bg-primary"> 
       <div id="destop-header" class="hidden-xs page-max-width"> 
