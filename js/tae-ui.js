@@ -117,17 +117,21 @@ var taeUI = (function () {
     // get the simplifications related to the paragraph passed as parameter
     // - paragraphID: the id of the paragraph which has produced the event
     function paragraphEvent(paragraphID) {
-      if (!featureEnabled) return;
-      var currentParagraph = document.getElementById(paragraphID + simplifyBoxIdSuffix);
+      var simplifyBox = document.createElement('div');
+      simplifyBox.innerHTML = '<div id="Paragraph1-simp-text-paragraph" class="simp-tae-ui-sb"><div><p>Texto simplificado</p><span id="Paragraph1-simp-text-paragraph-close">✖</span></div><ul><li>No hay palabras que necesiten ser simplificadas</li></ul></div>';
+      var currentParagraph = document.getElementById(paragraphID);
+      currentParagraph.appendChild(simplifyBox);
+      // if (!featureEnabled) return;
+      // var currentParagraph = document.getElementById(paragraphID + simplifyBoxIdSuffix);
       
-      if ( currentParagraph === null) {
-        logger().logParagraph(simpaticoEservice, paragraphID);
-        currentParagraph = document.getElementById(paragraphID);
-        var text = currentParagraph.textContent ? currentParagraph.textContent : currentParagraph.innerText;//IE uses innerText
-        taeCORE.getInstance().simplifyText(paragraphID, text, showSimplificationBox);
-      } else {
-        //hideSimplificationBox(paragraphID);
-      }
+      // if ( currentParagraph === null) {
+      //   logger().logParagraph(simpaticoEservice, paragraphID);
+      //   currentParagraph = document.getElementById(paragraphID);
+      //   var text = currentParagraph.textContent ? currentParagraph.textContent : currentParagraph.innerText;//IE uses innerText
+      //   taeCORE.getInstance().simplifyText(paragraphID, text, showSimplificationBox);
+      // } else {
+      //   //hideSimplificationBox(paragraphID);
+      // }
     }
     
 

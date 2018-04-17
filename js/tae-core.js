@@ -63,7 +63,10 @@ var taeCORE = ( function () {
       );//
       // TODO: UNCOMMENT [END]/
       */
-      jQuery.getJSON(simplifyTextURL + "?text=" + originalText,
+
+     simplifyCallback(name, originalText, fakeRespone);
+
+    jQuery.getJSON(simplifyTextURL + "?text=" + originalText,
         function(jsonResponse) {
           console.log("TAE REsponse:");
           console.log(jsonResponse);
