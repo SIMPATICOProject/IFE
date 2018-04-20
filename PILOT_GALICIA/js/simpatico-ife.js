@@ -250,7 +250,7 @@ function initFeatures() {
                   isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
                   enable: function() { cdvUI.getInstance().enable(); },
                   disable: function() { cdvUI.getInstance().disable(); },
-		              text: "Datos"
+		              text: "Autorrelleno"
 		            }
 //                },
 //                { // workflow adaptation. Switch to the modality, where the form adaptation starts
