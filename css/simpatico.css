@@ -247,7 +247,7 @@ body {
 
 	.block_edited {
 	    border: 3px #24BCDA solid !important;
-	    width: 19cm;
+	    /*width: 19cm;*/
 	    /* margin: 2px; */
 	  padding: 0.05cm;
 	}
@@ -259,9 +259,9 @@ body {
 	
 	#div_simpatico_block_description {
 	    position: absolute;
-	    left: 20.5cm;
-	    right: 0.5cm;
-	    top: 9px;
+	    left: 102%;
+	    top: 0;
+      width: 300px;
 	}
 	
 	.div_simpatico_block_description_content {

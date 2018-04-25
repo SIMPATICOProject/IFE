@@ -184,7 +184,7 @@ function initFeatures() {
                   isEnabled: function() { return authManager.getInstance().isEnabled(); },
                   enable: function() { authManager.getInstance().enable(); },
                   disable: function() { authManager.getInstance().disable(); },
-		  text: "Entrar"
+		              text: "Entrar"
                 },
 
                 {
@@ -200,7 +200,7 @@ function initFeatures() {
                   isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
                   enable: function() { citizenpediaUI.getInstance().enable(); },
                   disable: function() { citizenpediaUI.getInstance().disable(); },
-		  text: "Preguntas"
+		              text: "Preguntas"
                 },
 
                 {
@@ -216,7 +216,7 @@ function initFeatures() {
                   isEnabled: function() { return taeUI.getInstance().isEnabled(); },
                   enable: function() { taeUI.getInstance().enable(); },
                   disable: function() { taeUI.getInstance().disable(); },
-		  text: "Simplificar"
+		              text: "Simplificar"
                 },
                 
 //                {
@@ -251,21 +251,21 @@ function initFeatures() {
                   enable: function() { cdvUI.getInstance().enable(); },
                   disable: function() { cdvUI.getInstance().disable(); },
 		              text: "Datos"
-		            }
-//                },
-//                { // workflow adaptation. Switch to the modality, where the form adaptation starts
-//                  id: 'workflow1',
-//                  imageSrcEnabled: "../img/forms.png",
-//                  imageSrcDisabled: "../img/forms.png",
-//                  alt: "Simplifica proceso",
-//                  // Ad-hoc css classes to define the enabled/disabled styles
-//                  styleClassEnabled: "simp-bar-btn-active-wae",
-//                  styleClassDisabled: "simp-bar-btn-inactive",
-//
-//                  isEnabled: function() { return waeUI.getInstance().isEnabled(); },
-//                  enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
-//                  disable: function() { waeUI.getInstance().disable(); }
-//                }
+		            },
+                { // workflow adaptation. Switch to the modality, where the form adaptation starts
+                  id: 'workflow1',
+                  imageSrcEnabled: "../img/forms.png",
+                  imageSrcDisabled: "../img/forms.png",
+                  alt: "Simplificar proceso",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-wae",
+                  styleClassDisabled: "simp-bar-btn-inactive",
+
+                  isEnabled: function() { return waeUI.getInstance().isEnabled(); },
+                  enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
+                  disable: function() { waeUI.getInstance().disable(); },
+                  text: "WAE"
+                }
             ];
 }//initFeatures()
 
