@@ -264,7 +264,7 @@ function initFeatures() {
                   isEnabled: function() { return waeUI.getInstance().isEnabled(); },
                   enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
                   disable: function() { waeUI.getInstance().disable(); },
-                  text: "WAE"
+                  text: "Guía"
                 }
             ];
 }//initFeatures()
