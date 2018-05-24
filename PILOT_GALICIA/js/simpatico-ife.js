@@ -268,6 +268,7 @@ function initFeatures() {
                 },
                 { // workflow adaptation. Switch to the modality, where the form adaptation starts
                   id: 'upm',
+                  language: 'es',
                   imageSrcEnabled: "../img/happy_face.png",
                   imageSrcDisabled: "../img/happy_face.png",
                   alt: "UPM",
@@ -276,7 +277,7 @@ function initFeatures() {
                   styleClassDisabled: "simp-bar-btn-inactive",
 
                   isEnabled: function() { return upmUI.getInstance().isEnabled(); },
-                  enable: function() { upmUI.getInstance().enable(); },
+                  enable: function() { upmUI.getInstance().enable(this.language); },
                   disable: function() { upmUI.getInstance().disable(); },
                   text: "UPM"
                 }
