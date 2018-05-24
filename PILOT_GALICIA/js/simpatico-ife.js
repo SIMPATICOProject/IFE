@@ -265,6 +265,20 @@ function initFeatures() {
                   enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
                   disable: function() { waeUI.getInstance().disable(); },
                   text: "Guía"
+                },
+                { // workflow adaptation. Switch to the modality, where the form adaptation starts
+                  id: 'upm',
+                  imageSrcEnabled: "../img/happy_face.png",
+                  imageSrcDisabled: "../img/happy_face.png",
+                  alt: "UPM",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bar-btn-active-upm",
+                  styleClassDisabled: "simp-bar-btn-inactive",
+
+                  isEnabled: function() { return upmUI.getInstance().isEnabled(); },
+                  enable: function() { upmUI.getInstance().enable(); },
+                  disable: function() { upmUI.getInstance().disable(); },
+                  text: "UPM"
                 }
             ];
 }//initFeatures()
