@@ -13,13 +13,13 @@ var waeUI = (function () {
 	var errorLabel = {};
     this.active = false;
     this.idProfile = null;
-    var lang = "en";
+    var lang = "es";
 	
   	var labels = {
-			prevButtonLabel: 'Previous',
-			nextButtonLabel: 'Next',
-			lastButtonLabel: 'Done',
-			descriptionLabel: 'Description'
+			prevButtonLabel: 'Anterior',
+			nextButtonLabel: 'Siguiente',
+			lastButtonLabel: 'Finalizar',
+			descriptionLabel: 'Descripción'
 	};
 	
 	/**
@@ -148,7 +148,7 @@ var waeUI = (function () {
 	function editBlock(simpaticoId) {
 		var element = waeEngine.getSimpaticoBlockElement(simpaticoId);
 		if(element != null) {
-			element.wrap("<div data-simpatico-id='simpatico_edit_block' class='block_edited_wrapper'><div  class='block_edited'></div></div>" );
+			element.wrap("<div data-simpatico-id='simpatico_edit_block' class='block_edited_wrapper col-md-12'><div  class='block_edited'></div></div>" );
 			var container = waeEngine.getSimpaticoContainer();
 			var containerInt = $(container).find(".block_edited");
 			if(container != null) {

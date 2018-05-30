@@ -246,6 +246,7 @@ var citizenpediaUI = (function () {
                               'src="' + diagramNotificationImage + '" ' +
                               'width="40" ' +
                               'height="40"' +
+                              'class="img-ui-diagram"' +
                               'title="' + diagramNotificationText + '" ' +  
                               'alt="' + diagramNotificationText + '" >' +
                       '<a href="' + response["url"] + '" target="_blank">' +

@@ -12,7 +12,7 @@
   	<link rel="stylesheet" type="text/css" media="screen" href="./css/estilos.css">
   	<link rel="stylesheet" type="text/css" media="screen" href="./css/jquery-ui-1.10.2.custom.css">
 	<link rel="stylesheet" type="text/css" media="screen" href="./css/bootstrap-3.3.6.css">
-	<link rel="stylesheet" type="text/css" media="screen" href="../css/simpatico.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="../../css/simpatico.css">
 
 	<script type="text/javascript">
 		var global_contextPath = '/formularios';
@@ -77,30 +77,30 @@
 	  var serviceURL="https://simpatico.hi-iberia.es:4570/IFE/BS607A/BS607A.html";
 	  var simpaticoMapping=["BS607A.Entidad.txtNombre","BS607A.Entidad.txtApel2","BS607A.Entidad.txtApel1","BS607A.Entidad.txtNifCif","BS607A.Entidad.txtDireccion","BS607A.Entidad.txtNumero","BS607A.Entidad.txtPiso","BS607A.Entidad.txtPuerta","BS607A.Entidad.txtLugar","BS607A.Entidad.txtCodigoPostal","BS607A.Entidad.txtLocalidad","BS607A.Entidad.txtPais","BS607A.Entidad.txtTelefono","BS607A.Entidad.txtMovil","BS607A.Entidad.txtEmail","BS607A.HijoDiscap.txtNombre","BS607A.HijoDiscap.txtApel1","BS607A.HijoDiscap.txtApel2","BS607A.HijoDiscap.txtNifCif","BS607A.HijoDiscap.txtFechaNac","BS607A.HijoDiscap.txtNCartillaSanit","BS607A.HijoDiscap.txtPorcentDiscap","BS607A.PersonaContact.txtNombre","BS607A.PersonaContact.txtApel1","BS607A.PersonaContact.txtApel2","BS607A.PersonaContact.txtNifCif","BS607A.PersonaContact.txtDireccion","BS607A.PersonaContact.txtNumero","BS607A.PersonaContact.txtPiso","BS607A.PersonaContact.txtPuerta","BS607A.PersonaContact.txtLugar","BS607A.DestFechSolicit.txtDestino1","BS607A.DestFechSolicit.txtFechaDest1","BS607A.DestFechSolicit.txtDestino2","BS607A.DestFechSolicit.txtFechaDest2","BS607A.DestFechSolicit.txtCuantiaMensual"];
 	  var ERROR_LABELS = {
-      	'block1' : 'Phone number is required'
+      	'block1' : 'Es obligatorio rellenar el campo NIF / Pasaporte'
       }
 	</script>
 
 	<!-- Injection of JS Libraries -->
 	<script src="../js/ife-userId.js"></script>
-	<script src="../js/log-core.js"></script>
-	<script src="../js/ctz-ui.js"></script>
-	<script src="../js/ctz-core.js"></script>
-	<script src="../js/cdv-ui-popup.js"></script>
-	<script src="../js/cdv-core-popup.js"></script>
-	<script src="../js/tae-core.js"></script>
-	<script src="../js/tae-ui.js"></script>
-	<script src="../js/tae-core-popup.js"></script>
-	<script src="../js/tae-ui-popup.js"></script>
-	<script src="../js/sf-core.js"></script>
-	<script src="../js/sf-ui.js"></script>
-	<script src="../js/da-ui.js"></script>
-	<script src="../js/wae-core.js"></script>
-	<script src="../js/wae-ui.js"></script>
+	<script src="../../js/log-core.js"></script>
+	<script src="../../js/ctz-ui.js"></script>
+	<script src="../../js/ctz-core.js"></script>
+	<script src="../../js/cdv-ui-popup.js"></script>
+	<script src="../../js/cdv-core-popup.js"></script>
+	<script src="../../js/tae-core.js"></script>
+	<script src="../../js/tae-ui.js"></script>
+	<script src="../../js/tae-core-popup.js"></script>
+	<script src="../../js/tae-ui-popup.js"></script>
+	<script src="../../js/sf-core.js"></script>
+	<script src="../../js/sf-ui.js"></script>
+	<script src="../../js/da-ui.js"></script>
+	<script src="../../js/wae-core.js"></script>
+	<script src="../../js/wae-ui.js"></script>
 	<script src="//github.com/google/wicked-good-xpath/releases/download/1.3.0/wgxpath.install.js"></script>
 	<script>wgxpath.install();</script>
 	<script src="../js/simpatico-ife.js"></script>
-	<script src="../js/simpatico-auth.js"></script>
+	<script src="../../js/simpatico-auth.js"></script>
 
 	<!-- Piwik ALL -->
 	<script type="text/javascript">
@@ -131,41 +131,46 @@
 
  	<!-- SIMPATICO END -->
 
-	<div id="wrapper">
-		<div class="fila" id="menuSuperior">
-			<ul>
-				<li class="columna alEsquerda"> <a title="Xunta de Galicia" href="http://www.xunta.gal/">www.xunta.gal</a> </li>
-				<li class="columna alCen"> <a accesskey="1" title="Accesibilidad" href="https://sede.xunta.gal/accesibilidade"> Accesibilidad </a> </li>
-				<li class="columna alCen"> <a accesskey="2" title="Mapa del portal" href="https://sede.xunta.gal/mapa-do-portal"> Mapa del portal </a> </li>
-				<li class="columna alCen"> <a accesskey="3" title="Sugerencias y quejas" href="http://www.xunta.gal/envio-de-consulta-ou-comentario"> Sugerencias y quejas </a> </li>
-				<li class="columna alDer">  <span>CASTELLANO </span> </li>
-			</ul>
+	<div id="wrapper" class="container-fluid">
+
+		<div id="mainMenuTop" class="row no-gutter no-margin" style="text-align: center;color: white;background-color: #0371b3;"> 
+      <div class="col-sm-11"> 
+        <div id="selector-idiomas" class="inline" style="float: right;display: inline-block;"> 
+          <div class="portlet-borderless-container" style=""> 
+            <div class="portlet-body">
+              <span class="taglib-language-list-text last activo" lang="es-ES" style="border-top: 5px solid #FFF;opacity: 1;font-size: 1.2em;padding: 0 3px;color: #FFF;display: inline-block;">Castellano</span> 
+            </div> 
+          </div> 
+        </div> 
+      </div> 
+    </div>
+
+		<div class="row" style="background-color: #0371b3;">
+			<div style="margin: 0 auto;max-width: 1024px;color: white;">
+				<div id="logos-cabeceira" class="row"> 
+		      <div class="col-sm-12"> 
+		        <h1 class="inline" style="margin: 0 30px 0 0;max-width: 40%;display: inline-block;"> 
+		          <a class="inline" href="/portada" title="Sede electronica" id="linkHomeSede" style="margin: -9px 0 14px;transition: all .3s;display: inline-block;"> 
+		            <span class="media"> 
+		              <span class="media-left"> 
+		                <img alt="Sede Electronica" src="../images/logos/marca_sede.svg" class="scale" style="height: 90px;"> 
+		              </span> 
+		              <span class="media-body media-middle"> 
+		                <img alt="Sede Electronica" src="../images/logos/marca_sede_texto.svg"> 
+		              </span> 
+		            </span> 
+		          </a> 
+		        </h1> 
+		        <a id="thirdGaliciaLink" href="http://www.xunta.gal" target="blank" title="Turismo de Galicia" class="inline" style="float: right;margin-top: 30px;margin: 13px 0 14px;transition: all .3s;display: inline-block;"> 
+		          <img alt="Xunta de Galicia" src="../images/logos/marca_xunta.svg" class="scale"> 
+		        </a> 
+		      </div> 
+		    </div>
+		  </div>
 		</div>
 
-		<div class="fila" id="cabeceira">
-			<div class="inicio">
-				<a accesskey="0" title="Inicio - Sede el Electrónica" href="https://sede.xunta.gal/portada">
-					<img alt="Inicio" src="images/logoE.jpg">
-				</a>
-			</div>
-			
-			<h1 class="columna">
-				<a accesskey="0" title="Inicio - Sede el Electrónica" href="https://sede.xunta.gal/portada">
-					SEDE <br> ELECTRÓNICA
-				</a>
-			</h1>
-
-			<a class="columnaDer" id="logoXunta" title="Xunta de Galicia" href="http://www.xunta.gal/">
-				<img alt="Xunta de Galicia" src="images/logoXunta.png">
-			</a>
-
-		</div>
-
-
-		<div id="menuPrincipal" class="fila"></div>
-
-		<div id="content-wrapper" class="fila">
-			<div class="col11col">
+		<div id="content-wrapper" class="fila row">
+			<div class="col11col col-md-8">
 				<div>
 					<div id="formularioCump">
 						<script type="text/javascript">
@@ -173,7 +178,7 @@
 							var esPresentacionPresencial = false;
 						</script>
 						<!-- ORIGINAL <form id="command" action="https://sede.xunta.gal/formularios/cumplimentacion/novo/PR013A?idioma=es" method="post"> -->
-						<form id="command" action="" method="">
+						<form id="command" action="" method="" data-simpatico-workflow="https://simpatico.hi-iberia.es/BS607A">
 							<input id="codigoProcedimiento" name="codigoProcedimiento" type="hidden" value="BS607A">
 							<input id="idBorrador" name="idBorrador" type="hidden" value="">
 							<input id="codigoSeguridad" name="codigoSeguridad" type="hidden" value="">
@@ -214,7 +219,7 @@
 										</div> 
 									</div> 
 									<!-- ******************** FINBLOQUE:Cabecera ******************** --> 
-									<!-- ******************** BLOQUE:SolicitantePFPJ ******************** --> 
+									<!-- ******************** BLOQUE:SolicitantePFPJ ******************** -->
 									<div class="col-md-12"> 
 										<div class="background-color-grey margin-top-xs margin-bottom-xs panel panel-default"> 
 											<div class="panel-heading margin-bottom-xs"> 
