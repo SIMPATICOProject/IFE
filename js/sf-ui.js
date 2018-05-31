@@ -27,11 +27,14 @@ var sfUI = (function () {
       language = parameters.language || 'en';
       // Add the onclick event
       if (buttonToShowSfId) {
-        var button = document.getElementById(buttonToShowSfId);
-        if (button != null) {
-          button.addEventListener('click', function(){
-        	  sfUI.getInstance().showSF();
-          });
+        var buttons = document.getElementsByClassName(buttonToShowSfId);
+        if (buttons.length > 0) {
+          for (var i=0; i<buttons.length; i++) {
+            buttons[i].addEventListener('click', function(e) {
+              e.preventDefault();
+              sfUI.getInstance().showSF();
+            });
+          };
         }
       }
       if (formSelector != null) {
@@ -81,12 +84,10 @@ var sfUI = (function () {
       } 
 
       var data = JSON.parse(localStorage.userData); // Get the user's ID from localStorage
-      ctzSelected = citizenpediaUI.getInstance().isEnabled();
-      simplificationSelected = taeUI.getInstance().isEnabled();
       // Check if timeout exists
       var currentTime = new Date().getTime();
       timeoutExceeded = isTimeExceeded(currentTime - startTime);
-      sfCORE.getInstance().selectDialog(ctzSelected, simplificationSelected, timeoutExceeded, data.userId);
+      sfCORE.getInstance().selectDialog(timeoutExceeded, data.userId);
       active = true;
     }
 

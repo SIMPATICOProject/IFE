@@ -150,8 +150,8 @@ function initFeatures() {
   // - apiEndpoint: the main URL of the logs API server (<site>/simpatico/api)
   // NOTE: Requires jquery-ui to work properly
   sfUI.getInstance().init({
-    language: 'it',
-    buttonToShowSfId: 'Salvar',
+    language: 'es',
+    buttonToShowSfId: 'send_session_feedback',
     apiEndpoint: 'https://simpatico.hi-iberia.es:4570/simpatico/api',
   });
 
@@ -441,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Save the time spent in the website by calling the function here
 window.addEventListener('beforeunload', function (e) {
-  logCORE.getInstance().logTimeEvent({});
+  logCORE.getInstance().logTimeEvent("service");
 });
 
 //////////////////////////////////
@@ -456,7 +456,48 @@ var dataUser = JSON.parse(localStorage.userData || 'null');
 
             var fullName = name + " " + surname; 
 
-            if (simpaticoEservice == "BS613B") {
+            if (simpaticoEservice == "BS611A") {
+              $.get('../js/' + fileName, function (data) {
+                // Fill fields with data from json
+
+                // Data es un ARRAY de usuarios
+                // TODO: Bucle para buscar al usuario con name + " " + surname == data[i]["FIELD3"] + " " + data[i][FIELD4] + " " + data[i]["FIELD5"]
+
+                data.forEach(function(current, index, array) {
+                    console.log(current);
+
+                    var nameJSON = current["FIELD3"];
+
+                    var firstSurnameJSON = current["FIELD4"];
+
+                    var secondSurnameJSON = current["FIELD5"];
+
+                                    
+                    if (fullName.toLowerCase() == nameJSON.toLowerCase() + " " + firstSurnameJSON.toLowerCase() + " " + secondSurnameJSON.toLowerCase()) {
+                        $("#BS611A\\.Entidad\\.txtNombre").val(current["FIELD3"]);
+                        $("#BS611A\\.Entidad\\.txtApel1").val(current["FIELD4"]);
+                        $("#BS611A\\.Entidad\\.txtApel2").val(current["FIELD5"]);
+                        $("#BS611A\\.Entidad\\.txtNifCif").val(current["FIELD6"]+current["FIELD7"]);
+
+
+                        $("#BS611A\\.Entidad\\.txtDireccion").val(current["FIELD8"]);
+                        $("#BS611A\\.Entidad\\.txtNumero").val(current["FIELD9"]);
+                        $("#BS611A\\.Entidad\\.txtPiso").val(current["FIELD10"]);
+                        $("#BS611A\\.Entidad\\.txtPuerta").val(current["FIELD11"]);
+                        $("#BS611A\\.Entidad\\.txtLugar").val(current["FIELD12"]);
+                        $("#BS611A\\.Entidad\\.txtCodigoPostal").val(current["FIELD13"]);
+                        $("#BS611A\\.Entidad\\.txtLocalidad").val(current["FIELD12"]);
+                        $("#BS611A\\.Entidad\\.txtTelefono").val(current["FIELD14"]);
+                        $("#BS611A\\.Entidad\\.txtEmail").val(current["FIELD15"]);
+
+                    } else {
+                        console.log("No match");
+                        console.log("'" + fullName + "'");
+                        console.log("'" + current["FIELD3"] + " " + current["FIELD4"] + " " + current["FIELD5"] + "'")
+                    }
+                });
+              });
+            } else if (simpaticoEservice == "BS613B") {
                 $.get('../js/' + fileName, function (data) {
                     // Fill fields with data from json
 

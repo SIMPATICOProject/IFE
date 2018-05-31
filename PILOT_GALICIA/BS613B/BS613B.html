@@ -23,55 +23,14 @@
   <!--<script type="text/javascript" src="./js/jquery-ui-1.10.2.custom.js"></script>-->
   <!--<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
   <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
   <script type="text/javascript" src="./js/jquery.ui.datepicker-es.js"></script>    
   <script type="text/javascript" src="./js/funciones.js"></script>
 
   <!-- SIMPATICO BEGIN -->
   <!--<link rel="stylesheet" type="text/css" href="./css/style-hiiberia.css">-->
-
-  <script>
-    $(document).ready(function() {
-      $("#btn_presentarElect,#btn2_presentarElect").click(function(e) {
-        e.preventDefault();
-        sfUI.getInstance().showSF();
-
-      });
-    });    
-  </script>
-
-<script>
-  setInterval(function(){
-    $("#button_send_session_feedback_text").off('click').on('click', function() {
-
-      console.log("SendFeedback");
-      var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
-      var dataObj = {};
-      dataForms.each(function(idx, d) {
-      var key = d.name ? d.name : d.id;
-      if (d.type=='radio') {
-        if (d.checked) dataObj[key] = d.value;
-      } else {
-        dataObj[key] = d.value;
-      }
-      });
-      console.log("Sending:");
-      console.log(dataObj);
-      logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
-      // TODO: manage complexity correctly
-      complexity = 0;
-      logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
-
-      // Close dialog
-      $('#dialogSF').dialog("destroy").remove();
-
-      window.location = "BS613B_end.html";
-    });
-  }, 1000);
-
-</script>
 
   <script type="text/javascript">
     var simpaticoEservice = "BS613B"; // Eservice 
@@ -174,7 +133,7 @@
               var migrado = '';
               var esPresentacionPresencial = false;
             </script>
-            <form id="command" action="" method="">
+            <form id="command" action="" method="" data-simpatico-workflow="https://simpatico.hi-iberia.es/BS611A">
               <input id="codigoProcedimiento" name="codigoProcedimiento" type="hidden" value="BS613B">
               <input id="idBorrador" name="idBorrador" type="hidden" value="">
               <input id="codigoSeguridad" name="codigoSeguridad" type="hidden" value="">
@@ -185,7 +144,7 @@
 
               <div class="fila">
                 <div class="botonera">
-                  <button type="button" name="accion" value="presentarElect" id="btn_presentarElect" class="boton" onclick="" title=""> Presentar </button>
+                  <button type="button" name="accion" value="presentarElect" id="btn_presentarElect" class="boton send_session_feedback" onclick="" title=""> Presentar </button>
                   <button type="button" name="accion" value="guardar" id="btn_guardar" class="boton " onclick="" title=""> Guardar </button>
                   <button type="button" name="accion" value="cancel" id="btn_cancel" class="boton " onclick="" title=""> Cancelar </button>
                 </div>
@@ -486,12 +445,12 @@
                           <div class="form-group-sm col-md-12"> 
                             <p class="simp-text-paragraph">Declaro, bajo mi responsabilidad, que son ciertos los datos consignados relativos a la cuenta bancaria indicada.</p> 
                           </div> 
-                          <div class="col-md-6 col-sm-6"> 
+                          <div class="col-md-5 col-sm-5"> 
                             <label for="BS613B.Cuenta.txtTitular" class="control-label text-left"> TITULAR DE LA CUENTA </label> 
                             <span id="BS613B.Cuenta.txtTitular.error" class="errores" style="display: none"></span> 
                             <input id="BS613B.Cuenta.txtTitular" name="campos[&#39;/ProcedimientoXunta/BS613B/Declarante/txtTitular&#39;]" class="form-control input-sm" type="text" value="" maxlength="50" tipo=""> 
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-7">
                             <div class="row">
                               <div class="col-md-12">
                                 <label for="BS613B.Cuenta.txtIBAN" class="control-label text-left"> NÚMERO DE LA CUENTA BANCARIA (24 DÍGITOS) </label> 
@@ -2218,7 +2177,7 @@
 
               <div class="fila">
                 <div class="botonera">
-                  <button type="submit" name="accion" value="presentarElect" id="btn2_presentarElect" class="boton " onclick="" title=""> Presentar </button>
+                  <button type="submit" name="accion" value="presentarElect" id="btn2_presentarElect" class="boton send_session_feedback" onclick="" title=""> Presentar </button>
                   <button type="button" name="accion" value="guardar" id="btn2_guardar" class="boton " onclick="" title=""> Guardar </button>
                   <button type="button" name="accion" value="cancel" id="btn2_cancel" class="boton " onclick="" title=""> Cancelar </button>
                 </div>

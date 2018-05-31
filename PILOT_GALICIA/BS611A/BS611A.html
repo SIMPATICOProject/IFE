@@ -81,7 +81,7 @@
     var simpaticoCategory = "Wellness"; // the general category of the e-service
     var simpaticoMapping=["BS611A.Entidad.txtNombre","BS611A.Entidad.txtApel2","BS611A.Entidad.txtApel1","BS611A.Entidad.txtNifCif","BS611A.Entidad.txtDireccion","BS611A.Entidad.txtNumero","BS611A.Entidad.txtPiso","BS611A.Entidad.txtPuerta","BS611A.Entidad.txtLugar","BS611A.Entidad.txtCodigoPostal","BS611A.Entidad.txtLocalidad","BS611A.Entidad.txtPais","BS611A.Entidad.txtTelefono","BS611A.Entidad.txtMovil","BS611A.Entidad.txtEmail","BS611A.Cuenta.txtTitular","BS611A.Cuenta.txtIBAN1","BS611A.Cuenta.txtIBAN2","BS611A.Cuenta.txtIBAN3","BS611A.Cuenta.txtIBAN4","BS611A.Cuenta.txtIBAN5","BS611A.Cuenta.txtIBAN6","BS611A.Discapacidad.txtGrado","BS611A.Discapacidad.txtExpediente"];
     var ERROR_LABELS = {
-        'block1' : 'Phone number is required'
+        'block2' : 'Selecciona si necesita representante o no'
     }
   </script>
 
@@ -174,7 +174,7 @@
               var migrado = '';
               var esPresentacionPresencial = false;
             </script>
-            <form id="command" action="" method="">
+            <form id="command" action="" method="" data-simpatico-workflow="https://simpatico.hi-iberia.es/BS611A">
               <input id="codigoProcedimiento" name="codigoProcedimiento" type="hidden" value="BS611A">
               <input id="idBorrador" name="idBorrador" type="hidden" value="">
               <input id="codigoSeguridad" name="codigoSeguridad" type="hidden" value="">
@@ -402,7 +402,21 @@
                         </div> 
                       </div> 
                       <fieldset> 
-                        <div class="form-group-sm col-md-12"> 
+                        <div class="form-group-sm col-md-12" style="margin-bottom: 10px;">
+                          <div class="col-md-12">
+                            <label for="BS611A.Declarante.optRepresentacion">SELECCIONE UNA DE LAS SIGUIENTES OPCIONES</label>
+                            <div id="BS611A.Declarante.optRepresentacion">
+                              <label>
+                                <input type="radio" name="optRepresentacion" id="optRepresentacion0" value="0"> El solicitante no necesita representante
+                              </label>
+                              <label>
+                                <input type="radio" name="optRepresentacion" id="optRepresentacion1" value="1"> El solicitante requiere representante
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group-sm col-md-12">
+                          <p class="simp-text-paragraph">EN CASO AFIRMATIVO RELLENE LA SIGUIENTE INFORMACIÓN</p> 
                           <div class="col-md-3 col-sm-3"> 
                             <label for="BS611A.Declarante.txtNombre" class="control-label text-left"> NOMBRE </label> 
                             <span id="BS611A.Declarante.txtNombre.error" class="errores" style="display: none"></span> 
@@ -430,10 +444,10 @@
                             <span id="BS611A.Declarante.txtCalidad.error" class="errores" style="display: none"></span>
                             <div>
                               <label>
-                                <input type="radio" name="optCalidad"> TRABAJADOR/A SOCIAL
+                                <input type="radio" name="optCalidad" id="Representante.Calidad.Trabajador" value="0"> TRABAJADOR/A SOCIAL
                               </label>
                               <label>
-                                <input type="radio" name="optCalidad"> REPRESENTANTE
+                                <input type="radio" name="optCalidad" id="Representante.Calidad.Representante" value="1"> REPRESENTANTE
                               </label>
                             </div>
                           </div>

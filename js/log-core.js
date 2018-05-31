@@ -45,7 +45,7 @@ var logCORE = (function () {
   			contentType: "application/json; charset=utf-8",
   			dataType: 'json',
   			success: (function (resp) {
-  				console.log(resp);
+  				console.log(resp, data);
 
   			}),
   			error: function (jqxhr, textStatus, err) {
@@ -172,24 +172,16 @@ var logCORE = (function () {
   	}
   	var sfLogger = {
   		feedbackEvent: function(eservice, complexity) {
-                          console.log("feedbackEvent");
-                          console.log(eservice);
-                          console.log(complexity);
-  			log(sfEndpoint, {'e-serviceID': eservice, complexity: complexity});
+  			// log(sfEndpoint, {'e-serviceID': eservice, complexity: complexity});
   		},
   		feedbackData: function(eservice, data) {
-                          console.log("feedbackData");
   			data['e-serviceID'] = eservice;
   			if (data.slider_session_feedback_paragraph) data.slider_session_feedback_paragraph = parseInt(data.slider_session_feedback_paragraph);
   			if (data.slider_session_feedback_phrase) data.slider_session_feedback_phrase = parseInt(data.slider_session_feedback_phrase);
   			if (data.slider_session_feedback_word) data.slider_session_feedback_word = parseInt(data.slider_session_feedback_word);
   			if (data.slider_session_feedback_ctz) data.slider_session_feedback_ctz = parseInt(data.slider_session_feedback_ctz);
-                          data['datatype'] = 'session-feedback'; // to distinguish it
 
-                          console.log("Sending:");
-                          console.log(data);
-
-  			log(logsEndpoint, data);
+  			log(sfEndpoint, data);
   		}
   	}
 
@@ -248,8 +240,8 @@ var logCORE = (function () {
 			var postData = {
 				"duration" : end - start,
 				"datatype" : "duration",
-		        "e-serviceID": simpaticoEservice, // the id of the corresponding e-service
-				"timeForElement" : activity,
+		    "e-serviceID": simpaticoEservice, // the id of the corresponding e-service
+				"time_for_element" : activity,
 				"component": component
 			}
 			if (element)
@@ -270,7 +262,7 @@ var logCORE = (function () {
       var postData = {
         "duration": end - start,
         "datatype": "duration",
-        "timeForElement": element, // Component which produces the event
+        "time_for_element": element, // Component which produces the event
         "details": details
       }
       insertLogEvent(postData);
