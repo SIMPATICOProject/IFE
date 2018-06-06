@@ -477,6 +477,7 @@ input[type="radio"]:checked+label{
   padding: 5px 10px;
   border: 1px solid;
   border-radius: 0 !important;
+}
   /************************* **********************************/
 
 
@@ -586,4 +587,13 @@ input[type="radio"]:checked+label{
 .simpatico-cpd-questions li.new-question {
     padding-top: 5px;
     text-decoration: underline;
+}
+
+/*//// UPM ///////////////////////////////*/
+
+#upm-box {
+  border: 10px rgba(0, 128, 255, 0.45) solid;
+  background-color: white;
+  z-index:1000;
+  position: absolute;
 }

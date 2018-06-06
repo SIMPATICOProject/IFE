@@ -24,9 +24,20 @@ var upmUI = (function () {
 		/**
 		 * OPEN UPM UI DIALOG
 		 */
-		function enableComponentFeatures(language) {
+		function enableComponentFeatures(language, languagesJson) {
 			console.log("enableComponentFeatures UPM UI");
-			showUPMForm(language);
+
+			var languagesJson;
+			var countriesJson;
+			$.getJSON( "../js/languages."+language+".json", function( languages ) {
+				languagesJson = languages;
+				$.getJSON( "../js/countries."+language+".json", function( countries ) {
+					countriesJson = countries;
+					showUPMForm(language, languagesJson, countriesJson);
+				});
+				
+			  });
+
 
 		}
 
@@ -35,11 +46,12 @@ var upmUI = (function () {
 
 		}
 
-		function showUPMForm(language)
+		function showUPMForm(language, languagesJson, countriesJson)
 		{
 			console.log("showUPMForm" + language);
+			console.log(countriesJson);
 			//Aquí va la creación del formulario. Campos:
-			// 			userID
+			// userID
 			// age
 			// country of birth - UPM expects a country from a predefined list:
 			// English database: https://drive.google.com/open?id=1b1S_hrfJ16oyYjB8VuccKW3vPg85JlY7
@@ -64,7 +76,59 @@ var upmUI = (function () {
 			// Italian: base, intermedia, avanzata
 			// occupation
 
+			var formBox = document.createElement('div');
+			formBox.id = "upm-box";
+			var formBoxHTML = '<form id="upmform">';
+				formBoxHTML += '<div class="form-group">';
+					formBoxHTML += '<label for="upmage">Age</label>';
+					formBoxHTML += '<input type="number" class="form-control" id="upmage" placeholder="40">';
+					formBoxHTML += '<label for="exampleFormControlSelect1">Country of birth</label>';
+					formBoxHTML += '<select class="form-control" id="upmcountry">';
+					$.each( countriesJson, function(key, val) {
+						formBoxHTML += '<option value="'+key+'">'+val+'</option>';
+					});
+					formBoxHTML += '</select>';
+					formBoxHTML += '<label for="exampleFormControlSelect1">Languages spoken</label>';
+					formBoxHTML += '<select multiple class="form-control" id="upmlanguages">';
+			
+					$.each( languagesJson, function(key, val) {
+						formBoxHTML += '<option value="'+key+'">'+val+'</option>';
+					});
 
+					formBoxHTML += '</select>';
+
+					formBoxHTML += '<label for="exampleFormControlSelect1">Proficiency in the main language</label>';
+					formBoxHTML += '<select class="form-control" id="exampleFormControlSelect1">';
+						formBoxHTML += '<option>A1</option>';
+						formBoxHTML += '<option>A2</option>';
+						formBoxHTML += '<option>B1</option>';
+						formBoxHTML += '<option>B2</option>';
+						formBoxHTML += '<option>C1</option>';
+						formBoxHTML += '<option>C2</option>';
+					formBoxHTML += '</select>';
+					formBoxHTML += '<label for="exampleFormControlSelect1">Disability</label>';
+					formBoxHTML += '<select class="form-control" id="exampleFormControlSelect1">';
+						formBoxHTML += '<option>Physical</option>';
+						formBoxHTML += '<option>Visual</option>';
+						formBoxHTML += '<option>Hearing</option>';
+						formBoxHTML += '<option>Mental</option>';
+						formBoxHTML += '<option>Intellectual</option>';
+						formBoxHTML += '<option>Learning</option>';
+					formBoxHTML += '</select>';
+					formBoxHTML += '<label for="exampleFormControlSelect1">Familiarity with PA service</label>';
+					formBoxHTML += '<select class="form-control" id="exampleFormControlSelect1">';
+					formBoxHTML += '<option>Basic</option>';
+					formBoxHTML += '<option>Intermediate</option>';
+					formBoxHTML += '<option>Advanced</option>';
+					formBoxHTML += '</select>';
+					formBoxHTML += '<label for="upmage">Occupation</label>';
+					formBoxHTML += '<input type="string" class="form-control" id="upmoccupation" placeholder="Retired	">';
+				formBoxHTML += '</div>';
+			formBoxHTML += '</form>';
+
+			formBox.innerHTML = formBoxHTML;
+
+			document.getElementById('simpatico_top').appendChild(formBox);
 
 		}
 
