@@ -48,34 +48,6 @@ var upmUI = (function () {
 
 		function showUPMForm(language, languagesJson, countriesJson)
 		{
-			console.log("showUPMForm" + language);
-			console.log(countriesJson);
-			//Aquí va la creación del formulario. Campos:
-			// userID
-			// age
-			// country of birth - UPM expects a country from a predefined list:
-			// English database: https://drive.google.com/open?id=1b1S_hrfJ16oyYjB8VuccKW3vPg85JlY7
-			// Spanish database: https://drive.google.com/open?id=1HZo2ghKm4O4khjuxNLM403oQ0s8EeqOS OK
-			// Italian database: https://drive.google.com/open?id=1Kal1xDMPbkrmbEe0dmh-Ux0QKWskXSrM
-			// languages spoken (UPM databases can receive more than one language) - also from a predefined  list:
-			// English database: https://drive.google.com/open?id=15K_TRUarewUYVgT4y1CbnKqcryiVJucO
-			// Spanish database: https://drive.google.com/open?id=1wEUGsrnk123sbAk9c2QqES_SfId2QpBN OK
-			// Italian database: https://drive.google.com/open?id=1no0Uj7yzB1PMQxvGdVOKMTqOR4buwrMh
-			// proficiency in the main language (CEFR framework): A1, A2, B1, B2, C1, C2
-			// educational level - predefined list:
-			// English: primary, secondary, undergration, post-graduation
-			// Spanish: primaria, secundaria, universitaria, postgraduado
-			// Italian: licenza elementare, licenza media, diploma, laurea, master/dottorato
-			// disability - predefined list:
-			// English: physical, visual, hearing, mental, intellectual, learning
-			// Spanish: física, visual, auditiva, psíquica, intelectual, de aprendizaje
-			// Italian: fisica, visiva, uditiva, mentale, intellettiva, di apprendimento
-			// familiarity with PA service  - predefined list:
-			// English: basic, intermediate, advanced 
-			// Spanish: basic, intermediate, advanced
-			// Italian: base, intermedia, avanzata
-			// occupation
-
 			var formBox = document.createElement('div');
 			formBox.id = "upm-box";
 			var formBoxHTML = '<form id="upmform">';
@@ -97,8 +69,8 @@ var upmUI = (function () {
 
 					formBoxHTML += '</select>';
 
-					formBoxHTML += '<label for="exampleFormControlSelect1">Proficiency in the main language</label>';
-					formBoxHTML += '<select class="form-control" id="exampleFormControlSelect1">';
+					formBoxHTML += '<label for="exampleFormControlSelect1">Proficiency in this web language</label>';
+					formBoxHTML += '<select class="form-control" id="upmproficiency">';
 						formBoxHTML += '<option>A1</option>';
 						formBoxHTML += '<option>A2</option>';
 						formBoxHTML += '<option>B1</option>';
@@ -106,8 +78,15 @@ var upmUI = (function () {
 						formBoxHTML += '<option>C1</option>';
 						formBoxHTML += '<option>C2</option>';
 					formBoxHTML += '</select>';
+					formBoxHTML += '<label for="exampleFormControlSelect1">Educational level</label>';
+					formBoxHTML += '<select class="form-control" id="upmeducationallevel">';
+						formBoxHTML += '<option>Primary</option>';
+						formBoxHTML += '<option>Secondary</option>';
+						formBoxHTML += '<option>Undergration</option>';
+						formBoxHTML += '<option>Post-graduation</option>';
+					formBoxHTML += '</select>';
 					formBoxHTML += '<label for="exampleFormControlSelect1">Disability</label>';
-					formBoxHTML += '<select class="form-control" id="exampleFormControlSelect1">';
+					formBoxHTML += '<select class="form-control" id="upmdisability">';
 						formBoxHTML += '<option>Physical</option>';
 						formBoxHTML += '<option>Visual</option>';
 						formBoxHTML += '<option>Hearing</option>';
@@ -116,7 +95,7 @@ var upmUI = (function () {
 						formBoxHTML += '<option>Learning</option>';
 					formBoxHTML += '</select>';
 					formBoxHTML += '<label for="exampleFormControlSelect1">Familiarity with PA service</label>';
-					formBoxHTML += '<select class="form-control" id="exampleFormControlSelect1">';
+					formBoxHTML += '<select class="form-control" id="upmfamiliarity">';
 					formBoxHTML += '<option>Basic</option>';
 					formBoxHTML += '<option>Intermediate</option>';
 					formBoxHTML += '<option>Advanced</option>';
