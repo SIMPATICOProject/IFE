@@ -29,13 +29,8 @@ var upmUI = (function () {
 
 			var languagesJson;
 			var countriesJson;
-			$.getJSON( "../js/languages."+language+".json", function( languages ) {
-				languagesJson = languages;
-				$.getJSON( "../js/countries."+language+".json", function( countries ) {
-					countriesJson = countries;
-					showUPMForm(language, languagesJson, countriesJson);
-				});
-				
+			$.getJSON( "../js/upm."+language+".json", function( data ) {
+				showUPMForm(data);
 			  });
 
 
@@ -46,59 +41,58 @@ var upmUI = (function () {
 
 		}
 
-		function showUPMForm(language, languagesJson, countriesJson)
+		function showUPMForm(data)
 		{
 			var formBox = document.createElement('div');
 			formBox.id = "upm-box";
 			var formBoxHTML = '<form id="upmform">';
 				formBoxHTML += '<div class="form-group">';
-					formBoxHTML += '<label for="upmage">Age</label>';
+					formBoxHTML += '<label for="upmage">'+data.ui_strings.age+'</label>';
 					formBoxHTML += '<input type="number" class="form-control" id="upmage" placeholder="40">';
-					formBoxHTML += '<label for="exampleFormControlSelect1">Country of birth</label>';
+					formBoxHTML += '<label for="exampleFormControlSelect1">'+data.ui_strings.country+'</label>';
 					formBoxHTML += '<select class="form-control" id="upmcountry">';
-					$.each( countriesJson, function(key, val) {
+					$.each( data.countries, function(key, val) {
 						formBoxHTML += '<option value="'+key+'">'+val+'</option>';
 					});
 					formBoxHTML += '</select>';
-					formBoxHTML += '<label for="exampleFormControlSelect1">Languages spoken</label>';
+					formBoxHTML += '<label for="exampleFormControlSelect1">'+data.ui_strings.languages+'</label>';
 					formBoxHTML += '<select multiple class="form-control" id="upmlanguages">';
 			
-					$.each( languagesJson, function(key, val) {
+					$.each( data.languages, function(key, val) {
 						formBoxHTML += '<option value="'+key+'">'+val+'</option>';
 					});
 
 					formBoxHTML += '</select>';
 
-					formBoxHTML += '<label for="exampleFormControlSelect1">Proficiency in this web language</label>';
+					formBoxHTML += '<label for="exampleFormControlSelect1">'+data.ui_strings.proficiency+'</label>';
 					formBoxHTML += '<select class="form-control" id="upmproficiency">';
-						formBoxHTML += '<option>A1</option>';
-						formBoxHTML += '<option>A2</option>';
-						formBoxHTML += '<option>B1</option>';
-						formBoxHTML += '<option>B2</option>';
-						formBoxHTML += '<option>C1</option>';
-						formBoxHTML += '<option>C2</option>';
+					$.each( data.language_proficiency, function(key, val) {
+						console.log(val);
+						formBoxHTML += '<option value="'+key+'">'+val+'</option>';
+					});
+
 					formBoxHTML += '</select>';
 					formBoxHTML += '<label for="exampleFormControlSelect1">Educational level</label>';
 					formBoxHTML += '<select class="form-control" id="upmeducationallevel">';
-						formBoxHTML += '<option>Primary</option>';
-						formBoxHTML += '<option>Secondary</option>';
-						formBoxHTML += '<option>Undergration</option>';
-						formBoxHTML += '<option>Post-graduation</option>';
+					$.each( data.educational_level, function(key, val) {
+						console.log(val);
+						formBoxHTML += '<option value="'+key+'">'+val+'</option>';
+					});
+
 					formBoxHTML += '</select>';
 					formBoxHTML += '<label for="exampleFormControlSelect1">Disability</label>';
 					formBoxHTML += '<select class="form-control" id="upmdisability">';
-						formBoxHTML += '<option>Physical</option>';
-						formBoxHTML += '<option>Visual</option>';
-						formBoxHTML += '<option>Hearing</option>';
-						formBoxHTML += '<option>Mental</option>';
-						formBoxHTML += '<option>Intellectual</option>';
-						formBoxHTML += '<option>Learning</option>';
+					$.each( data.disability, function(key, val) {
+						console.log(val);
+						formBoxHTML += '<option value="'+key+'">'+val+'</option>';
+					});
 					formBoxHTML += '</select>';
 					formBoxHTML += '<label for="exampleFormControlSelect1">Familiarity with PA service</label>';
 					formBoxHTML += '<select class="form-control" id="upmfamiliarity">';
-					formBoxHTML += '<option>Basic</option>';
-					formBoxHTML += '<option>Intermediate</option>';
-					formBoxHTML += '<option>Advanced</option>';
+					$.each( data.familiarity, function(key, val) {
+						console.log(val);
+						formBoxHTML += '<option value="'+key+'">'+val+'</option>';
+					});
 					formBoxHTML += '</select>';
 					formBoxHTML += '<label for="upmage">Occupation</label>';
 					formBoxHTML += '<input type="string" class="form-control" id="upmoccupation" placeholder="Retired	">';
