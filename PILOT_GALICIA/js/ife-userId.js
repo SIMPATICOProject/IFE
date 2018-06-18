@@ -31,6 +31,7 @@ $(document).ready(function() {
 			console.log("[IFE_LOG] Form end");
 			USER_SUBMIT_FORM = true;
 			logCORE.getInstance().ifeLogger.formEnd(simpaticoEservice, simpaticoForm);
+			logCORE.getInstance().ifeLogger.sessionEnd(simpaticoEservice);
 			console.log("[IFE_LOG] Cleaning idle interval");
 			clearInterval(INTERVAL_IDLE);
 			INTERVAL_IDLE = null;
