@@ -223,16 +223,15 @@ var sfCORE = (function () {
   		});
       console.log("Sending:");
       console.log(dataObj);
+      // TODO: manage complexity correctly
+      complexity = 0;
+      logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
+      
   		logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
-  		// TODO: manage complexity correctly
-  		complexity = 0;
-  		logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
 
 		  if (!!listener) listener();
       // Close dialog
       $('#dialogSF').dialog("destroy").remove();
-
-      window.location = simpaticoEservice + "_end.html";
     }
 
     return {

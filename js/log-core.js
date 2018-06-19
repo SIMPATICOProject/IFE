@@ -27,7 +27,7 @@ var logCORE = (function () {
   	var activityStart = {};
       var start;
 
-  	var log = function(url, data) {
+  	var log = function(url, data, cb) {
 
   		var token = authManager.getInstance().getToken();
   		var userId = authManager.getInstance().getUserId();
@@ -46,7 +46,7 @@ var logCORE = (function () {
   			dataType: 'json',
   			success: (function (resp) {
   				console.log(resp, data);
-
+          if (cb) cb();
   			}),
   			error: function (jqxhr, textStatus, err) {
   				console.log(textStatus + ", " + err);
@@ -179,7 +179,10 @@ var logCORE = (function () {
   		},
   		feedbackData: function(eservice, data) {
   			data['e-serviceID'] = eservice;
-  			log(sfEndpoint, data);
+  			log(sfEndpoint, data, function () {
+          // Wait until it finishes before navigating to a new page
+          window.location = simpaticoEservice + "_end.html";
+        });
   		}
   	}
 
