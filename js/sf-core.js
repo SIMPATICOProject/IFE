@@ -69,7 +69,7 @@ var sfCORE = (function () {
               question.question_text +
             '</p></div>'+
             '<div class="session-feedback-comments">'+
-              '<textarea id="'+question.input_id+'" class="session-feedback-comments-text" placeholder="'+ question.textarea_placeholder +'" cols="40" rows="5" style="resize: none;"></textarea>'+
+              '<textarea id="'+question.input_id+'" class="session-feedback-comments-text" placeholder="'+ question.textarea_placeholder +'" cols="40" rows="5" data-component="'+question.component+'" style="resize: none;"></textarea>'+
             '</div>'+
           '</div><br>';
         } else if (question.type == "range") {
@@ -79,7 +79,7 @@ var sfCORE = (function () {
                 question.question_text +
               '</p></div>'+
               '<form>'+
-                '<input id="'+question.input_id+'" class="slider" type="range" min="'+json.common.range_min+'" max="'+json.common.range_max+'" step="'+json.common.range_step+'" value="'+value+'" oninput="rangeValue_'+question.input_id+'.value = '+question.input_id+'.value"/>'+
+                '<input id="'+question.input_id+'" data-component="'+question.component+'" class="slider" type="range" min="'+json.common.range_min+'" max="'+json.common.range_max+'" step="'+json.common.range_step+'" value="'+value+'" oninput="rangeValue_'+question.input_id+'.value = '+question.input_id+'.value"/>'+
                 '<div class="slider-horizontal-text-below-left">'+ json.common.range_unuseful +'</div>'+
                 '<div class="slider-horizontal-text-below-right">'+ json.common.range_useful +'</div>'+
                 '<div class="slider-output-session-feedback" style="text-align: center;"><output id="rangeValue_'+question.input_id+'">'+value+'</output></div>'+
@@ -91,7 +91,7 @@ var sfCORE = (function () {
             optionsHtml += '<div class="form-group">'+
                   '<div class="radio">'+
                     '<label>'+
-                      '<input type="radio" name="'+question.input_id+'" value="'+question.options[j]+'">'+
+                      '<input type="radio" name="'+question.input_id+'" value="'+question.options[j]+'" data-component="'+question.component+'">'+
                         question.options[j] +
                     '</label>'+
                   '</div>'+
@@ -116,11 +116,11 @@ var sfCORE = (function () {
               json.common.faces_question +
             '</p></div>'+
             '<div id="face-radio-buttons-session-feedback" class="cc-selector">'+
-              '<input id="face-happy-session-feedback" class="input_hidden" name="faces_session_feedback" type="radio" value="happy"/>'+
+              '<input id="face-happy-session-feedback" class="input_hidden" name="faces_session_feedback" type="radio" value="happy" data-component="global"/>'+
               '<label for="face-happy-session-feedback" data-face="happy" class="left" style="margin-left: 10%;border-radius: 20%;"><img src="img/happy_face.png" alt="Happy"/></label>'+
-              '<input id="face-normal-session-feedback" class="input_hidden" name="faces_session_feedback" type="radio" value="normal"/>'+
+              '<input id="face-normal-session-feedback" class="input_hidden" name="faces_session_feedback" type="radio" value="normal" data-component="global"/>'+
               '<label for="face-normal-session-feedback" data-face="normal" style="margin-left: 20%;border-radius: 20%;"><img src="img/normal_face.png" alt="Normal"/></label>'+
-              '<input id="face-sad-session-feedback" class="input_hidden" name="faces_session_feedback" type="radio" value="sad"/>'+
+              '<input id="face-sad-session-feedback" class="input_hidden" name="faces_session_feedback" type="radio" value="sad" data-component="global"/>'+
               '<label for="face-sad-session-feedback" data-face="sad" class="right" style="margin-right: 10%;border-radius: 20%;"><img src="img/sad_face.png" alt="Sad" /></label>'+
             '</div>'+
           '</div>'+
@@ -173,14 +173,52 @@ var sfCORE = (function () {
     // Internal
     function sendFeedback () {
       console.log("SendFeedback");
+      /*
+        Ej:
+          ranges: [
+            {
+              id: <id>,
+              value: <value>,
+              component: <component>
+            }
+          ],
+          texts: [
+            {
+              id: <id>,
+              value: <value>,
+              component: <component>
+            }
+          ],
+          radios: [
+            {
+              id: <id>,
+              value: <value>,
+              component: <component>
+            }
+          ]
+      */
   		var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
-  		var dataObj = {};
+  		var dataObj = {
+        ranges: [],
+        texts: [],
+        radios: []
+      };
   		dataForms.each(function(idx, d) {
   			var key = d.name ? d.name : d.id;
+        var obj = {};
+        obj.id = key;
+        obj.value = d.value;
+        obj.component = d.dataset.component;
+
   			if (d.type=='radio') {
-  				if (d.checked) dataObj[key] = d.value;
+  				if (d.checked) {
+            dataObj.radios.push(obj);
+          }
+        } else if (d.type == 'range') {
+          dataObj.ranges.push(obj);
   			} else {
-    			dataObj[key] = d.value;
+          // Text
+    			dataObj.texts.push(obj);
   			}
   		});
       console.log("Sending:");
