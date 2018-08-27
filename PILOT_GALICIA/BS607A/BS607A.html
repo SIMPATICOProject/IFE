@@ -30,46 +30,6 @@
 	<!-- SIMPATICO BEGIN -->
 	<!--<link rel="stylesheet" type="text/css" media="screen" href="../css/simpatico.css">-->
 
-	<script>
-		$(document).ready(function() {
-			$("#btn_presentarElect,#btn2_presentarElect").click(function(e) {
-				e.preventDefault();
-				sfUI.getInstance().showSF();
-			});
-
-		});    
-    </script>
-	<script>
-		setInterval(function(){
-			$("#button_send_session_feedback_text").off('click').on('click', function() {
-			    console.log("SendFeedback");
-				var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
-				var dataObj = {};
-				dataForms.each(function(idx, d) {
-				    var key = d.name ? d.name : d.id;
-				    if (d.type=='radio') {
-				    	if (d.checked) dataObj[key] = d.value;
-				    } else {
-				    	dataObj[key] = d.value;
-				    }
-				});
-				console.log("Sending:");
-				console.log(dataObj);
-				logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
-				// TODO: manage complexity correctly
-				complexity = 0;
-				logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
-
-				// Close dialog
-				$('#dialogSF').dialog("destroy").remove();
-
-
-				window.location = "BS607A_end.html";
-			});
-		}, 1000);
-			
-	</script>
-
 	<script type="text/javascript">
 	  var simpaticoEservice = "BS607A"; // Eservice example
 	  var simpaticoForm = "form";
@@ -77,7 +37,7 @@
 	  var serviceURL="https://simpatico.hi-iberia.es:4570/IFE/BS607A/BS607A.html";
 	  var simpaticoMapping=["BS607A.Entidad.txtNombre","BS607A.Entidad.txtApel2","BS607A.Entidad.txtApel1","BS607A.Entidad.txtNifCif","BS607A.Entidad.txtDireccion","BS607A.Entidad.txtNumero","BS607A.Entidad.txtPiso","BS607A.Entidad.txtPuerta","BS607A.Entidad.txtLugar","BS607A.Entidad.txtCodigoPostal","BS607A.Entidad.txtLocalidad","BS607A.Entidad.txtPais","BS607A.Entidad.txtTelefono","BS607A.Entidad.txtMovil","BS607A.Entidad.txtEmail","BS607A.HijoDiscap.txtNombre","BS607A.HijoDiscap.txtApel1","BS607A.HijoDiscap.txtApel2","BS607A.HijoDiscap.txtNifCif","BS607A.HijoDiscap.txtFechaNac","BS607A.HijoDiscap.txtNCartillaSanit","BS607A.HijoDiscap.txtPorcentDiscap","BS607A.PersonaContact.txtNombre","BS607A.PersonaContact.txtApel1","BS607A.PersonaContact.txtApel2","BS607A.PersonaContact.txtNifCif","BS607A.PersonaContact.txtDireccion","BS607A.PersonaContact.txtNumero","BS607A.PersonaContact.txtPiso","BS607A.PersonaContact.txtPuerta","BS607A.PersonaContact.txtLugar","BS607A.DestFechSolicit.txtDestino1","BS607A.DestFechSolicit.txtFechaDest1","BS607A.DestFechSolicit.txtDestino2","BS607A.DestFechSolicit.txtFechaDest2","BS607A.DestFechSolicit.txtCuantiaMensual"];
 	  var ERROR_LABELS = {
-      	'block1' : 'Es obligatorio rellenar el campo NIF / Pasaporte'
+      	'block3' : 'Seleccione a quién notificar electrónicamente, si a la persona solicitante o a una persona representante'
       }
 	</script>
 
@@ -401,12 +361,12 @@
 													<p> Notifíquese a:</p> 
 												</div> 
 												<div class="col-md-3 col-sm-3"> 
-													<input id="BS607A.Notificacion.rbNotificar.1" name="campos[&#39;/ProcedimientoXunta/BS607A/Notificacion/rbNotificar&#39;]" value="1" type="radio"> 
-													<label for="BS607A.Notificacion.rbNotificar.1" class="labelRadio"> Persona solicitante </label> 
+													<input id="optNotificacion1" name="optNotificacion" value="1" type="radio"> 
+													<label for="optNotificacion1" class="labelRadio"> Persona solicitante </label> 
 												</div> 
 												<div class="col-md-3 col-sm-3"> 
-													<input id="BS607A.Notificacion.rbNotificar.2" name="campos[&#39;/ProcedimientoXunta/BS607A/Notificacion/rbNotificar&#39;]" value="2" type="radio"> 
-													<label for="BS607A.Notificacion.rbNotificar.2" class="labelRadio"> Persona representante </label> 
+													<input id="optNotificacion2" name="optNotificacion" value="2" type="radio"> 
+													<label for="optNotificacion2" class="labelRadio"> Persona representante </label> 
 												</div> 
 												<p> <span id="BS607A.Notificacion.rblModalidad.error" class="errores" style="display: none"></span> </p> 
 												<div class="bloqueNotificacionOpcion"> 
@@ -1168,9 +1128,10 @@
 													</table> 
 												</div> 
 											</fieldset> 
-										</div> 
-										<!-- ******************** FINBLOQUE:Documentacion (UD) ******************** --> 
-									
+										</div>
+									</div>
+									<!-- ******************** FINBLOQUE:Documentacion (UD) ******************** --> 
+
 									<!-- ******************** BLOQUE: Autorizacion1 ******************** --> 
 									<div class="col-md-12"> 
 										<div class="background-color-grey margin-top-xs margin-bottom-xs panel panel-default"> 

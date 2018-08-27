@@ -6,17 +6,15 @@
   <title> BS611A </title>
 
   <link rel="shortcut icon" type="image/x-icon" href="https://sede.xunta.gal/formularios/resources/favicon.ico">
-  <!-- CSS' from La Xunta page -->
-  <link class="lfr-css-file" href="https://sede.xunta.es/tema-sede-electronica/css/main.css?browserId=other&amp;minifierType=css&amp;t=1467307178000" id="mainLiferayThemeCSS" rel="stylesheet" type="text/css" />
-
+  
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" media="screen" href="../css/simpatico.css">
   <link rel="stylesheet" type="text/css" media="screen" href="./css/base.css">
   <link rel="stylesheet" type="text/css" media="screen" href="./css/estilos.css">
   
   <link rel="stylesheet" type="text/css" media="screen" href="./css/jquery-ui-1.10.2.custom.css">
   <link rel="stylesheet" type="text/css" media="screen" href="./css/bootstrap-3.3.6.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../css/simpatico.css">
 
   <!--<script type="text/javascript" src="./js/jquery-1.9.1.js"></script>-->
   <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
@@ -24,55 +22,15 @@
   <!--<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
   <script src="//code.jquery.com/jquery-1.12.4.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/SH-Xerator.css">
   <script type="text/javascript" src="./js/jquery.ui.datepicker-es.js"></script>    
   <script type="text/javascript" src="./js/funciones.js"></script>
 
   <!-- SIMPATICO BEGIN -->
   <!--<link rel="stylesheet" type="text/css" href="./css/style-hiiberia.css">-->
-
-  <script>
-    $(document).ready(function() {
-      $("#btn_presentarElect,#btn2_presentarElect").click(function(e) {
-        e.preventDefault();
-        sfUI.getInstance().showSF();
-
-      });
-    });    
-  </script>
-
-<script>
-  setInterval(function(){
-    $("#button_send_session_feedback_text").off('click').on('click', function() {
-
-      console.log("SendFeedback");
-      var dataForms = $('#dialogSF input,#dialogSF textarea,#dialogSF select');
-      var dataObj = {};
-      dataForms.each(function(idx, d) {
-      var key = d.name ? d.name : d.id;
-      if (d.type=='radio') {
-        if (d.checked) dataObj[key] = d.value;
-      } else {
-        dataObj[key] = d.value;
-      }
-      });
-      console.log("Sending:");
-      console.log(dataObj);
-      logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
-      // TODO: manage complexity correctly
-      complexity = 0;
-      logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
-
-      // Close dialog
-      $('#dialogSF').dialog("destroy").remove();
-
-      window.location = "BS611A_end.html";
-    });
-  }, 1000);
-
-</script>
-
   <script type="text/javascript">
     var simpaticoEservice = "BS611A"; // Eservice 
     var simpaticoForm = "form";
@@ -87,26 +45,26 @@
 
   <!-- Injection of JS Libraries -->
   <script src="../js/ife-userId.js"></script>
-  <script src="../js/log-core.js"></script>
-  <script src="../js/ctz-ui.js"></script>
-  <script src="../js/ctz-core.js"></script>
-  <script src="../js/cdv-ui-popup.js"></script>
-  <script src="../js/cdv-core-popup.js"></script>
-  <script src="../js/tae-core.js"></script>
-  <script src="../js/tae-ui.js"></script>
-  <script src="../js/tae-core-popup.js"></script>
-  <script src="../js/tae-ui-popup.js"></script>
-  <script src="../js/sf-core.js"></script>
-  <script src="../js/sf-ui.js"></script>
-  <script src="../js/da-ui.js"></script>
-  <script src="../js/wae-core.js"></script>
-  <script src="../js/wae-ui.js"></script>
+  <script src="../../js/log-core.js"></script>
+  <script src="../../js/ctz-ui.js"></script>
+  <script src="../../js/ctz-core.js"></script>
+  <script src="../../js/cdv-ui-popup.js"></script>
+  <script src="../../js/cdv-core-popup.js"></script>
+  <script src="../../js/tae-core.js"></script>
+  <script src="../../js/tae-ui.js"></script>
+  <script src="../../js/tae-core-popup.js"></script>
+  <script src="../../js/tae-ui-popup.js"></script>
+  <script src="../../js/sf-core.js"></script>
+  <script src="../../js/sf-ui.js"></script>
+  <script src="../../js/da-ui.js"></script>
+  <script src="../../js/wae-core.js"></script>
+  <script src="../../js/wae-ui.js"></script>
   <script src="//github.com/google/wicked-good-xpath/releases/download/1.3.0/wgxpath.install.js"></script>
   <script>
       wgxpath.install();
   </script>
   <script src="../js/simpatico-ife.js"></script>
-  <script src="../js/simpatico-auth.js"></script>
+  <script src="../../js/simpatico-auth.js"></script>
   
 
   <!-- Piwik ALL -->
@@ -137,37 +95,46 @@
   <div id="simpatico_top"></div>
   <!-- SIMPATICO END -->
 
-  <div id="wrapper">
-    <div class="fila" id="menuSuperior">
-      <ul>
-        <li class="columna alEsquerda"> <a title="Xunta de Galicia" href="http://www.xunta.gal/">www.xunta.gal</a> </li>
-        <li class="columna alCen"> <a accesskey="1" title="Accesibilidad" href="https://sede.xunta.gal/accesibilidade"> Accesibilidad </a> </li>
-        <li class="columna alCen"> <a accesskey="2" title="Mapa del portal" href="https://sede.xunta.gal/mapa-do-portal"> Mapa del portal </a> </li>
-        <li class="columna alCen"> <a accesskey="3" title="Sugerencias y quejas" href="http://www.xunta.gal/envio-de-consulta-ou-comentario"> Sugerencias y quejas </a> </li>
-        <li class="columna alDer">  <span>CASTELLANO </span> </li>
-      </ul>
-    </div>
+  <div id="wrapper" class="container-fluid">
 
-    <div class="fila" id="cabeceira">
-      <div class="inicio">
-        <a accesskey="0" title="Inicio - Sede el Electrónica" href="https://sede.xunta.gal/portada">
-          <img alt="Inicio" src="./images/logoE.jpg">
-        </a>
+    <div id="mainMenuTop" class="row no-gutter no-margin" style="text-align: center;color: white;background-color: #0371b3;">
+      <div class="col-sm-11">
+        <div id="selector-idiomas" class="inline" style="float: right;display: inline-block;">
+          <div class="portlet-borderless-container" style="">
+            <div class="portlet-body">
+              <span class="taglib-language-list-text last activo" lang="es-ES" style="border-top: 5px solid #FFF;opacity: 1;font-size: 1.2em;padding: 0 3px;color: #FFF;display: inline-block;">Castellano</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1 class="columna">
-        <a accesskey="0" title="Inicio - Sede el Electrónica" href="https://sede.xunta.gal/portada">
-          SEDE <br> ELECTRÓNICA
-        </a>
-      </h1>
-      <a class="columnaDer" id="logoXunta" title="Xunta de Galicia" href="http://www.xunta.gal/">
-        <img alt="Xunta de Galicia" src="./images/logoXunta.png">
-      </a>
     </div>
 
-    <div id="menuPrincipal" class="fila"></div>
+    <div class="row" style="background-color: #0371b3;">
+      <div style="margin: 0 auto;max-width: 1024px;color: white;">
+        <div id="logos-cabeceira" class="row">
+          <div class="col-sm-12">
+            <h1 class="inline" style="margin: 0 30px 0 0;max-width: 40%;display: inline-block;">
+              <a class="inline" href="/portada" title="Sede electronica" id="linkHomeSede" style="margin: -9px 0 14px;transition: all .3s;display: inline-block;">
+                <span class="media">
+                  <span class="media-left">
+                    <img alt="Sede Electronica" src="../images/logos/marca_sede.svg" class="scale" style="height: 90px;">
+                  </span>
+                  <span class="media-body media-middle">
+                    <img alt="Sede Electronica" src="../images/logos/marca_sede_texto.svg">
+                  </span>
+                </span>
+              </a>
+            </h1>
+            <a id="thirdGaliciaLink" href="http://www.xunta.gal" target="blank" title="Turismo de Galicia" class="inline" style="float: right;margin-top: 30px;margin: 13px 0 14px;transition: all .3s;display: inline-block;">
+              <img alt="Xunta de Galicia" src="../images/logos/marca_xunta.svg" class="scale">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div id="content-wrapper" class="fila">
-      <div class="col11col">
+    <div id="content-wrapper" class="fila row">
+      <div class="col11col col-md-8">
         <div>
           <div id="formularioCump">
             <script type="text/javascript">

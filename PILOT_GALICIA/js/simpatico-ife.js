@@ -86,7 +86,7 @@ function initFeatures() {
     buttonCreate: "Crear",
     consentButton: "Aceptar",
     tabSettingsTitle: 'Opciones',
-	  cdvDashUrl:'http://localhost:8080/cdv-dashboard/index.html'
+	  cdvDashUrl:'https://simpatico.hi-iberia.es:4570/cdv-dashboard/index.html'
   });
 
   // Init the Text Adaptation Engine component (see tae-ui.js)
@@ -152,7 +152,7 @@ function initFeatures() {
   sfUI.getInstance().init({
     language: 'es',
     buttonToShowSfId: 'send_session_feedback',
-    apiEndpoint: 'https://simpatico.hi-iberia.es:4570/simpatico/api',
+    apiEndpoint: 'https://simpatico.hi-iberia.es:4570/simpatico/api'
   });
 
   // Init the Data Analysis component (see da-ui.js)
@@ -240,8 +240,8 @@ function initFeatures() {
                 {
                   id: "simp-bar-sw-cdv",
                   // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "../img/cdv.png",
-                  imageSrcDisabled: "../img/cdv.png",
+                  imageSrcEnabled: "../../img/cdv.png",
+                  imageSrcDisabled: "../../img/cdv.png",
                   alt: "Datos de los ciudadanos",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-bar-btn-active-cdv",
@@ -254,8 +254,8 @@ function initFeatures() {
 		            },
                 { // workflow adaptation. Switch to the modality, where the form adaptation starts
                   id: 'workflow1',
-                  imageSrcEnabled: "../img/forms.png",
-                  imageSrcDisabled: "../img/forms.png",
+                  imageSrcEnabled: "../../img/forms.png",
+                  imageSrcDisabled: "../../img/forms.png",
                   alt: "Simplificar proceso",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-bar-btn-active-wae",
@@ -352,7 +352,7 @@ function addSimpaticoBar(containerID) {
   var simpaticoBarHtml = '<div id="simp-bar">' +
                             '<div style="margin: 1%;">' +
                               '<a href="#">' +
-                                '<img src="../img/logo.png" ' +
+                                '<img src="../../img/logo.png" ' +
                                 'height="50px" ' +
                                 'alt="Simpatico ">' +
                               '</a>' +

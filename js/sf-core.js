@@ -143,7 +143,7 @@ var sfCORE = (function () {
   			title: json.common.dialog_title,
       	modal: true,
   			resizable: true,
-  			height: 475,
+  			height: 580,
   			width: 800
         // buttons: [
         //   {

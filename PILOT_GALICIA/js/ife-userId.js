@@ -27,7 +27,7 @@ $(document).ready(function() {
 		var INTERVAL_IDLE = setInterval(function(){ sendUserIdle() }, 1000 * 60);  // 1 min
 
 		// Submit form
-		$('#btn_presentarElect').on('click', function() { // Dont put .off('click'). There is an another click event inside each service (html file with simpatico) 
+		$('.send_session_feedback').on('click', function() { // Dont put .off('click'). There is an another click event inside each service (html file with simpatico) 
 			console.log("[IFE_LOG] Form end");
 			USER_SUBMIT_FORM = true;
 			logCORE.getInstance().ifeLogger.formEnd(simpaticoEservice, simpaticoForm);
