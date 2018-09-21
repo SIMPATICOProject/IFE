@@ -69,16 +69,18 @@ var citizenpediaUI = (function () {
       for (var i = 0, len = paragraphs.length; i < len; i++) {
         // Store original style
         originalStyles[i] = paragraphs[i].style;
+
         // Add the enhanced paragraph style
         paragraphName = "Paragraph" + paragrapId;
-        //  paragraphs[i].style.position = 'relative';
-        //  paragraphs[i].style.borderLeft = "12px solid " + primaryColor;
-        //  paragraphs[i].style.borderRadius = "16px";
+//        paragraphs[i].style.position = 'relative';
+//        paragraphs[i].style.borderLeft = "12px solid " + primaryColor;
+//        paragraphs[i].style.borderRadius = "16px";
 
-        //  paragraphs[i].style.padding = '0px 0px 0px 8px';
-        //  paragraphs[i].style.margin = '0px 0px 8px 0px';
+//        paragraphs[i].style.padding = '0px 0px 0px 8px';
+//        paragraphs[i].style.margin = '0px 0px 8px 0px';
         paragraphs[i].classList.add('simp-paragraph-active');
         paragraphs[i].style.borderLeftColor = primaryColor;
+
         paragraphs[i].setAttribute("id", paragraphName);
         // Add the onclick event to enhance the paragraph
         paragraphs[i].setAttribute("onclick", 
@@ -86,8 +88,9 @@ var citizenpediaUI = (function () {
           "paragraphEvent('" + paragraphName + "');");
         paragrapId++;
       }
-	    logCORE.getInstance().startActivity('ctz', 'simplification');
+	  logCORE.getInstance().startActivity('ctz', 'simplification');
       qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, drawDiagramNotification);
+
     }
   
     function disableComponentFeatures() {
@@ -113,7 +116,7 @@ var citizenpediaUI = (function () {
         diagramContainer.parentNode.removeChild(diagramContainer);
         diagramContainer = null;
       }
-	    logCORE.getInstance().endActivity('ctz', 'simplification');      
+	  logCORE.getInstance().endActivity('ctz', 'simplification');      
     }
 
 
@@ -135,7 +138,6 @@ var citizenpediaUI = (function () {
       if (document.getElementById(paragraphName + "_questions") === null) {
         logger().logContentRequest(simpaticoEservice, paragraphName);
         qaeCORE.getInstance().getQuestions(simpaticoEservice, paragraphName, drawQuestionsBox);
-        console.log("paragraphName:",paragraphName);
       } else {
         hideQuestionsBox(paragraphName);
       }
@@ -244,7 +246,6 @@ var citizenpediaUI = (function () {
                               'src="' + diagramNotificationImage + '" ' +
                               'width="40" ' +
                               'height="40"' +
-                              'class="img-ui-diagram"' +
                               'title="' + diagramNotificationText + '" ' +  
                               'alt="' + diagramNotificationText + '" >' +
                       '<a href="' + response["url"] + '" target="_blank">' +

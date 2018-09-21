@@ -183,98 +183,98 @@ function initFeatures() {
   // Declare here the buttons that will be available in the Simpatico Bar
   // The first one is the login button. This is mandatory but it also can be personalised
   // Options available:
-  buttons = [{
-                  id: "simp-bar-sw-login",
-                  // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "../img/login.png",
-                  imageSrcDisabled: "../img/login.png",
-                  alt: "Sign in",
-                  // Ad-hoc css classes to define the enabled/disabled styles
-                  styleClassEnabled: "simp-none", 
-                  styleClassDisabled: "simp-none",
-                  
-                  isEnabled: function() { return authManager.getInstance().isEnabled(); },
-                  enable: function() { authManager.getInstance().enable(); },
-                  disable: function() { authManager.getInstance().disable(); },
-				  text: "Sign In"
+  buttons = [
+              {
+                id: "simp-bar-sw-login",
+                // Ad-hoc images to define the enabled/disabled images
+                imageSrcEnabled: "../img/login.png",
+                imageSrcDisabled: "../img/login.png",
+                alt: "Sign in",
+                // Ad-hoc css classes to define the enabled/disabled styles
+                styleClassEnabled: "simp-none", 
+                styleClassDisabled: "simp-none",
+                
+                isEnabled: function() { return authManager.getInstance().isEnabled(); },
+                enable: function() { authManager.getInstance().enable(); },
+                disable: function() { authManager.getInstance().disable(); },
+                text: "Sign In"
+              },
+              {
+                id: "simp-bar-sw-citizenpedia",
+                // Ad-hoc images to define the enabled/disabled images
+                imageSrcEnabled: "../img/citizenpedia.png",
+                imageSrcDisabled: "../img/citizenpedia.png",
+                alt: "Questions and answers",
+                // Ad-hoc css classes to define the enabled/disabled styles
+                styleClassEnabled: "simp-bar-btn-active",
+                styleClassDisabled: "simp-bar-btn-inactive",
+                isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
+                enable: function() { citizenpediaUI.getInstance().enable(); },
+                disable: function() { citizenpediaUI.getInstance().disable(); },
+                text: "Questions and Answers"
+              },
+              {
+                id: "simp-bar-sw-tae",
+                // Ad-hoc images to define the enabled/disabled images
+                imageSrcEnabled: "../img/simplify.png",
+                imageSrcDisabled: "../img/simplify.png",
+                alt: "Simplify text",
+                // Ad-hoc css classes to define the enabled/disabled styles
+                styleClassEnabled: "simp-bar-btn-active-tae",
+                styleClassDisabled: "simp-bar-btn-inactive-tae",
+                isEnabled: function() { return taeUI.getInstance().isEnabled(); },
+                enable: function() { taeUI.getInstance().enable(); },
+                disable: function() { taeUI.getInstance().disable(); },
+                text: "Simplify"
+              },                
+              {
+                id: "simp-bar-sw-tae-popup",
+                // Ad-hoc images to define the enabled/disabled images
+                imageSrcEnabled: "../img/enrich.png",
+                imageSrcDisabled: "../img/enrich.png",
+                alt: "Text simplification",
+                // Ad-hoc css classes to define the enabled/disabled styles
+                styleClassEnabled: "simp-bar-btn-active",
+                styleClassDisabled: "simp-bar-btn-inactive",
+                isEnabled: function() { return false; },
+                enable: function() { 
+                  console.log(window.getSelection().toString().trim());
+                  taeUIPopup.getInstance().showDialog(); 
                 },
-
-                {
-                  id: "simp-bar-sw-citizenpedia",
-                  // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "../img/citizenpedia.png",
-                  imageSrcDisabled: "../img/citizenpedia.png",
-                  alt: "Questions and answers",
-                  // Ad-hoc css classes to define the enabled/disabled styles
-                  styleClassEnabled: "simp-bar-btn-active",
-                  styleClassDisabled: "simp-bar-btn-inactive",
-                  isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
-                  enable: function() { citizenpediaUI.getInstance().enable(); },
-                  disable: function() { citizenpediaUI.getInstance().disable(); },
-				  text: "Questions and Answers"
+                disable: function() { 
+                  taeUIPopup.getInstance().hideDialog(); 
                 },
-{
-                  id: "simp-bar-sw-tae",
-                  // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "../img/simplify.png",
-                  imageSrcDisabled: "../img/simplify.png",
-                  alt: "Simplify text",
-                  // Ad-hoc css classes to define the enabled/disabled styles
-                  styleClassEnabled: "simp-bar-btn-active-tae",
-                  styleClassDisabled: "simp-bar-btn-inactive-tae",
-                  isEnabled: function() { return taeUI.getInstance().isEnabled(); },
-                  enable: function() { taeUI.getInstance().enable(); },
-                  disable: function() { taeUI.getInstance().disable(); },
-				  text: "Simplify"
-                },                
-                {
-                    id: "simp-bar-sw-tae-popup",
-                    // Ad-hoc images to define the enabled/disabled images
-                    imageSrcEnabled: "../img/enrich.png",
-                    imageSrcDisabled: "../img/enrich.png",
-                    alt: "Text simplification",
-                    // Ad-hoc css classes to define the enabled/disabled styles
-                    styleClassEnabled: "simp-bar-btn-active",
-                    styleClassDisabled: "simp-bar-btn-inactive",
-                    isEnabled: function() { return false; },
-                    enable: function() { 
-                    	console.log(window.getSelection().toString().trim());
-                    	taeUIPopup.getInstance().showDialog(); 
-                    },
-                    disable: function() { 
-                    	taeUIPopup.getInstance().hideDialog(); 
-                    },
-                    exclusive: true,
-  				  text: "Simplify (Popup)"
-                  },
-                {
-                  id: "simp-bar-sw-cdv",
-                  // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "../img/cdv.png",
-                  imageSrcDisabled: "../img/cdv.png",
-                  alt: "Personal data",
-                  // Ad-hoc css classes to define the enabled/disabled styles
-                  styleClassEnabled: "simp-bar-btn-active",
-                  styleClassDisabled: "simp-bar-btn-inactive",
-                  isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
-                  enable: function() { cdvUI.getInstance().enable(); },
-                  disable: function() { cdvUI.getInstance().disable(); },
-                  exclusive: true,
-				  text: "Personal data"
-                },
-                { // workflow adaptation. Switch to the modality, where the form adaptation starts
-                  id: 'workflow',
-                  imageSrcEnabled: "../img/forms.png",
-                  imageSrcDisabled: "../img/forms.png",
-                  alt: "Step-by-step execution",
-                  // Ad-hoc css classes to define the enabled/disabled styles
-                  styleClassEnabled: "simp-bar-btn-active",
-                  styleClassDisabled: "simp-bar-btn-inactive",
-                  isEnabled: function() { return waeUI.getInstance().isEnabled(); },
-                  enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
-                  disable: function() { waeUI.getInstance().disable(); },
-                  text: "Step by step compilation"
-                }
+                exclusive: true,
+                text: "Simplify (Popup)"
+              },
+              {
+                id: "simp-bar-sw-cdv",
+                // Ad-hoc images to define the enabled/disabled images
+                imageSrcEnabled: "../img/cdv.png",
+                imageSrcDisabled: "../img/cdv.png",
+                alt: "Personal data",
+                // Ad-hoc css classes to define the enabled/disabled styles
+                styleClassEnabled: "simp-bar-btn-active",
+                styleClassDisabled: "simp-bar-btn-inactive",
+                isEnabled: function() { return cdvUI.getInstance().isEnabled(); },
+                enable: function() { cdvUI.getInstance().enable(); },
+                disable: function() { cdvUI.getInstance().disable(); },
+                exclusive: true,
+                text: "Personal data"
+              },
+              { // workflow adaptation. Switch to the modality, where the form adaptation starts
+                id: 'workflow',
+                imageSrcEnabled: "../img/forms.png",
+                imageSrcDisabled: "../img/forms.png",
+                alt: "Step-by-step execution",
+                // Ad-hoc css classes to define the enabled/disabled styles
+                styleClassEnabled: "simp-bar-btn-active",
+                styleClassDisabled: "simp-bar-btn-inactive",
+                isEnabled: function() { return waeUI.getInstance().isEnabled(); },
+                enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
+                disable: function() { waeUI.getInstance().disable(); },
+                text: "Step by step compilation"
+              }
             ];
 }//initFeatures()
 
