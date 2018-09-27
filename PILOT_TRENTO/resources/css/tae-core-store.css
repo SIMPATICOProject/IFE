@@ -141,3 +141,8 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 /*end switch*/
+
+.wordColor{
+  color: #FFFFFF;
+  background-color: #d9534f;
+}

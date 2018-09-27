@@ -2,23 +2,18 @@
  
 // $(document).ready(function() {
   var sentences=[];
-  var apiResults=[];
   var prepareResult=[];
   var globalTextCheckboxVal=true;
   var globalWordCheckboxVal=true;
 
   getTexts();
-  getAPIResults();
+  setSpanWithClass();
+  //getAPIResults();
 
-
-  // if(jQuery.isEmptyObject(localStorage.dateOfBirth)){
-  //       localStorage.weight=80;
-  // }
   console.log("total sentences:",sentences);
-  console.log("Total result:",apiResults);
   console.log("Total localPrepareResult:",localPrepareResult);
   
-
+// set in local storage
 setTimeout(function(){
     // Check browser support
   if (typeof(Storage) !== "undefined") {
@@ -61,11 +56,25 @@ setTimeout(function(){
 *
 **/
 function getTexts(){
+    
+  var elements = document.body.getElementsByTagName("p");
+  
+  for(var i = 0; i < elements.length; i++) {
+    var current = elements[i];
+    var val = current.textContent.trim();
+    if(current.textContent.trim().length !== 0 && current.textContent.replace(/ |\n/g,'') !== '') {
+      sentences.push(val);
+      // var i=sentences.length-1;
+      // $('p:contains("'+val+'")').wrapInner("<span id='"+i+"'></span>");
+    }
+  } 
+  
+  /*
   var tataltexts= $("#main").find('p').text().split(/(?:\n)+/);
   //var tataltexts= $("body").text().split(/(?:\n)+/);
   //var tataltexts= $("p").text().split(/(?:\n)+/);
   console.log("total number of text in the body:",tataltexts);
-  /*collect all sentances in this page*/
+  //collect all sentances in this page
   $.each(tataltexts, function (index, value){
     if(value.trim()){//remove all extra space
       // if(value.includes(".") && !value.includes("@")){//check sentances with '.' & not contain '@'
@@ -131,11 +140,20 @@ function getTexts(){
       // }
     }
   });
+  */
 }
 function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
-
+/**
+* 
+* set a span in every p element with an id
+**/
+function setSpanWithClass(){
+  $.each(sentences, function (index, value){
+    $('p:contains("'+value+'")').wrapInner("<span class='"+index+"' id='"+index+"'></span>");
+  });
+}
 /**
 * call api for all sentances and get data
 *
@@ -146,7 +164,12 @@ function getAPIResults(){
     jQuery.getJSON(textURL + "?text=" + value,
       function(jsonResponse) {
         var words=[];
-        apiResults.push({"domID":index,"domValue":jsonResponse});
+        var syntSimplifiedVersion;
+        if(String(jsonResponse.text) != String(jsonResponse.syntSimplifiedVersion)){
+          syntSimplifiedVersion=jsonResponse.syntSimplifiedVersion;
+        }else{
+          syntSimplifiedVersion=null;
+        }
         $.each(jsonResponse.simplifications, function(index2, value2){
           words.push({
             "originalWord":value2.originalValue,
@@ -160,7 +183,7 @@ function getAPIResults(){
         prepareResult.push({
           "elementID":index,
           "originalText":jsonResponse.text,
-          "syntSimplifiedVersion":jsonResponse.syntSimplifiedVersion,
+          "syntSimplifiedVersion":syntSimplifiedVersion,
           "words":words
         });
       });
@@ -189,14 +212,14 @@ function getWikiLink(word, arr){
       return arr[i].page;
     }
   }
-  return -1;
+  return null;
 }
 /**
 * 
 *
 **/
 function getDescription(word, arr){
-  var result = -1;
+  var result = null;
   $.each(arr, function( key, value ) {
     if(value.description.forms[0].search(new RegExp(word, 'i')) !== -1){
       result=value.description.description;
@@ -251,9 +274,9 @@ function clickWordCheckbox(){
 **/
 function onTextSimplification(color){
   
-  $.each(prepareResult, function (index, value){
+  $.each(localPrepareResult, function (index, value){
     if(color == true){
-      if(String(value['originalText']) != String(value['syntSimplifiedVersion'])){
+      if(value['syntSimplifiedVersion']){
         makeColorOfText(value['elementID'],color);
       }
     }else if(color == false){
@@ -270,7 +293,7 @@ function onTextSimplification(color){
 **/
 function onWordSimplification(color){
   
-  $.each(prepareResult, function (index, value){
+  $.each(localPrepareResult, function (index, value){
     if(color == true){
       if(value['words']){
         makeColorOfWord(value['elementID'],color,value['words']);
@@ -290,11 +313,11 @@ function onWordSimplification(color){
 function makeColorOfText(id,color){
 
   if(color == true){
-    $('#'+id).css('background-color', '#FFFF99');
+    $('.'+id).css('background-color', '#FFFF99');
     console.log("make yellow color");
   }
   else if(color == false){
-    $('#'+id).css('background-color', 'transparent');
+    $('.'+id).css('background-color', 'transparent');
     console.log("make white color");
   }  
 }
@@ -322,20 +345,16 @@ function makeColorOfWord(id,color,arrWord){
       // create a regex
       var re = new RegExp(word, "ig");
       // replace word with color
-      var reText = "<span style='background-color: red;'>"+word+"</span>";
+      var reText = "<span class='wordColor'>"+word+"</span>";
       // replace the inner html
       if($('p:contains("'+word+'")') ){
-        console.log("value:",word,"id:",id);
-        var str = document.getElementById(id).innerHTML;
-        var res = str.replace(re, reText);
-        document.getElementById(id).innerHTML = res;
+        $.each(document.getElementsByClassName(id), function (index2, value2){
+          var res = value2.innerHTML.replace(re, reText);
+          value2.innerHTML = res;
+        });
       };
-      
-      //var replacedHTML = $('#'+id).html().replace(re, reText);
-      // replace
-      //$('#'+id).html(replacedHTML);
     }else if(color == false){
-      $('#'+id).contents().find( value['originalWord'] ).css( "background-color", "transparent" );
+      $( "span" ).removeClass( "wordColor" );
     }
   });
   
