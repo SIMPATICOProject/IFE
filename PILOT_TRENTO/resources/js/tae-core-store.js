@@ -5,7 +5,7 @@
   var prepareResult=[];
   var globalTextCheckboxVal=true;
   var globalWordCheckboxVal=true;
-
+  var loadFirstTime=true;
   getTexts();
   setSpanWithClass();
   //getAPIResults();
@@ -25,26 +25,55 @@ setTimeout(function(){
     console.log("localStorageResult:", "Sorry, your browser does not support Web Storage...");
   }
 }, 2000);
+/**************test**/
 
+          // $('#1').attr('data-content', 'syntSimplifiedVersion');
+          // //$('#'+value['elementID']).attr('rel', 'popover');
+          // $('#1').attr('data-placement', 'bottom');
+          // $('#1').attr('data-original-title', 'Title');
+          // $('#1').popover({ trigger: "hover" });
+          // $('#1').popover('show');
+          
+/**************** */
 
   $('[data-toggle="tooltip"]').tooltip();
-  $('[data-toggle="tooltip"]').on('click', function () {
-    $(this).tooltip('hide');
-  });
+  // $('[data-toggle="tooltip"]').on('click', function () {
+  //   $(this).tooltip('hide');
+  // });
+  
   $('#textTools').on('click', function () {
-    //$("#testData").html(JSON.stringify(prepareResult));    
-    $(this).popover({
+    //$("#testData").html(JSON.stringify(prepareResult)); 
+    //first autoload the text color
+    clickTextCheckbox();
+    //first autoload the word color
+    clickWordCheckbox();  
+    $('#textTools').popover({
       html : true, 
       content: function() {
         $(document.getElementById("textCheckbox")).attr("checked", globalTextCheckboxVal);
-        $(document.getElementById("wordCheckbox")).attr("checked", globalWordCheckboxVal);
+        $(document.getElementById("wordCheckbox")).attr("checked", globalWordCheckboxVal); 
         return $("#popoverText").html();
-      }
+      },
       // title: function() {
       //     return $("#example-popover-title").html();
-      // }
+      // },
+      placement: 'top',
+      // trigger: 'hover'
     });
+    
+    $('#textTools').popover('show');
+    $('#textTools').tooltip('hide');
   });
+$(document).on('click', function (e) {
+  $('[data-toggle="popover"],[data-original-title]').each(function () {
+      //the 'is' for buttons that trigger popups
+      //the 'has' for icons within a button that triggers a popup
+      if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {                
+          (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false  // fix for BS 3.3.6
+      }
+
+  });
+});
 // });
 
 
@@ -278,6 +307,25 @@ function onTextSimplification(color){
     if(color == true){
       if(value['syntSimplifiedVersion']){
         makeColorOfText(value['elementID'],color);
+        
+        
+          // $('#'+value['elementID']).attr('data-content', 'syntSimplifiedVersion');
+          // $('#'+value['elementID']).attr('rel', 'popover');
+          // $('#'+value['elementID']).attr('data-placement', 'bottom');
+          // $('#'+value['elementID']).attr('data-original-title', 'Title');
+          // $('#'+value['elementID']).attr('data-trigger', 'hover');
+          $('#'+value['elementID']).attr('title', value['syntSimplifiedVersion']);
+          $('#'+value['elementID']).attr('data-toggle', 'tooltip');
+          $('#'+value['elementID']).attr('data-placement', 'bottom');
+          // $('#'+value['elementID']).addClass('tooltip-innerText');
+          // $('#'+value['elementID']).tooltip({tooltipClass: "tooltip-innerText"});
+          // $('#'+value['elementID']).tooltip();
+          $('[data-toggle="tooltip"]').tooltip();
+          
+        $('#'+value['elementID']).mouseover(function(){
+          // $('#'+value['elementID']).popover();
+          console.log("come in onmouseover");
+        });
       }
     }else if(color == false){
       makeColorOfText(value['elementID'],color);
@@ -287,6 +335,7 @@ function onTextSimplification(color){
   
  
 }
+
 /**
 * 
 *
@@ -297,6 +346,7 @@ function onWordSimplification(color){
     if(color == true){
       if(value['words']){
         makeColorOfWord(value['elementID'],color,value['words']);
+        
       }
     }else if(color == false){
       makeColorOfWord(value['elementID'],color,value['words']);
@@ -340,19 +390,25 @@ function makeColorOfWord(id,color,arrWord){
           
       //   }));
       // });
-      // word
-      var word = value['originalWord'];
-      // create a regex
-      var re = new RegExp(word, "ig");
-      // replace word with color
-      var reText = "<span class='wordColor'>"+word+"</span>";
-      // replace the inner html
-      if($('p:contains("'+word+'")') ){
-        $.each(document.getElementsByClassName(id), function (index2, value2){
-          var res = value2.innerHTML.replace(re, reText);
-          value2.innerHTML = res;
-        });
-      };
+      if(loadFirstTime){
+        // word
+        var word = value['originalWord'];
+        // create a regex
+        var re = new RegExp(word, "ig");
+        // replace word with color
+        var reText = "<span class='wordColor'>"+word+"</span>";
+        // replace the inner html
+        if($('span:contains("'+word+'")') ){
+          $.each(document.getElementsByClassName(id), function (index2, value2){
+            //here loop because document.getElementsByClassName return an array
+            var res = value2.innerHTML.replace(re, reText);
+            value2.innerHTML = res;
+          });
+        };
+      }else if(loadFirstTime == false){
+        $( "span" ).addClass( "wordColor" );
+      }
+      
     }else if(color == false){
       $( "span" ).removeClass( "wordColor" );
     }
