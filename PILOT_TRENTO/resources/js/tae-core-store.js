@@ -307,25 +307,33 @@ function onTextSimplification(color){
     if(color == true){
       if(value['syntSimplifiedVersion']){
         makeColorOfText(value['elementID'],color);
-        
-        
-          // $('#'+value['elementID']).attr('data-content', 'syntSimplifiedVersion');
-          // $('#'+value['elementID']).attr('rel', 'popover');
-          // $('#'+value['elementID']).attr('data-placement', 'bottom');
-          // $('#'+value['elementID']).attr('data-original-title', 'Title');
-          // $('#'+value['elementID']).attr('data-trigger', 'hover');
-          $('#'+value['elementID']).attr('title', value['syntSimplifiedVersion']);
-          $('#'+value['elementID']).attr('data-toggle', 'tooltip');
-          $('#'+value['elementID']).attr('data-placement', 'bottom');
-          // $('#'+value['elementID']).addClass('tooltip-innerText');
-          // $('#'+value['elementID']).tooltip({tooltipClass: "tooltip-innerText"});
-          // $('#'+value['elementID']).tooltip();
-          $('[data-toggle="tooltip"]').tooltip();
-          
-        $('#'+value['elementID']).mouseover(function(){
-          // $('#'+value['elementID']).popover();
-          console.log("come in onmouseover");
+        $('.'+value['elementID']).append("<div id='popup"+value['elementID']+"' class='popupText'><h4>Simplified text</h4><p>"+value['syntSimplifiedVersion']+"</p></div>");
+        $('#popup'+value['elementID']).popup({type: 'tooltip'});
+        $('.'+value['elementID']).on({
+          //if(globalTextCheckboxVal){}
+          mouseenter: function(event) {
+            if(globalTextCheckboxVal){
+              $('#popup'+value['elementID']).popup({
+                tooltipanchor: event.target,
+                autoopen: true,
+                type: 'tooltip',
+                opacity:0.5,
+                // color: '#f2f2f2',
+                background: true,
+                horizontal: 'center',
+                vertical:'bottom'
+              });
+            }
+          },
+          mouseleave: function() {
+            if(globalTextCheckboxVal){
+              $('#popup'+value['elementID']).popup('hide');
+            }
+          }
         });
+        // $('#'+value['elementID']).mouseover(function(){
+        //   console.log("come in onmouseover");
+        // });
       }
     }else if(color == false){
       makeColorOfText(value['elementID'],color);
