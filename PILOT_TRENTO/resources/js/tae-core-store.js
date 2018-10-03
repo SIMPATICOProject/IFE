@@ -3,11 +3,10 @@
 // $(document).ready(function() {
   var sentences=[];
   var prepareResult=[];
-  var globalTextCheckboxVal=true;
-  var globalWordCheckboxVal=true;
+  var globalTextCheckboxVal=false;
+  var globalWordCheckboxVal=false;
   var loadFirstTime=true;
-  getTexts();
-  setSpanWithClass();
+  getTextsAndsetSpan();
   //getAPIResults();
 
   console.log("total sentences:",sentences);
@@ -25,16 +24,6 @@ setTimeout(function(){
     console.log("localStorageResult:", "Sorry, your browser does not support Web Storage...");
   }
 }, 2000);
-/**************test**/
-
-          // $('#1').attr('data-content', 'syntSimplifiedVersion');
-          // //$('#'+value['elementID']).attr('rel', 'popover');
-          // $('#1').attr('data-placement', 'bottom');
-          // $('#1').attr('data-original-title', 'Title');
-          // $('#1').popover({ trigger: "hover" });
-          // $('#1').popover('show');
-          
-/**************** */
 
   $('[data-toggle="tooltip"]').tooltip();
   // $('[data-toggle="tooltip"]').on('click', function () {
@@ -43,10 +32,13 @@ setTimeout(function(){
   
   $('#textTools').on('click', function () {
     //$("#testData").html(JSON.stringify(prepareResult)); 
-    //first autoload the text color
-    clickTextCheckbox();
-    //first autoload the word color
-    clickWordCheckbox();  
+    if(loadFirstTime){
+      //first autoload the text color
+      // clickTextCheckbox();
+      //first autoload the word color
+      // clickWordCheckbox();  
+    }
+    
     $('#textTools').popover({
       html : true, 
       content: function() {
@@ -84,7 +76,7 @@ $(document).on('click', function (e) {
 * 
 *
 **/
-function getTexts(){
+function getTextsAndsetSpan(){
     
   var elements = document.body.getElementsByTagName("p");
   
@@ -92,9 +84,10 @@ function getTexts(){
     var current = elements[i];
     var val = current.textContent.trim();
     if(current.textContent.trim().length !== 0 && current.textContent.replace(/ |\n/g,'') !== '') {
-      sentences.push(val);
-      // var i=sentences.length-1;
-      // $('p:contains("'+val+'")').wrapInner("<span id='"+i+"'></span>");
+      sentences.push(val);      
+      // current.innerHTML="<span class='"+i+"' id='"+i+"'>"+val+"</span>";
+      var index=sentences.length-1;
+      $(current).wrapInner("<span class='"+index+"' id='"+index+"'></span>");
     }
   } 
   
@@ -171,18 +164,7 @@ function getTexts(){
   });
   */
 }
-function escapeRegExp(str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
-/**
-* 
-* set a span in every p element with an id
-**/
-function setSpanWithClass(){
-  $.each(sentences, function (index, value){
-    $('p:contains("'+value+'")').wrapInner("<span class='"+index+"' id='"+index+"'></span>");
-  });
-}
+
 /**
 * call api for all sentances and get data
 *
@@ -310,7 +292,6 @@ function onTextSimplification(color){
         $('.'+value['elementID']).append("<div id='popup"+value['elementID']+"' class='popupText'><h4>Simplified text</h4><p>"+value['syntSimplifiedVersion']+"</p></div>");
         $('#popup'+value['elementID']).popup({type: 'tooltip'});
         $('.'+value['elementID']).on({
-          //if(globalTextCheckboxVal){}
           mouseenter: function(event) {
             if(globalTextCheckboxVal){
               $('#popup'+value['elementID']).popup({
@@ -318,7 +299,6 @@ function onTextSimplification(color){
                 autoopen: true,
                 type: 'tooltip',
                 opacity:0.5,
-                // color: '#f2f2f2',
                 background: true,
                 horizontal: 'center',
                 vertical:'bottom'
@@ -404,15 +384,18 @@ function makeColorOfWord(id,color,arrWord){
         // create a regex
         var re = new RegExp(word, "ig");
         // replace word with color
-        var reText = "<span class='wordColor'>"+word+"</span>";
+        var reText = "<span class='wordColor' id='"+id+"-"+index+"'>"+word+"</span>";
         // replace the inner html
-        if($('span:contains("'+word+'")') ){
-          $.each(document.getElementsByClassName(id), function (index2, value2){
-            //here loop because document.getElementsByClassName return an array
-            var res = value2.innerHTML.replace(re, reText);
-            value2.innerHTML = res;
-          });
-        };
+        //if($('span:contains("'+word+'")') ){
+        var str=document.getElementById(id);
+        var res = str.innerHTML.replace(re, reText);
+        str.innerHTML = res;
+          // $.each(document.getElementsByClassName(id), function (index2, value2){
+          //   //here loop because document.getElementsByClassName return an array
+          //   var res = value2.innerHTML.replace(re, reText);
+          //   value2.innerHTML = res;
+          // });
+        //};
       }else if(loadFirstTime == false){
         $( "span" ).addClass( "wordColor" );
       }
