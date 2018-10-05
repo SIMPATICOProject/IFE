@@ -5,6 +5,7 @@
   var prepareResult=[];
   var globalTextCheckboxVal=false;
   var globalWordCheckboxVal=false;
+  var loadFirstTimeText=true;
   var loadFirstTime=true;
   getTextsAndsetSpan();
   //getAPIResults();
@@ -256,7 +257,7 @@ function clickTextCheckbox(){
     onTextSimplification(true);
     console.log("TextCheckbox is checked.");
   }
-
+  loadFirstTimeText=false;
 }
 
 /**
@@ -289,7 +290,10 @@ function onTextSimplification(color){
     if(color == true){
       if(value['syntSimplifiedVersion']){
         makeColorOfText(value['elementID'],color);
-        $('.'+value['elementID']).append("<div id='popupText"+value['elementID']+"' class='popupText'><h4>Simplified text</h4><p>"+value['syntSimplifiedVersion']+"</p></div>");
+        if(loadFirstTimeText){
+          $('.'+value['elementID']).append("<div id='popupText"+value['elementID']+"' class='popupText'><h4>Simplified text</h4><p>"+value['syntSimplifiedVersion']+"</p></div>");
+        }
+        
         $('#popupText'+value['elementID']).popup({type: 'tooltip'});
         $('.'+value['elementID']).on({
           mouseenter: function(event) {
@@ -362,31 +366,34 @@ function makeColorOfText(id,color){
 *
 **/ 
 function makeColorOfWord(id,color,arrWord){
+  var replaceStrArray=[],previousStart,lastEnd;
+  var str = document.getElementById(id);
+  var myString= str.innerHTML;
   $.each(arrWord, function (index, value){
     if(color== true){
 
       if(loadFirstTime){
         // word
-        var word = value['originalWord'];
-        // create a regex
-        var re = new RegExp(word, "ig");
-        // replace word with color
-        var reText = "<span class='wordColor' id='"+id+"-"+index+"'>"+word+"</span>";
-        // replace the inner html
-        //if($('span:contains("'+word+'")') ){
-        var str=document.getElementById(id);
-        var res = str.innerHTML.replace(re, reText);
-        str.innerHTML = res;
-        /*
-        //replace word with the position number 
-        var str = document.getElementById("id1");
-        var myString= str.innerHTML;
-        var reText = "<span style='background-color: red;'>"+myString.substring(0, 5)+" </span>";
-        var reText2 = "<span style='background-color: red;'>"+myString.substring(10, 16)+" </span>";
-      
-        myString = reText+ myString.substring(6, 10) +reText2 + myString.substring(17, myString.length);
-        str.innerHTML=myString;
-        */
+        // var word = value['originalWord'];
+        // // create a regex
+        // var re = new RegExp(word, "ig");
+        // // replace word with color
+        // var reText = "<span class='wordColor' id='"+id+"-"+index+"'>"+word+"</span>";
+        // // replace the inner html
+        // var str=document.getElementById(id);
+        // var res = str.innerHTML.replace(re, reText);
+        // str.innerHTML = res;
+        ///
+        if(index==0){
+          if(value['start']==0){
+            replaceStrArray.push( "<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
+          }else{
+            replaceStrArray.push( myString.substring(0,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
+          } 
+        }else{
+          replaceStrArray.push( myString.substring(lastEnd,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
+        }
+        lastEnd=value['end'];
       }else if(loadFirstTime == false){
         $( "#"+id+"-"+index ).addClass( "wordColor" );
       }
@@ -395,7 +402,11 @@ function makeColorOfWord(id,color,arrWord){
       $( "#"+id+"-"+index ).removeClass( "wordColor" );
     }
   });
-    
+  if(loadFirstTime){
+    replaceStrArray.push( myString.substring(lastEnd,myString.length));
+    str.innerHTML=replaceStrArray.join("");
+    console.log("replaceStrArray:",replaceStrArray.join(""));
+  }    
 }
 
 function setPopupForWord(id,color,arrWord){
@@ -409,11 +420,14 @@ function setPopupForWord(id,color,arrWord){
       }if(value['wikilink']){
         wikilink="<h4>Wikipedia</h4><p>"+value['wikilink']+"</p>";
       }
-      $( "#"+id+"-"+index ).append("<div id='popupWord"+id+"-"+index+"' class='popupWord'>"+definition+synonyms+wikilink+"</div>");
+      if(loadFirstTime){
+        $( "#"+id+"-"+index ).append("<div id='popupWord"+id+"-"+index+"' class='popupWord'>"+definition+synonyms+wikilink+"</div>");
+      }
       $('#popupWord'+id+"-"+index).popup({type: 'tooltip'});
       $("#"+id+"-"+index ).on({
         mouseenter: function(event) {
           if(globalWordCheckboxVal){
+            $('#popupText'+id).popup('hide');
             $('#popupWord'+id+"-"+index).popup({
               tooltipanchor: event.target,
               autoopen: true,
@@ -423,10 +437,12 @@ function setPopupForWord(id,color,arrWord){
               horizontal: 'leftedge',
               vertical:'bottom'
             });
+            
           }
         },
         mouseleave: function() {
           if(globalWordCheckboxVal){
+            $('#popupText'+id).popup({type: 'tooltip'});
             $('#popupWord'+id+"-"+index).popup('hide');
           }
         }
