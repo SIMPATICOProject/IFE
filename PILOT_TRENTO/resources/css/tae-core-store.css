@@ -50,10 +50,10 @@
   height: 36px;
 }
 .popover {
-  min-width: 280px !important;
+  min-width: 280px ;
   min-height: 120px;
-  top: -125px !important;
-  left: -111.563px !important;
+  top: -125px ;
+  left: -111.563px ;
   background-color: rgba(231, 248, 252, 0.749019607843137);
 }
 .popover-title {
@@ -65,7 +65,26 @@
 .popover.top>.arrow:after {
   border-top-color: rgba(231, 248, 252, 0.749019607843137);
 }
-
+.popover-access{
+  min-width: 150px !important;
+  min-height: 75px;
+  top: -80px !important;
+  left: -50.563px !important;
+  background-color: rgba(231, 248, 252, 0.749019607843137);
+  text-align: center;
+  padding: 23px 5px;
+  border-radius: 10px;
+}
+.popover-tutorial{
+  min-width: 350px !important;
+  min-height: 90px;
+  top: -90px !important;
+  left: -140.563px !important;
+  background-color: rgba(231, 248, 252, 0.749019607843137);
+  text-align: center;
+  padding: 23px 5px;
+  border-radius: 10px;
+}
 /*******************Switch*******************************/
 .switch {
   position: relative;

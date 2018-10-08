@@ -777,10 +777,9 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
 <div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./resources/images/translate_24dp.png" width="20" height="20" alt="Google Translate"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Original text</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Contribute a better translation</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div><div role="log" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div style="display: none;">site in Italian</div><div style="display: none;">Italiano</div><div style="display: none;">sito in italiano</div><div style="display: none;">Home</div><div>Home</div></div><div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div>
 </div>
 
+<!-- added HTML-->
 
-
-
-<!--toolbar  -->
+<!--simplification popover  -->
 <div id="popoverText" class="hidden">
   <div class="container-fluid" >
     <div class="row">
@@ -806,11 +805,30 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
   </div>
   
 </div>
-
+<!-- Modal 4 Procedure-->
+<div class="modal fade" id="modalProcedure" role="dialog">
+  <div class="modal-dialog" style="width:70%; height: 70%">
+    
+    <!-- Modal content-->
+    <div class="modal-content">
+       
+      <div class="modal-body" style="padding:10px 10px;">
+        <img src="./resources/images/procedure_large.png" style="max-width: 100%; max-height: 80%">
+      </div>
+       
+    </div>
+    
+  </div>
+</div>
+<!--Access popover   -->
+<div id="popoverAccess" class="hidden">
+  <h4>SIGN IN</h4>
+</div>
+<!-- Toolbar  -->
 <div class="container-fluid " >
   <div class="row" id="conToolbar" >
-    <div class="col-sm-5" style="background-color:transparent;">
-      <div class="row" data-toggle="tooltip" data-placement="top" title="Simpatico">
+    <div class="col-sm-5"  style="background-color:transparent;" >
+      <div class="row" id="tutorialSimpatico" data-toggle="tooltip" data-placement="top" title="Simpatico">
         <div class="col-sm-4" style="background-color:transparent;"><img src="../img/logo.png" class="logoSmall"></div>
         <div class="col-sm-8 toolbarText" style="background-color:transparent;"><span >Simpatico</span></div>
       </div>
@@ -819,19 +837,19 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
       <div class="row">
         
         <div class="col-sm-6" id="textTools"  style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Text Tools">
-          <!-- <span  data-toggle="popover" title="Text Tools"  data-placement="top"> -->
             <img src="./resources/images/textTool.png" class="toolbarSmall" >
-          <!-- </span> -->
         </div>
         
-        <div class="col-sm-6" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Procedure">
+        <div class="col-sm-6" id="btnModalProcedure" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Procedure">
           <img src="./resources/images/procedure.png" class="toolbarSmall">
         </div>
       </div>
     </div>
     <div class="col-sm-4" style="background-color:transparent;">
         <div class="row" >
-            <div class="col-sm-5" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Access"><img src="./resources/images/access.png" class="toolbarSmall"></div>
+            <div class="col-sm-5" id="accessID" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Access">
+                <img src="./resources/images/access.png" class="toolbarSmall">
+            </div>
             <div class="col-sm-5" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Questions"><img src="./resources/images/questions.png" class="toolbarSmall"></div>
             <div class="col-sm-2" style="background-color:transparent;"></div>
         </div>

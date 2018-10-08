@@ -1,4 +1,3 @@
-
  
 // $(document).ready(function() {
   var sentences=[];
@@ -30,15 +29,27 @@ setTimeout(function(){
   // $('[data-toggle="tooltip"]').on('click', function () {
   //   $(this).tooltip('hide');
   // });
+  // Modal show for Procedure
+  $("#btnModalProcedure").click(function(){
+    $("#modalProcedure").modal();
+  });
+  $('#accessID').on('click', function () {    
+    $('#accessID').popover({
+      template: '<div class="popover popover-access " role="tooltip"><div class="arrow"></div><h3>SIGN IN</h3></div>'
+    });
+    $('#accessID').tooltip('hide');
+    $('#accessID').popover('show');
+  });
   
+  $('#tutorialSimpatico').on('click', function () {    
+    $('#tutorialSimpatico').popover({
+      template: '<div class="popover popover-tutorial " role="tooltip"><div class="arrow"></div><p>This tool enchances your experience with the Public Administration. Some features require an account.</p></div>'
+    });
+    //$('#').tooltip('hide');
+    $('#tutorialSimpatico').popover('show');
+  });
   $('#textTools').on('click', function () {
     //$("#testData").html(JSON.stringify(prepareResult)); 
-    if(loadFirstTime){
-      //first autoload the text color
-      // clickTextCheckbox();
-      //first autoload the word color
-      // clickWordCheckbox();  
-    }
     
     $('#textTools').popover({
       html : true, 
