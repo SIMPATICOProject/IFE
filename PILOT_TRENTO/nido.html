@@ -824,12 +824,38 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
 <div id="popoverAccess" class="hidden">
   <h4>SIGN IN</h4>
 </div>
+<!-- Modal for question -->
+<div class="modal fade bottom" id="questionModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">Questions</h3>
+        </div>
+        <div class="modal-body">
+          <input class="form-control input-sm" id="inputsm" type="text">
+          <div class="list-group">
+            <a href="#" class="list-group-item">First Question</a>
+            <a href="#" class="list-group-item">Second Question</a>
+            <a href="#" class="list-group-item">Third Question</a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+          <button type="button" class="btn btn-success" >SEND</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 <!-- Toolbar  -->
 <div class="container-fluid " >
   <div class="row" id="conToolbar" >
     <div class="col-sm-5"  style="background-color:transparent;" >
       <div class="row" id="tutorialSimpatico" data-toggle="tooltip" data-placement="top" title="Simpatico">
-        <div class="col-sm-4" style="background-color:transparent;"><img src="../img/logo.png" class="logoSmall"></div>
+        <div class="col-sm-4" style="background-color:transparent;"><img src="./resources/images/logo.png" class="logoSmall"></div>
         <div class="col-sm-8 toolbarText" style="background-color:transparent;"><span >Simpatico</span></div>
       </div>
     </div>
@@ -837,7 +863,8 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
       <div class="row">
         
         <div class="col-sm-6" id="textTools"  style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Text Tools">
-            <img src="./resources/images/textTool.png" class="toolbarSmall" >
+            <div id="textToolsImg"></div>
+            <img src="./resources/images/textTool.png" class="toolbarSmall" id="">
         </div>
         
         <div class="col-sm-6" id="btnModalProcedure" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Procedure">
@@ -850,7 +877,7 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
             <div class="col-sm-5" id="accessID" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Access">
                 <img src="./resources/images/access.png" class="toolbarSmall">
             </div>
-            <div class="col-sm-5" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Questions"><img src="./resources/images/questions.png" class="toolbarSmall"></div>
+            <div class="col-sm-5" id="btnModalQuestion" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Questions"><img src="./resources/images/questions.png" class="toolbarSmall"></div>
             <div class="col-sm-2" style="background-color:transparent;"></div>
         </div>
     </div>

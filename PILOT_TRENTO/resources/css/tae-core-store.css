@@ -76,14 +76,35 @@
   border-radius: 10px;
 }
 .popover-tutorial{
-  min-width: 350px !important;
-  min-height: 90px;
+  min-width: 400px !important;
+  min-height: 150px;
   top: -90px !important;
-  left: -140.563px !important;
-  background-color: rgba(231, 248, 252, 0.749019607843137);
-  text-align: center;
-  padding: 23px 5px;
+  left: -400.563px !important;
+  text-align: left;
+  padding: 15px 15px;
   border-radius: 10px;
+  background: #ffffff url(../images/logo.png) no-repeat right bottom;
+  opacity: 0.25;
+  background-size: 200px 100px;
+  /* background-color: #ffffff;
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(../images/logo.png) no-repeat right bottom;
+  background-blend-mode: darken;
+  background-size: 200px 100px; */
+  
+  
+}
+.popover-text{
+  min-width: 400px !important;
+  min-height: 150px;
+  top: -90px !important;
+  left: -400.563px !important;
+  text-align: left;
+  padding: 15px 15px;
+  border-radius: 10px;
+  background: #ffffff url(../images/logo.png) no-repeat right bottom;
+  opacity: 0.25;
+  background-size: 200px 100px;
+  
 }
 /*******************Switch*******************************/
 .switch {
@@ -215,4 +236,10 @@ input:checked + .slider:before {
   font-size: 13px;
   font-style: normal;
   text-align: left;
+}
+
+/* modal for question */
+.modal.fade:not(.in).bottom .modal-dialog {
+  -webkit-transform: translate3d(0,55%, 0);
+  transform: translate3d(0,55%, 0);
 }
