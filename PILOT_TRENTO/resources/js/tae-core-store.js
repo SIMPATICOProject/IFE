@@ -31,44 +31,65 @@ setTimeout(function(){
   // });
   // Modal show for Procedure
   $("#btnModalProcedure").click(function(){
+    $('#procedureTutorialPopup').popover('destroy');
     $("#modalProcedure").modal();
   });
   // Modal show for question
   $("#btnModalQuestion").click(function(){
     $("#questionModal").modal();
   });
-  $('#accessID').on('click', function () {    
+  $('#accessID').on('click', function () { 
+    $('#accessTutorialPopup').popover('destroy');   
     $('#accessID').popover({
       template: '<div class="popover popover-access " role="tooltip"><div class="arrow"></div><h3>SIGN IN</h3></div>'
     });
-    $('#accessID').tooltip('hide');
+    $('#accessTutorialPopup').tooltip('hide');
     $('#accessID').popover('show');
   });
   
-  $('#tutorialSimpatico').on('click', function () {    
-    $('#tutorialSimpatico').popover({
-      template: '<div class="popover popover-tutorial" role="tooltip"><div class="arrow"></div><h3>Simpatico</h3><p>This tool enchances your experience with the Public Administration. Some features require an account.</p><br/><span onclick="simpaticoNext()">LEARN MORE</span></div>',
-      placement : "left"
-    });
-    //$('#').tooltip('hide');
-    $('#tutorialSimpatico').popover('show');
-  });
-  function simpaticoNext(){
-    console.log("simpaticoNext");
-    $('#tutorialSimpatico').popover('hide');
-    $('#textToolsImg').popover({
-      template: '<div class="popover popover-text" role="tooltip"><div class="arrow"></div><h3>Text simplification</h3><p>Simplifiy a text that is difficult to understand of find the definition of complex terms. Registered users enjoy of personalized suggestions.</p><br/><span id="textNext">NEXT</span></div>',
-      placement : "top"
-    });
-    $('#textToolsImg').popover('show');
+  function simpaticoTutorial(nodeNmae){
+    console.log("come in with nodeNmae::",nodeNmae);
+    if(nodeNmae=="simpaticoTutorialPopup"){
+      $('#simpaticoTutorialPopup').popover({
+        template: "<div class='popover popover-tutorial' role='tooltip'><div class='arrow'></div><h3>Simpatico</h3><p>This tool enchances your experience with the Public Administration. Some features require an account.</p><br/><span onclick=simpaticoTutorial('"+"textTutorialPopup"+"')>LEARN MORE</span></div>",
+        placement : "left"
+      });
+      //$('#').tooltip('hide');
+      $('#simpaticoTutorialPopup').popover('show');
+    }else if(nodeNmae=="textTutorialPopup"){
+      console.log("textTutorialPopup");
+      $('#simpaticoTutorialPopup').popover('hide');
+      $('#textTutorialPopup').popover({
+        template: "<div class='popover popover-text' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Text simplification</h3><p>Simplifiy a text that is difficult to understand of find the definition of complex terms. Registered users enjoy of personalized suggestions.</p><br/><span onclick=simpaticoTutorial('"+"procedureTutorialPopup"+"')>NEXT</span></div>",
+        placement : "top"
+      });
+      $('#textTutorialPopup').popover('show');
+    }else if(nodeNmae=="procedureTutorialPopup"){
+      console.log("procedureTutorialPopup");
+      $('#textTutorialPopup').popover('hide');
+      $('#procedureTutorialPopup').popover({
+        template: "<div class='popover popover-procedure' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Procedure description</h3><p>Find a summary of this administrative procedure.</p><br/><span onclick=simpaticoTutorial('"+"accessTutorialPopup"+"')>NEXT</span></div>",
+        placement : "top"
+      });
+      $('#procedureTutorialPopup').popover('show');
+    }else if(nodeNmae=="accessTutorialPopup"){
+      console.log("accessTutorialPopup");
+      $('#procedureTutorialPopup').popover('hide');
+      $('#accessID').popover({
+        template: "<div class='popover popover-procedure' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Procedure description</h3><p>Find a summary of this administrative procedure.</p><br/><span onclick=simpaticoTutorial('"+"accessTutorialPopup"+"')>NEXT</span></div>",
+        placement : "top"
+      });
+      $('#accessID').popover('show');
+    }
+    
   };
-  // $('#textTools').on('hidden.bs.popover', function () {
-  //   $('#textTools').popover('destroy');
-  // })
+  // $('#textTutorialPopup').on('hidden.bs.popover', function () {
+  //   $('#textTutorialPopup').popover('destroy');
+  // });
 
   $('#textTools').on('click', function () {
     //$("#testData").html(JSON.stringify(prepareResult)); 
-    
+    $('#textTutorialPopup').popover('destroy');
     $('#textTools').popover({
       html : true, 
       content: function() {

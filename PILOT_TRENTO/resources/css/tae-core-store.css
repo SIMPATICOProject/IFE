@@ -51,9 +51,9 @@
 }
 .popover {
   min-width: 280px ;
-  min-height: 120px;
-  top: -125px ;
-  left: -111.563px ;
+  min-height: 90px;
+  /* top: -125px ;
+  left: -111.563px ; */
   background-color: rgba(231, 248, 252, 0.749019607843137);
 }
 .popover-title {
@@ -83,28 +83,38 @@
   text-align: left;
   padding: 15px 15px;
   border-radius: 10px;
-  background: #ffffff url(../images/logo.png) no-repeat right bottom;
+  /* background: #ffffff url(../images/logo.png) no-repeat right bottom;
   opacity: 0.25;
-  background-size: 200px 100px;
-  /* background-color: #ffffff;
-  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(../images/logo.png) no-repeat right bottom;
-  background-blend-mode: darken;
   background-size: 200px 100px; */
+  background-color: #ffffff;
+  background: linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)), url(../images/logo.png) no-repeat right bottom;
+  /* background-blend-mode: darken; */
+  background-size: 200px 100px;
   
   
 }
 .popover-text{
   min-width: 400px !important;
   min-height: 150px;
-  top: -90px !important;
-  left: -400.563px !important;
   text-align: left;
   padding: 15px 15px;
   border-radius: 10px;
-  background: #ffffff url(../images/logo.png) no-repeat right bottom;
-  opacity: 0.25;
+  background-color: #ffffff;
+  background: linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)), url(../images/textTool.png) no-repeat right bottom;
   background-size: 200px 100px;
-  
+}
+.popover-procedure{
+  min-width: 400px !important;
+  min-height: 150px;
+  text-align: left;
+  padding: 15px 15px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  background: linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)), url(../images/procedure.png) no-repeat right bottom;
+  background-size: 200px 100px;
+}
+.popover.top>.arrow.arrowTutorial:after{
+  border-top-color: #ffffff;
 }
 /*******************Switch*******************************/
 .switch {
@@ -237,9 +247,28 @@ input:checked + .slider:before {
   font-style: normal;
   text-align: left;
 }
-
-/* modal for question */
+/* 
+* modify modal style
+*
+*/
+/* position of the question modal */
+#questionModal{
+  bottom: -10%;
+  right: -58%;
+}
+/* modal come from bottom  */
 .modal.fade:not(.in).bottom .modal-dialog {
   -webkit-transform: translate3d(0,55%, 0);
   transform: translate3d(0,55%, 0);
+}
+/* send button */
+.btn-send{
+  background-color: #2196f3;
+  border-color: #2196f3;
+}
+/* Modal Header for question */
+.question-modalHeader{
+  background-color: #1ebad9;
+  border-color: #1ebad9;
+  border-radius: inherit;
 }

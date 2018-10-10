@@ -830,12 +830,12 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
     
       <!-- Modal content-->
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header question-modalHeader">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h3 class="modal-title">Questions</h3>
         </div>
         <div class="modal-body">
-          <input class="form-control input-sm" id="inputsm" type="text">
+          <input class="form-control input-sm" id="inputsm" type="text" placeholder="Type your question here">
           <div class="list-group">
             <a href="#" class="list-group-item">First Question</a>
             <a href="#" class="list-group-item">Second Question</a>
@@ -844,7 +844,7 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-          <button type="button" class="btn btn-success" >SEND</button>
+          <button type="button" class="btn btn-default btn-send" >SEND</button>
         </div>
       </div>
       
@@ -854,7 +854,7 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
 <div class="container-fluid " >
   <div class="row" id="conToolbar" >
     <div class="col-sm-5"  style="background-color:transparent;" >
-      <div class="row" id="tutorialSimpatico" data-toggle="tooltip" data-placement="top" title="Simpatico">
+      <div class="row" id="simpaticoTutorialPopup" data-toggle="tooltip" data-placement="top" title="Simpatico" onclick="simpaticoTutorial('simpaticoTutorialPopup')">
         <div class="col-sm-4" style="background-color:transparent;"><img src="./resources/images/logo.png" class="logoSmall"></div>
         <div class="col-sm-8 toolbarText" style="background-color:transparent;"><span >Simpatico</span></div>
       </div>
@@ -862,20 +862,25 @@ dalla Giunta provinciale hanno acquisito il diritto all'iscrizione alla scuola&n
     <div class="col-sm-3" style="background-color:transparent;">
       <div class="row">
         
-        <div class="col-sm-6" id="textTools"  style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Text Tools">
-            <div id="textToolsImg"></div>
-            <img src="./resources/images/textTool.png" class="toolbarSmall" id="">
+        <div class="col-sm-6" id="textTutorialPopup"  style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Text Tools">
+            <div id="textTools">
+              <img src="./resources/images/textTool.png" class="toolbarSmall" >
+            </div>
         </div>
         
-        <div class="col-sm-6" id="btnModalProcedure" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Procedure">
-          <img src="./resources/images/procedure.png" class="toolbarSmall">
+        <div class="col-sm-6" id="procedureTutorialPopup" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Procedure">
+          <div id="btnModalProcedure">
+            <img src="./resources/images/procedure.png" class="toolbarSmall">
+          </div>
         </div>
       </div>
     </div>
     <div class="col-sm-4" style="background-color:transparent;">
         <div class="row" >
             <div class="col-sm-5" id="accessID" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Access">
-                <img src="./resources/images/access.png" class="toolbarSmall">
+                <div id="accessTutorialPopup">
+                  <img src="./resources/images/access.png" class="toolbarSmall">
+                </div>
             </div>
             <div class="col-sm-5" id="btnModalQuestion" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Questions"><img src="./resources/images/questions.png" class="toolbarSmall"></div>
             <div class="col-sm-2" style="background-color:transparent;"></div>
