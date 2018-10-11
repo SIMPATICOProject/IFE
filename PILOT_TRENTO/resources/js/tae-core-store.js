@@ -36,50 +36,84 @@ setTimeout(function(){
   });
   // Modal show for question
   $("#btnModalQuestion").click(function(){
+    $('#questionTutorialPopup').popover('destroy');
     $("#questionModal").modal();
   });
   $('#accessID').on('click', function () { 
+    console.log("come in accessID::");
     $('#accessTutorialPopup').popover('destroy');   
     $('#accessID').popover({
-      template: '<div class="popover popover-access " role="tooltip"><div class="arrow"></div><h3>SIGN IN</h3></div>'
+      template: '<div class="popover popoverAccess " role="tooltip"><div class="arrow"></div><h3>SIGN IN</h3></div>',
+      placement : "top"
     });
-    $('#accessTutorialPopup').tooltip('hide');
+    //$('#accessTutorialPopup').tooltip('hide');
     $('#accessID').popover('show');
   });
   
-  function simpaticoTutorial(nodeNmae){
+  function simpaticoTutorial(nodeNmae,time){
     console.log("come in with nodeNmae::",nodeNmae);
     if(nodeNmae=="simpaticoTutorialPopup"){
-      $('#simpaticoTutorialPopup').popover({
-        template: "<div class='popover popover-tutorial' role='tooltip'><div class='arrow'></div><h3>Simpatico</h3><p>This tool enchances your experience with the Public Administration. Some features require an account.</p><br/><span onclick=simpaticoTutorial('"+"textTutorialPopup"+"')>LEARN MORE</span></div>",
-        placement : "left"
-      });
-      //$('#').tooltip('hide');
-      $('#simpaticoTutorialPopup').popover('show');
+      if(time=="second"){
+        $('#textTutorialPopup').popover('hide');
+        $('#simpaticoTutorialPopup').popover('show');
+      }else{
+        $('#simpaticoTutorialPopup').popover({
+          template: "<div class='popover popover-tutorial' role='tooltip'><div class='arrow'></div><h3>Simpatico</h3><p>This tool enchances your experience with the Public Administration. Some features require an account.</p><br/><div class='followTutorial'><span onclick=simpaticoTutorial('"+"textTutorialPopup"+"')>LEARN MORE</span></div></div>",
+          placement : "left"
+        });
+        $('#simpaticoTutorialPopup').popover('show');
+      }
+      
     }else if(nodeNmae=="textTutorialPopup"){
       console.log("textTutorialPopup");
-      $('#simpaticoTutorialPopup').popover('hide');
-      $('#textTutorialPopup').popover({
-        template: "<div class='popover popover-text' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Text simplification</h3><p>Simplifiy a text that is difficult to understand of find the definition of complex terms. Registered users enjoy of personalized suggestions.</p><br/><span onclick=simpaticoTutorial('"+"procedureTutorialPopup"+"')>NEXT</span></div>",
-        placement : "top"
-      });
-      $('#textTutorialPopup').popover('show');
+      if(time=="second"){
+        $('#procedureTutorialPopup').popover('hide');
+        $('#textTutorialPopup').popover('show');
+      }else{
+        $('#simpaticoTutorialPopup').popover('hide');
+        $('#textTutorialPopup').popover({
+          template: "<div class='popover popover-text' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Text simplification</h3><p>Simplifiy a text that is difficult to understand of find the definition of complex terms. Registered users enjoy of personalized suggestions.</p><br/><div class='followTutorial'><span onclick=simpaticoTutorial('"+"simpaticoTutorialPopup"+"','second')>PREVIOUS</span> <span style='display:inline-block; width: 15px;'></span>   <span onclick=simpaticoTutorial('"+"procedureTutorialPopup"+"')>NEXT</span></div></div>",
+          placement : "top"
+        });
+        $('#textTutorialPopup').popover('show');
+      }
+      
     }else if(nodeNmae=="procedureTutorialPopup"){
       console.log("procedureTutorialPopup");
-      $('#textTutorialPopup').popover('hide');
-      $('#procedureTutorialPopup').popover({
-        template: "<div class='popover popover-procedure' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Procedure description</h3><p>Find a summary of this administrative procedure.</p><br/><span onclick=simpaticoTutorial('"+"accessTutorialPopup"+"')>NEXT</span></div>",
-        placement : "top"
-      });
-      $('#procedureTutorialPopup').popover('show');
+      if(time=="second"){
+        $('#accessTutorialPopup').popover('hide');
+        $('#procedureTutorialPopup').popover('show');
+      }else{
+        $('#textTutorialPopup').popover('hide');
+        $('#procedureTutorialPopup').popover({
+          template: "<div class='popover popover-procedure' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Procedure description</h3><p>Find a summary of this administrative procedure.</p><br/><div class='followTutorial'><span onclick=simpaticoTutorial('"+"textTutorialPopup"+"','second')>PREVIOUS</span> <span style='display:inline-block; width: 15px;'></span><span onclick=simpaticoTutorial('"+"accessTutorialPopup"+"')>NEXT</span></div></div>",
+          placement : "top"
+        });
+        $('#procedureTutorialPopup').popover('show');
+      }
     }else if(nodeNmae=="accessTutorialPopup"){
       console.log("accessTutorialPopup");
-      $('#procedureTutorialPopup').popover('hide');
-      $('#accessID').popover({
-        template: "<div class='popover popover-procedure' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Procedure description</h3><p>Find a summary of this administrative procedure.</p><br/><span onclick=simpaticoTutorial('"+"accessTutorialPopup"+"')>NEXT</span></div>",
+      if(time=="second"){
+        $('#questionTutorialPopup').popover('hide');
+        $('#accessTutorialPopup').popover('show');
+      }else{
+        $('#procedureTutorialPopup').popover('hide');
+        $('#accessTutorialPopup').popover({
+          template: "<div class='popover popover-access' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Citizen Data Vault</h3><p>Store your personal data to fill in automatically forms and receive personalized suggestions.</p><br/><div class='followTutorial'><span onclick=simpaticoTutorial('"+"procedureTutorialPopup"+"','second')>PREVIOUS</span> <span style='display:inline-block; width: 15px;'></span><span onclick=simpaticoTutorial('"+"questionTutorialPopup"+"')>NEXT</span></div></div>",
+          placement : "top"
+        });
+        $('#accessTutorialPopup').popover('show');
+      }
+    }else if(nodeNmae=="questionTutorialPopup"){
+      console.log("questionTutorialPopup");
+      $('#accessTutorialPopup').popover('hide');
+      $('#questionTutorialPopup').popover({
+        template: "<div class='popover popover-question' role='tooltip'><div class='arrow arrowTutorial'></div><h3>Questions and answers</h3><p>Find questions sent by other members of the community or send your own questions. Requires to be registered.</p><br/><div class='followTutorial'><span onclick=simpaticoTutorial('"+"accessTutorialPopup"+"','second')>PREVIOUS</span> <span style='display:inline-block; width: 15px;'></span><span onclick=simpaticoTutorial('"+"endTutorialPopup"+"')>END</span></div></div>",
         placement : "top"
       });
-      $('#accessID').popover('show');
+      $('#questionTutorialPopup').popover('show');
+    }else if(nodeNmae=="endTutorialPopup"){
+      $('#questionTutorialPopup').popover('hide');
     }
     
   };
@@ -105,7 +139,7 @@ setTimeout(function(){
     });
     
     $('#textTools').popover('show');
-    $('#textTools').tooltip('hide');
+    $('#textTutorialPopup').tooltip('hide');
   });
 $(document).on('click', function (e) {
   $('[data-toggle="popover"],[data-original-title]').each(function () {
