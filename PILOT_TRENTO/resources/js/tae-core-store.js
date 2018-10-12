@@ -1,37 +1,47 @@
  
 // $(document).ready(function() {
   var sentences=[];
-  var prepareResult=[];
+  
   var globalTextCheckboxVal=false;
   var globalWordCheckboxVal=false;
   var loadFirstTimeText=true;
   var loadFirstTime=true;
   var simpDataURL ="https://simpatico.smartcommunitylab.it/simp-engines/tae/model";
-  var pageID="tagP1";
+  var pageID="simpTagP1";
   var localPrepareResult;
   getTextsAndsetSpan();
   //
-  jQuery.getJSON(simpDataURL + "?pageId=" + pageID,function(jsonResponse) {
-    console.log("jsonResponse::",jsonResponse);
-    if(jsonResponse){
+  jQuery.getJSON(simpDataURL + "?pageId=" + pageID,function(jsonResponse,status) {
+    if(status=="success"){
       localPrepareResult=jsonResponse['blocks'];
-    }else{
-      var sendData=[];
-      sendData.push({
-        "blocks":getAPIResults(),
-        "pageId":pageID
-      });
-      console.log("sendData::",sendData);
-      $.post(simpDataURL,sendData,
-        function(data,status){
-            //alert("Data: " + data + "\nStatus: " + status);
-            console.log("status:",status);
-            jQuery.getJSON(simpDataURL + "?pageId=" + pageID,function(jsonResponse) {
-              localPrepareResult=jsonResponse['blocks'];
-            });
-            console.log("localPrepareResult::",localPrepareResult);
-        });
     }
+  }).done(function() {
+    console.log( "second success" );
+  })
+  .fail(function() {
+    var sendData;
+    getAPIResults().then(function(result){
+      sendData={
+        "blocks":result,
+        "pageId":pageID
+      };
+      setTimeout(function(){
+        $.ajax({
+          url: simpDataURL,
+          dataType: "json",
+          contentType: "application/json;charset=utf-8",
+          type: "POST",
+          data: JSON.stringify(sendData),
+          success: function (msg) {
+            if (msg != null) {
+              jQuery.getJSON(simpDataURL + "?pageId=" + pageID,function(jsonResponse) {
+                      localPrepareResult=jsonResponse['blocks'];
+                    });
+            } 
+          }
+        });
+      }, 1000);
+    });   
   });
   console.log("total sentences:",sentences);
 
@@ -279,7 +289,9 @@ function getTextsAndsetSpan(){
 * call api for all sentances and get data
 *
 **/
-function getAPIResults(){
+var getAPIResults=function(){
+  var deferred = new $.Deferred();
+  var prepareResult=[];
   var textURL="https://simpatico.smartcommunitylab.it/simp-engines/tae/simp";
   $.each(sentences, function (index, value){
     jQuery.getJSON(textURL + "?text=" + value,
@@ -296,7 +308,7 @@ function getAPIResults(){
             "originalWord":value2.originalValue,
             "start":value2.start,
             "end":value2.end,
-            "Synonyms":value2.simplification,
+            "synonyms":value2.simplification,
             "definition":getDescription(value2.originalValue,jsonResponse.readability.forms),
             "wikilink":getWikiLink(value2.originalValue,jsonResponse.linkings)
           });
@@ -307,9 +319,16 @@ function getAPIResults(){
           "syntSimplifiedVersion":syntSimplifiedVersion,
           "words":words
         });
+      }).done(function() {
+        if(index== sentences.length-1) { 
+          deferred.resolve(prepareResult); 
+          }
       });
+      
   });
-  return prepareResult;
+  //return prepareResult;
+  
+  return deferred.promise();
 }
 /**
 * 
@@ -522,8 +541,8 @@ function setPopupForWord(id,color,arrWord){
       var definition='',synonyms='',wikilink='';
       if(value['definition']){
         definition="<h4>Definition</h4><p>"+value['definition']+"</p>";
-      }if(value['Synonyms']){
-        synonyms="<h4>Synonyms</h4><p>"+value['Synonyms']+"</p>";
+      }if(value['synonyms']){
+        synonyms="<h4>Synonyms</h4><p>"+value['synonyms']+"</p>";
       }if(value['wikilink']){
         wikilink="<h4>Wikipedia</h4><p>"+value['wikilink']+"</p>";
       }
