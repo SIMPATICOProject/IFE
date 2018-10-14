@@ -417,9 +417,8 @@ function onTextSimplification(color){
       if(value['syntSimplifiedVersion']){
         makeColorOfText(value['elementID'],color);
         if(loadFirstTimeText){
-          $('.'+value['elementID']).append("<div id='popupText"+value['elementID']+"' class='popupText'><h4>Simplified text</h4><p>"+value['syntSimplifiedVersion']+"</p></div>");
+          $('.'+value['elementID']).append("<div id='popupText"+value['elementID']+"' class='popupText'><h4><b>Simplified text</b></h4><p>"+value['syntSimplifiedVersion']+"</p></div>");
         }
-        
         $('#popupText'+value['elementID']).popup({type: 'tooltip'});
         $('.'+value['elementID']).on({
           mouseenter: function(event) {
@@ -435,15 +434,15 @@ function onTextSimplification(color){
               });
             }
           },
-          mouseleave: function() {
-            if(globalTextCheckboxVal){
-              $('#popupText'+value['elementID']).popup('hide');
-            }
+          mouseleave: function(event) {
+            if($('#popupText'+value['elementID']).is(':hover')){
+              $('#popupText'+value['elementID']).on({
+                mouseenter: function(event) {},
+                mouseleave: function() {$('#popupText'+value['elementID']).popup('hide');}
+              });
+            }else{$('#popupText'+value['elementID']).popup('hide');}
           }
         });
-        // $('#'+value['elementID']).mouseover(function(){
-        //   console.log("come in onmouseover");
-        // });
       }
     }else if(color == false){
       makeColorOfText(value['elementID'],color);
@@ -480,11 +479,12 @@ function makeColorOfText(id,color){
 
   if(color == true){
     $('.'+id).css('background-color', '#FFFF99');
-    console.log("make yellow color");
+    // console.log("make yellow color");
   }
   else if(color == false){
     $('.'+id).css('background-color', 'transparent');
-    console.log("make white color");
+    // $('#popupText'+id).popup('destroy');
+    // console.log("make white color");
   }  
 }
 /**
@@ -492,7 +492,7 @@ function makeColorOfText(id,color){
 *
 **/ 
 function makeColorOfWord(id,color,arrWord){
-  var replaceStrArray=[],previousStart,lastEnd;
+  var replaceStrArray=[],previousStart,lastEnd=0;
   var str = document.getElementById(id);
   var myString= str.innerHTML;
   $.each(arrWord, function (index, value){
@@ -510,15 +510,15 @@ function makeColorOfWord(id,color,arrWord){
         // var res = str.innerHTML.replace(re, reText);
         // str.innerHTML = res;
         ///
-        if(index==0){
-          if(value['start']==0){
-            replaceStrArray.push( "<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
-          }else{
-            replaceStrArray.push( myString.substring(0,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
-          } 
-        }else{
-          replaceStrArray.push( myString.substring(lastEnd,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
-        }
+        // if(index==0){
+        //   if(value['start']==0){
+        //     replaceStrArray.push( "<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
+        //   }else{
+        //     replaceStrArray.push( myString.substring(0,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>"+" ");
+        //   } 
+        // }else{
+          replaceStrArray.push( myString.substring(lastEnd,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
+        //}
         lastEnd=value['end'];
       }else if(loadFirstTime == false){
         $( "#"+id+"-"+index ).addClass( "wordColor" );
@@ -540,11 +540,11 @@ function setPopupForWord(id,color,arrWord){
     if(color== true){
       var definition='',synonyms='',wikilink='';
       if(value['definition']){
-        definition="<h4>Definition</h4><p>"+value['definition']+"</p>";
+        definition="<h4><b>Definition</b></h4><p>"+value['definition']+"</p>";
       }if(value['synonyms']){
-        synonyms="<h4>Synonyms</h4><p>"+value['synonyms']+"</p>";
+        synonyms="<h4><b>Synonyms</b></h4><p>"+value['synonyms']+"</p>";
       }if(value['wikilink']){
-        wikilink="<h4>Wikipedia</h4><p>"+value['wikilink']+"</p>";
+        wikilink="<h4><b>Wikipedia</b></h4><a href='"+value['wikilink']+"' target='_blank'>"+value['wikilink']+"</a>";
       }
       if(loadFirstTime){
         $( "#"+id+"-"+index ).append("<div id='popupWord"+id+"-"+index+"' class='popupWord'>"+definition+synonyms+wikilink+"</div>");
@@ -569,7 +569,13 @@ function setPopupForWord(id,color,arrWord){
         mouseleave: function() {
           if(globalWordCheckboxVal){
             $('#popupText'+id).popup({type: 'tooltip'});
-            $('#popupWord'+id+"-"+index).popup('hide');
+            //$('#popupWord'+id+"-"+index).popup('hide');
+            if($('#popupWord'+id+"-"+index).is(':hover')){
+              $('#popupWord'+id+"-"+index).on({
+                mouseenter: function(event) {},
+                mouseleave: function() {$('#popupWord'+id+"-"+index).popup('hide');}
+              });
+            }else{$('#popupWord'+id+"-"+index).popup('hide');}
           }
         }
       });

@@ -15,7 +15,8 @@
   /* -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none; */
-  font-family: 'Arial Bold', 'Arial';
+  /* font-family: 'Arial Bold', 'Arial'; */
+  font-family: inherit;
   font-weight: 700;
   font-style: normal;
   font-size: 18px;
@@ -139,7 +140,7 @@
   bottom: 5px;
   left: 10px;
 
-  font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+  font-family: inherit;
   font-weight: 500;
   font-style: normal;
   font-size: 14px;
@@ -254,9 +255,9 @@ input:checked + .slider:before {
   border-radius: 4px;
   -webkit-box-shadow: -4px 4px 4px 4px rgba(0, 0, 0, 0.117647058823529);
   box-shadow: -4px 4px 4px 4px rgba(0, 0, 0, 0.117647058823529);
-  font-family: 'Roboto Bold', 'Roboto';
+  font-family: inherit;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 14px;
   font-style: normal;
   text-align: left;
   
@@ -271,9 +272,9 @@ input:checked + .slider:before {
   border-radius: 4px;
   -webkit-box-shadow: -4px 4px 4px 4px rgba(0, 0, 0, 0.117647058823529);
   box-shadow: -4px 4px 4px 4px rgba(0, 0, 0, 0.117647058823529);
-  font-family: 'Roboto Bold', 'Roboto';
+  font-family: inherit;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 14px;
   font-style: normal;
   text-align: left;
 }
