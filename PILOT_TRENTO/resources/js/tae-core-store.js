@@ -416,9 +416,9 @@ function onTextSimplification(color){
     if(color == true){
       if(value['syntSimplifiedVersion']){
         makeColorOfText(value['elementID'],color);
-        if(loadFirstTimeText){
+        //if(loadFirstTimeText){
           $('.'+value['elementID']).append("<div id='popupText"+value['elementID']+"' class='popupText'><h4><b>Simplified text</b></h4><p>"+value['syntSimplifiedVersion']+"</p></div>");
-        }
+        //}
         $('#popupText'+value['elementID']).popup({type: 'tooltip'});
         $('.'+value['elementID']).on({
           mouseenter: function(event) {
@@ -483,7 +483,7 @@ function makeColorOfText(id,color){
   }
   else if(color == false){
     $('.'+id).css('background-color', 'transparent');
-    // $('#popupText'+id).popup('destroy');
+    $('#popupText'+id).popup('destroy');
     // console.log("make white color");
   }  
 }
@@ -553,7 +553,10 @@ function setPopupForWord(id,color,arrWord){
       $("#"+id+"-"+index ).on({
         mouseenter: function(event) {
           if(globalWordCheckboxVal){
-            $('#popupText'+id).popup('hide');
+            setTimeout(function(){
+              $('#popupText'+id).popup('hide');
+            },100);
+            
             $('#popupWord'+id+"-"+index).popup({
               tooltipanchor: event.target,
               autoopen: true,
@@ -568,7 +571,7 @@ function setPopupForWord(id,color,arrWord){
         },
         mouseleave: function() {
           if(globalWordCheckboxVal){
-            $('#popupText'+id).popup({type: 'tooltip'});
+            //$('#popupText'+id).popup({type: 'tooltip'});
             //$('#popupWord'+id+"-"+index).popup('hide');
             if($('#popupWord'+id+"-"+index).is(':hover')){
               $('#popupWord'+id+"-"+index).on({
