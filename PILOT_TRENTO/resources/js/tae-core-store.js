@@ -531,7 +531,7 @@ function makeColorOfWord(id,color,arrWord){
   if(loadFirstTime){
     replaceStrArray.push( myString.substring(lastEnd,myString.length));
     str.innerHTML=replaceStrArray.join("");
-    console.log("replaceStrArray:",replaceStrArray.join(""));
+    //console.log("replaceStrArray:",replaceStrArray.join(""));
   }    
 }
 

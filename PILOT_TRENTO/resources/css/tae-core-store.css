@@ -228,6 +228,9 @@ input:checked + .slider:before {
 .wordColor{
   color: #FFFFFF;
   background-color: #d9534f;
+  border-right: 4px solid #d9534f;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
   z-index: 100;
 }
