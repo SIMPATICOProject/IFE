@@ -1,31 +1,61 @@
 /* custom */
 
-#conToolbar{
-  position: fixed;
+#simp-bar{
+  position: fixed !important;
   right: 32px;
   bottom: 16px;
-  z-index: 100;
+  z-index: 100 !important;
 
-  width: 359px;
-  height: 48px;
+  height: 48px !important;
   background: inherit;
-  background-color: rgba(231, 248, 252, 0.749019607843137);
+  background-color: rgba(231, 248, 252) !important;
   border: none;
   border-radius: 2px;
-  /* -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none; */
-  /* font-family: 'Arial Bold', 'Arial'; */
-  font-family: inherit;
   font-weight: 700;
   font-style: normal;
-  font-size: 18px;
+  font-size: 18px !important;
   text-align: left;
-  -moz-box-shadow: 2px 2px 8px 4px #888888;
-  -webkit-box-shadow: 2px 2px 8px 4px #888888;
-  box-shadow: 2px 2px 8px 4px #888888;
+  -moz-box-shadow: 2px 2px 8px 4px #888888 !important;
+  -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
+  box-shadow: 2px 2px 8px 4px #888888 !important;
   cursor: pointer;
 }
+#simp-bar > div {
+  margin-right: 12px;
+}
+#simp-bar div, #simp-bar ul {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: top;
+}
+#simp-bar li {
+  margin: 12px 6px;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+}
+#simp-bar-container-left li {
+  position: relative;
+}    
+
+#simp-bar li img {
+  width: 24px;
+  height: 24px;
+}
+#simp-bar * {
+  text-decoration: none;
+  font-weight: inherit;
+  color: inherit;
+}
+.logoSmall{
+  border-width: 0px;
+  margin: 6px 0px;
+  width: 36px;
+  height: 36px;
+  /* border: 1px solid red; */
+}
+
 .toolbarText{
   /* padding-left: 0px;
   padding-top: 5px; */

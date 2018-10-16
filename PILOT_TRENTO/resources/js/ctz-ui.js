@@ -48,9 +48,8 @@ var citizenpediaUI = (function () {
         });
       questionSelectionFilters = parameters.questionSelectionFilters || [''];
       qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, function(response){
-    	  if (response && response.length > 0 && response[0]) {
-    		  diagramURL = response[0].url;
-    	  }
+        response = response[0] || response;
+        diagramURL = response.url;
       });
     }
     
@@ -229,7 +228,7 @@ var citizenpediaUI = (function () {
     // - response: a JSON response provided by the Citizenpedia instance 
     function drawDiagramNotification(response) {
       if (response != null) {
-    	response = response[0];
+    	response = response[0] || response;
         // Attach the notification container
         var diagramNode = document.getElementById('simp-bar');
         diagramContainer = document.createElement('div');
