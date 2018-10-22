@@ -48,11 +48,12 @@ var taeUIInline = (function () {
             _instance.localPrepareResult=jsonResponse['blocks'];
           }
         }).done(function() {
-          console.log( "second success" );
+          console.log( "Success! pageId exist and got data." );
         })
         .fail(function() {
+          console.log( "fail! pageId not exist, call API for get simp data." );
           var sendData;
-          getAPIResults().then(function(result){
+          getAPIResults(_instance).then(function(result){
             sendData={
               "blocks":result,
               "pageId":pageID
@@ -72,7 +73,7 @@ var taeUIInline = (function () {
                   } 
                 }
               });
-            }, 1000);
+            }, 2000);
           });   
         });
     
@@ -133,8 +134,10 @@ var taeUIInline = (function () {
       **/
       function getTextsAndsetSpan(instance){
           
-        var elements = document.getElementsByTagName("p");
-        
+        //var elements = document.getElementsByTagName("p");
+        // var elements = document.getElementById(instance.textContainerQuery).getElementsByTagName("p");
+        var elements = document.getElementById(instance.textContainerQuery).querySelectorAll('p,li');
+        console.log("all elements::",elements);
         for(var i = 0; i < elements.length; i++) {
           var current = elements[i];
           var val = current.textContent.trim();

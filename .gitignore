@@ -100,3 +100,9 @@ Thumbs.db
 # track these files, if they exist
 !.gitignore
 !.editorconfig
+PILOT_TRENTO/nido(old).html
+PILOT_TRENTO/nido.1.html
+PILOT_TRENTO/resources/css/tae-core-store(old).css
+PILOT_TRENTO/resources/js/tae-core-store.1.js
+PILOT_TRENTO/resources/js/tae-core-store(old).js
+PILOT_TRENTO/resources/css/tae-core-store.css

@@ -59,7 +59,7 @@ function initFeatures() {
 
   taeUIInline.getInstance().init({
     endpoint: 'https://simpatico.smartcommunitylab.it/simp-engines/tae',
-    textContainerQuery: "#main",
+    textContainerQuery: "block-stu3-italia-content",
     elementId: 'simp-bar-sw-tae-inline',
     synonimLabel:'Sinonimi',
     definitionLabel: 'Definizione',
