@@ -254,7 +254,39 @@ var citizenpediaUI = (function () {
     	diagramURL = response["url"];
       }
     }
-
+    function openQuestionDiagram(){
+      var questionModalContainer = document.getElementById("questionModal");
+      if (questionModalContainer == null) {
+        var body = document.getElementsByTagName('body')[0];
+        questionModalContainer = document.createElement('div');
+        body.insertBefore(questionModalContainer, body.firstChild);
+      
+        var questionModalHTML='<div class="modal fade bottom" id="questionModal" role="dialog">'+
+                                '<div class="modal-dialog">'+
+                                  '<div class="modal-content">'+
+                                    '<div class="modal-header question-modalHeader">'+
+                                      '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                      '<h3 class="modal-title">Questions</h3>'+
+                                    '</div>'+
+                                    '<div class="modal-body">'+
+                                      '<input class="form-control input-sm" id="inputsm" type="text" placeholder="Type your question here">'+
+                                      '<div class="list-group">'+
+                                        '<a href="#" class="list-group-item">First Question</a>'+
+                                        '<a href="#" class="list-group-item">Second Question</a>'+
+                                        '<a href="#" class="list-group-item">Third Question</a>'+
+                                      '</div>'+
+                                    '</div>'+
+                                    '<div class="modal-footer">'+
+                                      '<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>'+
+                                      '<button type="button" class="btn btn-default btn-send" >SEND</button>'+
+                                    '</div>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>';
+        questionModalContainer.innerHTML=questionModalHTML;
+      }
+      $("#questionModal").modal();
+    }
     return {
       // Public definitions
       init: initComponent, // Called only one time
@@ -266,6 +298,7 @@ var citizenpediaUI = (function () {
 		  window.open(diagramURL,"_blank");        	  
 
       },
+      openQuestionDiagram: openQuestionDiagram,
       paragraphEvent: paragraphEvent,
 
       createNewQuestionEvent: createNewQuestionEvent,

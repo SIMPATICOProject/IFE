@@ -59,7 +59,7 @@ function initFeatures() {
 
   taeUIInline.getInstance().init({
     endpoint: 'https://simpatico.smartcommunitylab.it/simp-engines/tae',
-    textContainerQuery: "simpatico-text",
+    textContainerQuery: "#main",
     elementId: 'simp-bar-sw-tae-inline',
     synonimLabel:'Sinonimi',
     definitionLabel: 'Definizione',
@@ -128,10 +128,10 @@ function initFeatures() {
                     alt: "Accedi alle domande e risposte associate agli elementi del modulo",
                     // Ad-hoc css classes to define the enabled/disabled styles
                     styleClassEnabled: "simp-none", 
-                    styleClassEnabled: "simp-none", 
+                    styleClassDisabled: "simp-none", 
                     label: 'Domande e risposte',
                     isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
-                    enable: function() { citizenpediaUI.getInstance().enable(); },
+                    enable: function() { citizenpediaUI.getInstance().openQuestionDiagram(); },
                     disable: function() { citizenpediaUI.getInstance().disable(); }
                   },
                  
@@ -171,9 +171,9 @@ function enablePrivateFeatures() {
   // For each button (without the login one) create and add the node
   var buttonsContainer = document.getElementById("simp-bar-container-left");
   for (var i = 0, len = buttons.length; i < len; i++) {
-	if (document.getElementById(buttons[i].id) == null) {
-		buttonsContainer.appendChild(createButtonNode(buttons[i]));
-	}
+    if (document.getElementById(buttons[i].id) == null) {
+      buttonsContainer.appendChild(createButtonNode(buttons[i]));
+    }
   }
 }//enablePrivateFeatures(id)
 
@@ -197,10 +197,10 @@ function addSimpaticoBar(containerID) {
   // Create the main div of the toolbar
   var simpaticoBarHtml = '<div id="simp-bar">' +
                             '<div>' +
-                              '<a href="#">' +
+                              //'<a href="#">' +
                                 '<img class="logoSmall" src="https://simpatico.smartcommunitylab.it/simp-engines/wae/webdemo/img/logo.png" ' +
                                 'alt="Simpatico ">Simpatico' +
-                              '</a>' +
+                              //'</a>' +
                             '</div>';
 
   // Add the left side of the toolbar

@@ -19,6 +19,7 @@
   -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
   box-shadow: 2px 2px 8px 4px #888888 !important;
   cursor: pointer;
+  padding: 0px 0px 0px 5px;
 }
 #simp-bar > div {
   margin-right: 12px;
@@ -66,8 +67,7 @@
 .popover {
   min-width: 280px ;
   min-height: 90px;
-  /* top: -125px ;
-  left: -111.563px ; */
+  top: -101px !important;
   background-color: rgba(231, 248, 252, 0.749019607843137);
 }
 .popover-title {
@@ -78,6 +78,10 @@
 }
 .popover.top>.arrow:after {
   border-top-color: rgba(231, 248, 252, 0.749019607843137);
+}
+.container-fluid{
+  padding-right: 8px;
+  padding-left: 8px;
 }
 .popoverAccess{
   min-width: 150px !important;
@@ -241,10 +245,10 @@ input:checked + .slider:before {
 .wordColor{
   color: #FFFFFF;
   background-color: #d9534f;
-  border-right: 4px solid #d9534f;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  border-right: 2px solid #d9534f;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   z-index: 100;
 }
 
