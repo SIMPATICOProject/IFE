@@ -307,6 +307,16 @@ input:checked + .slider:before {
   bottom: -10%;
   right: -58%;
 }
+/* max-height and scroll bar of the question modal body */
+.questionModalBody{
+  max-height: calc(100% - 130px);
+  overflow-y: auto;
+}
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+    height: 85%;
+}
 /* modal come from bottom  */
 .modal.fade:not(.in).bottom .modal-dialog {
   -webkit-transform: translate3d(0,55%, 0);

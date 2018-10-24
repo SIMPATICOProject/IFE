@@ -260,7 +260,15 @@ var citizenpediaUI = (function () {
         var body = document.getElementsByTagName('body')[0];
         questionModalContainer = document.createElement('div');
         body.insertBefore(questionModalContainer, body.firstChild);
-      
+
+        qaeCORE.getInstance().getAllQuestions(simpaticoEservice,function(response){
+          
+          var listItem="";
+          $.each(response, function (index, value){
+            listItem += "<div class='list-group-item'>"+value.title+"</div>";
+          });
+          console.log(":listItem:",listItem );
+        
         var questionModalHTML='<div class="modal fade bottom" id="questionModal" role="dialog">'+
                                 '<div class="modal-dialog">'+
                                   '<div class="modal-content">'+
@@ -268,12 +276,10 @@ var citizenpediaUI = (function () {
                                       '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                       '<h3 class="modal-title">Questions</h3>'+
                                     '</div>'+
-                                    '<div class="modal-body">'+
+                                    '<div class="modal-body questionModalBody">'+
                                       '<input class="form-control input-sm" id="inputsm" type="text" placeholder="Type your question here">'+
                                       '<div class="list-group">'+
-                                        '<a href="#" class="list-group-item">First Question</a>'+
-                                        '<a href="#" class="list-group-item">Second Question</a>'+
-                                        '<a href="#" class="list-group-item">Third Question</a>'+
+                                      listItem +
                                       '</div>'+
                                     '</div>'+
                                     '<div class="modal-footer">'+
@@ -283,9 +289,15 @@ var citizenpediaUI = (function () {
                                   '</div>'+
                                 '</div>'+
                               '</div>';
+        
+        
         questionModalContainer.innerHTML=questionModalHTML;
+        $("#questionModal").modal();
+      });
+      }else{
+        $("#questionModal").modal();
       }
-      $("#questionModal").modal();
+      
     }
     return {
       // Public definitions
@@ -295,8 +307,7 @@ var citizenpediaUI = (function () {
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       openDiagram: function(){
     	  logCORE.getInstance().startActivity('cpd', 'process');
-		  window.open(diagramURL,"_blank");        	  
-
+		    window.open(diagramURL,"_blank");
       },
       openQuestionDiagram: openQuestionDiagram,
       paragraphEvent: paragraphEvent,
