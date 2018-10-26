@@ -254,20 +254,25 @@ var citizenpediaUI = (function () {
     	diagramURL = response["url"];
       }
     }
+    function forwardQuestion(id){
+      console.log("id",id);
+      var url="https://simpatico.smartcommunitylab.it/qae/questions/show/"+id;
+      window.open(url,"_blank");
+    }
     function openQuestionDiagram(){
       var questionModalContainer = document.getElementById("questionModal");
       if (questionModalContainer == null) {
         var body = document.getElementsByTagName('body')[0];
         questionModalContainer = document.createElement('div');
         body.insertBefore(questionModalContainer, body.firstChild);
-
+        //simpaticoEservice is a global variable that initialized in install time
         qaeCORE.getInstance().getAllQuestions(simpaticoEservice,function(response){
           
           var listItem="";
           $.each(response, function (index, value){
-            listItem += "<div class='list-group-item'>"+value.title+"</div>";
+            listItem += "<a class='list-group-item' href='https://simpatico.smartcommunitylab.it/qae/questions/show/"+value._id+"' target='_blank'>"+value.title+"</a>";
           });
-          console.log(":listItem:",listItem );
+          // console.log(":listItem:",listItem );
         
         var questionModalHTML='<div class="modal fade bottom" id="questionModal" role="dialog">'+
                                 '<div class="modal-dialog">'+
@@ -279,7 +284,7 @@ var citizenpediaUI = (function () {
                                     '<div class="modal-body questionModalBody">'+
                                       '<input class="form-control input-sm" id="inputsm" type="text" placeholder="Type your question here">'+
                                       '<div class="list-group">'+
-                                      listItem +
+                                        listItem +
                                       '</div>'+
                                     '</div>'+
                                     '<div class="modal-footer">'+
@@ -299,6 +304,7 @@ var citizenpediaUI = (function () {
       }
       
     }
+    
     return {
       // Public definitions
       init: initComponent, // Called only one time

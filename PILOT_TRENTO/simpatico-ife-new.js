@@ -205,10 +205,9 @@ function addSimpaticoBar(containerID) {
 
   // Add the left side of the toolbar
   simpaticoBarHtml += '<ul id="simp-bar-container-left"></ul>';
-
   // Add the right side of the toolbar
   simpaticoBarHtml += '<ul id="simp-bar-container-right">' + 
-                         '<li  style="display:none"><span id="simp-usr-data"></span></li>' +
+                          '<li  style="display:none"><span id="simp-usr-data"></span></li>' +
                         //   createButtonNode(buttons[0]).outerHTML +
                       '</ul>';
 
@@ -269,6 +268,10 @@ document.addEventListener('DOMContentLoaded', function () {
   enablePrivateFeatures();
   authManager.getInstance().updateUserData();
   
+  //simpaticoEservice is a global variable that initialized in install time
+  qaeCORE.getInstance().getAllQuestions(simpaticoEservice,function(response){
+    $("#simp-bar-container-left").append("<li id='simp-question-num-li'><span id='simp-question-num'>"+response.length+"</span></li>");
+  });
   
   var link = document.createElement( "link" );
   link.href = "https://simpatico.smartcommunitylab.it/simp-engines/wae/webdemo/css/moduli.css";
