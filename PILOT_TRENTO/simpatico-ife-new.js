@@ -54,7 +54,8 @@ function initFeatures() {
     diagramNotificationImage: "https://simpatico.smartcommunitylab.it/simp-engines/wae/webdemo/img/diagram.png",
     diagramNotificationClassName: "simp-ctz-ui-diagram",
     diagramNotificationText: "C'e' una visualizzazione di e-service in Citizenpedia",
-    questionSelectionFilters: ['h1', '.Rigaintestazione', '.Rigaintestazioneridotta']
+    questionSelectionFilters: ['h1', '.Rigaintestazione', '.Rigaintestazioneridotta'],
+    questionsURL: "https://simpatico.smartcommunitylab.it/qae/questions"
   });
 
   taeUIInline.getInstance().init({
@@ -63,7 +64,8 @@ function initFeatures() {
     elementId: 'simp-bar-sw-tae-inline',
     synonimLabel:'Sinonimi',
     definitionLabel: 'Definizione',
-    simplifedTextLabel: 'Testo semplificato'
+    simplifedTextLabel: 'Testo semplificato',
+    questionsURL: "https://simpatico.smartcommunitylab.it/qae/questions"
   });
 
 
@@ -260,6 +262,14 @@ function updateButtonStyle(button) {
   }
 }
 
+//send question to server
+function sendQuestion(){
+  var inputQuestion=$("#inputQuestion").val();
+
+  $('#questionModal').modal('hide');
+  window.open(taeUIInline.getInstance().questionsURL+"/create?text="+inputQuestion+"&tags="+simpaticoEservice,"_blank");
+  //console.log("click send button");
+}
 // Once the document is loaded the Simpatico features are initialised and the 
 // toolbar added
 document.addEventListener('DOMContentLoaded', function () {

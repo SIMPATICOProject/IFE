@@ -24,6 +24,7 @@ var citizenpediaUI = (function () {
     var diagramNotificationClassName = '';
     var diagramNotificationText = '';
     var diagramURL = '';
+    var questionsURL = '';
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
@@ -51,6 +52,7 @@ var citizenpediaUI = (function () {
         response = response[0] || response;
         diagramURL = response.url;
       });
+      questionsURL = parameters.questionsURL || 'https://simpatico.smartcommunitylab.it/qae/questions';
     }
     
     function enableComponentFeatures() {
@@ -254,11 +256,7 @@ var citizenpediaUI = (function () {
     	diagramURL = response["url"];
       }
     }
-    function forwardQuestion(id){
-      console.log("id",id);
-      var url="https://simpatico.smartcommunitylab.it/qae/questions/show/"+id;
-      window.open(url,"_blank");
-    }
+    
     function openQuestionDiagram(){
       var questionModalContainer = document.getElementById("questionModal");
       if (questionModalContainer == null) {
@@ -270,7 +268,7 @@ var citizenpediaUI = (function () {
           
           var listItem="";
           $.each(response, function (index, value){
-            listItem += "<a class='list-group-item' href='https://simpatico.smartcommunitylab.it/qae/questions/show/"+value._id+"' target='_blank'>"+value.title+"</a>";
+            listItem += "<a class='list-group-item' href='"+questionsURL+"/show/"+value._id+"' target='_blank'>"+value.title+"<span class='ansNum'>"+value.answers.length+"</span></a>";
           });
           // console.log(":listItem:",listItem );
         
@@ -282,14 +280,14 @@ var citizenpediaUI = (function () {
                                       '<h3 class="modal-title">Questions</h3>'+
                                     '</div>'+
                                     '<div class="modal-body questionModalBody">'+
-                                      '<input class="form-control input-sm" id="inputsm" type="text" placeholder="Type your question here">'+
+                                      '<input class="form-control input-sm" id="inputQuestion" type="text" placeholder="Type your question here">'+
                                       '<div class="list-group">'+
                                         listItem +
                                       '</div>'+
                                     '</div>'+
                                     '<div class="modal-footer">'+
                                       '<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>'+
-                                      '<button type="button" class="btn btn-default btn-send" >SEND</button>'+
+                                      '<button type="button" class="btn btn-default btn-send" id="sendQuestions" onclick="sendQuestion();" >SEND</button>'+
                                     '</div>'+
                                   '</div>'+
                                 '</div>'+

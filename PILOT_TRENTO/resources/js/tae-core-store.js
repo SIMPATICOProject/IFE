@@ -31,9 +31,11 @@ var taeUIInline = (function () {
       _instance.simplifedTextLabel = null;
       _instance.elementId = null;
       _instance.textContainerQuery = null;
+      _instance.questionsURL= null;
 
       _instance.init = function(config) {
         _instance.endpoint = config.endpoint || 'https://simpatico.smartcommunitylab.it/simp-engines/tae';
+        _instance.questionsURL = config.questionsURL || 'https://simpatico.smartcommunitylab.it/qae/questions';
         _instance.simpDataURL = _instance.endpoint + "/model";
         _instance.synonimLabel = config.synonimLabel || 'Synonims';
         _instance.definitionLabel = config.definitionLabel || 'Definition';
