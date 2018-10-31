@@ -61,11 +61,12 @@ function initFeatures() {
   taeUIInline.getInstance().init({
     endpoint: 'https://simpatico.smartcommunitylab.it/simp-engines/tae',
     textContainerQuery: "block-stu3-italia-content",
+    textQueryString: "p,li",
     elementId: 'simp-bar-sw-tae-inline',
     synonimLabel:'Sinonimi',
     definitionLabel: 'Definizione',
     simplifedTextLabel: 'Testo semplificato',
-    questionsURL: "https://simpatico.smartcommunitylab.it/qae/questions"
+    questionsURL: "https://simpatico.smartcommunitylab.it/qae/questions",
   });
 
 
@@ -198,7 +199,7 @@ function addSimpaticoBar(containerID) {
 
   // Create the main div of the toolbar
   var simpaticoBarHtml = '<div id="simp-bar">' +
-                            '<div>' +
+                            '<div onclick="checkShowTutorial();">' +
                               //'<a href="#">' +
                                 '<img class="logoSmall" src="https://simpatico.smartcommunitylab.it/simp-engines/wae/webdemo/img/logo.png" ' +
                                 'alt="Simpatico ">Simpatico' +
@@ -262,13 +263,10 @@ function updateButtonStyle(button) {
   }
 }
 
-//send question to server
+//send question to server for create new question
 function sendQuestion(){
-  var inputQuestion=$("#inputQuestion").val();
-
   $('#questionModal').modal('hide');
-  window.open(taeUIInline.getInstance().questionsURL+"/create?text="+inputQuestion+"&tags="+simpaticoEservice,"_blank");
-  //console.log("click send button");
+  window.open(taeUIInline.getInstance().questionsURL+"/create?text="+$("#inputQuestion").val()+"&tags=Infanzia,"+simpaticoEservice,"_blank");
 }
 // Once the document is loaded the Simpatico features are initialised and the 
 // toolbar added

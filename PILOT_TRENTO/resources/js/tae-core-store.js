@@ -31,6 +31,7 @@ var taeUIInline = (function () {
       _instance.simplifedTextLabel = null;
       _instance.elementId = null;
       _instance.textContainerQuery = null;
+      _instance.textQueryString = null;
       _instance.questionsURL= null;
 
       _instance.init = function(config) {
@@ -42,6 +43,7 @@ var taeUIInline = (function () {
         _instance.simplifedTextLabel = config.simplifedTextLabel || 'Simplified Text';
         _instance.elementId = config.elementId;
         _instance.textContainerQuery = config.textContainerQuery || 'simpatico-text';
+        _instance.textQueryString = config.textQueryString || 'p,li';
   
         getTextsAndsetSpan(_instance);
         //
@@ -137,9 +139,12 @@ var taeUIInline = (function () {
       function getTextsAndsetSpan(instance){
           
         //var elements = document.getElementsByTagName("p");
-        // var elements = document.getElementById(instance.textContainerQuery).getElementsByTagName("p");
-        var elements = document.getElementById(instance.textContainerQuery).querySelectorAll('p,li');
-        console.log("all elements::",elements);
+        
+        // var testelements2 = document.getElementById(instance.textContainerQuery).querySelectorAll('*');
+        // console.log("all elements::",testelements2);
+
+        var elements = document.getElementById(instance.textContainerQuery).querySelectorAll(instance.textQueryString);
+        // console.log("elements::",elements);
         for(var i = 0; i < elements.length; i++) {
           var current = elements[i];
           var val = current.textContent.trim();
