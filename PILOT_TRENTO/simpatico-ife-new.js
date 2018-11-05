@@ -199,7 +199,7 @@ function addSimpaticoBar(containerID) {
 
   // Create the main div of the toolbar
   var simpaticoBarHtml = '<div id="simp-bar">' +
-                            '<div onclick="checkShowTutorial();">' +
+                            '<div onclick="clickShowTutorial();">' +
                               //'<a href="#">' +
                                 '<img class="logoSmall" src="https://simpatico.smartcommunitylab.it/simp-engines/wae/webdemo/img/logo.png" ' +
                                 'alt="Simpatico ">Simpatico' +
@@ -266,7 +266,8 @@ function updateButtonStyle(button) {
 //send question to server for create new question
 function sendQuestion(){
   $('#questionModal').modal('hide');
-  window.open(taeUIInline.getInstance().questionsURL+"/create?text="+$("#inputQuestion").val()+"&tags=Infanzia,"+simpaticoEservice,"_blank");
+  // window.open(taeUIInline.getInstance().questionsURL+"/create?text="+$("#inputQuestion").val()+"&tags=Infanzia,"+simpaticoEservice,"_blank");
+  window.open(taeUIInline.getInstance().questionsURL+"/create?tags=Infanzia,"+simpaticoEservice,"_blank");
 }
 // Once the document is loaded the Simpatico features are initialised and the 
 // toolbar added
@@ -354,7 +355,14 @@ function checkShowTutorial() {
 		localStorage.simpatico_tutorial_shown = true;
 	}
 }
-
+function clickShowTutorial() {
+  localStorage.simpatico_tutorial_shown = false;
+  console.log("localStorage",localStorage.simpatico_tutorial_shown);
+  setTimeout(function(){
+    checkShowTutorial();
+  }, 200);
+  
+}
 function closeTutorial() {
 	dialog_step = 0;
 	dialog_tutorial.dialog('destroy');

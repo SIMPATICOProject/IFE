@@ -268,35 +268,46 @@ var citizenpediaUI = (function () {
           
           var listItem="";
           $.each(response, function (index, value){
-            listItem += "<a class='list-group-item' href='"+questionsURL+"/show/"+value._id+"' target='_blank'>"+value.title+"<span class='ansNum'>"+value.answers.length+"</span></a>";
+            var ansLength=value.answers.length;
+            var ansListItem="";
+            if(ansLength < 10){
+              if(ansLength == 0){
+                listItem+="<a class='list-group-item'>"+value.title+"<span class='ansNum'>"+ansLength+"</span></a>";  
+              }else{
+                $.each(value.answers,function(index2, value2){
+                  ansListItem+="<a  class='list-group-item'>"+value2.content+"</a>";
+                });
+                listItem+="<a href='#' class='list-group-item' data-toggle='collapse' data-target='#"+value._id+"'>"+value.title+"<span class='ansNum'>"+ansLength+"</span></a><div id='"+value._id+"' class='collapse'><div class='list-group'>"+ansListItem+"</div></div>";
+              }
+            }else{
+              listItem += "<a href='#' class='list-group-item' href='"+questionsURL+"/show/"+value._id+"' target='_blank'>"+value.title+"<span class='ansNum'>"+ansLength+"</span></a>";
+            }
           });
-          // console.log(":listItem:",listItem );
-        
-        var questionModalHTML='<div class="modal fade bottom" id="questionModal" role="dialog">'+
-                                '<div class="modal-dialog">'+
-                                  '<div class="modal-content">'+
-                                    '<div class="modal-header question-modalHeader">'+
-                                      '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-                                      '<h3 class="modal-title">Questions</h3>'+
-                                    '</div>'+
-                                    '<div class="modal-body questionModalBody">'+
-                                      '<input class="form-control input-sm" id="inputQuestion" type="text" placeholder="Type your question here">'+
-                                      '<div class="list-group">'+
-                                        listItem +
+          var questionModalHTML='<div class="modal fade bottom" id="questionModal" role="dialog">'+
+                                  '<div class="modal-dialog">'+
+                                    '<div class="modal-content">'+
+                                      '<div class="modal-header question-modalHeader">'+
+                                        '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                        '<h3 class="modal-title">'+questionsBoxTitle+'</h3>'+
+                                      '</div>'+
+                                      '<div class="modal-body questionModalBody">'+
+                                        // '<input class="form-control input-sm" id="inputQuestion" type="text" placeholder="Type your question here">'+
+                                        '<div class="list-group">'+
+                                          listItem +
+                                        '</div>'+
+                                      '</div>'+
+                                      '<div class="modal-footer">'+
+                                        // '<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>'+
+                                        '<button type="button" class="btn btn-default btn-send" id="sendQuestions" onclick="sendQuestion();" >'+addQuestionLabel+'</button>'+
                                       '</div>'+
                                     '</div>'+
-                                    '<div class="modal-footer">'+
-                                      '<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>'+
-                                      '<button type="button" class="btn btn-default btn-send" id="sendQuestions" onclick="sendQuestion();" >SEND</button>'+
-                                    '</div>'+
                                   '</div>'+
-                                '</div>'+
-                              '</div>';
+                                '</div>';
         
         
-        questionModalContainer.innerHTML=questionModalHTML;
-        $("#questionModal").modal();
-      });
+          questionModalContainer.innerHTML=questionModalHTML;
+          $("#questionModal").modal();
+        });
       }else{
         $("#questionModal").modal();
       }
