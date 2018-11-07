@@ -119,7 +119,8 @@ function initFeatures() {
                     styleClassEnabled: "simp-none", 
                     styleClassDisabled: "simp-none",
                     
-                    isEnabled: function() { return authManager.getInstance().isEnabled(); },
+                    // isEnabled: function() { return authManager.getInstance().isEnabled(); },
+                    isEnabled: function() { return false; },
                     enable: function() { authManager.getInstance().enable(); },
                     disable: function() { authManager.getInstance().disable(); }
                   },
@@ -144,6 +145,7 @@ function initFeatures() {
 // It creates the HTML code corresponding to the button passed as parameter
 // - button: The button object stored in buttons
 function createButtonHTML(button) {
+  
   return '<li class="'+ button.styleClassDisabled +'" id="' + button.id + '" ' +'onclick="toggleAction(\'' + button.id + '\');"'+
                           '">'+
                           //'<a href="#">' +
@@ -241,10 +243,20 @@ function toggleAction(id) {
     	});
     }
   }
+  // if(clickedButton.id=="simp-bar-sw-login"){
+  //   if (!localStorage.userData || localStorage.userData == 'null') {
+  //     clickedButton.alt="Login";
+  //   }else{
+  //     clickedButton.alt="Logout";
+  //   }
+    
+  // }
   // Enable/Disable the selected button
   if (clickedButton.isEnabled()) {
+    console.log("go to disable:",clickedButton);
 	  clickedButton.disable();
   } else {
+    console.log("go to enable:",clickedButton);
 	  clickedButton.enable();
   }
   updateButtonStyle(clickedButton);
@@ -276,7 +288,18 @@ document.addEventListener('DOMContentLoaded', function () {
   addSimpaticoBar("simpatico_top");
   enablePrivateFeatures();
   authManager.getInstance().updateUserData();
-  
+  $("#simp-bar-sw-login").mouseover(function(){
+    if (!localStorage.userData || localStorage.userData == 'null') {
+      $("#simp-bar-sw-login img").prop("alt", "Entra");
+      $("#simp-bar-sw-login img").prop("title", "Entra");
+      console.log("Login please");
+    }else{
+      var data=JSON.parse(localStorage.userData);
+      $("#simp-bar-sw-login img").prop("alt", "ESCI");
+      $("#simp-bar-sw-login img").prop("title", "ESCI");
+      console.log("User name:",data.name);
+    }
+  });
   //simpaticoEservice is a global variable that initialized in install time
   qaeCORE.getInstance().getAllQuestions(simpaticoEservice,function(response){
     $("#simp-bar-container-left").append("<li id='simp-question-num-li'><span id='simp-question-num'>"+response.length+"</span></li>");
@@ -351,7 +374,8 @@ function checkShowTutorial() {
             },
 						closeOnEscape: false,
 						height: "auto",
-						width: 500
+            width: 500,
+            top: '40%'
 			});
       dialog_tutorial.dialog('open');
       $('#tutorialesc').hide();
