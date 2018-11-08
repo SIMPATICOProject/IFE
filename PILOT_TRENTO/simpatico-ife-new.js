@@ -119,8 +119,7 @@ function initFeatures() {
                     styleClassEnabled: "simp-none", 
                     styleClassDisabled: "simp-none",
                     
-                    // isEnabled: function() { return authManager.getInstance().isEnabled(); },
-                    isEnabled: function() { return false; },
+                    isEnabled: function() { return authManager.getInstance().isEnabled(); },
                     enable: function() { authManager.getInstance().enable(); },
                     disable: function() { authManager.getInstance().disable(); }
                   },
@@ -246,10 +245,8 @@ function toggleAction(id) {
 
   // Enable/Disable the selected button
   if (clickedButton.isEnabled()) {
-    console.log("go to disable:",clickedButton);
 	  clickedButton.disable();
   } else {
-    console.log("go to enable:",clickedButton);
 	  clickedButton.enable();
   }
   updateButtonStyle(clickedButton);

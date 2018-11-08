@@ -138,18 +138,7 @@ var authManager = (function () {
     return {
       // Public definitions
       init: initComponent,          // Called only one time
-      //enable: handleAuthClick,      // When the Component button is enabled
-      enable: function(){
-        console.log("come to simpatico-auth file");
-        if (!localStorage.userData || localStorage.userData == 'null') {
-          console.log("1userData.name",localStorage.userData.name);
-          handleAuthClick();
-        }else{
-          var data=JSON.parse(localStorage.userData);
-          console.log("2userData.name",data.name);
-          handleSignoutClick();
-        }
-      },
+      enable: handleAuthClick,      // When the Component button is enabled
       disable: handleSignoutClick,  // When the CB. is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       // More component related public methods
