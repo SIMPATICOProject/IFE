@@ -169,6 +169,13 @@
   color: #2196F3 !important;
   padding-left: 5px;
 }
+.ui-dialog {
+  position: fixed !important;
+  top: 40%!important;
+  left: 35% !important;
+  padding: .2em;
+  outline: 0;
+}
 /*******************Switch*******************************/
 .switch {
   position: relative;

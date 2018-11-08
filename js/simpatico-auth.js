@@ -156,7 +156,7 @@ var authManager = (function () {
       updateUserData: updateUserData,
       getUserId: function() {
           var data = JSON.parse(localStorage.userData || 'null');
-          return !!data ? data.userId : null
+          return !!data ? data.userId : null;
       },
       getToken: function() {
           var tokenData = JSON.parse(localStorage.aacTokenData || 'null');

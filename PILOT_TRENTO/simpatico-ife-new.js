@@ -243,14 +243,7 @@ function toggleAction(id) {
     	});
     }
   }
-  // if(clickedButton.id=="simp-bar-sw-login"){
-  //   if (!localStorage.userData || localStorage.userData == 'null') {
-  //     clickedButton.alt="Login";
-  //   }else{
-  //     clickedButton.alt="Logout";
-  //   }
-    
-  // }
+
   // Enable/Disable the selected button
   if (clickedButton.isEnabled()) {
     console.log("go to disable:",clickedButton);
@@ -292,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!localStorage.userData || localStorage.userData == 'null') {
       $("#simp-bar-sw-login img").prop("alt", "Entra");
       $("#simp-bar-sw-login img").prop("title", "Entra");
-      console.log("Login please");
+      // console.log("Login please");
     }else{
       var data=JSON.parse(localStorage.userData);
       $("#simp-bar-sw-login img").prop("alt", "ESCI");
@@ -372,11 +365,11 @@ function checkShowTutorial() {
               dialog_step = 0;
               $(this).dialog("destroy");
             },
-						closeOnEscape: false,
+            closeOnEscape: false,
+            //position: {my: "top center",at: "top center",of: "body"},
 						height: "auto",
-            width: 500,
-            top: '40%'
-			});
+            width: '35%',
+      });
       dialog_tutorial.dialog('open');
       $('#tutorialesc').hide();
       $('#tutorialPrevious').hide();
