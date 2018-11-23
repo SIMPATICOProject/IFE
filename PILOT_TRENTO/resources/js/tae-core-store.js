@@ -361,16 +361,26 @@ var taeUIInline = (function () {
           if(color== true){
 
             if(instance.loadFirstTime){
-              if(index==0){
-                if(value['start']==0){
-                  replaceStrArray.push( "<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
-                }else{
-                  replaceStrArray.push( myString.substring(0,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
-                } 
-              }else{
-                replaceStrArray.push( myString.substring(lastEnd,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
-              }
-              lastEnd=value['end'];
+              // if(index==0){
+              //   if(value['start']==0){
+              //     replaceStrArray.push( "<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
+              //   }else{
+              //     replaceStrArray.push( myString.substring(0,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
+              //   } 
+              // }else{
+              //   replaceStrArray.push( myString.substring(lastEnd,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
+              // }
+              // lastEnd=value['end'];
+              findAndReplaceDOMText(str, {
+                find: value['originalWord'],
+                replace: function(portion) {
+                  var el = document.createElement('span');
+                  el.className="wordColor";
+                  el.id=id+"-"+index;
+                  el.innerHTML = portion.text;
+                  return el;
+                }
+              });
             }else if(instance.loadFirstTime == false){
               $( "#"+id+"-"+index ).addClass( "wordColor" );
             }
@@ -379,11 +389,11 @@ var taeUIInline = (function () {
             $( "#"+id+"-"+index ).removeClass( "wordColor" );
           }
         });
-        if(instance.loadFirstTime){
-          replaceStrArray.push( myString.substring(lastEnd,myString.length));
-          str.innerHTML=replaceStrArray.join("");
-          //console.log("replaceStrArray:",replaceStrArray.join(""));
-        }    
+        // if(instance.loadFirstTime){
+        //   replaceStrArray.push( myString.substring(lastEnd,myString.length));
+        //   str.innerHTML=replaceStrArray.join("");
+        //   //console.log("replaceStrArray:",replaceStrArray.join(""));
+        // }    
       }
 
       function setPopupForWord(instance, id,color,arrWord){
