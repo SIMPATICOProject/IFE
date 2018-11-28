@@ -138,7 +138,7 @@ var taeUIInline = (function () {
       **/
       function getTextsAndsetSpan(instance){
           
-        //var elements = document.getElementsByTagName("p");
+        // var elements = document.getElementsByTagName("p");
         
         // var testelements2 = document.getElementById(instance.textContainerQuery).querySelectorAll('*');
         // console.log("all elements::",testelements2);
@@ -372,14 +372,25 @@ var taeUIInline = (function () {
               // }
               // lastEnd=value['end'];
               findAndReplaceDOMText(str, {
-                find: value['originalWord'],
-                replace: function(portion) {
-                  var el = document.createElement('span');
-                  el.className="wordColor";
-                  el.id=id+"-"+index;
-                  el.innerHTML = portion.text;
-                  return el;
-                }
+                // preset: 'prose',
+                find: value['originalWord'],   //have one problem in last word if add space
+                replace: function(portion, match) {
+                  if(match.index == 0){
+                    var el = document.createElement('span');
+                    el.className="wordColor";
+                    el.id=id+"-"+index;
+                    el.innerHTML = portion.text;
+                    // el.innerHTML = portion.text.substr(0, portion.text.length-1);
+                    // el.id=id+"-"+match.index;
+                    // el.innerHTML = match[0];
+                    // console.log("portion::",portion,", match::",match, " id::",el.id);
+                    return el;
+                  }else{
+                    return value['originalWord'];
+                  }
+                  
+                },
+
               });
             }else if(instance.loadFirstTime == false){
               $( "#"+id+"-"+index ).addClass( "wordColor" );
