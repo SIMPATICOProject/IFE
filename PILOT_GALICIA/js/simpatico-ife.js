@@ -330,6 +330,7 @@ function enablePrivateFeatures() {
   }
   document.getElementById("simpatico-bar-copy").style.display = "none";
   document.getElementById("simp-bar-sw-login-fig").innerHTML = "Salir";
+  document.getElementById("simp-bar-sw-login-img").src = "./img/logout.png";
 }//enablePrivateFeatures(id)
 
 // It inits all the configured buttons
@@ -349,6 +350,7 @@ function disablePrivateFeatures() {
   }
   document.getElementById("simpatico-bar-copy").style.display = "inline-block";
   document.getElementById("simp-bar-sw-login-fig").innerHTML = "Entrar";
+  document.getElementById("simp-bar-sw-login-img").src = "./img/login.png";
 }//disablePrivateFeatures()
 
 // It adds the Simpatico Toolbar inside the component of which id is passed 
