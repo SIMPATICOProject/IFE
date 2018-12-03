@@ -24,6 +24,8 @@ var taeUI = (function () {
     var synonymLabel = '';
     var definitionLabel = '';
     var emptyText = '';
+    var feedbackText = '';
+    var feedbackThanks = '';
 
     // Internal usage variables
     var paragraphs = []; // Used to store all the tagged paragraphs
@@ -41,6 +43,8 @@ var taeUI = (function () {
       synonymLabel = parameters.synonymLabel || 'Synonyms';
       definitionLabel = parameters.definitionLabel || 'Definitions';
       emptyText = parameters.emptyText || 'no simplification found for the text';
+      feedbackText = parameters.feedbackText || 'is this simplification useful?';
+      feedbackThanks = parameters.feedbackThanks || 'Thanks for your feedback';
       taeCORE.getInstance().init({
           endpoint: parameters.endpoint,
           language: parameters.language
@@ -282,11 +286,19 @@ var taeUI = (function () {
       var questionsHtmlUl = document.createElement('ul');
       var questionsHtmlLi = document.createElement('li');
       questionsHtmlLi.innerHTML = createSimplifiedTextHTML(originalText, response.simplifications);
+
       questionsHtmlUl.appendChild(questionsHtmlLi);
+
+      if (response.simplifications != ''){
+        var upmFeedback = document.createElement('ul');
+        upmFeedback.id = 'feedBackUL';
+        upmFeedback.innerHTML = feedbackText + '<br/><img onclick="taeUI.getInstance().sendFeedback(\'thumbup\');" width="40" src="./img/thumbs-up.png" alt="up"/><img onclick="taeUI.getInstance().sendFeedback(\'thumbdown\');" width="40" src="./img/thumbs-down.png" alt="up"/>';        
+      }
 
       // 3. Add elements to div
       questionsBox.appendChild(questionsHTMLTitle);
       questionsBox.appendChild(questionsHtmlUl);
+      if (upmFeedback) questionsBox.appendChild(upmFeedback);
 
       // 4. The Simplification Box div is attached to the corresponding paragraph
       // Check another time that simplification doesnt exists
@@ -305,6 +317,12 @@ var taeUI = (function () {
       sBoxToRemove.parentNode.removeChild(sBoxToRemove);
     }
 
+    function sendFeedback(feedback)
+    {
+      document.getElementById('feedBackUL').innerHTML = feedbackThanks;
+    }
+
+
     return {
       // Public definitions
       init: initComponent, // Called only one time
@@ -315,7 +333,8 @@ var taeUI = (function () {
       hideSimplificationBox: hideSimplificationBox,      
       paragraphEvent: paragraphEvent,
       wordEvent: wordEvent,
-      wordPropertiesEvent: hideWordProperties
+      wordPropertiesEvent: hideWordProperties,
+      sendFeedback:sendFeedback
     };
   }
   

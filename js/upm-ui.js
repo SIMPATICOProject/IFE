@@ -29,7 +29,7 @@ var upmUI = (function () {
 
 			var languagesJson;
 			var countriesJson;
-			$.getJSON( "../js/upm."+language+".json", function( data ) {
+			$.getJSON( "./js/upm."+language+".json", function( data ) {
 				showUPMForm(data);
 			  });
 
