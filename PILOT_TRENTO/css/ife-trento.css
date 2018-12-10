@@ -1,0 +1,164 @@
+
+#simp-bottomBar{
+    position: fixed !important;
+    right: 32px;
+    bottom: 16px;
+    z-index: 100 !important;
+
+    height: 48px !important;
+    background: inherit;
+    background-color: rgba(231, 248, 252) !important;
+    border: none;
+    border-radius: 2px;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 18px !important;
+    text-align: left;
+    -moz-box-shadow: 2px 2px 8px 4px #888888 !important;
+    -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
+    box-shadow: 2px 2px 8px 4px #888888 !important;
+    cursor: pointer;
+    padding: 0px 5px 0px 5px;
+}
+#simp-bottomBar div {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: top;
+}
+#simp-bottomBar * {
+    text-decoration: none;
+    font-weight: inherit;
+    color: inherit;
+}
+#simp-bottomBar > * {
+    vertical-align: middle;
+  }
+.logoSmall{
+    border-width: 0px;
+    margin: 6px 0px;
+    width: 36px;
+    height: 36px;
+    vertical-align: middle;
+  margin-bottom: 0.75em;
+    /* border: 1px solid red; */
+}
+
+#simp-bottomBar-container-left li {
+    position: relative;
+  }  
+
+
+  /*  */
+.guide-modal{
+    display:none; 
+    position: fixed;
+    left: auto; 
+    width: 20%; 
+    height: 100%;
+    margin-left: 2px;
+    background-color: aliceblue;
+    z-index: 100;
+
+    -moz-box-shadow: 2px 2px 8px 4px #888888 !important;
+    -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
+    box-shadow: 2px 2px 8px 4px #888888 !important;
+    cursor: pointer;
+    padding: 0px 5px 0px 5px;
+}
+/* Modal Header for question */
+.guide-modalHeader{
+    background-color: #1ebad9;
+    border-color: #1ebad9;
+    border-radius: inherit;
+
+    height: 30%;
+    width: 103%;
+    margin: -16px 0px 5px -5px;
+    -moz-box-shadow: 2px 2px 8px 4px #888888 !important;
+    -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
+    box-shadow: 2px 2px 8px 4px #888888 !important;
+  }
+
+  /* help-modal*/
+  .help-modal{
+    display:none; 
+    position: fixed;
+    right: 2px; 
+    width: 20%; 
+    height: 70%;
+    background-color: aliceblue;
+    z-index: 100;
+
+    -moz-box-shadow: 2px 2px 8px 4px #888888 !important;
+    -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
+    box-shadow: 2px 2px 8px 4px #888888 !important;
+    cursor: pointer;
+    padding: 0px 5px 0px 5px;
+  }
+  .help-modalHeader{
+    background-color: #1ebad9;
+    border-color: #1ebad9;
+    border-radius: inherit;
+    
+    height: 30%;
+    width: 103%;
+    margin: -16px 0px 5px -5px;
+    -moz-box-shadow: 2px 2px 8px 4px #888888 !important;
+    -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
+    box-shadow: 2px 2px 8px 4px #888888 !important;
+  }
+  .modelheader-title{
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .groupList{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: aliceblue;
+    padding: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 400;
+    font-style: normal;
+    color: #000000;
+  }
+  .hoverList{
+    /* background-color: #0099ff3f; */
+    background-color:#0099ff19;
+    border: none;
+    border-radius: 5px;
+  }
+  .modelContent-title {
+    font-family: inherit;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    color: #000000dd;
+    padding: 8px 2px 2px 8px;
+  }
+  .modelContent-details{
+    font-family: inherit;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    color: #000000dd;
+    padding-left: 26px; 
+  }
+  .btn-askQuestion{
+    position: absolute;
+    right: 8px;
+    color: white;
+    background-color: #2196f3;
+    padding: 5px;
+    border: 0px;
+    border-radius: 4px;
+    cursor: pointer;
+  }

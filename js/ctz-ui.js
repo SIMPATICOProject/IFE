@@ -54,6 +54,20 @@ var citizenpediaUI = (function () {
       });
     }
     
+    function setParagraphId(){
+      if (paragraphs.length === 0) {
+        paragraphs = document.getElementsByClassName(elementsToEnhanceClassName);
+      }
+      // console.log("paragraphs:",paragraphs);
+      var paragrapId = 1;
+      var paragraphName = '';
+      for (var i = 0, len = paragraphs.length; i < len; i++) {
+        paragraphName = "Paragraph" + paragrapId;
+        paragraphs[i].setAttribute("id", paragraphName);
+        paragrapId++;
+      }
+    }
+
     function enableComponentFeatures() {
       if (featureEnabled) return;
       featureEnabled = true;
@@ -269,7 +283,7 @@ var citizenpediaUI = (function () {
 
       },
       paragraphEvent: paragraphEvent,
-
+      setParagraphId: setParagraphId,
       createNewQuestionEvent: createNewQuestionEvent,
       showQuestionDetailsEvent: showQuestionDetailsEvent
     };

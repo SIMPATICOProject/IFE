@@ -128,7 +128,8 @@ var waeEngine = new function() {
     actualBlockId = workflowModel.blocks[actualBlockIndex] ? workflowModel.blocks[actualBlockIndex].id : null;
     moveToBlock = true;
   };
-
+  this.setActualBlock=setActualBlock;
+  
   function checkDependencies(block) {
     var result = true;
     if(block.dependencies) {

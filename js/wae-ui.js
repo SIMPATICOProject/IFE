@@ -14,7 +14,7 @@ var waeUI = (function () {
     this.active = false;
     this.idProfile = null;
     var lang = "es";
-	
+	var currentParagraphId,currentParagraphTitle;
   	var labels = {
 			prevButtonLabel: 'Anterior',
 			nextButtonLabel: 'Siguiente',
@@ -59,9 +59,66 @@ var waeUI = (function () {
 		if (!!idProfile) {
 			this.idProfile = idProfile;
 		}
-		waeEngine.loadModel(moduleUri, this.idProfile, moduleLoaded, moduleLoadError);
+		// waeEngine.loadModel(moduleUri, this.idProfile, moduleLoaded, moduleLoadError);
+		waeEngine.loadModel(moduleUri, this.idProfile, setParagraphGuide, moduleLoadError);
 	};
-
+	function setParagraphGuide(blocks){
+		console.log("Data::",blocks);
+		//to set paragraph ID in every block
+		citizenpediaUI.getInstance().setParagraphId();
+		var paragraphId = 1;
+		$.each(blocks, function(k, v) {
+			// var param=paragraphId+',"'+encodeURI(v.description.it)+'"';
+			// var param=JSON.stringify(v);
+			$("#paragraphTitles").append("<p id='guide"+k+"' onclick='waeUI.getInstance().detailsHelp("+paragraphId+")' class='groupList'>"+k+"</p>");
+			
+			$( "#guide"+k ).on({
+				click: function(){
+					// currentParagraphId='Paragraph'+paragraphId;	
+					
+				},
+				mouseenter: function() {
+				  $( this ).addClass( "hoverList" );
+				}, 
+				mouseleave: function() {
+				  $( this ).removeClass( "hoverList" );
+				}
+			});
+			paragraphId++;
+		});
+	}
+	this.detailsHelp= function(paragraphId){
+		if (waeEngine.isLoaded()) {
+			// waeEngine.nextBlock(function(callback){console.log("comeback:",callback);}, function(callbackmsg){console.log("comeback:",callbackmsg);});
+			waeEngine.setActualBlock(paragraphId-1);
+			// console.log("blocks::",waeEngine.workflowModel.blocks[paragraphId]);
+			console.log("getActualBlockIndex::",waeEngine.getActualBlockIndex());
+			console.log("getBlockDescription::",waeEngine.getBlockDescription());
+			$("#blockDetails").html(waeEngine.getBlockDescription().it);
+		}
+		// console.log("paragraphId::",paragraphId,"text::",decodeURI(txt));
+		currentParagraphId='Paragraph'+paragraphId;	
+		currentParagraphTitle="test123...";
+		
+		window.location.hash='#'+currentParagraphId;
+		qaeCORE.getInstance().getQuestions(simpaticoEservice,currentParagraphId,function(paragraphName, jsonResponse){
+			console.log("question::",jsonResponse);
+			if(jsonResponse.length > 0){
+				var questions="",answers=0;
+				$.each(jsonResponse, function(key, val) {
+					if(val.answers.length>0){answers=val.answers.length;}
+					questions += "<b>"+answers+"</b> "+val.title+"<br>";
+				});
+				$("#blockQuestions").html(questions);
+			}else{
+				$("#blockQuestions").html(" ");
+			}
+			
+		});
+	}
+	this.createNewQuestion=function(){
+		window.open(qaeCORE.getInstance().createNewQuestionURL(simpaticoCategory,simpaticoEservice,currentParagraphId,currentParagraphTitle),"_blank");
+	}
     this.isEnabled = function(){
       return instance.active;
     }
