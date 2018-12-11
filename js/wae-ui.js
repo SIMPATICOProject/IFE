@@ -92,8 +92,8 @@ var waeUI = (function () {
 			// waeEngine.nextBlock(function(callback){console.log("comeback:",callback);}, function(callbackmsg){console.log("comeback:",callbackmsg);});
 			waeEngine.setActualBlock(paragraphId-1);
 			// console.log("blocks::",waeEngine.workflowModel.blocks[paragraphId]);
-			console.log("getActualBlockIndex::",waeEngine.getActualBlockIndex());
-			console.log("getBlockDescription::",waeEngine.getBlockDescription());
+			// console.log("getActualBlockIndex::",waeEngine.getActualBlockIndex());
+			// console.log("getBlockDescription::",waeEngine.getBlockDescription());
 			$("#blockDetails").html(waeEngine.getBlockDescription().it);
 		}
 		// console.log("paragraphId::",paragraphId,"text::",decodeURI(txt));

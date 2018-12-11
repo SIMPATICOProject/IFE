@@ -18,13 +18,13 @@
     -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
     box-shadow: 2px 2px 8px 4px #888888 !important;
     cursor: pointer;
-    padding: 0px 5px 0px 5px;
+    padding: 0px 10px 0px 5px;
 }
 #simp-bottomBar div {
   display: inline-block;
-  margin-top: 0;
-  margin-bottom: 0;
-  vertical-align: top;
+  /* margin-top: 0;
+  margin-bottom: 0; */
+  vertical-align: middle;
 }
 #simp-bottomBar * {
     text-decoration: none;
@@ -53,6 +53,8 @@
 .guide-modal{
     display:none; 
     position: fixed;
+    overflow-y: auto; 
+    overflow-x: hidden;
     left: auto; 
     width: 20%; 
     height: 100%;
@@ -74,7 +76,7 @@
 
     height: 30%;
     width: 103%;
-    margin: -16px 0px 5px -5px;
+    margin: -5px 0px 5px -5px;
     -moz-box-shadow: 2px 2px 8px 4px #888888 !important;
     -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
     box-shadow: 2px 2px 8px 4px #888888 !important;
@@ -84,6 +86,8 @@
   .help-modal{
     display:none; 
     position: fixed;
+    overflow-y: auto; 
+    overflow-x: hidden;
     right: 2px; 
     width: 20%; 
     height: 70%;
@@ -103,7 +107,7 @@
     
     height: 30%;
     width: 103%;
-    margin: -16px 0px 5px -5px;
+    margin: -5px 0px 5px -5px;
     -moz-box-shadow: 2px 2px 8px 4px #888888 !important;
     -webkit-box-shadow: 2px 2px 8px 4px #888888 !important;
     box-shadow: 2px 2px 8px 4px #888888 !important;
@@ -119,8 +123,8 @@
   }
 
   .groupList{
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    /* border: 1px solid #ddd;
+    border-radius: 5px; */
     margin-top: -1px; /* Prevent double borders */
     background-color: aliceblue;
     padding: 8px;
@@ -162,3 +166,24 @@
     border-radius: 4px;
     cursor: pointer;
   }
+  .simp-bottomBar-container-right{
+    /* padding: 5px; */
+  }
+  .simp-bar-btn-active{
+    /* margin: 30%; */
+  }
+ .guide-noti{
+  position: relative;
+  left: 40%;
+  font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+  font-weight: 500;
+  font-style: normal;
+  height: 20%;
+  width: 50%;
+  text-align: center;
+  padding: 10px 15px 10px 0px;
+  color: #2196F3;
+  border: solid 1px #2196F3;
+  border-radius: 5px;
+  }
+  

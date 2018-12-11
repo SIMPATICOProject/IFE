@@ -48,8 +48,9 @@ var citizenpediaUI = (function () {
         });
       questionSelectionFilters = parameters.questionSelectionFilters || [''];
       qaeCORE.getInstance().getDiagramDetails(simpaticoEservice, function(response){
-    	  if (response && response.length > 0 && response[0]) {
-    		  diagramURL = response[0].url;
+    	  // if (response && response.length > 0 && response[0]) {
+        if(response){
+          diagramURL = response.url;
     	  }
       });
     }
@@ -278,9 +279,8 @@ var citizenpediaUI = (function () {
       disable: disableComponentFeatures, // Called when the Component button is disabled or another one enabled
       isEnabled: function() { return featureEnabled;}, // Returns if the feature is enabled
       openDiagram: function(){
-    	  logCORE.getInstance().startActivity('cpd', 'process');
-		  window.open(diagramURL,"_blank");        	  
-
+        logCORE.getInstance().startActivity('cpd', 'process');
+		    window.open(diagramURL,"_blank");
       },
       paragraphEvent: paragraphEvent,
       setParagraphId: setParagraphId,

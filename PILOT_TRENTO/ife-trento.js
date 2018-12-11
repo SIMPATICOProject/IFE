@@ -187,17 +187,17 @@ function initFeatures() {
                 {
                   id: "simp-bar-sw-login",
                   // Ad-hoc images to define the enabled/disabled images
-                  imageSrcEnabled: "./resources/images/access.png",
-                  imageSrcDisabled: "./resources/images/access.png",
+                  imageSrcEnabled: "./img/access.png",
+                  imageSrcDisabled: "./img/access.png",
                   alt: "Sign in",
                   // Ad-hoc css classes to define the enabled/disabled styles
                   styleClassEnabled: "simp-none", 
                   styleClassDisabled: "simp-none",
-                  
                   isEnabled: function() { return authManager.getInstance().isEnabled(); },
                   enable: function() { authManager.getInstance().enable(); },
                   disable: function() { authManager.getInstance().disable(); },
-                  text: "Sign In"
+                  text: "Sign In",
+                  simpBar:"top"
                 },
                 {
                   id: "simp-bar-sw-citizenpedia",
@@ -211,7 +211,8 @@ function initFeatures() {
                   isEnabled: function() { return citizenpediaUI.getInstance().isEnabled(); },
                   enable: function() { citizenpediaUI.getInstance().enable(); },
                   disable: function() { citizenpediaUI.getInstance().disable(); },
-                  text: "Questions and Answers"
+                  text: "Questions and Answers",
+                  simpBar:"top"
                 },
                 {
                   id: "simp-bar-sw-tae",
@@ -225,7 +226,8 @@ function initFeatures() {
                   isEnabled: function() { return taeUI.getInstance().isEnabled(); },
                   enable: function() { taeUI.getInstance().enable(); },
                   disable: function() { taeUI.getInstance().disable(); },
-                  text: "Simplify"
+                  text: "Simplify",
+                  simpBar:"top"
                 },                
                 {
                   id: "simp-bar-sw-tae-popup",
@@ -245,7 +247,8 @@ function initFeatures() {
                     taeUIPopup.getInstance().hideDialog(); 
                   },
                   exclusive: true,
-                  text: "Simplify (Popup)"
+                  text: "Simplify (Popup)",
+                  simpBar:"top"
                 },
                 {
                   id: "simp-bar-sw-cdv",
@@ -260,7 +263,8 @@ function initFeatures() {
                   enable: function() { cdvUI.getInstance().enable(); },
                   disable: function() { cdvUI.getInstance().disable(); },
                   exclusive: true,
-                  text: "Personal data"
+                  text: "Personal data",
+                  simpBar:"top"
                 },
                 { // workflow adaptation. Switch to the modality, where the form adaptation starts
                   id: 'workflow',
@@ -273,7 +277,36 @@ function initFeatures() {
                   isEnabled: function() { return waeUI.getInstance().isEnabled(); },
                   enable: function() { var idProfile = null; waeUI.getInstance().enable(idProfile); },
                   disable: function() { waeUI.getInstance().disable(); },
-                  text: "Step by step compilation"
+                  text: "Step by step compilation",
+                  simpBar:"top"
+                },
+                { // login
+                  id: 'simp-bottomBar-login',
+                  imageSrcEnabled: "../img/access.png",
+                  imageSrcDisabled: "../img/access.png",
+                  alt: "login",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bottomBar-btn-active",
+                  styleClassDisabled: "simp-bottomBar-btn-inactive",
+                  isEnabled: function() { return true; },
+                  enable: function() { return true;},
+                  disable: function() { return true;},
+                  text: "login",
+                  simpBar:"bottom"
+                },
+                { // procedure
+                  id: 'simp-bottomBar-procedure',
+                  imageSrcEnabled: "../img/procedure.png",
+                  imageSrcDisabled: "../img/procedure.png",
+                  alt: "procedure",
+                  // Ad-hoc css classes to define the enabled/disabled styles
+                  styleClassEnabled: "simp-bottomBar-btn-active",
+                  styleClassDisabled: "simp-bottomBar-btn-inactive",
+                  isEnabled: function() { return false; },
+                  enable: function() { citizenpediaUI.getInstance().openDiagram();},
+                  disable: function() { return true;},
+                  text: "procedure",
+                  simpBar:"bottom"
                 }
               ];
   }//initFeatures()
@@ -458,7 +491,6 @@ function initFeatures() {
   // It creates the configured buttons and adds them to the toolbar
   // Called one time
   function enablePrivateFeaturesBottom() {
-      // console.log("enablePrivateFeaturesBottom");
     // Update the login button status
     // var loginButton = document.getElementById(buttons[0].id);
     // loginButton.childNodes[0].src = buttons[0].imageSrcEnabled;
@@ -470,7 +502,10 @@ function initFeatures() {
     // }
     for (var i = 1, len = buttons.length; i < len; i++) {
       if (document.getElementById(buttons[i].id) == null) {
+        if(buttons[i].simpBar=="bottom"){
           buttonsContainer.appendChild(createBottomButtonNode(buttons[i]));
+        }
+          
       }
     }
     // document.getElementById("simpatico-bar-copy").style.display = "none";
@@ -535,8 +570,8 @@ function initFeatures() {
                                 '<p class="modelheader-title">Guida</p>'+
                               '</div>'+
                               '<div class="modal-body" >'+
-                                '<div class="list-group" id="paragraphTitles">'+
-                                '</div>'+
+                                '<div class="guide-noti" id="guideNotification">Notification</div>'+
+                                '<div class="list-group" id="paragraphTitles"></div>'+
                               '</div>'+
                               '<div class="modal-footer">'+
                               '</div>'+
