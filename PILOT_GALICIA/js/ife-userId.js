@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 		// Form start
 		console.log("[IFE_LOG] FORM Start");
-		logCORE.getInstance().ifeLogger.formStart(simpaticoEservice, simpaticoForm);
+		if (window['logCORE']) logCORE.getInstance().ifeLogger.formStart(simpaticoEservice, simpaticoForm);
 
 		// Idle 
 		console.log("[IFE_LOG] Create idle interval");
@@ -30,7 +30,7 @@ $(document).ready(function() {
 		$('#btn_presentarElect').on('click', function() { // Dont put .off('click'). There is an another click event inside each service (html file with simpatico) 
 			console.log("[IFE_LOG] Form end");
 			USER_SUBMIT_FORM = true;
-			logCORE.getInstance().ifeLogger.formEnd(simpaticoEservice, simpaticoForm);
+			if (window['logCORE']) logCORE.getInstance().ifeLogger.formEnd(simpaticoEservice, simpaticoForm);
 			console.log("[IFE_LOG] Cleaning idle interval");
 			clearInterval(INTERVAL_IDLE);
 			INTERVAL_IDLE = null;
@@ -46,7 +46,7 @@ window.onbeforeunload = function(e) {
 	}
 	if (!USER_SUBMIT_FORM) {
 		console.log("[IFE_LOG] Form Abandoned");
-		logCORE.getInstance().ifeLogger.formAbandoned(simpaticoEservice, simpaticoForm);
+		if (window['logCORE']) logCORE.getInstance().ifeLogger.formAbandoned(simpaticoEservice, simpaticoForm);
 	}
 };
 
@@ -57,7 +57,7 @@ window.onbeforeunload = function(e) {
 //}
 function sendUserIdle() {
 	console.log("[IFE_LOG] User Idle in form");
-	logCORE.getInstance().ifeLogger.formIdle(simpaticoEservice, simpaticoForm);
+	if (window['logCORE']) logCORE.getInstance().ifeLogger.formIdle(simpaticoEservice, simpaticoForm);
 }
 function removeUserIdLogged () {
 	localStorage.removeItem('userDataTemp');

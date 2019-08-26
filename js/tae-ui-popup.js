@@ -28,9 +28,9 @@ var taeUIPopup = (function () {
 
 		// It uses the log component to register the produced events
 		_instance.logger = function(event, details) {
-			  var nop = function(){};
-	      if (logCORE != null) return logCORE.getInstance().taeLogger;
-	      else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop, logAction: nop};
+			var nop = function(){};
+			if (window['logCORE'])  return logCORE.getInstance().taeLogger;
+	      	else return {logParagraph: nop, logPhrase: nop, logWord: nop, logFreetext: nop, logAction: nop};
 		  }
 		
 		/**
@@ -58,24 +58,26 @@ var taeUIPopup = (function () {
 			_instance.labels.notextMessage = config.notextMessage || _instance.labels.notextMessage;
 			_instance.colors.simplify = config.simplifyColor || _instance.colors.simplify;
 	
+			if (document.getElementById('dialog-simplify')) return;
+			
 			_instance.dialog_simplify = $(
 					'<div id="dialog-simplify" title="'+_instance.labels.dialogTitle+'">'+
 					'	<div id="tabs">'+
 					'		<ul>'+
-//					'			<li><a href="#tab-0">'+_instance.labels.tabSyntSimpTitle+'</a></li>'+
 					'			<li><a href="#tab-0">'+_instance.labels.tabSimplificationTitle+'</a></li>'+
+					'			<li id="tab-synt-simp-tab" style="display: none;"><a href="#tab-synt-simp">'+_instance.labels.tabSyntSimpTitle+'</a></li>'+
 					'			<li><a href="#tab-definizioni">'+_instance.labels.tabDefinitionsTitle+'</a></li>'+
 					'			<li><a href="#tab-wikipedia">'+_instance.labels.tabWikipediaTitle+'</a></li>'+
 					'		</ul>'+
 					'		<div id="tab-0">'+
 					'			<p>'+_instance.labels.entryMessage+'</p>'+
 					'		</div>'+
+					'		<div id="tab-synt-simp">'+
+					'			<p>Loading...</p>'+
+					'		</div>'+
 					'		<div id="tab-definizioni">'+
 					'			<p>Loading...</p>'+
 					'		</div>'+
-//					'		<div id="tab-semplificazione">'+
-//					'			<p>Loading...</p>'+
-//					'		</div>'+
 					'		<div id="tab-wikipedia">'+
 					'			<p>Funzione non implementata</p>'+
 					'		</div>'+
@@ -88,12 +90,12 @@ var taeUIPopup = (function () {
 				height: "auto",
 				width: 600,
 				open: function(){
-	    			logCORE.getInstance().startActivity('tae', 'simplification');
+	    			if (window['logCORE']) logCORE.getInstance().startActivity('tae', 'simplification');
 	    			_instance.dialogOpened = true;
 	            }, close: function(){
 	            	featureEnabled = false;
 	    			_instance.dialogOpened = false;
-	    			logCORE.getInstance().endActivity('tae', 'simplification');
+	    			if (window['logCORE']) logCORE.getInstance().endActivity('tae', 'simplification');
 					}
 				
 			});
@@ -271,8 +273,16 @@ var taeUIPopup = (function () {
 	
 		function setInnerText(target) {
 			var targetElement = document.getElementById(target);
-			return function(text) {
+			return function(text, syntSimplified) {
+				if (!text) return;
+				
 				targetElement.innerHTML = '<p>' + text + '</p>';
+//				$('#'+target).html('<p>' + text + '</p>');
+				if (syntSimplified) {
+					$('#tab-synt-simp-tab').show();
+				} else {
+					$('#tab-synt-simp-tab').hide();
+				}
 				$('.simpatico-label-wiki').click(function(evt){
 					_instance.logger().logAction(simpaticoEservice, 'dowiki', evt.currentTarget.text);
 					return true;

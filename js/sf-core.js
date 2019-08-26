@@ -58,10 +58,10 @@ var sfCORE = (function () {
   		});
                 console.log("Sending:");
                 console.log(dataObj);
-  		logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
+                if (window['logCORE']) logCORE.getInstance().sfLogger.feedbackData(simpaticoEservice, dataObj);
   		// TODO: manage complexity correctly
   		complexity = 0;
-  		logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
+  		if (window['logCORE']) logCORE.getInstance().sfLogger.feedbackEvent(simpaticoEservice, complexity);
 
 		if (!!listener) listener();
       // Close dialog

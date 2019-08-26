@@ -38,7 +38,7 @@ var sfUI = (function () {
     	  var formElement = $(formSelector).get(0);
     	  var originalHandler = formElement.onsubmit;
     	  var handler = function(e) {
-    		  if (!authManager.getInstance().isEnabled()){
+    		  if (!window['authManager'] || !authManager.getInstance().isEnabled()){
     			  return true;
     		  }
     		  e.preventDefault();
@@ -47,7 +47,7 @@ var sfUI = (function () {
     	  };
     	  if (originalHandler != null && typeof originalHandler == 'function') {
     		  handler = function(e){
-        		  if (!authManager.getInstance().isEnabled()) {
+        		  if (!window['authManager'] || !authManager.getInstance().isEnabled()) {
         			  return originalHandler();
         		  }
     			  var res = originalHandler();
@@ -74,7 +74,7 @@ var sfUI = (function () {
 
     function showSF () {
 
-      if (!authManager.getInstance().isEnabled()){
+      if (!window['authManager'] || !authManager.getInstance().isEnabled()){
         alert("You must be log in SIMPATICO");
         console.log("Auth needed");
         return; // If there isn't an user logged in, SF won't work
