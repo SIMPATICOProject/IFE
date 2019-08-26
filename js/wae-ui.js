@@ -13,24 +13,30 @@ var waeUI = (function () {
 	var errorLabel = {};
     this.active = false;
     this.idProfile = null;
-    var lang = "es";
+	var currentParagraphId, currentParagraphTitle, currentBlockId;
+    var lang = "en";
 	
   	var labels = {
-			prevButtonLabel: 'Anterior',
-			nextButtonLabel: 'Siguiente',
-			lastButtonLabel: 'Finalizar',
-			descriptionLabel: 'Descripción'
+			prevButtonLabel: 'Previous',
+			nextButtonLabel: 'Next',
+			lastButtonLabel: 'Done',
+			descriptionLabel: 'Description'
 	};
 	
 	/**
 	 * INITIALIZE UI COMPONENT.
 	 * CONFIG PARAMETERS:
+	 * - lang: INTERFACE LANGUAGE TO USE
 	 * - endpoint: URL OF THE WAE REPOSITORY ENDPOINT TO LOAD MODELS (FOR CORE MODULE)
 	 * - nextButtonLabel: TEXT FOR NEXT BUTTON
 	 * - prevButtonLabel: TEXT FOR PREV BUTTON
 	 * - topBarHeight: HEIGHT OF THE BAR
 	 */
 	this.init = function(config) {
+		this.reset();
+		currentParagraphId = null, currentParagraphTitle = null, currentBlockId = null;
+		waeEngine.reset();
+		
 		config = config || {};
 		if (config.lang) {
 			lang = config.lang;
@@ -42,14 +48,16 @@ var waeUI = (function () {
 		labels.nextButtonLabel = config.nextButtonLabel || labels.nextButtonLabel;
 		labels.lastButtonLabel = config.lastButtonLabel || labels.lastButtonLabel;
 		labels.descriptionLabel = config.descriptionLabel || labels.descriptionLabel;
-		topBarHeight = config.topBarHeight || topBarHeight;
+		topBarHeight = config.topBarHeight != null ? config.topBarHeight : topBarHeight;
 		errorLabel = config.errorLabel;
 	}
 
+	// It uses the log component to register the produced events
 	var logger = function(event, details) {
-      if (logCORE != null) return logCORE.getInstance().waeLogger;
-      else return {logWae: function(){}, logBlockStart: function(){}, logBlockEnd: function(){}};
+		if (window['logCORE'])  return logCORE.getInstance().waeLogger;
+      	else return {logWae: function(){}, logBlockStart: function(){}, logBlockEnd: function(){}};
     }
+
 	
 	/**
 	 * LOAD MODEL FROM ENGINE
@@ -62,9 +70,15 @@ var waeUI = (function () {
 		waeEngine.loadModel(moduleUri, this.idProfile, moduleLoaded, moduleLoadError);
 	};
 
+	/**
+	 * Return true if the WAE is active
+	 */
     this.isEnabled = function(){
       return instance.active;
-    }
+	}
+	/**
+	 * Activate WAE step by step (without Guide tool) makes the last shown block active (or the first one).
+	 */
     this.enable = function(idProfile) {
     	if (waeEngine.isLoaded()) {
     		for(var key in blockMap) {
@@ -76,7 +90,7 @@ var waeUI = (function () {
     	} else {
         	this.loadModel(idProfile);
     	}
-		logCORE.getInstance().startActivity('wae', 'simplification');
+		if (window['logCORE']) logCORE.getInstance().startActivity('wae', 'simplification');
 		instance.active = true;
     }
 	/**
@@ -96,10 +110,12 @@ var waeUI = (function () {
 				showElement(key, "SHOW");
 			}
 		}
+		$('.groupList').removeClass('active');
 		resetBlock(waeEngine.getActualBlockId());
 		instance.active = false;
 		if (!stay) $('html, body').animate({scrollTop: 0}, 200);
-		logCORE.getInstance().endActivity('wae', 'simplification');
+		//waeEngine.reset();
+		if (window['logCORE']) logCORE.getInstance().endActivity('wae', 'simplification');
 	}
     this.disable = this.reset;
 
@@ -126,11 +142,9 @@ var waeUI = (function () {
 			if(state == "SHOW") {
 				element.fadeTo("fast", 1);
 				element.removeClass('wae-disabled');
-				//$(element).children().prop('disabled', false);
 			} else if(state == "HIDE") {
 				element.addClass('wae-disabled');
 				element.fadeTo("fast", 0.3);
-				//$(element).children().prop('disabled', true);
 			}
 		}
 	};
@@ -148,7 +162,7 @@ var waeUI = (function () {
 	function editBlock(simpaticoId) {
 		var element = waeEngine.getSimpaticoBlockElement(simpaticoId);
 		if(element != null) {
-			element.wrap("<div data-simpatico-id='simpatico_edit_block' class='block_edited_wrapper col-md-12'><div  class='block_edited'></div></div>" );
+			element.wrap("<div data-simpatico-id='simpatico_edit_block' class='block_edited_wrapper'><div  class='block_edited'></div></div>" );
 			var container = waeEngine.getSimpaticoContainer();
 			var containerInt = $(container).find(".block_edited");
 			if(container != null) {
@@ -167,7 +181,7 @@ var waeUI = (function () {
 				var offset = $(container).offset();
 				if (offset) {
 					var position = offset.top - topBarHeight;
-				$('html, body').animate({scrollTop: position}, 200);
+					$('html, body').animate({scrollTop: position}, 200);
 				}
 				var description = waeEngine.getBlockDescription();
 				if (description && description[lang]) {
@@ -259,7 +273,239 @@ var waeUI = (function () {
 		waeEngine.prevBlock(doActions, moduleErrorMsg);
 		if (waeEngine.getActualBlockId()) logger().logBlockStart(simpaticoEservice, waeEngine.getActualBlockId());
 	};
+	
+	/**
+	 * WAE with guide toolbars: one for the list of available blocks and another with the block details. 
+	 */
+	this.loadModelWithGuide = function(idProfile) {
+		var moduleUri = $("[data-simpatico-workflow]").attr('data-simpatico-workflow');
+		if (!!idProfile) {
+			this.idProfile = idProfile;
+		}
+		waeEngine.loadModel(moduleUri, this.idProfile, moduleLoadedWithGuide, moduleLoadError);
+	};
+	function moduleLoadedWithGuide(blocks){
+		blockMap = blocks;
+		console.log("Data::",blocks);
+		//to set paragraph ID in every block
+		citizenpediaUI.getInstance().setParagraphId();
+		var paragraphId = 1;
+		$.each(blocks, function(k, v) {
+			// var param=paragraphId+',"'+encodeURI(v.description.it)+'"';
+			// var param=JSON.stringify(v);
+			var name = v.name && v.name[lang] ? v.name[lang] : k;
+			$("#paragraphTitles").append("<p id='guide"+k+"' onclick='waeUI.getInstance().detailsHelp("+paragraphId+")' class='groupList'>"+name+"</p>");
+			
+			$( "#guide"+k ).on({
+				click: function(){
+					// currentParagraphId='Paragraph'+paragraphId;	
+					
+				},
+				mouseenter: function() {
+				  $( this ).addClass( "hoverList" );
+				}, 
+				mouseleave: function() {
+				  $( this ).removeClass( "hoverList" );
+				}
+			});
+			paragraphId++;
+		});
+	}
+
+    this. enableWithGuide = function(idProfile) {
+		$('#guideNotificationNext').text(labels.nextButtonLabel);
+		$('#guideNotificationPrev').text(labels.prevButtonLabel);
+		if (waeEngine.isLoaded()) {
+    		for(var key in blockMap) {
+    			if(blockMap.hasOwnProperty(key)) {
+    				showElement(key, "HIDE");
+    			}
+    		}
+			$('#guideNotification').show();
+    		waeEngine.restartBlock(doActionsWithGuide, moduleErrorMsgWithGuide);    		
+			instance.active = true;
+    	} else {
+			// first init, hide help description as no blocks selected
+			$('#guideNotification').hide();
+        	this.loadModelWithGuide(idProfile);
+    	}
+		if (window['logCORE']) logCORE.getInstance().startActivity('wae', 'simplification');
+    }
+	/**
+	 * RESET THE VIEW
+	 */
+	this.resetWithGuide = function(stay){
+		for(var key in blockMap) {
+			if(blockMap.hasOwnProperty(key)) {
+				showElement(key, "SHOW");
+			}
+		}
+		resetBlock(waeEngine.getActualBlockId());
+		instance.active = false;
+		$('#guideNotification').hide();
+		if (!stay) $('html, body').animate({scrollTop: 0}, 200);
+		if (window['logCORE']) logCORE.getInstance().endActivity('wae', 'simplification');
+	}
+	this.disableWithGuide = this.resetWithGuide;
+	
+	function showHelp(paragraphId, waeEngine) {
+		if (waeEngine.isLoaded()) {
+			// $('#helpModal').show();
+			$("#blockDetails").html(waeEngine.getBlockDescription(paragraphId).it);
+		}
+		$('#guideblock'+currentBlockId).removeClass('active');
+		$('#helpModalPlaceholder').hide();
+		$('#helpModalContent').show();
+
+		currentParagraphId = 'Paragraph'+paragraphId;	
+		currentParagraphTitle = "test123...";
+		currentBlockId = paragraphId;
+		$('#guideblock'+currentBlockId).addClass('active');
+		
+		qaeCORE.getInstance().getQuestions(simpaticoEservice,currentParagraphId,function(paragraphName, jsonResponse){
+			console.log("question::",jsonResponse);
+			if(jsonResponse.length > 0){
+				var questions="";
+				$.each(jsonResponse, function(key, val) {
+					var answers='';
+					if(val.answers.length == 1){answers='<br>(1 risposta)';}
+					if(val.answers.length > 1){answers='<br>('+val.answers.length+' risposte)';}
+					var answerContent = '<div class="question-title"><a onclick="waeUI.getInstance().showQuestion(\''+val._id+'\')">'+val.content+'</a></div>';
+					val.answers.forEach(function(a) {
+						var txt = 
+						'<div class="answer">'+
+						'<div class="answer-content">'+a.content+'</div>'+
+						'<div class="answer-comment"><a onclick="waeUI.getInstance().showQuestion(\''+val._id+'\')">Aggiungi commento</a></div>'+
+						'<div class="answer-user"><a onclick="waeUI.getInstance().showQuestion(\''+val._id+'\')">'+a.user.name+'</a></div>'+
+						'</div>';
+						answerContent += txt;
+					});
+					if (val.answers.length ==0) answerContent += '<div class="answer">Nessuna risposta</div>';
+					questions += '<h3><b>'+val.title+'</b>'+ answers+'</h3><div>'+answerContent+'</div>';
+				});
+				if ($( "#blockQuestions" ).accordion( "instance" )) $("#blockQuestions").accordion('destroy');
+				$("#blockQuestions").html(questions);
+				$("#blockQuestions").accordion({active: false, collapsible: true, heightStyle: 'content'});
+			}else{
+				$("#blockQuestions").html(" ");
+			}
+			
+		});
+
+	}
+
+	this.detailsHelp = function(paragraphId){
+		this.resetWithGuide(true);
+		// trick for directly changing the button
+		$('#workflow').removeClass('simp-bottomBar-btn-active');
+		$('#workflow').addClass('simp-bottomBar-btn-inactive');
+
+		goToBlock('Paragraph'+paragraphId);
+		showHelp(paragraphId, waeEngine);
+	}
+	this.createNewQuestion=function(){
+		window.open(qaeCORE.getInstance().createNewQuestionURL(simpaticoCategory,simpaticoEservice,currentParagraphId,currentParagraphTitle),"_blank");
+	}
+	this.showQuestion = function(questionId) {
+		window.open(qaeCORE.getInstance().createQuestionDetailsURL(questionId),"_blank");
+	}
+
+	this.progress = function() {
+		if (instance.active) {
+		  nextBlockWithGuide();
+		} else {
+			this. enableWithGuide();
+		}
+	}
+	this.back = function() {
+		if (instance.active) {
+		  prevBlockWithGuide();
+		} else {
+			this. enableWithGuide();
+		}
+	}
+	
+	function goToBlock(paragraphId) {
+		var container = paragraphId ? $('#'+paragraphId) : waeEngine.getSimpaticoContainer();
+		if(container != null) {
+			var offset = $(container).offset();
+			if (offset) {
+				var position = offset.top - topBarHeight;
+				$('html, body').animate({scrollTop: position}, 200);
+			}
+		}
+	
+	}
+	function editBlockWithGuide(simpaticoId) {
+		var element = waeEngine.getSimpaticoBlockElement(simpaticoId);
+		if(element != null) {
+			showHelp(waeEngine.getActualBlockIndex()+1, waeEngine);
+			element.wrap("<div data-simpatico-id='simpatico_edit_block' class='block_edited_wrapper col-md-12'><div  class='block_edited'></div></div>" );
+			goToBlock();
+		}
+	};
+	
+	function doActionsWithGuide(actions) {
+		for(var blockId in actions) {
+			var state = actions[blockId];
+			if(state == "HIDE") {
+				resetBlock(blockId);
+				showElement(blockId, "HIDE");
+			}
+		}
+		for(var blockId in actions) {
+			var state = actions[blockId];
+			if(state == "SHOW") {
+				showElement(blockId, "SHOW");
+				editBlockWithGuide(blockId);
+				clearErrorMsg();
+				break;
+			}
+		}
+		if(waeEngine.getActualBlockIndex() < (waeEngine.getBlocksNum() - 1)) {
+			$('#guideNotificationNext').text(labels.nextButtonLabel);
+		} else {	
+			$('#guideNotificationNext').text(labels.lastButtonLabel);
+		}
+		if(waeEngine.getActualBlockIndex() == 0) {
+			$('#guideNotificationPrev').hide();
+		} else {	
+			$('#guideNotificationPrev').show();
+		}
+		// $('#helpModal').show();
+
+	};
+	
+	function moduleErrorMsgWithGuide(text) {
+		var keyNames = Object.keys(JSON.parse(text));
+		var blockId = keyNames[0];
+		moduleErrorMessage = errorLabel[blockId];
+		createErrorMsg(moduleErrorMessage);
+		// var element = $("#div_simpatico_error_msg");
+		// if(element != null) {
+		// 	$(element).text(moduleErrorMessage);
+		// }
+	};
+	
+	function createErrorMsg(msg) {
+		$('#errorMessages').text(msg);
+	};
+	function clearErrorMsg() {
+		$('#errorMessages').text('');
+	}
+
+	function nextBlockWithGuide() {
+		if (waeEngine.getActualBlockId()) logger().logBlockEnd(simpaticoEservice, waeEngine.getActualBlockId());
+		waeEngine.nextBlock(doActionsWithGuide, moduleErrorMsgWithGuide);
+		if (waeEngine.getActualBlockId()) logger().logBlockStart(simpaticoEservice, waeEngine.getActualBlockId());
+	};
+	function prevBlockWithGuide() {
+		if (waeEngine.getActualBlockId()) logger().logBlockEnd(simpaticoEservice, waeEngine.getActualBlockId());
+		waeEngine.prevBlock(doActionsWithGuide, moduleErrorMsgWithGuide);
+		if (waeEngine.getActualBlockId()) logger().logBlockStart(simpaticoEservice, waeEngine.getActualBlockId());
+	};
   }
+  
   return {
     	getInstance: function() {
     		if(!instance) instance = new Singleton();

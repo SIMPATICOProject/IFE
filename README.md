@@ -188,7 +188,7 @@ The TAE IFE module requires the TAE/WAE component already installed and made ava
 TAE module come with the UI in two flavours, for the simplification of pre-annotated paragraph/phrases and for
 the simplification of the text/words directly selected by the user (popup mode).
 
-To configure the TAE component it is necessary to setup the taeUI or taeUIPopup modules:
+To configure the TAE component it is necessary to setup the taeUI, taeUIPopup, or taeUIInline modules:
 
 ```JavaScript
   taeUI.getInstance().init({
@@ -241,6 +241,29 @@ Parameters:
 * **notextMessage**: text for the tooltip in case no text selected
 
 
+```JavaScript
+  taeUIInline.getInstance().init({
+		lang: 'it',
+		endpoint: 'https://the-tae-instance-endpoint.com/simp-engines/tae',
+    textContainerQuery: "block-stu3-italia-content",
+    textQueryString: "p,li",
+    elementId: 'simp-bar-sw-tae-inline',
+    synonimLabel:'Sinonimi',
+    definitionLabel: 'Definizione',
+    simplifedTextLabel: 'Testo semplificato'
+	});
+```
+Parameters:
+* **endpoint**: the main URL of the used TAE instance
+* **lang**: the language of the text to be adapted by the TAE instance
+* **textContainerQuery**: container element for the whole text to be processed
+* **textQueryString**: text elements to be processed within the container
+* **elementId**: reference to the element of the page to which the TAE control will be associated
+* **synonimLabel**: Label for the synonims content
+* **definitionLabel**: Label for the definitions content
+* **simplifedTextLabel**: Label for the simplified phrase content
+
+
 ### Configure Workflow Adaptation Engine Module
 
 The WAE IFE module requires the TAE/WAE component already installed and made available over Internet.
@@ -271,9 +294,9 @@ Parameters:
 * **errorLabel**:  error messages for the adapted workflow blocks, if available on the page.
 
 Please note that the module requires that the corresponding workflow has been uploaded to the WAE repository. The example of the
-workflow model for the [index_demo.html](https://github.com/SIMPATICOProject/IFE/blob/master/index_demo.html) page can be found in 
-[waemodel.json](https://github.com/SIMPATICOProject/IFE/blob/master/data/waemodel.json). To upload the model to the repository
-it is necessary to use the following [API method](https://dev.smartcommunitylab.it/simp-engines/swagger-ui.html#!/wae-controller/addModelStoreUsingPOST).
+workflow model for the [form.html](https://github.com/SIMPATICOProject/IFE/blob/master/PILOT_TRENTO/form.html) page can be found in 
+[waemodel.json](https://github.com/SIMPATICOProject/IFE/blob/master/PILOT_TRENTO/data/waemodel.json). To upload the model to the repository
+it is necessary to use the API method ``addModelStoreUsingPOST``.
 
 The URI of the workflow model is configured directly in the page as an **data-simpatico-workflow** attribute of the enclosing HTML tag, e.g.,
 ```HTML

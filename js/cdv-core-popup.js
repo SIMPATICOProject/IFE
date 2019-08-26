@@ -60,7 +60,7 @@ var cdvCORE = (function () {
 			var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
 			console.log(tokenData);
 			var pdata = new PData(data.userId, serviceLink, serviceLinkToken);
-			logCORE.getInstance().cdvLogger.useData(simpaticoEservice);
+			if (window['logCORE']) logCORE.getInstance().cdvLogger.useData(simpaticoEservice);
 			$.ajax({
 				url: url,
 				type: 'POST',
@@ -74,7 +74,7 @@ var cdvCORE = (function () {
 				}),
 				error: function (jqxhr, textStatus, err) {
 					console.log(textStatus + ", " + err);
-					//errorCallback("Errore nella comunicazione col server");
+					errorCallback("Errore nella comunicazione col server");
 				},
 				beforeSend: function (xhr) {
 					xhr.setRequestHeader('Authorization', 'Bearer ' + tokenData.access_token);
@@ -92,7 +92,7 @@ var cdvCORE = (function () {
 			console.log(tokenData);
 			var pdata = formFieldsToJSON(serviceLink,serviceLinkToken, data.userId, dataFields);
 
-			logCORE.getInstance().cdvLogger.saveData(simpaticoEservice);
+			if (window['logCORE']) logCORE.getInstance().cdvLogger.saveData(simpaticoEservice);
 			$.ajax({
 				url: url,
 				type: 'POST',

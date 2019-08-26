@@ -24,7 +24,7 @@ function initFeatures() {
   // Init the LOG component (see log-core.js)
   // - endpoint: the main URL of the used LOG instance
   // - testMode: true if the data should not be sent to the LOG component
-  logCORE.getInstance().init({
+  if (window['logCORE']) logCORE.getInstance().init({
 	  testMode: true,
 	  endpoint: "https://simpatico.smartcommunitylab.it/simpatico-logs/api"
   });
@@ -65,8 +65,7 @@ function initFeatures() {
     elementId: 'simp-bar-sw-tae-inline',
     synonimLabel:'Sinonimi',
     definitionLabel: 'Definizione',
-    simplifedTextLabel: 'Testo semplificato',
-    questionsURL: "https://simpatico.smartcommunitylab.it/qae/questions",
+    simplifedTextLabel: 'Testo semplificato'
   });
 
 

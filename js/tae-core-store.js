@@ -18,6 +18,8 @@ var taeUIInline = (function () {
       _instance = this;
 
       _instance.sentences = [];
+      _instance.enabled = false;
+      
       
       _instance.globalTextCheckboxVal = false;
       _instance.globalWordCheckboxVal = false;
@@ -31,6 +33,8 @@ var taeUIInline = (function () {
       _instance.simplifedTextLabel = null;
       _instance.elementId = null;
       _instance.textContainerQuery = null;
+      _instance.textQueryString = null;
+      _instance.resourceURL= null;
 
       _instance.init = function(config) {
         _instance.endpoint = config.endpoint || 'https://simpatico.smartcommunitylab.it/simp-engines/tae';
@@ -39,8 +43,12 @@ var taeUIInline = (function () {
         _instance.definitionLabel = config.definitionLabel || 'Definition';
         _instance.simplifedTextLabel = config.simplifedTextLabel || 'Simplified Text';
         _instance.elementId = config.elementId;
+        _instance.definitionHint = config.definitionHint || 'Shows the definition of the selected word';
+        _instance.simplifedTextLabel = config.simplifedTextLabel || 'Shows a simplified version of the selected text';
         _instance.textContainerQuery = config.textContainerQuery || 'simpatico-text';
-  
+        _instance.textQueryString = config.textQueryString || 'p,li';
+        _instance.resourceURL = config.resourceURL || 'https://simpatico.smartcommunitylab.it/simp-engines/wae/webdemo';
+
         getTextsAndsetSpan(_instance);
         //
         jQuery.getJSON(_instance.simpDataURL + "?pageId=" + pageID,function(jsonResponse,status) {
@@ -48,11 +56,12 @@ var taeUIInline = (function () {
             _instance.localPrepareResult=jsonResponse['blocks'];
           }
         }).done(function() {
-          console.log( "second success" );
+          console.log( "Success! pageId exist and got data." );
         })
         .fail(function() {
+          console.log( "fail! pageId not exist, call API for get simp data." );
           var sendData;
-          getAPIResults().then(function(result){
+          getAPIResults(_instance).then(function(result){
             sendData={
               "blocks":result,
               "pageId":pageID
@@ -72,59 +81,55 @@ var taeUIInline = (function () {
                   } 
                 }
               });
-            }, 1000);
+            }, 2000);
           });   
         });
     
   
-        // kill popovers on click in outside of popover
-        // $(document).on('click', function (e) {
-        //   $('[data-toggle="popover"],[data-original-title]').each(function () {
-        //       //the 'is' for buttons that trigger popups
-        //       //the 'has' for icons within a button that triggers a popup
-        //       if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {                
-        //           (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false  // fix for BS 3.3.6
-        //       }
-  
-        //   });
-        // });
       }
+      _instance.isEnabled = function() {
+    	  return _instance.enabled;
+      }
+      
       _instance.hideDialog = function() {
-        $('#'+_instance.elementId).popover('toggle');   
+        $('#'+_instance.elementId).popover('hide');
+        _instance.enabled = false;
       }
 
       _instance.showDialog = function() {
         $('#'+_instance.elementId).popover({
           html : true, 
+          trigger: 'manual',
           content: function() {
             return '<div id="popoverText" >' +
             '<div class="container-fluid" >' +
-            '  <div class="row">' +
-            '    <div class="col-sm-2" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Shows a simplified version of the selected text"><img src="./resources/images/info.png" class=""></div>' +
+            '  <div class="row" style="min-width: 270px;">' +
+            '    <div class="col-sm-2" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="'+_instance.simplifiedTextHint+'"><img src="'+_instance.resourceURL+'/images/info.png" class=""></div>' +
             '    <div class="col-sm-3" style="background-color:transparent;">' +
             '        <label class="switch">' +
             '          <input id="textCheckbox" type="checkbox" onclick="toggleTextSimplifiction()" '+(_instance.globalTextCheckboxVal ? 'checked="true"':'')+'>' +
             '          <span class="slider sliderText round"></span>' +
             '        </label>' +
             '    </div>' +
-            '    <div class="col-sm-7 " style="background-color:transparent;"><span >Text simplification</span></div>' +
+            '    <div class="col-sm-7 " style="background-color:transparent;white-space:nowrap"><span >'+_instance.simplifedTextLabel+'</span></div>' +
             '  </div>' +
-            '  <div class="row">' +
-            '    <div class="col-sm-2" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="Shows the definition of the selected word"><img src="./resources/images/info.png" class=""></div>' +
+            '  <div class="row"  style="min-width: 270px;">' +
+            '    <div class="col-sm-2" style="background-color:transparent;" data-toggle="tooltip" data-placement="top" title="'+_instance.definitionHint+'"><img src="'+_instance.resourceURL+'/images/info.png" class=""></div>' +
             '    <div class="col-sm-3" style="background-color:transparent;">' +
             '        <label class="switch">' +
             '          <input id="wordCheckbox" type="checkbox" onclick="toggleWordSimplifiction()" " '+(_instance.globalWordCheckboxVal ? 'checked="true"':'')+'>' +
             '          <span class="slider sliderWord round"></span>' +
             '        </label>' +
             '    </div>' +
-            '    <div class="col-sm-7" style="background-color:transparent;"><span >Words definition</span></div>' +
+            '    <div class="col-sm-7" style="background-color:transparent;white-space:nowrap;"><span >'+_instance.definitionLabel+'</span></div>' +
             '  </div>  ' +
             '</div>'
           },
           placement: 'top',
         });
         
-        $('#textTools').popover('toggle');        
+        $('#'+_instance.elementId).popover('show');
+        _instance.enabled = true;
       }
       
       /**
@@ -133,8 +138,13 @@ var taeUIInline = (function () {
       **/
       function getTextsAndsetSpan(instance){
           
-        var elements = document.getElementsByTagName("p");
+        //var elements = document.getElementsByTagName("p");
         
+        // var testelements2 = document.getElementById(instance.textContainerQuery).querySelectorAll('*');
+        // console.log("all elements::",testelements2);
+
+        var elements = document.getElementById(instance.textContainerQuery).querySelectorAll(instance.textQueryString);
+        // console.log("elements::",elements);
         for(var i = 0; i < elements.length; i++) {
           var current = elements[i];
           var val = current.textContent.trim();
@@ -351,16 +361,37 @@ var taeUIInline = (function () {
           if(color== true){
 
             if(instance.loadFirstTime){
-              if(index==0){
-                if(value['start']==0){
-                  replaceStrArray.push( "<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
-                }else{
-                  replaceStrArray.push( myString.substring(0,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
-                } 
-              }else{
-                replaceStrArray.push( myString.substring(lastEnd,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+" </span>");
-              }
-              lastEnd=value['end'];
+              // if(index==0){
+              //   if(value['start']==0){
+              //     replaceStrArray.push( "<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
+              //   }else{
+              //     replaceStrArray.push( myString.substring(0,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
+              //   } 
+              // }else{
+              //   replaceStrArray.push( myString.substring(lastEnd,value['start'])+"<span class='wordColor' id='"+id+"-"+index+"'>"+value['originalWord']+"</span>");
+              // }
+              // lastEnd=value['end'];
+              findAndReplaceDOMText(str, {
+                // preset: 'prose',
+                find: value['originalWord'],   //have one problem in last word if add space
+                replace: function(portion, match) {
+                  if(match.index == 0){
+                    var el = document.createElement('span');
+                    el.className="wordColor";
+                    el.id=id+"-"+index;
+                    el.innerHTML = portion.text;
+                    // el.innerHTML = portion.text.substr(0, portion.text.length-1);
+                    // el.id=id+"-"+match.index;
+                    // el.innerHTML = match[0];
+                    // console.log("portion::",portion,", match::",match, " id::",el.id);
+                    return el;
+                  }else{
+                    return value['originalWord'];
+                  }
+                  
+                },
+
+              });
             }else if(instance.loadFirstTime == false){
               $( "#"+id+"-"+index ).addClass( "wordColor" );
             }
@@ -369,11 +400,11 @@ var taeUIInline = (function () {
             $( "#"+id+"-"+index ).removeClass( "wordColor" );
           }
         });
-        if(instance.loadFirstTime){
-          replaceStrArray.push( myString.substring(lastEnd,myString.length));
-          str.innerHTML=replaceStrArray.join("");
-          console.log("replaceStrArray:",replaceStrArray.join(""));
-        }    
+        // if(instance.loadFirstTime){
+        //   replaceStrArray.push( myString.substring(lastEnd,myString.length));
+        //   str.innerHTML=replaceStrArray.join("");
+        //   //console.log("replaceStrArray:",replaceStrArray.join(""));
+        // }    
       }
 
       function setPopupForWord(instance, id,color,arrWord){

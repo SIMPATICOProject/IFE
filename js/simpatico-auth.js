@@ -41,7 +41,7 @@ var authManager = (function () {
     // It uses the log component to register the produced events
     var logger = function(event, details) {
       var nop = function(){};
-      if (logCORE != null) return logCORE.getInstance().ifeLogger;
+      if (window['logCORE'])  return logCORE.getInstance().ifeLogger;
       else return {sessionStart: nop, sessionEnd: nop, formStart: nop, formEnd: nop};
     }  
 
@@ -56,7 +56,7 @@ var authManager = (function () {
                     '&redirect_uri=' + redirect + // login window URL
                     '&client_id=' + ifeClientID; //Client id from the AAC console			
 
-      var win = window.open(url, 'AuthPopup', 'width=1024,height=768,resizable=true,scrollbars=true,status=true');
+      var win = window.open(url, 'AuthPopup', 'width=1024,height=768,resizable=1,scrollbars=1,status=1');
 
       var processData = function(data) {
         jQuery.ajax({
@@ -114,8 +114,10 @@ var authManager = (function () {
               updateUserData();
               return;
           }
-          document.getElementById(userdataElementID).innerHTML = data.name + ' '+ data.surname;
-          document.getElementById(userdataElementID).style = "display:block";
+          if (document.getElementById(userdataElementID)) {
+              document.getElementById(userdataElementID).innerHTML = data.name + ' '+ data.surname;
+              document.getElementById(userdataElementID).style = "display:block";        	  
+          }
           enablePrivateFeatures();
           featureEnabled = true;
           // session started successfully, log
@@ -127,10 +129,12 @@ var authManager = (function () {
           }
 
         } else {
-          document.getElementById(userdataElementID).innerHTML = greeting;
-          document.getElementById(userdataElementID).style  = "display:block";
-          disablePrivateFeatures();
-          featureEnabled = false;
+        	if (document.getElementById(userdataElementID)) {
+	          document.getElementById(userdataElementID).innerHTML = greeting;
+	          document.getElementById(userdataElementID).style  = "display:block";
+        	}
+            disablePrivateFeatures();
+            featureEnabled = false;
         }
       console.log("<<< updateUserData()");
     }
@@ -145,7 +149,7 @@ var authManager = (function () {
       updateUserData: updateUserData,
       getUserId: function() {
           var data = JSON.parse(localStorage.userData || 'null');
-          return !!data ? data.userId : null;
+          return !!data ? data.userId : null
       },
       getToken: function() {
           var tokenData = JSON.parse(localStorage.aacTokenData || 'null');
